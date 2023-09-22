@@ -9,7 +9,6 @@ enum CurrentPlatform {
   windows,
   linux,
   macos,
-  // Do we want to support fuchsia?!
 }
 
 class PlatformHelper {

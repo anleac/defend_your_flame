@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:defend_your_flame/constants/constants.dart';
-import 'package:defend_your_flame/core/helpers/global_vars.dart';
+import 'package:defend_your_flame/helpers/global_vars.dart';
 import 'package:flame/components.dart';
 
 class MiscHelper {
