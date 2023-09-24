@@ -1,5 +1,6 @@
 import 'package:defend_your_flame/constants/translations/app_strings.dart';
 import 'package:defend_your_flame/core/flame/game_provider.dart';
+import 'package:defend_your_flame/widgets/background.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -30,7 +31,12 @@ class _StateManagerState extends State<StateManager> with WidgetsBindingObserver
           '/': (context) {
             var game = GameProvider.of(context).game;
             return Scaffold(
-              body: WillPopScope(onWillPop: () async => false, child: GameWidget(game: game)),
+              body: WillPopScope(
+                  onWillPop: () async => false,
+                  child: GameWidget(
+                    game: game,
+                    backgroundBuilder: (context) => const Background(),
+                  )),
             );
           }
         });
