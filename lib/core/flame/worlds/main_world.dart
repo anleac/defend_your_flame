@@ -21,6 +21,7 @@ class MainWorld extends World with HasGameReference<MainGame> {
   Future<void> onLoad() async {
     add(_ground);
     add(_castle);
+
     add(CameraBorder());
 
     return super.onLoad();

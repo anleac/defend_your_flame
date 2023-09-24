@@ -5,10 +5,6 @@ import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 
 class MainGame extends FlameGame {
-  // Take a snapshot of the initial window width for zooming effects after game is running.
-  late final double _initialWindowWidth = windowWidth;
-  late final double _zoomFactor = _initialWindowWidth / Constants.desiredWidth;
-
   // Because in this game - the camera is not moving, we can use the world height and width as the window height and width
   double get windowHeight => camera.viewport.size.y;
   double get windowWidth => camera.viewport.size.x;
@@ -17,7 +13,6 @@ class MainGame extends FlameGame {
 
   @override
   void update(double dt) {
-    camera.viewfinder.zoom = (windowWidth / _initialWindowWidth * _zoomFactor);
     super.update(dt);
   }
 

@@ -12,7 +12,11 @@ class GameProvider extends Model {
 
   final FixedAspectRatioViewport _viewportOptions = FixedAspectRatioViewport(aspectRatio: Constants.desireAspectRatio)
     ..anchor = Anchor.topLeft;
-  final Viewfinder _viewfinder = Viewfinder()..anchor = Anchor.topLeft;
+
+  final Viewfinder _viewfinder = Viewfinder()
+    ..anchor = Anchor.topLeft
+    ..visibleGameSize = Vector2(Constants.desiredWidth, Constants.desiredHeight);
+
   late final CameraComponent _cameraComponent =
       CameraComponent(world: _mainWorld, viewport: _viewportOptions, viewfinder: _viewfinder);
 
