@@ -21,17 +21,20 @@ class MiscHelper {
   }
 
   // Use this if you need to scale a multiplication
-  static num doubleToDtScaleMult(double dt, double val) {
+  static double doubleToDtScaleMult(
+    double val,
+    double dt,
+  ) {
     var scale = dt / Constants.desiredUdt;
 
     if (scale > Constants.maxFrameCatchup) {
       scale = Constants.maxFrameCatchup;
     }
 
-    return pow(val, scale);
+    return pow(val, scale).toDouble();
   }
 
-  static Vector2 vectorToDtScale(double dt, Vector2 val) {
+  static Vector2 vectorToDtScale(Vector2 val, double dt) {
     var scale = dt / Constants.desiredUdt;
 
     if (scale > Constants.maxFrameCatchup) {

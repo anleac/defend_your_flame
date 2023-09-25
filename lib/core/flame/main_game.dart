@@ -8,6 +8,8 @@ class MainGame extends FlameGame {
   double get windowHeight => camera.viewport.size.y;
   double get windowWidth => camera.viewport.size.x;
 
+  double get cameraZoom => camera.viewfinder.zoom;
+
   MainGame({required World world, required CameraComponent camera}) : super(world: world, camera: camera);
 
   @override
