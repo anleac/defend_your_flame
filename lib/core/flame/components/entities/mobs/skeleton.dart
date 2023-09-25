@@ -1,16 +1,20 @@
+import 'package:defend_your_flame/constants/physics_constants.dart';
 import 'package:defend_your_flame/core/flame/main_game.dart';
 import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
+import 'package:defend_your_flame/helpers/misc_helper.dart';
 import 'package:defend_your_flame/helpers/physics_helper.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
+import 'package:flame/sprite.dart';
 
-enum SkeletonState { walking, dragged, falling, dying, dead }
+enum SkeletonState { walking, dragged, falling, dying }
 
 class Skeleton extends SpriteAnimationGroupComponent<SkeletonState> with DragCallbacks, HasGameReference<MainGame> {
   // It's a bit small already so 1.2 scale by default.
   static const _defaultEnlargement = 1.2;
   static const _walkingFrames = 13;
   static const _dragFrames = 4;
+  static const _dyingFrames = 15;
 
   static const _walkingSpeedForward = 25;
 
@@ -38,10 +42,14 @@ class Skeleton extends SpriteAnimationGroupComponent<SkeletonState> with DragCal
     final dragSprite =
         SpriteManager.getAnimation('mobs/skeleton/drag', stepTime: 0.2 / scale.x, frames: _dragFrames, loop: true);
 
+    final dyingSprite =
+        SpriteManager.getAnimation('mobs/skeleton/dying', stepTime: 0.07 / scale.x, frames: _dyingFrames, loop: false);
+
     animations = {
       SkeletonState.walking: walkingSprite,
       SkeletonState.dragged: dragSprite,
-      SkeletonState.falling: dragSprite
+      SkeletonState.falling: dragSprite,
+      SkeletonState.dying: dyingSprite,
     };
     current = SkeletonState.walking;
   }
@@ -55,11 +63,16 @@ class Skeleton extends SpriteAnimationGroupComponent<SkeletonState> with DragCal
 
     if (current == SkeletonState.falling) {
       // Fall down
-      position += _fallVelocity * dt;
+      position += MiscHelper.vectorToDtScale(_fallVelocity, dt);
       _fallVelocity = PhysicsHelper.applyGravityFrictionAndClamp(_fallVelocity, dt);
 
       if (position.y >= _pickupHeight) {
-        current = SkeletonState.walking;
+        if (_fallVelocity.y > PhysicsConstants.maxVelocity.y * 0.7) {
+          // Random 'death velocity'
+          current = SkeletonState.dying;
+        } else {
+          current = SkeletonState.walking;
+        }
       }
     }
 
@@ -76,7 +89,7 @@ class Skeleton extends SpriteAnimationGroupComponent<SkeletonState> with DragCal
   void onDragUpdate(DragUpdateEvent event) {
     super.onDragUpdate(event);
     position += event.delta / game.cameraZoom;
-    _fallVelocity = event.delta * game.cameraZoom * 100;
+    _fallVelocity = event.delta * game.cameraZoom * 2;
   }
 
   @override
