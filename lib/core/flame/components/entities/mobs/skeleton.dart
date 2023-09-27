@@ -3,6 +3,7 @@ import 'package:defend_your_flame/core/flame/main_game.dart';
 import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
 import 'package:defend_your_flame/helpers/misc_helper.dart';
 import 'package:defend_your_flame/helpers/physics_helper.dart';
+import 'package:defend_your_flame/helpers/timestep_helper.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/sprite.dart';
@@ -58,16 +59,15 @@ class Skeleton extends SpriteAnimationGroupComponent<SkeletonState> with DragCal
   void update(double dt) {
     if (current == SkeletonState.walking && !_beingDragged) {
       // Walk forward
-      position.x += _walkingSpeedForward * scale.x * dt;
+      position.x = TimestepHelper.add(position.x, _walkingSpeedForward * scale.x, dt);
     }
 
     if (current == SkeletonState.falling) {
-      // Fall down
-      position += MiscHelper.vectorToDtScale(_fallVelocity, dt);
       _fallVelocity = PhysicsHelper.applyGravityFrictionAndClamp(_fallVelocity, dt);
+      position = TimestepHelper.addVector2(position, _fallVelocity, dt);
 
       if (position.y >= _pickupHeight) {
-        if (_fallVelocity.y > PhysicsConstants.maxVelocity.y * 0.7) {
+        if (_fallVelocity.y > PhysicsConstants.maxVelocity.y * 0.4) {
           // Random 'death velocity'
           current = SkeletonState.dying;
         } else {
@@ -89,7 +89,7 @@ class Skeleton extends SpriteAnimationGroupComponent<SkeletonState> with DragCal
   void onDragUpdate(DragUpdateEvent event) {
     super.onDragUpdate(event);
     position += event.delta / game.cameraZoom;
-    _fallVelocity = event.delta * game.cameraZoom * 2;
+    _fallVelocity = event.delta * game.cameraZoom * 50;
   }
 
   @override

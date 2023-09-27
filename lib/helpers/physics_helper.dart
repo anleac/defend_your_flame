@@ -1,5 +1,5 @@
 import 'package:defend_your_flame/constants/physics_constants.dart';
-import 'package:defend_your_flame/helpers/misc_helper.dart';
+import 'package:defend_your_flame/helpers/timestep_helper.dart';
 import 'package:flame/components.dart';
 
 class PhysicsHelper {
@@ -12,7 +12,7 @@ class PhysicsHelper {
   }
 
   static Vector2 applyGravity(Vector2 velocity, double dt) {
-    return velocity + MiscHelper.vectorToDtScale(PhysicsConstants.gravity, dt);
+    return TimestepHelper.addVector2(velocity, PhysicsConstants.gravity, dt);
   }
 
   static void clampVelocity(Vector2 velocity) {
@@ -20,6 +20,6 @@ class PhysicsHelper {
   }
 
   static Vector2 applyFriction(Vector2 velocity, double dt) {
-    return velocity * MiscHelper.doubleToDtScaleMult(PhysicsConstants.friction, dt);
+    return TimestepHelper.multiplyVector2(velocity, PhysicsConstants.friction, dt);
   }
 }

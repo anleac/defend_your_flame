@@ -2,9 +2,9 @@ import 'package:flame/components.dart';
 
 class PhysicsConstants {
   // Represented as a percentage of the velocity lost per second
-  static const double friction = 0.99;
-  static final Vector2 gravity = Vector2(0, 0.7);
+  static const double friction = 0.75;
+  static final Vector2 gravity = Vector2(0, 1500.0);
 
-  static final Vector2 maxVelocity = Vector2(10, 25);
+  static final Vector2 maxVelocity = Vector2(400, 2000);
   static final Vector2 negativeMaxVelocity = -maxVelocity;
 }
