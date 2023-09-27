@@ -26,4 +26,5 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/images/mobs/skeleton/
 
