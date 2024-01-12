@@ -10,12 +10,10 @@ class GameProvider extends Model {
 
   late final MainWorld _mainWorld = MainWorld();
 
-  final Viewfinder _viewfinder = Viewfinder()
-    ..anchor = Anchor.topLeft
-    ..visibleGameSize = Vector2(Constants.desiredWidth, Constants.desiredHeight);
+  final Viewfinder _viewfinder = Viewfinder()..anchor = Anchor.topLeft;
 
   late final CameraComponent _cameraComponent = CameraComponent.withFixedResolution(
-      width: Constants.desiredWidth, height: Constants.desiredHeight, viewfinder: _viewfinder, world: _mainWorld);
+      world: _mainWorld, width: Constants.desiredWidth, height: Constants.desiredHeight, viewfinder: _viewfinder);
 
   // Apparently the pauseWhenBackgrounded is not working on non-mobile (https://docs.flame-engine.org/latest/flame/game.html)
   late final MainGame _game = MainGame(world: _mainWorld, camera: _cameraComponent)..pauseWhenBackgrounded = false;
