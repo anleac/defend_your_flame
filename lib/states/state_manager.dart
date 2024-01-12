@@ -9,7 +9,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 */
 
 class StateManager extends StatefulWidget {
-  const StateManager({Key? key}) : super(key: key);
+  const StateManager({super.key});
 
   @override
   State<StateManager> createState() => _StateManagerState();
@@ -31,8 +31,8 @@ class _StateManagerState extends State<StateManager> with WidgetsBindingObserver
           '/': (context) {
             var game = GameProvider.of(context).game;
             return Scaffold(
-              body: WillPopScope(
-                  onWillPop: () async => false,
+              body: PopScope(
+                  canPop: false,
                   child: GameWidget(
                     game: game,
                     backgroundBuilder: (context) => const Background(),
