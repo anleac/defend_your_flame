@@ -1,3 +1,4 @@
+import 'package:defend_your_flame/constants/constants.dart';
 import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
 import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
@@ -8,7 +9,8 @@ class MainGame extends FlameGame {
   double get windowHeight => camera.viewport.size.y;
   double get windowWidth => camera.viewport.size.x;
 
-  double get cameraZoom => camera.viewfinder.zoom;
+  // Given this game is within a fixed aspect ratio, this is a simple way to calculate the scaling factor of the games window.
+  double get windowScale => windowWidth / Constants.desiredWidth;
 
   MainGame({required World world, required CameraComponent camera}) : super(world: world, camera: camera);
 

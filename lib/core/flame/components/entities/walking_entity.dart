@@ -81,8 +81,8 @@ class WalkingEntity extends SpriteAnimationGroupComponent<EntityState> with Drag
   @override
   void onDragUpdate(DragUpdateEvent event) {
     super.onDragUpdate(event);
-    position += event.canvasDelta / game.cameraZoom;
-    _fallVelocity = event.canvasDelta * game.cameraZoom * 70;
+    position += event.canvasDelta / game.windowScale;
+    _fallVelocity = event.canvasDelta / game.windowScale * 30;
   }
 
   @override
