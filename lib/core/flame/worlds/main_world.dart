@@ -33,6 +33,11 @@ class MainWorld extends World with HasGameReference<MainGame> {
     ..position = Vector2(worldWidth - 10, 10)
     ..anchor = Anchor.topRight;
 
+  late final FpsTextComponent _fpsText = FpsTextComponent()
+    ..position = Vector2(worldWidth - 10, _versionText.y + 20)
+    ..anchor = Anchor.topRight
+    ..scale = _versionText.scale;
+
   @override
   Future<void> onLoad() async {
     add(Moon());
@@ -54,6 +59,7 @@ class MainWorld extends World with HasGameReference<MainGame> {
 
     // Add directly to the viewport to be an "HUD" component.
     game.camera.viewport.add(_versionText);
+    game.camera.viewport.add(_fpsText);
 
     return super.onLoad();
   }

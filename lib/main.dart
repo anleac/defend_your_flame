@@ -16,10 +16,30 @@ void main() async {
   if (PlatformHelper.isMobile) {
     await Flame.device.setLandscape();
     await Flame.device.fullScreen();
-  } else if (PlatformHelper.isDesktop || PlatformHelper.isWeb) {
-    // TODO lets revisit later if we want to fix resolution.
   }
 
   runApp(ScopedModel<GameData>(
-      model: gameData, child: ScopedModel<GameProvider>(model: GameProvider(), child: const StateManager())));
+      model: gameData,
+      child: _buildPlatformDimensionsIfNeeded(
+          app: ScopedModel<GameProvider>(model: GameProvider(), child: const StateManager()))));
+}
+
+Widget _buildPlatformDimensionsIfNeeded({
+  required Widget app,
+}) {
+  var maxWidth = PlatformHelper.maxRenderWidth;
+  var maxHeight = PlatformHelper.maxRenderHeight;
+
+  if (maxWidth == null || maxHeight == null) {
+    return app;
+  }
+
+  return Center(
+    child: ClipRect(
+      child: Container(
+        constraints: BoxConstraints(maxWidth: maxWidth, maxHeight: maxHeight),
+        child: app,
+      ),
+    ),
+  );
 }
