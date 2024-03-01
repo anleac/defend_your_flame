@@ -3,7 +3,7 @@ import "package:flutter/material.dart";
 class Background extends StatefulWidget {
   final Widget? child;
 
-  const Background({Key? key, this.child}) : super(key: key);
+  const Background({super.key, this.child});
 
   @override
   State<Background> createState() => _BackgroundState();

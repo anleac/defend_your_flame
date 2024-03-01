@@ -9,4 +9,8 @@ class MiscHelper {
   static T randomElement<T>(List<T> list) {
     return list[GlobalVars.rand.nextInt(list.length)];
   }
+
+  static randomChance({required int chance}) {
+    return GlobalVars.rand.nextInt(100) < chance;
+  }
 }

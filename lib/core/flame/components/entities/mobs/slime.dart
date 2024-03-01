@@ -6,25 +6,24 @@ import 'package:defend_your_flame/helpers/timestep_helper.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 
-enum SkeletonState { walking, dragged, falling, dying }
+enum SlimeState { walking, dragged, falling, dying }
 
-class Skeleton extends SpriteAnimationGroupComponent<SkeletonState> with DragCallbacks, HasGameReference<MainGame> {
-  // It's a bit small already so 1.2 scale by default.
-  static const _defaultEnlargement = 1.2;
-  static const _walkingFrames = 13;
+class Slime extends SpriteAnimationGroupComponent<SlimeState> with DragCallbacks, HasGameReference<MainGame> {
+  static const _walkingFrames = 4;
   static const _dragFrames = 4;
-  static const _dyingFrames = 15;
 
-  static const _walkingSpeedForward = 25;
+  static const _walkingSpeedForward = 40;
 
   late final double _pickupHeight;
 
   bool _beingDragged = false;
   Vector2 _fallVelocity = Vector2.zero();
 
-  Skeleton({double scaleModifier = 1}) {
-    size = Vector2(22, 33);
-    scale = Vector2.all(scaleModifier * _defaultEnlargement);
+  late final double scaleModifier;
+
+  Slime({this.scaleModifier = 1}) {
+    size = Vector2(34, 27);
+    scale = Vector2.all(scaleModifier);
   }
 
   @override
@@ -35,41 +34,41 @@ class Skeleton extends SpriteAnimationGroupComponent<SkeletonState> with DragCal
 
   @override
   Future<void> onLoad() async {
-    final walkingSprite =
-        SpriteManager.getAnimation('mobs/skeleton/walk', stepTime: 0.09 / scale.x, frames: _walkingFrames, loop: true);
+    final walkingSprite = SpriteManager.getAnimation('mobs/slime/walk',
+        stepTime: 0.12 / scaleModifier, frames: _walkingFrames, loop: true);
 
     final dragSprite =
-        SpriteManager.getAnimation('mobs/skeleton/drag', stepTime: 0.2 / scale.x, frames: _dragFrames, loop: true);
+        SpriteManager.getAnimation('mobs/slime/drag', stepTime: 0.1 / scaleModifier, frames: _dragFrames, loop: true);
 
-    final dyingSprite =
-        SpriteManager.getAnimation('mobs/skeleton/dying', stepTime: 0.07 / scale.x, frames: _dyingFrames, loop: false);
+    final dyingSprite = SpriteManager.getAnimation('mobs/slime/dying',
+        stepTime: 0.07 / scaleModifier, frames: _dragFrames, loop: false);
 
     animations = {
-      SkeletonState.walking: walkingSprite,
-      SkeletonState.dragged: dragSprite,
-      SkeletonState.falling: dragSprite,
-      SkeletonState.dying: dyingSprite,
+      SlimeState.walking: walkingSprite,
+      SlimeState.dragged: dragSprite,
+      SlimeState.falling: dragSprite,
+      SlimeState.dying: dyingSprite,
     };
-    current = SkeletonState.walking;
+    current = SlimeState.walking;
   }
 
   @override
   void update(double dt) {
-    if (current == SkeletonState.walking && !_beingDragged) {
+    if (current == SlimeState.walking && !_beingDragged) {
       // Walk forward
       position.x = TimestepHelper.add(position.x, _walkingSpeedForward * scale.x, dt);
     }
 
-    if (current == SkeletonState.falling) {
+    if (current == SlimeState.falling) {
       _fallVelocity = PhysicsHelper.applyGravityFrictionAndClamp(_fallVelocity, dt);
       position = TimestepHelper.addVector2(position, _fallVelocity, dt);
 
       if (position.y >= _pickupHeight) {
         if (_fallVelocity.y > PhysicsConstants.maxVelocity.y * 0.4) {
           // Random 'death velocity'
-          current = SkeletonState.dying;
+          current = SlimeState.dying;
         } else {
-          current = SkeletonState.walking;
+          current = SlimeState.walking;
         }
       }
     }
@@ -87,7 +86,7 @@ class Skeleton extends SpriteAnimationGroupComponent<SkeletonState> with DragCal
   void onDragUpdate(DragUpdateEvent event) {
     super.onDragUpdate(event);
     position += event.canvasDelta / game.cameraZoom;
-    _fallVelocity = event.canvasDelta * game.cameraZoom * 70;
+    _fallVelocity = event.canvasDelta * game.cameraZoom * 50;
   }
 
   @override
@@ -108,7 +107,7 @@ class Skeleton extends SpriteAnimationGroupComponent<SkeletonState> with DragCal
     }
 
     _beingDragged = true;
-    current = SkeletonState.dragged;
+    current = SlimeState.dragged;
   }
 
   void stopDragging() {
@@ -118,7 +117,7 @@ class Skeleton extends SpriteAnimationGroupComponent<SkeletonState> with DragCal
 
     _beingDragged = false;
     if (position.y < _pickupHeight - 10) {
-      current = SkeletonState.falling;
+      current = SlimeState.falling;
     }
   }
 }
