@@ -16,9 +16,9 @@ class WalkingEntity extends SpriteAnimationGroupComponent<EntityState> with Drag
   bool _beingDragged = false;
   Vector2 _fallVelocity = Vector2.zero();
 
-  WalkingEntity({required this.entityConfig}) {
-    size = Vector2(22, 33);
-    scale = Vector2.all(entityConfig.scale);
+  WalkingEntity({required this.entityConfig, double scaleModifier = 1}) {
+    size = entityConfig.defaultSize;
+    scale = Vector2.all(entityConfig.defaultScale * scaleModifier);
   }
 
   @override
@@ -30,13 +30,13 @@ class WalkingEntity extends SpriteAnimationGroupComponent<EntityState> with Drag
   @override
   Future<void> onLoad() async {
     final walkingSprite = SpriteManager.getAnimation('mobs/${entityConfig.entityResourceName}/walk',
-        stepTime: 0.09 / scale.x, frames: entityConfig.walkingFrames, loop: true);
+        stepTime: entityConfig.walkingConfig.stepTime / scale.x, frames: entityConfig.walkingConfig.frames, loop: true);
 
     final dragSprite = SpriteManager.getAnimation('mobs/${entityConfig.entityResourceName}/drag',
-        stepTime: 0.2 / scale.x, frames: entityConfig.dragFrames, loop: true);
+        stepTime: entityConfig.dragConfig.stepTime / scale.x, frames: entityConfig.dragConfig.frames, loop: true);
 
     final dyingSprite = SpriteManager.getAnimation('mobs/${entityConfig.entityResourceName}/dying',
-        stepTime: 0.07 / scale.x, frames: entityConfig.dyingFrames, loop: false);
+        stepTime: entityConfig.dyingConfig.stepTime / scale.x, frames: entityConfig.dyingConfig.frames, loop: false);
 
     animations = {
       EntityState.walking: walkingSprite,
