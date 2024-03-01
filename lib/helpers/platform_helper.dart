@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:defend_your_flame/constants/constants.dart';
+import 'package:flame/game.dart';
 import 'package:flutter/foundation.dart';
 
 enum CurrentPlatform {
@@ -41,5 +43,14 @@ class PlatformHelper {
     } else {
       throw Exception('Unknown platform');
     }
+  }
+
+  static Vector2 getMaxRenderSize() {
+    // For performance reasons, we only want to limit the size on web.
+    if (isWeb) {
+      return Vector2(Constants.desiredWidth, Constants.desiredHeight);
+    }
+
+    return Vector2.all(double.infinity);
   }
 }
