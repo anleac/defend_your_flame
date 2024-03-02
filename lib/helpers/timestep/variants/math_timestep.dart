@@ -1,11 +1,21 @@
+import 'dart:math';
+
 import 'package:defend_your_flame/constants/timestep_constants.dart';
 import 'package:defend_your_flame/helpers/timestep/timestep_helper.dart';
 import 'package:defend_your_flame/helpers/timestep/timestep_logic.dart';
 import 'package:flame/game.dart';
 
 class MathTimestep {
-  static double _calculateRealMultiplier(double currentTimestep) {
+  static double _calculateRealMultiplier(double currentTimestep, {bool compoundMultiplier = false}) {
     var (multiplier, remainderTimestep) = TimestepLogic.calculateConvertedTicks(currentTimestep);
+
+    // If we are wanting to catch up on missing frames, and we are in the context of a multiplication or division operation
+    // we want to use the pow function to calculate the real multiplier.
+    if (compoundMultiplier) {
+      return (multiplier > 0 ? pow(TimestepConstants.desiredTimestep, multiplier) : 0) + remainderTimestep;
+    }
+
+    // Otherwise, if we're simply doing an add or subtract, we can just use the multiplier.
     return (TimestepConstants.desiredTimestep * multiplier) + remainderTimestep;
   }
 
@@ -13,7 +23,7 @@ class MathTimestep {
       TimestepLogic.add(value, toAdd, _calculateRealMultiplier(currentTimestep));
 
   static double multiply(double value, double toMultipleBy, double currentTimestep) {
-    var realTimestep = _calculateRealMultiplier(currentTimestep);
+    var realTimestep = _calculateRealMultiplier(currentTimestep, compoundMultiplier: true);
     return TimestepLogic.multiply(value, toMultipleBy, realTimestep);
   }
 
