@@ -21,7 +21,7 @@ class MainGame extends FlameGame {
 
     add(TimestepFaker(
       useFakeTimestep: true,
-      fakeFps: 120,
+      fakeFps: 1000,
     ));
 
     return super.onLoad();

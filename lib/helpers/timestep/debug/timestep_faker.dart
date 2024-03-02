@@ -18,22 +18,6 @@ class TimestepFaker extends Component {
     fakeTimestep = 1 / fakeFps;
   }
 
-  double getTimestep(double currentTimestep) {
-    if (useFakeTimestep) {
-      return fakeTimestep;
-    }
-
-    return currentTimestep;
-  }
-
-  bool shouldSkipFrame(double currentTimestep) {
-    if (useFakeTimestep) {
-      return currentTimestep < fakeTimestep;
-    }
-
-    return false;
-  }
-
   @override
   void update(double dt) {
     _fpsFrameCounter += dt;
@@ -45,7 +29,7 @@ class TimestepFaker extends Component {
   void updateWithFakeTimestep(double dt, void Function(double dt) update) {
     if (useFakeTimestep && Constants.debugBuild) {
       for (var i = 0; i < _framesToExecute; i++) {
-        update(dt);
+        update(fakeTimestep);
       }
     } else {
       update(dt);
