@@ -20,8 +20,8 @@ class MainGame extends FlameGame {
     await SpriteManager.init();
 
     add(TimestepFaker(
-      useFakeTimestep: true,
-      fakeFps: 1000,
+      useFakeTimestep: false,
+      fakeFps: 45,
     ));
 
     return super.onLoad();

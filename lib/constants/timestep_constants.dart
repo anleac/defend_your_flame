@@ -8,8 +8,8 @@ class TimestepConstants {
   // Arbitrary set it to a half a second worth of ticks.
   static const int maxFrameCatchup = 30;
 
-  static const TimestepVariant variant = TimestepVariant.pow;
+  static const TimestepVariant variant = TimestepVariant.math;
 
-  static bool get isPowVariant => variant == TimestepVariant.pow;
+  static bool get isPowVariant => variant == TimestepVariant.math;
   static bool get isLoopVariant => variant == TimestepVariant.loop;
 }

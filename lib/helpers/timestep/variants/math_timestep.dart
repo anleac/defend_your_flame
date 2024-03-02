@@ -1,14 +1,12 @@
-import 'dart:math';
-
 import 'package:defend_your_flame/constants/timestep_constants.dart';
 import 'package:defend_your_flame/helpers/timestep/timestep_helper.dart';
 import 'package:defend_your_flame/helpers/timestep/timestep_logic.dart';
 import 'package:flame/game.dart';
 
-class PowTimestep {
+class MathTimestep {
   static double _calculateRealMultiplier(double currentTimestep) {
     var (multiplier, remainderTimestep) = TimestepLogic.calculateConvertedTicks(currentTimestep);
-    return (multiplier > 0 ? pow(TimestepConstants.desiredTimestep, multiplier) : 0) + remainderTimestep;
+    return (TimestepConstants.desiredTimestep * multiplier) + remainderTimestep;
   }
 
   static double add(double value, double toAdd, double currentTimestep) =>

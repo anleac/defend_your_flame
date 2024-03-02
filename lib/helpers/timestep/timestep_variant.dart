@@ -1,1 +1,1 @@
-enum TimestepVariant { pow, loop }
+enum TimestepVariant { math, loop }
