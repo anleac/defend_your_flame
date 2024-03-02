@@ -1,5 +1,6 @@
 import 'package:defend_your_flame/constants/constants.dart';
 import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
+import 'package:defend_your_flame/helpers/timestep/debug/timestep_faker.dart';
 import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
@@ -17,6 +18,12 @@ class MainGame extends FlameGame {
   @override
   Future<void> onLoad() async {
     await SpriteManager.init();
+
+    add(TimestepFaker(
+      useFakeTimestep: true,
+      fakeFps: 20,
+    ));
+
     return super.onLoad();
   }
 
