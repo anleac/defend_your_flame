@@ -5,7 +5,7 @@ import 'package:flame/components.dart';
 /// It is used to simulate a lower framerate for debugging purposes to ensure the game runs smoothly at lower framerates.
 /// We can add this to the game loop so it will consume the current game tick, and we can correctly calculate the next fake tick.
 class TimestepFaker extends Component {
-  static final componentKey = ComponentKey.named('TimestepFaker');
+  static const componentKey = 'TimestepFaker';
 
   final bool useFakeTimestep;
   final double fakeFps;
@@ -14,7 +14,7 @@ class TimestepFaker extends Component {
   double _fpsFrameCounter = 0;
   int _framesToExecute = 0;
 
-  TimestepFaker({required this.useFakeTimestep, required this.fakeFps}) : super(key: componentKey) {
+  TimestepFaker({required this.useFakeTimestep, required this.fakeFps}) : super(key: ComponentKey.named(componentKey)) {
     fakeTimestep = 1 / fakeFps;
   }
 
@@ -45,7 +45,7 @@ class TimestepFaker extends Component {
   void updateWithFakeTimestep(double dt, void Function(double dt) update) {
     if (useFakeTimestep && Constants.debugBuild) {
       for (var i = 0; i < _framesToExecute; i++) {
-        update(fakeTimestep);
+        update(dt);
       }
     } else {
       update(dt);

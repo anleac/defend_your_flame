@@ -4,7 +4,8 @@ import 'package:defend_your_flame/core/flame/components/entities/walking_entity_
 import 'package:defend_your_flame/core/flame/main_game.dart';
 import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
 import 'package:defend_your_flame/helpers/physics_helper.dart';
-import 'package:defend_your_flame/helpers/timestep_helper.dart';
+import 'package:defend_your_flame/helpers/timestep/debug/timestep_faker.dart';
+import 'package:defend_your_flame/helpers/timestep/timestep_helper.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 
@@ -50,6 +51,18 @@ class WalkingEntity extends SpriteAnimationGroupComponent<EntityState> with Drag
 
   @override
   void update(double dt) {
+    var fakeTimestep = game.findByKeyName<TimestepFaker>(TimestepFaker.componentKey);
+
+    if (fakeTimestep != null) {
+      fakeTimestep.updateWithFakeTimestep(dt, _updateMovement);
+    } else {
+      _updateMovement(dt);
+    }
+
+    super.update(dt);
+  }
+
+  void _updateMovement(double dt) {
     if (current == EntityState.walking && !_beingDragged) {
       // Walk forward
       position.x = TimestepHelper.add(position.x, entityConfig.walkingForwardSpeed * scale.x, dt);
@@ -68,8 +81,6 @@ class WalkingEntity extends SpriteAnimationGroupComponent<EntityState> with Drag
         }
       }
     }
-
-    super.update(dt);
   }
 
   @override
