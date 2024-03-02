@@ -1,5 +1,5 @@
 import 'package:defend_your_flame/constants/physics_constants.dart';
-import 'package:defend_your_flame/helpers/timestep_helper.dart';
+import 'package:defend_your_flame/helpers/timestep/timestep_helper.dart';
 import 'package:flame/components.dart';
 
 class PhysicsHelper {

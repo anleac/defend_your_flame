@@ -45,12 +45,15 @@ class PlatformHelper {
     }
   }
 
-  static Vector2 getMaxRenderSize() {
+  static final double? maxRenderWidth = _getMaxRenderSize()?.x;
+  static final double? maxRenderHeight = _getMaxRenderSize()?.y;
+
+  static Vector2? _getMaxRenderSize() {
     // For performance reasons, we only want to limit the size on web.
     if (isWeb) {
       return Vector2(Constants.desiredWidth, Constants.desiredHeight);
     }
 
-    return Vector2.all(double.infinity);
+    return null;
   }
 }
