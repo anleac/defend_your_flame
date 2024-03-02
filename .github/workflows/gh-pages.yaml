@@ -14,4 +14,4 @@ jobs:
       - uses: bluefireteam/flutter-gh-pages@v8
         with:
           baseHref: /defend_your_flame/
-          webRenderer: html # I'd prefer canvaskit, but this causes awful performance in firefox, see: https://github.com/flutter/flutter/issues/129733
+          webRenderer: canvaskit

@@ -47,6 +47,7 @@
 
       // If we're in FireFox, there are known performance issues with CanvasKit rendering.
       // Therefore if we're in FireFox, ensure to use the HTML renderer.
+      // See: https://github.com/flutter/flutter/issues/129733
       let useHtml = navigator.userAgent.indexOf("Firefox") !== -1;
 
       let config = {
