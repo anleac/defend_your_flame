@@ -42,13 +42,24 @@
 <body>
   <script>
     window.addEventListener('load', function(ev) {
+      // Disable clipping for performance
+      CanvasRenderingContext2D.prototype.clip = function () { };
+
+      // If we're in FireFox, there are known performance issues with CanvasKit rendering.
+      // Therefore if we're in FireFox, ensure to use the HTML renderer.
+      let useHtml = navigator.userAgent.indexOf("Firefox") !== -1;
+
+      let config = {
+        renderer: useHtml ? "html" : "canvaskit",
+      };
+
       // Download main.dart.js
       _flutter.loader.loadEntrypoint({
         serviceWorker: {
           serviceWorkerVersion: serviceWorkerVersion,
         },
         onEntrypointLoaded: function(engineInitializer) {
-          engineInitializer.initializeEngine().then(function(appRunner) {
+          engineInitializer.initializeEngine(config).then(function(appRunner) {
             appRunner.runApp();
           });
         }
