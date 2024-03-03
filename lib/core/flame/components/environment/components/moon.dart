@@ -1,10 +1,9 @@
 import 'package:defend_your_flame/constants/constants.dart';
-import 'package:defend_your_flame/core/flame/main_game.dart';
 import 'package:defend_your_flame/helpers/math_helper.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 
-class Moon extends PositionComponent with HasGameReference<MainGame> {
+class Moon extends PositionComponent {
   final double _rotationalSpeed = MathHelper.degreesToRads(2);
   final double moonRadius = 30;
 

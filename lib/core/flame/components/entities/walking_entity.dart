@@ -2,6 +2,7 @@ import 'package:defend_your_flame/constants/physics_constants.dart';
 import 'package:defend_your_flame/core/flame/components/entities/entity_state.dart';
 import 'package:defend_your_flame/core/flame/components/entities/walking_entity_config.dart';
 import 'package:defend_your_flame/core/flame/main_game.dart';
+import 'package:defend_your_flame/core/flame/managers/entity_manager.dart';
 import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
 import 'package:defend_your_flame/helpers/physics_helper.dart';
 import 'package:defend_your_flame/helpers/timestep/debug/timestep_faker.dart';
@@ -9,10 +10,13 @@ import 'package:defend_your_flame/helpers/timestep/timestep_helper.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 
-class WalkingEntity extends SpriteAnimationGroupComponent<EntityState> with DragCallbacks, HasGameReference<MainGame> {
+class WalkingEntity extends SpriteAnimationGroupComponent<EntityState>
+    with DragCallbacks, ParentIsA<EntityManager>, HasGameReference<MainGame> {
   final WalkingEntityConfig entityConfig;
 
   late final double _pickupHeight;
+
+  bool get isAlive => current != EntityState.dying;
 
   bool _beingDragged = false;
   Vector2 _fallVelocity = Vector2.zero();
@@ -63,9 +67,12 @@ class WalkingEntity extends SpriteAnimationGroupComponent<EntityState> with Drag
   }
 
   void _updateMovement(double dt) {
-    if (current == EntityState.walking && !_beingDragged) {
+    if (current == EntityState.walking && !_beingDragged && position.x < parent.positionXBoundary) {
       // Walk forward
       position.x = TimestepHelper.add(position.x, entityConfig.walkingForwardSpeed * scale.x, dt);
+    } else if (position.x >= parent.positionXBoundary + 50 && current == EntityState.walking) {
+      // TODO this is an MVP way to remove a edge case from early development, definitely re-visit this and remove it.
+      current = EntityState.dying;
     }
 
     if (current == EntityState.falling) {
@@ -93,6 +100,10 @@ class WalkingEntity extends SpriteAnimationGroupComponent<EntityState> with Drag
   void onDragUpdate(DragUpdateEvent event) {
     super.onDragUpdate(event);
     position += event.canvasDelta / game.windowScale;
+
+    // TODO revisit this logic
+    position.y = position.y.clamp(-200, game.windowHeight - 150);
+
     _fallVelocity = event.canvasDelta / game.windowScale * 30;
   }
 
@@ -125,6 +136,8 @@ class WalkingEntity extends SpriteAnimationGroupComponent<EntityState> with Drag
     _beingDragged = false;
     if (position.y < _pickupHeight - 10) {
       current = EntityState.falling;
+    } else {
+      current = EntityState.walking;
     }
   }
 }
