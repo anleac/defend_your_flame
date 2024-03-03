@@ -49,11 +49,6 @@
       // Therefore if we're in FireFox, ensure to use the HTML renderer.
       // See: https://github.com/flutter/flutter/issues/129733
       // Another related issue to re-investigate in the future: https://github.com/flutter/flutter/issues/120156
-      let useHtml = navigator.userAgent.indexOf("Firefox") !== -1;
-
-      let config = {
-        renderer: useHtml ? "html" : "canvaskit",
-      };
 
       // Download main.dart.js
       _flutter.loader.loadEntrypoint({
@@ -61,7 +56,7 @@
           serviceWorkerVersion: serviceWorkerVersion,
         },
         onEntrypointLoaded: function(engineInitializer) {
-          engineInitializer.initializeEngine(config).then(function(appRunner) {
+          engineInitializer.initializeEngine().then(function(appRunner) {
             appRunner.runApp();
           });
         }
