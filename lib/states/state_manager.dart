@@ -1,3 +1,4 @@
+import 'package:defend_your_flame/constants/platform_constants.dart';
 import 'package:defend_your_flame/constants/translations/app_strings.dart';
 import 'package:defend_your_flame/core/flame/game_provider.dart';
 import 'package:defend_your_flame/helpers/platform_helper.dart';
@@ -64,13 +65,13 @@ class _StateManagerState extends State<StateManager> with WidgetsBindingObserver
           child: game,
         ),
       ),
-      if (PlatformHelper.isWeb)
+      if (PlatformHelper.isWeb && !Uri.base.toString().contains(PlatformConstants.webHtmlUrl))
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text("If you're noticing poor performance, try this link: "),
             TextButton(
-              onPressed: () => launchUrl(Uri.parse('defend_your_flame/htmlVersion')),
+              onPressed: () => launchUrl(Uri.parse(PlatformConstants.webHtmlUrl)),
               child: const Text('HTML version'),
             ),
           ],
