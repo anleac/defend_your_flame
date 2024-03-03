@@ -1,4 +1,3 @@
-import 'package:defend_your_flame/constants/platform_constants.dart';
 import 'package:defend_your_flame/constants/translations/app_strings.dart';
 import 'package:defend_your_flame/core/flame/game_provider.dart';
 import 'package:defend_your_flame/helpers/platform_helper.dart';
@@ -6,7 +5,6 @@ import 'package:defend_your_flame/widgets/background.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:url_launcher/url_launcher.dart';
 /*
   Current game states - TBD
 */
@@ -65,7 +63,7 @@ class _StateManagerState extends State<StateManager> with WidgetsBindingObserver
           child: game,
         ),
       ),
-      if (PlatformHelper.isWeb) ...PlatformHelper.webRedirectFooter()
+      if (PlatformHelper.isWeb) PlatformHelper.webRedirectFooter()
     ]);
   }
 

@@ -21,8 +21,11 @@ class WalkingEntity extends SpriteAnimationGroupComponent<EntityState>
   bool _beingDragged = false;
   Vector2 _fallVelocity = Vector2.zero();
 
+  late Vector2 _attackingSize;
+
   WalkingEntity({required this.entityConfig, double scaleModifier = 1}) {
     size = entityConfig.defaultSize;
+    _attackingSize = entityConfig.attackingSize ?? size;
     scale = Vector2.all(entityConfig.defaultScale * scaleModifier);
   }
 
@@ -37,6 +40,11 @@ class WalkingEntity extends SpriteAnimationGroupComponent<EntityState>
     final walkingSprite = SpriteManager.getAnimation('mobs/${entityConfig.entityResourceName}/walk',
         stepTime: entityConfig.walkingConfig.stepTime / scale.x, frames: entityConfig.walkingConfig.frames, loop: true);
 
+    final attackingSprite = SpriteManager.getAnimation('mobs/${entityConfig.entityResourceName}/attack',
+        stepTime: entityConfig.attackingConfig.stepTime / scale.x,
+        frames: entityConfig.attackingConfig.frames,
+        loop: true);
+
     final dragSprite = SpriteManager.getAnimation('mobs/${entityConfig.entityResourceName}/drag',
         stepTime: entityConfig.dragConfig.stepTime / scale.x, frames: entityConfig.dragConfig.frames, loop: true);
 
@@ -45,6 +53,7 @@ class WalkingEntity extends SpriteAnimationGroupComponent<EntityState>
 
     animations = {
       EntityState.walking: walkingSprite,
+      EntityState.attacking: attackingSprite,
       EntityState.dragged: dragSprite,
       EntityState.falling: dragSprite,
       EntityState.dying: dyingSprite,
@@ -67,13 +76,21 @@ class WalkingEntity extends SpriteAnimationGroupComponent<EntityState>
   }
 
   void _updateMovement(double dt) {
-    if (current == EntityState.walking && !_beingDragged && position.x < parent.positionXBoundary) {
+    if (current == EntityState.walking &&
+        !_beingDragged &&
+        position.x + (_attackingSize.x / 4) < parent.positionXBoundary) {
       // Walk forward
       position.x = TimestepHelper.add(position.x, entityConfig.walkingForwardSpeed * scale.x, dt);
     } else if (position.x >= parent.positionXBoundary + 50 && current == EntityState.walking) {
       // TODO this is an MVP way to remove a edge case from early development, definitely re-visit this and remove it.
       current = EntityState.dying;
+    } else if (position.x <= parent.positionXBoundary + 15 && current == EntityState.walking) {
+      // Start attacking
+      current = EntityState.attacking;
     }
+
+    // Special case where the attacking animation is bigger than the default size.
+    size = current == EntityState.attacking ? _attackingSize : entityConfig.defaultSize;
 
     if (current == EntityState.falling) {
       _fallVelocity = PhysicsHelper.applyGravityFrictionAndClamp(_fallVelocity, dt);

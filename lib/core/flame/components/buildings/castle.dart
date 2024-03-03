@@ -7,6 +7,6 @@ class Castle extends SpriteComponent with ParentIsA<MainWorld> {
       : super(
             size: Vector2(871, 526),
             sprite: SpriteManager.getSprite('castle'),
-            scale: Vector2.all(0.6),
+            scale: Vector2.all(0.65),
             anchor: Anchor.topLeft);
 }

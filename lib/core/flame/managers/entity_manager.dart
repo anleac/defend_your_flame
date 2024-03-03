@@ -69,7 +69,7 @@ class EntityManager extends Component with ParentIsA<MainWorld> {
 
     var startPosition = Vector2(
       GlobalVars.rand.nextDouble() * 25 - 40,
-      parent.worldHeight - GlobalVars.rand.nextDouble() * 130 - 75,
+      parent.worldHeight - GlobalVars.rand.nextDouble() * 120 - 80,
     );
 
     entity.position = startPosition;

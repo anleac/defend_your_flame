@@ -14,7 +14,7 @@ class MainWorld extends World {
   late final Environment _environment = Environment();
 
   late final Castle _castle = Castle()
-    ..position = Vector2(worldWidth - 300, worldHeight - 50)
+    ..position = Vector2(worldWidth - 320, worldHeight - 35)
     ..anchor = Anchor.bottomLeft;
 
   late final RoundManager _roundManager = RoundManager();
