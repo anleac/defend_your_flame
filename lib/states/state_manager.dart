@@ -70,7 +70,7 @@ class _StateManagerState extends State<StateManager> with WidgetsBindingObserver
           children: [
             const Text("If you're noticing poor performance, try this link: "),
             TextButton(
-              onPressed: () => launchUrl(Uri.parse('/htmlVersion')),
+              onPressed: () => launchUrl(Uri.parse('defend_your_flame/htmlVersion')),
               child: const Text('HTML version'),
             ),
           ],
