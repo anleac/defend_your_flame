@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: subosito/flutter-action@v2
-      - uses: anleac/flutter-gh-pages@v0.1
+      - uses: anleac/flutter-gh-pages@v0.2
         with:
           baseHref: /defend_your_flame/
           webRenderer: both
