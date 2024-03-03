@@ -25,6 +25,8 @@ class MainWorld extends World {
   EntityManager get entityManager => _entityManager;
   bool get roundOver => _entityManager.roundOver;
 
+  Castle get castle => _castle;
+
   @override
   Future<void> onLoad() async {
     _loadVisualElements();

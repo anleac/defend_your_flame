@@ -1,5 +1,6 @@
 import 'package:defend_your_flame/core/flame/components/entities/mobs/skeleton.dart';
 import 'package:defend_your_flame/core/flame/components/entities/mobs/slime.dart';
+import 'package:defend_your_flame/core/flame/components/entities/walking_entity.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 import 'package:defend_your_flame/helpers/global_vars.dart';
 import 'package:defend_your_flame/helpers/misc_helper.dart';
@@ -12,9 +13,24 @@ class EntityManager extends Component with ParentIsA<MainWorld> {
 
   double _timeCounter = 0;
 
-  bool get roundOver => !_spawning && children.isEmpty;
+  bool get roundOver => !_spawning && !children.any((element) => element is WalkingEntity && element.isAlive);
+
+  int get positionXBoundary => parent.castle.position.x.toInt() - 20;
+
+  void clearRound() {
+    _spawning = false;
+    _remainingEntitiesToSpawn = 0;
+    _timeCounter = 0;
+    _secondsToSpawnOver = 0;
+
+    for (var element in children) {
+      if (element is WalkingEntity) element.removeFromParent();
+    }
+  }
 
   void startSpawningRound() {
+    clearRound();
+
     var currentRound = parent.currentRound;
 
     _spawning = true;
@@ -23,7 +39,7 @@ class EntityManager extends Component with ParentIsA<MainWorld> {
     _remainingEntitiesToSpawn = currentRound * 5 + 10;
 
     // Scale the time duration that they should spawn over
-    _secondsToSpawnOver = (currentRound * 1.5).toInt();
+    _secondsToSpawnOver = currentRound + 3;
 
     _timeCounter = 0;
   }
@@ -33,15 +49,13 @@ class EntityManager extends Component with ParentIsA<MainWorld> {
     if (_spawning) {
       _timeCounter += dt;
 
-      if (_timeCounter >= (_secondsToSpawnOver / _remainingEntitiesToSpawn)) {
+      if (_remainingEntitiesToSpawn > 0 && _timeCounter >= (_secondsToSpawnOver / _remainingEntitiesToSpawn)) {
         _timeCounter = 0;
 
-        if (_remainingEntitiesToSpawn > 0) {
-          _remainingEntitiesToSpawn--;
-          spawnEntity();
-        } else {
-          _spawning = false;
-        }
+        _remainingEntitiesToSpawn--;
+        spawnEntity();
+      } else if (_remainingEntitiesToSpawn == 0) {
+        _spawning = false;
       }
     }
 
@@ -54,8 +68,8 @@ class EntityManager extends Component with ParentIsA<MainWorld> {
         : Slime(scaleModifier: MiscHelper.randomDouble(minValue: 1, maxValue: 1.3));
 
     var startPosition = Vector2(
-      GlobalVars.rand.nextDouble() * (parent.worldWidth - 60),
-      GlobalVars.rand.nextDouble() * (parent.worldHeight - 60),
+      GlobalVars.rand.nextDouble() * 25 - 40,
+      parent.worldHeight - GlobalVars.rand.nextDouble() * 130 - 75,
     );
 
     entity.position = startPosition;
