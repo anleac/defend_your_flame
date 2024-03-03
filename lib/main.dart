@@ -19,27 +19,5 @@ void main() async {
   }
 
   runApp(ScopedModel<GameData>(
-      model: gameData,
-      child: _buildPlatformDimensionsIfNeeded(
-          app: ScopedModel<GameProvider>(model: GameProvider(), child: const StateManager()))));
-}
-
-Widget _buildPlatformDimensionsIfNeeded({
-  required Widget app,
-}) {
-  var maxWidth = PlatformHelper.maxRenderWidth;
-  var maxHeight = PlatformHelper.maxRenderHeight;
-
-  if (maxWidth == null || maxHeight == null) {
-    return app;
-  }
-
-  return Center(
-    child: ClipRect(
-      child: Container(
-        constraints: BoxConstraints(maxWidth: maxWidth, maxHeight: maxHeight),
-        child: app,
-      ),
-    ),
-  );
+      model: gameData, child: ScopedModel<GameProvider>(model: GameProvider(), child: const StateManager())));
 }
