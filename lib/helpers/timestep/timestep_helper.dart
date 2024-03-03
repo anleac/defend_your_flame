@@ -1,7 +1,6 @@
 // This timestep engine is very naive, and just a simple buffer to give a better experience across devices.
 // There are huge limitations, as these catch up timesteps will always be run in isolation of object modifications and therefore
 // may break physic collisions etc, one such example would be a large catchup on a fast item may pass through an object.
-import 'dart:math';
 
 import 'package:defend_your_flame/constants/timestep_constants.dart';
 import 'package:defend_your_flame/helpers/timestep/variants/loop_timestep.dart';

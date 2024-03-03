@@ -1,5 +1,4 @@
 import 'package:defend_your_flame/constants/timestep_constants.dart';
-import 'package:defend_your_flame/helpers/timestep/timestep_helper.dart';
 import 'package:defend_your_flame/helpers/timestep/timestep_logic.dart';
 import 'package:flame/components.dart';
 
