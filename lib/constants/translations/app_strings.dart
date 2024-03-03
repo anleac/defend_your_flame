@@ -20,6 +20,8 @@ class AppStringsDelegate extends LocalizationsDelegate<AppStrings> {
 class AppStrings {
   static const supportedLocales = ['en'];
   static const defaultLocal = 'en';
+  static const placeholderText = '{0}';
+
   static Map<String, String>? _cachedMap;
 
   AppStrings(this.loc);
