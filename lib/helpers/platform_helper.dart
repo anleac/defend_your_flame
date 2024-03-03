@@ -1,8 +1,11 @@
 import 'dart:io';
 
 import 'package:defend_your_flame/constants/constants.dart';
+import 'package:defend_your_flame/constants/platform_constants.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 enum CurrentPlatform {
   android,
@@ -55,5 +58,32 @@ class PlatformHelper {
     }
 
     return null;
+  }
+
+  static List<Widget> webRedirectFooter() {
+    return [
+      if (!Uri.base.toString().contains(PlatformConstants.webHtmlUrl))
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text("If you're noticing poor performance, try this link: "),
+            TextButton(
+              onPressed: () => launchUrl(Uri.parse(PlatformConstants.webHtmlUrl)),
+              child: const Text('HTML version'),
+            ),
+          ],
+        ),
+      if (Uri.base.toString().contains(PlatformConstants.webHtmlUrl))
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text("Try the higher graphic version: "),
+            TextButton(
+              onPressed: () => launchUrl(Uri.parse(PlatformConstants.webBaseUrl)),
+              child: const Text('CanvasKit version'),
+            ),
+          ],
+        ),
+    ];
   }
 }

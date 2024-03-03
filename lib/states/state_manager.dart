@@ -65,17 +65,7 @@ class _StateManagerState extends State<StateManager> with WidgetsBindingObserver
           child: game,
         ),
       ),
-      if (PlatformHelper.isWeb && !Uri.base.toString().contains(PlatformConstants.webHtmlUrl))
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text("If you're noticing poor performance, try this link: "),
-            TextButton(
-              onPressed: () => launchUrl(Uri.parse(PlatformConstants.webHtmlUrl)),
-              child: const Text('HTML version'),
-            ),
-          ],
-        ),
+      if (PlatformHelper.isWeb) ...PlatformHelper.webRedirectFooter()
     ]);
   }
 
