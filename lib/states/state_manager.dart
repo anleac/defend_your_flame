@@ -5,7 +5,6 @@ import 'package:defend_your_flame/widgets/background.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:url_launcher/url_launcher.dart';
 /*
   Current game states - TBD
 */
@@ -64,17 +63,7 @@ class _StateManagerState extends State<StateManager> with WidgetsBindingObserver
           child: game,
         ),
       ),
-      if (PlatformHelper.isWeb)
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text("If you're noticing poor performance, try this link: "),
-            TextButton(
-              onPressed: () => launchUrl(Uri.parse('defend_your_flame/htmlVersion')),
-              child: const Text('HTML version'),
-            ),
-          ],
-        ),
+      if (PlatformHelper.isWeb) PlatformHelper.webRedirectFooter()
     ]);
   }
 

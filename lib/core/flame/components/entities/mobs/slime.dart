@@ -11,6 +11,10 @@ class Slime extends WalkingEntity {
       stepTime: 0.12,
       frames: 4,
     ),
+    attackingConfig: AnimationConfig(
+      stepTime: 0.12,
+      frames: 5,
+    ),
     dragConfig: AnimationConfig(
       stepTime: 0.1,
       frames: 4,

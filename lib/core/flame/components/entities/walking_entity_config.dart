@@ -9,9 +9,11 @@ class WalkingEntityConfig {
   final String entityResourceName;
 
   final Vector2 defaultSize;
+  final Vector2? attackingSize;
   final double defaultScale;
 
   final AnimationConfig walkingConfig;
+  final AnimationConfig attackingConfig;
   final AnimationConfig dragConfig;
   final AnimationConfig dyingConfig;
 
@@ -23,7 +25,9 @@ class WalkingEntityConfig {
     required this.entityResourceName,
     required this.defaultSize,
     this.defaultScale = 1.0,
+    this.attackingSize,
     required this.walkingConfig,
+    required this.attackingConfig,
     required this.dragConfig,
     required this.dyingConfig,
     required this.walkingForwardSpeed,
