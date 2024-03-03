@@ -9,11 +9,12 @@ class VersioningConstants {
 
   static const _majorVersion = 0;
   static const _minorVersion = 1;
+  static const _patchVersion = 0;
 
   static const _releaseVersion = ReleaseVersion.alpha;
 
   static String _getVersion() {
     var releaseSuffix = _releaseVersion != ReleaseVersion.release ? _releaseVersion.toString().split('.').last : '';
-    return 'v$_majorVersion.$_minorVersion $releaseSuffix'.trim();
+    return 'v$_majorVersion.$_minorVersion.$_patchVersion $releaseSuffix'.trim();
   }
 }
