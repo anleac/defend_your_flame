@@ -53,4 +53,6 @@ class AppStrings {
 
   // Below this are declarations of all the strings used in the app, above is setup.
   String roundText(int round) => TranslationHelper.insertNumber(getValue('roundText'), round);
+  String get startRound => getValue('startRound');
+  String get startGame => getValue('startGame');
 }
