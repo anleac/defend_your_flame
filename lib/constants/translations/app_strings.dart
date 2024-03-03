@@ -1,4 +1,5 @@
 import 'package:defend_your_flame/constants/translations/app_string_data.dart';
+import 'package:defend_your_flame/helpers/translation_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -49,4 +50,7 @@ class AppStrings {
 
     return v!;
   }
+
+  // Below this are declarations of all the strings used in the app, above is setup.
+  String roundText(int round) => TranslationHelper.insertNumber(getValue('roundText'), round);
 }

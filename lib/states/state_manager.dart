@@ -30,6 +30,7 @@ class _StateManagerState extends State<StateManager> with WidgetsBindingObserver
         routes: {
           '/': (context) {
             var game = GameProvider.of(context).game;
+            game.setExternalDependencies(context);
             return Scaffold(
                 body: Center(
                     child: PopScope(
