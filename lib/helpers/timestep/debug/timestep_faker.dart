@@ -8,7 +8,7 @@ class TimestepFaker extends Component {
   static const componentKey = 'TimestepFaker';
 
   final bool useFakeTimestep;
-  final double fakeFps;
+  final int fakeFps;
   late final double fakeTimestep;
 
   double _fpsFrameCounter = 0;

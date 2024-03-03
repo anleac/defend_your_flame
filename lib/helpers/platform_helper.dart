@@ -49,7 +49,7 @@ class PlatformHelper {
   static final double? maxRenderHeight = _getMaxRenderSize()?.y;
 
   static Vector2? _getMaxRenderSize() {
-    // For performance reasons, we only want to limit the size on web.
+    // To scale this better on web, we want to limit the size of the game to the desired width and height.
     if (isWeb) {
       return Vector2(Constants.desiredWidth, Constants.desiredHeight);
     }

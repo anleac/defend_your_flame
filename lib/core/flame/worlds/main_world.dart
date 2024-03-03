@@ -6,7 +6,7 @@ import 'package:defend_your_flame/core/flame/components/environment/background_s
 import 'package:defend_your_flame/core/flame/components/environment/ground.dart';
 import 'package:defend_your_flame/core/flame/components/environment/moon.dart';
 import 'package:defend_your_flame/core/flame/components/entities/mobs/skeleton.dart';
-import 'package:defend_your_flame/core/flame/components/hud/version_text.dart';
+import 'package:defend_your_flame/core/flame/components/hud/level_hud.dart';
 import 'package:defend_your_flame/core/flame/main_game.dart';
 import 'package:defend_your_flame/helpers/misc_helper.dart';
 import 'package:flame/components.dart';
@@ -29,15 +29,6 @@ class MainWorld extends World with HasGameReference<MainGame> {
     ..position = Vector2(worldWidth - 300, worldHeight - 50)
     ..anchor = Anchor.bottomLeft;
 
-  late final VersionText _versionText = VersionText()
-    ..position = Vector2(worldWidth - 10, 10)
-    ..anchor = Anchor.topRight;
-
-  late final FpsTextComponent _fpsText = FpsTextComponent()
-    ..position = Vector2(worldWidth - 10, _versionText.y + 20)
-    ..anchor = Anchor.topRight
-    ..scale = _versionText.scale;
-
   @override
   Future<void> onLoad() async {
     add(Moon());
@@ -57,9 +48,10 @@ class MainWorld extends World with HasGameReference<MainGame> {
 
     add(mobSpawner);
 
-    // Add directly to the viewport to be an "HUD" component.
-    game.camera.viewport.add(_versionText);
-    game.camera.viewport.add(_fpsText);
+    // Generally, we should add the HUD to the camera viewpoint to ensure it doesn't move
+    // with the world. However, in this case, we have no camera movement and therefore
+    // we can add it directly to the world.
+    add(LevelHud());
 
     return super.onLoad();
   }
