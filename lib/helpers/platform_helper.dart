@@ -60,30 +60,29 @@ class PlatformHelper {
     return null;
   }
 
-  static List<Widget> webRedirectFooter() {
-    return [
-      if (!Uri.base.toString().contains(PlatformConstants.webHtmlUrl))
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text("If you're noticing poor performance, try this link: "),
-            TextButton(
-              onPressed: () => launchUrl(Uri.parse(PlatformConstants.webHtmlUrl)),
-              child: const Text('HTML version'),
-            ),
-          ],
+  static Widget webRedirectFooter() {
+    if (!Uri.base.toString().contains(PlatformConstants.webHtmlUrl)) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Text("If you're noticing poor performance, try this link: "),
+          TextButton(
+            onPressed: () => launchUrl(Uri.parse(PlatformConstants.webHtmlUrl)),
+            child: const Text('HTML version'),
+          ),
+        ],
+      );
+    }
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const Text("Try the higher graphic version: "),
+        TextButton(
+          onPressed: () => launchUrl(Uri.parse(PlatformConstants.webBaseUrl)),
+          child: const Text('CanvasKit version'),
         ),
-      if (Uri.base.toString().contains(PlatformConstants.webHtmlUrl))
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text("Try the higher graphic version: "),
-            TextButton(
-              onPressed: () => launchUrl(Uri.parse(PlatformConstants.webBaseUrl)),
-              child: const Text('CanvasKit version'),
-            ),
-          ],
-        ),
-    ];
+      ],
+    );
   }
 }
