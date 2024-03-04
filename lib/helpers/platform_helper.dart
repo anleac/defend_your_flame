@@ -61,13 +61,13 @@ class PlatformHelper {
   }
 
   static Widget webRedirectFooter() {
-    if (!Uri.base.toString().contains(PlatformConstants.webHtmlUrl)) {
+    if (!Uri.base.toString().contains(PlatformConstants.webHtmlSuffix)) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Text("If you're noticing poor performance, try this link: "),
           TextButton(
-            onPressed: () => launchUrl(Uri.parse(PlatformConstants.webHtmlUrl)),
+            onPressed: () => launchUrl(Uri.parse(PlatformConstants.webHtmlSuffix)),
             child: const Text('HTML version'),
           ),
         ],
@@ -79,7 +79,11 @@ class PlatformHelper {
       children: [
         const Text("Try the higher graphic version: "),
         TextButton(
-          onPressed: () => launchUrl(Uri.parse(PlatformConstants.webBaseUrl)),
+          onPressed: () {
+            var baseUrl = Uri.base.toString();
+            var newUrl = baseUrl.replaceAll(PlatformConstants.webHtmlSuffix, '');
+            launchUrl(Uri.parse(newUrl));
+          },
           child: const Text('CanvasKit version'),
         ),
       ],
