@@ -67,7 +67,7 @@ class PlatformHelper {
         children: [
           const Text("If you're noticing poor performance, try this link:"),
           TextButton(
-            onPressed: () => launchUrl(Uri.parse(PlatformConstants.webHtmlSuffix)),
+            onPressed: () => launchUrl(Uri.parse(PlatformConstants.webHtmlUrl)),
             child: const Text('HTML version'),
           ),
         ],
