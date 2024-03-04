@@ -2,6 +2,8 @@ import 'package:defend_your_flame/core/flame/components/entities/animation_confi
 import 'package:defend_your_flame/core/flame/components/entities/walking_entity.dart';
 import 'package:defend_your_flame/core/flame/components/entities/walking_entity_config.dart';
 import 'package:flame/components.dart';
+import 'package:flame/effects.dart';
+import 'package:flutter/animation.dart';
 
 class Slime extends WalkingEntity {
   static final WalkingEntityConfig _slimeConfig = WalkingEntityConfig(
@@ -26,5 +28,25 @@ class Slime extends WalkingEntity {
     walkingForwardSpeed: 40,
   );
 
+  bool _removingAnimation = false;
+
   Slime({super.scaleModifier}) : super(entityConfig: _slimeConfig);
+
+  @override
+  void update(double dt) {
+    if (!super.isAlive && !_removingAnimation) {
+      _removingAnimation = true;
+      add(OpacityEffect.by(
+        -0.95,
+        EffectController(
+          duration: 2,
+          curve: Curves.decelerate,
+        ),
+      )..onComplete = () {
+          isVisible = false;
+        });
+    }
+
+    super.update(dt);
+  }
 }

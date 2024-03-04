@@ -21,7 +21,7 @@ class LevelHud extends PositionComponent with ParentIsA<MainWorld> {
     ..anchor = Anchor.topCenter;
 
   late final StartRound _startRound = StartRound()
-    ..position = Vector2(parent.worldWidth / 2, parent.worldHeight / 2)
+    ..position = Vector2(parent.worldWidth / 2, parent.worldHeight / 4)
     ..anchor = Anchor.center;
 
   int get currentRound => parent.currentRound;
