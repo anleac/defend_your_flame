@@ -1,15 +1,11 @@
-import 'dart:ui';
-
 import 'package:defend_your_flame/core/flame/components/hud/level_hud.dart';
 import 'package:defend_your_flame/core/flame/main_game.dart';
 import 'package:flame/components.dart';
 
-class RoundText extends TextComponent with ParentIsA<LevelHud>, HasGameReference<MainGame> {
+class RoundText extends TextComponent with ParentIsA<LevelHud>, HasGameReference<MainGame>, HasVisibility {
   int _currentRound = 1;
 
   String get _roundText => game.appStrings.roundText(_currentRound);
-
-  bool _visible = false;
 
   @override
   void update(double dt) {
@@ -18,15 +14,8 @@ class RoundText extends TextComponent with ParentIsA<LevelHud>, HasGameReference
       text = _roundText;
     }
 
-    _visible = !parent.roundOver;
+    isVisible = !parent.roundOver;
 
     super.update(dt);
-  }
-
-  @override
-  void renderTree(Canvas canvas) {
-    if (_visible) {
-      super.renderTree(canvas);
-    }
   }
 }

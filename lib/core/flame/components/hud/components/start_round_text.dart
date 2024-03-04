@@ -4,9 +4,8 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flutter/material.dart';
 
-class StartRound extends TextComponent with ParentIsA<LevelHud>, HasGameReference<MainGame>, TapCallbacks {
-  bool _visible = false;
-
+class StartRound extends TextComponent
+    with ParentIsA<LevelHud>, HasGameReference<MainGame>, TapCallbacks, HasVisibility {
   StartRound() : super(text: '', anchor: Anchor.center, scale: Vector2.all(1.2));
 
   @override
@@ -17,13 +16,13 @@ class StartRound extends TextComponent with ParentIsA<LevelHud>, HasGameReferenc
 
   @override
   void update(double dt) {
-    _visible = parent.roundOver;
+    isVisible = parent.roundOver;
     super.update(dt);
   }
 
   @override
   bool containsLocalPoint(Vector2 point) {
-    return _visible && super.containsLocalPoint(point);
+    return isVisible && super.containsLocalPoint(point);
   }
 
   @override
@@ -33,12 +32,5 @@ class StartRound extends TextComponent with ParentIsA<LevelHud>, HasGameReferenc
     // Only on the first round do we want the start game text.
     text = game.appStrings.startRound;
     parent.startRound();
-  }
-
-  @override
-  void renderTree(Canvas c) {
-    if (_visible) {
-      super.renderTree(c);
-    }
   }
 }
