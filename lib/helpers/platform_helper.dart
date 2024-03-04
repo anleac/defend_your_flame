@@ -65,9 +65,9 @@ class PlatformHelper {
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text("If you're noticing poor performance, try this link: "),
+          const Text("If you're noticing poor performance, try this link:"),
           TextButton(
-            onPressed: () => launchUrl(Uri.parse(PlatformConstants.webHtmlSuffix)),
+            onPressed: () => launchUrl(Uri.parse(PlatformConstants.webHtmlUrl)),
             child: const Text('HTML version'),
           ),
         ],
@@ -77,7 +77,7 @@ class PlatformHelper {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text("Try the higher graphic version: "),
+        const Text("Try the higher graphic version:"),
         TextButton(
           onPressed: () {
             var baseUrl = Uri.base.toString();
