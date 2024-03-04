@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:defend_your_flame/constants/physics_constants.dart';
 import 'package:defend_your_flame/core/flame/components/entities/entity_state.dart';
 import 'package:defend_your_flame/core/flame/components/entities/walking_entity_config.dart';
@@ -11,7 +13,7 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 
 class WalkingEntity extends SpriteAnimationGroupComponent<EntityState>
-    with DragCallbacks, ParentIsA<EntityManager>, HasGameReference<MainGame> {
+    with DragCallbacks, ParentIsA<EntityManager>, HasGameReference<MainGame>, HasVisibility {
   final WalkingEntityConfig entityConfig;
 
   late final double _pickupHeight;
@@ -20,6 +22,17 @@ class WalkingEntity extends SpriteAnimationGroupComponent<EntityState>
 
   bool _beingDragged = false;
   Vector2 _fallVelocity = Vector2.zero();
+
+  Vector2 _dragVelocity = Vector2.zero();
+  double _timeSinceLastDragEvent = 0;
+  double _totalDragDistance = 0;
+
+  final double _alpha = 0.2;
+
+  void updateDragVelocity(Vector2 newVelocity) {
+    _dragVelocity.x = _alpha * newVelocity.x + (1 - _alpha) * _dragVelocity.x;
+    _dragVelocity.y = _alpha * newVelocity.y + (1 - _alpha) * _dragVelocity.y;
+  }
 
   late Vector2 _attackingSize;
 
@@ -76,22 +89,40 @@ class WalkingEntity extends SpriteAnimationGroupComponent<EntityState>
   }
 
   void _updateMovement(double dt) {
+    _logicCalculation(dt);
+    _dragCalculation(dt);
+    _fallingCalculation(dt);
+  }
+
+  void _logicCalculation(double dt) {
+    // Special case where the attacking animation is bigger than the default size.
+    size = current == EntityState.attacking ? _attackingSize : entityConfig.defaultSize;
+
     if (current == EntityState.walking &&
         !_beingDragged &&
         position.x + (_attackingSize.x / 4) < parent.positionXBoundary) {
-      // Walk forward
       position.x = TimestepHelper.add(position.x, entityConfig.walkingForwardSpeed * scale.x, dt);
     } else if (position.x >= parent.positionXBoundary + 50 && current == EntityState.walking) {
       // TODO this is an MVP way to remove a edge case from early development, definitely re-visit this and remove it.
       current = EntityState.dying;
     } else if (position.x <= parent.positionXBoundary + 15 && current == EntityState.walking) {
-      // Start attacking
       current = EntityState.attacking;
     }
+  }
 
-    // Special case where the attacking animation is bigger than the default size.
-    size = current == EntityState.attacking ? _attackingSize : entityConfig.defaultSize;
+  void _dragCalculation(double dt) {
+    if (_beingDragged) {
+      // Want to ensure they've been dragged at least a bit to avoid abuse.
+      if (position.y >= _pickupHeight - 10 && _totalDragDistance > 150) {
+        if (_dragVelocity.y > PhysicsConstants.maxVelocity.y * 0.9) {
+          // Slammed into the ground.
+          dragDeath();
+        }
+      }
+    }
+  }
 
+  void _fallingCalculation(double dt) {
     if (current == EntityState.falling) {
       _fallVelocity = PhysicsHelper.applyGravityFrictionAndClamp(_fallVelocity, dt);
       position = TimestepHelper.addVector2(position, _fallVelocity, dt);
@@ -110,18 +141,32 @@ class WalkingEntity extends SpriteAnimationGroupComponent<EntityState>
   @override
   void onDragStart(DragStartEvent event) {
     super.onDragStart(event);
+
+    if (!isAlive) {
+      return;
+    }
+
     beginDragging();
   }
 
   @override
   void onDragUpdate(DragUpdateEvent event) {
     super.onDragUpdate(event);
+    if (!_beingDragged) {
+      return;
+    }
+
+    var timeNow = DateTime.now().millisecondsSinceEpoch.toDouble();
+    var timeSinceLastDragEvent = timeNow - _timeSinceLastDragEvent;
+    _timeSinceLastDragEvent = timeNow;
+
+    var newVelocity = (event.canvasDelta) / (max(timeSinceLastDragEvent, 1) / 1000.0);
+    updateDragVelocity(newVelocity);
+
     position += event.canvasDelta / game.windowScale;
-
-    // TODO revisit this logic
-    position.y = position.y.clamp(-200, game.windowHeight - 150);
-
+    position.y = position.y.clamp(-200, _pickupHeight + 10);
     _fallVelocity = event.canvasDelta / game.windowScale * 30;
+    _totalDragDistance += event.canvasDelta.length;
   }
 
   @override
@@ -142,7 +187,15 @@ class WalkingEntity extends SpriteAnimationGroupComponent<EntityState>
     }
 
     _beingDragged = true;
+    _totalDragDistance = 0;
+    _dragVelocity = Vector2.zero();
+    _timeSinceLastDragEvent = DateTime.now().millisecondsSinceEpoch.toDouble();
     current = EntityState.dragged;
+  }
+
+  void dragDeath() {
+    current = EntityState.dying;
+    stopDragging();
   }
 
   void stopDragging() {
@@ -151,6 +204,11 @@ class WalkingEntity extends SpriteAnimationGroupComponent<EntityState>
     }
 
     _beingDragged = false;
+
+    if (current == EntityState.dying) {
+      return;
+    }
+
     if (position.y < _pickupHeight - 10) {
       current = EntityState.falling;
     } else {

@@ -1,3 +1,6 @@
+import 'dart:collection';
+import 'dart:ui';
+
 import 'package:defend_your_flame/core/flame/components/entities/mobs/skeleton.dart';
 import 'package:defend_your_flame/core/flame/components/entities/mobs/slime.dart';
 import 'package:defend_your_flame/core/flame/components/entities/walking_entity.dart';
@@ -7,6 +10,10 @@ import 'package:defend_your_flame/helpers/misc_helper.dart';
 import 'package:flame/components.dart';
 
 class EntityManager extends Component with ParentIsA<MainWorld> {
+  // Used to keep a weak reference to the entities, based on their Y position, so we can render them in the correct order.
+  // Using this datastructure as it supports O(log n) for insertion and deletion, and O(n) for iteration.
+  final SplayTreeMap<int, List<WalkingEntity>> _entities = SplayTreeMap();
+
   bool _spawning = false;
   int _secondsToSpawnOver = 0;
   int _remainingEntitiesToSpawn = 0;
@@ -23,8 +30,12 @@ class EntityManager extends Component with ParentIsA<MainWorld> {
     _timeCounter = 0;
     _secondsToSpawnOver = 0;
 
+    _entities.clear();
+
     for (var element in children) {
-      if (element is WalkingEntity) element.removeFromParent();
+      if (element is WalkingEntity) {
+        element.removeFromParent();
+      }
     }
   }
 
@@ -62,6 +73,19 @@ class EntityManager extends Component with ParentIsA<MainWorld> {
     super.update(dt);
   }
 
+  @override
+  void renderTree(Canvas canvas) {
+    // Explicitly _not_ calling super, as we want to render the entities in the correct order
+    // Iterating over the splay map will give us the entities in the correct order, ordered in ascending Y position
+    for (var entitiesAtYPosition in _entities.values) {
+      for (var entity in entitiesAtYPosition) {
+        entity.renderTree(canvas);
+      }
+    }
+
+    // super.renderTree(canvas);
+  }
+
   void spawnEntity() {
     var entity = MiscHelper.randomChance(chance: 80)
         ? Skeleton(scaleModifier: MiscHelper.randomDouble(minValue: 1, maxValue: 1.5))
@@ -73,6 +97,17 @@ class EntityManager extends Component with ParentIsA<MainWorld> {
     );
 
     entity.position = startPosition;
+    _addEntity(entity);
+  }
+
+  // Wrappers so we can track based on the position of the entity, to render them in the correct order
+  _addEntity(WalkingEntity entity) {
+    var key = entity.position.y.toInt() + entity.scaledSize.y.toInt();
+    if (!_entities.containsKey(key)) {
+      _entities[key] = [];
+    }
+
+    _entities[key]!.add(entity);
     add(entity);
   }
 }
