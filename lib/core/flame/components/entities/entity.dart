@@ -30,7 +30,9 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
   late Vector2 _scaledCollisionSize;
   late Vector2 _scaledCollisionOffset;
 
-  Entity({required this.entityConfig, double scaleModifier = 1}) {
+  final double extraXBoundaryOffset;
+
+  Entity({required this.entityConfig, double scaleModifier = 1, this.extraXBoundaryOffset = 0}) {
     size = entityConfig.defaultSize;
     _attackingSize = entityConfig.attackingSize ?? size;
     scale = Vector2.all(entityConfig.defaultScale * scaleModifier);
@@ -82,17 +84,13 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
         frames: entityConfig.attackingConfig.frames,
         loop: true);
 
-    final dragSprite = SpriteManager.getAnimation('mobs/${entityConfig.entityResourceName}/drag',
-        stepTime: entityConfig.dragConfig.stepTime / scale.x, frames: entityConfig.dragConfig.frames, loop: true);
-
     final dyingSprite = SpriteManager.getAnimation('mobs/${entityConfig.entityResourceName}/dying',
         stepTime: entityConfig.dyingConfig.stepTime / scale.x, frames: entityConfig.dyingConfig.frames, loop: false);
 
     animations = {
+      ...?animations,
       EntityState.walking: walkingSprite,
       EntityState.attacking: attackingSprite,
-      EntityState.dragged: dragSprite,
-      EntityState.falling: dragSprite,
       EntityState.dying: dyingSprite,
     };
 
@@ -138,7 +136,8 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
       _updateSize(entityConfig.defaultSize);
     }
 
-    if (current == EntityState.walking && position.x + (_attackingSize.x / 4) < parent.positionXBoundary) {
+    if (current == EntityState.walking &&
+        position.x + (_attackingSize.x / 4) < parent.positionXBoundary - extraXBoundaryOffset) {
       position.x = TimestepHelper.add(position.x, entityConfig.walkingForwardSpeed * scale.x, dt);
     } else if (position.x >= parent.positionXBoundary + 50 && current == EntityState.walking) {
       // TODO this is an MVP way to remove a edge case from early development, definitely re-visit this and remove it.
