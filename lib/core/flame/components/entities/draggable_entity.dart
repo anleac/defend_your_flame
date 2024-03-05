@@ -67,9 +67,9 @@ class DraggableEntity extends Entity with DragCallbacks {
   }
 
   void updateDragVelocity(Vector2 newVelocity) {
-    const double _impact = 0.2;
-    _dragVelocity.x = _impact * newVelocity.x + (1 - _impact) * _dragVelocity.x;
-    _dragVelocity.y = _impact * newVelocity.y + (1 - _impact) * _dragVelocity.y;
+    const double influence = 0.2;
+    _dragVelocity.x = influence * newVelocity.x + (1 - influence) * _dragVelocity.x;
+    _dragVelocity.y = influence * newVelocity.y + (1 - influence) * _dragVelocity.y;
   }
 
   @override

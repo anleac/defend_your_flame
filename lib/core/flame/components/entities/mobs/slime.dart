@@ -4,6 +4,7 @@ import 'package:defend_your_flame/core/flame/components/entities/entity_config.d
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flutter/animation.dart';
+import 'package:flutter/foundation.dart';
 
 class Slime extends DraggableEntity {
   static final EntityConfig _slimeConfig = EntityConfig(
@@ -30,7 +31,9 @@ class Slime extends DraggableEntity {
 
   bool _removingAnimation = false;
 
-  Slime({super.scaleModifier}) : super(entityConfig: _slimeConfig);
+  Slime({super.scaleModifier}) : super(entityConfig: _slimeConfig) {
+    debugMode = kDebugMode;
+  }
 
   @override
   void update(double dt) {

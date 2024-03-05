@@ -2,6 +2,7 @@ import 'package:defend_your_flame/core/flame/components/entities/animation_confi
 import 'package:defend_your_flame/core/flame/components/entities/draggable_entity.dart';
 import 'package:defend_your_flame/core/flame/components/entities/entity_config.dart';
 import 'package:flame/components.dart';
+import 'package:flutter/foundation.dart';
 
 class Skeleton extends DraggableEntity {
   static final EntityConfig _skeletonConfig = EntityConfig(
@@ -16,5 +17,7 @@ class Skeleton extends DraggableEntity {
     walkingForwardSpeed: 25,
   );
 
-  Skeleton({super.scaleModifier}) : super(entityConfig: _skeletonConfig);
+  Skeleton({super.scaleModifier}) : super(entityConfig: _skeletonConfig) {
+    debugMode = kDebugMode;
+  }
 }
