@@ -12,6 +12,12 @@ class EntityConfig {
   final Vector2? attackingSize;
   final double defaultScale;
 
+  // For interactions
+  final Vector2? collisionSize;
+  final Vector2? collisionOffset;
+  final Vector2? attackingCollisionOffset;
+  final Anchor? collisionAnchor;
+
   final AnimationConfig walkingConfig;
   final AnimationConfig attackingConfig;
   final AnimationConfig dragConfig;
@@ -26,6 +32,10 @@ class EntityConfig {
     required this.defaultSize,
     this.defaultScale = 1.0,
     this.attackingSize,
+    this.collisionSize,
+    this.collisionOffset,
+    this.attackingCollisionOffset,
+    this.collisionAnchor = Anchor.bottomLeft,
     required this.walkingConfig,
     required this.attackingConfig,
     required this.dragConfig,

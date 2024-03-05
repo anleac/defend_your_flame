@@ -4,12 +4,13 @@ import 'package:defend_your_flame/core/flame/components/entities/entity_config.d
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flutter/animation.dart';
-import 'package:flutter/foundation.dart';
 
 class Slime extends DraggableEntity {
   static final EntityConfig _slimeConfig = EntityConfig(
     entityResourceName: 'slime',
     defaultSize: Vector2(34, 27),
+    collisionSize: Vector2(25, 16),
+    collisionOffset: Vector2(5, 0),
     walkingConfig: AnimationConfig(
       stepTime: 0.12,
       frames: 4,
@@ -31,9 +32,7 @@ class Slime extends DraggableEntity {
 
   bool _removingAnimation = false;
 
-  Slime({super.scaleModifier}) : super(entityConfig: _slimeConfig) {
-    debugMode = kDebugMode;
-  }
+  Slime({super.scaleModifier}) : super(entityConfig: _slimeConfig);
 
   @override
   void update(double dt) {
@@ -51,5 +50,9 @@ class Slime extends DraggableEntity {
     }
 
     super.update(dt);
+  }
+
+  static Slime spawn({required position, required scaleModifier}) {
+    return Slime(scaleModifier: scaleModifier)..position = position;
   }
 }

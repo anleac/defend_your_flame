@@ -9,10 +9,11 @@ import 'package:flame/events.dart';
 
 class DraggableEntity extends Entity with DragCallbacks {
   late final double _pickupHeight;
+
   bool _beingDragged = false;
 
   Vector2 _dragVelocity = Vector2.zero();
-  double _timeSinceLastDragEvent = 0;
+  int _timeSinceLastDragEvent = 0;
   double _totalDragDistance = 0;
 
   DraggableEntity({required super.entityConfig, super.scaleModifier});
@@ -21,6 +22,11 @@ class DraggableEntity extends Entity with DragCallbacks {
   void onMount() {
     super.onMount();
     _pickupHeight = position.y;
+  }
+
+  @override
+  bool containsLocalPoint(Vector2 point) {
+    return super.pointInside(point);
   }
 
   @override
@@ -80,13 +86,12 @@ class DraggableEntity extends Entity with DragCallbacks {
       return;
     }
 
-    var timeNow = DateTime.now().millisecondsSinceEpoch.toDouble();
-    var timeSinceLastDragEvent = timeNow - _timeSinceLastDragEvent;
-    _timeSinceLastDragEvent = timeNow;
+    var timeSinceLastDragEvent = event.timestamp.inMilliseconds - _timeSinceLastDragEvent;
+    _timeSinceLastDragEvent = event.timestamp.inMilliseconds;
 
     var newVelocity = (event.canvasDelta) / (max(timeSinceLastDragEvent, 1) / 1000.0);
     updateDragVelocity(newVelocity);
-    super.overrideFallVelocity(_dragVelocity);
+    super.overrideFallVelocity(_dragVelocity / 2);
 
     position += event.canvasDelta / game.windowScale;
     position.y = position.y.clamp(-200, _pickupHeight + 10);
@@ -114,7 +119,7 @@ class DraggableEntity extends Entity with DragCallbacks {
     _beingDragged = true;
     _totalDragDistance = 0;
     _dragVelocity = Vector2.zero();
-    _timeSinceLastDragEvent = DateTime.now().millisecondsSinceEpoch.toDouble();
+    _timeSinceLastDragEvent = 0;
     current = EntityState.dragged;
   }
 

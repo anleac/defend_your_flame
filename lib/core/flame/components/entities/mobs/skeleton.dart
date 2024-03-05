@@ -2,13 +2,14 @@ import 'package:defend_your_flame/core/flame/components/entities/animation_confi
 import 'package:defend_your_flame/core/flame/components/entities/draggable_entity.dart';
 import 'package:defend_your_flame/core/flame/components/entities/entity_config.dart';
 import 'package:flame/components.dart';
-import 'package:flutter/foundation.dart';
 
 class Skeleton extends DraggableEntity {
   static final EntityConfig _skeletonConfig = EntityConfig(
     entityResourceName: 'skeleton',
     defaultSize: Vector2(22, 33),
     attackingSize: Vector2(43, 37),
+    attackingCollisionOffset: Vector2(5, 0),
+    collisionSize: Vector2(16, 25),
     defaultScale: 1.2,
     walkingConfig: AnimationConfig(frames: 13, stepTime: 0.09),
     attackingConfig: AnimationConfig(frames: 18, stepTime: 0.1),
@@ -18,6 +19,14 @@ class Skeleton extends DraggableEntity {
   );
 
   Skeleton({super.scaleModifier}) : super(entityConfig: _skeletonConfig) {
-    debugMode = kDebugMode;
+    // We use the bottom left anchor because the attack animation is larger than the walking one, to stop the skeleton from moving when attacking.
+    anchor = Anchor.bottomLeft;
+  }
+
+  static Skeleton spawn({required position, required scaleModifier}) {
+    final skeleton = Skeleton(scaleModifier: scaleModifier);
+    // Since we are using the bottom left anchor, we need to adjust the position.
+    skeleton.position = position + skeleton.size;
+    return skeleton;
   }
 }

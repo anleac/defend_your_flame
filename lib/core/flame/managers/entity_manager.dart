@@ -87,16 +87,15 @@ class EntityManager extends Component with ParentIsA<MainWorld> {
   }
 
   void spawnEntity() {
-    var entity = MiscHelper.randomChance(chance: 80)
-        ? Skeleton(scaleModifier: MiscHelper.randomDouble(minValue: 1, maxValue: 1.5))
-        : Slime(scaleModifier: MiscHelper.randomDouble(minValue: 1, maxValue: 1.3));
-
     var startPosition = Vector2(
       GlobalVars.rand.nextDouble() * 25 - 40,
       parent.worldHeight - GlobalVars.rand.nextDouble() * 120 - 80,
     );
 
-    entity.position = startPosition;
+    var entity = MiscHelper.randomChance(chance: 80)
+        ? Skeleton.spawn(position: startPosition, scaleModifier: MiscHelper.randomDouble(minValue: 1, maxValue: 1.5))
+        : Slime.spawn(position: startPosition, scaleModifier: MiscHelper.randomDouble(minValue: 1, maxValue: 1.3));
+
     _addEntity(entity);
   }
 

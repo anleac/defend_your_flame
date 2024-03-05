@@ -3,14 +3,6 @@ import 'package:defend_your_flame/helpers/timestep/timestep_helper.dart';
 import 'package:flame/components.dart';
 
 class PhysicsHelper {
-  // General helper function for when an entity is in freefall.
-  static Vector2 applyGravityFrictionAndClamp(Vector2 velocity, double dt) {
-    velocity = applyGravity(velocity, dt);
-    velocity = applyFriction(velocity, dt);
-    clampVelocity(velocity);
-    return velocity;
-  }
-
   static Vector2 applyGravity(Vector2 velocity, double dt) {
     return TimestepHelper.addVector2(velocity, PhysicsConstants.gravity, dt);
   }
@@ -21,5 +13,14 @@ class PhysicsHelper {
 
   static Vector2 applyFriction(Vector2 velocity, double dt) {
     return TimestepHelper.multiplyVector2(velocity, PhysicsConstants.friction, dt);
+  }
+
+  static bool pointIsInsideBounds({required Vector2 point, required Vector2 size, Vector2? position, Vector2? offset}) {
+    position ??= Vector2.zero();
+    offset ??= Vector2.zero();
+    return point.x >= position.x + offset.x &&
+        point.x <= position.x + size.x + offset.x &&
+        point.y >= position.y + offset.y &&
+        point.y <= position.y + size.y + offset.y;
   }
 }
