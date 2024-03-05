@@ -18,9 +18,10 @@ class EntityConfig {
   final Vector2? attackingCollisionOffset;
   final Anchor? collisionAnchor;
 
+  final AnimationConfig? idleConfig;
+  final AnimationConfig? dragConfig;
   final AnimationConfig walkingConfig;
   final AnimationConfig attackingConfig;
-  final AnimationConfig dragConfig;
   final AnimationConfig dyingConfig;
 
   final int walkingForwardSpeed;
@@ -36,9 +37,10 @@ class EntityConfig {
     this.collisionOffset,
     this.attackingCollisionOffset,
     this.collisionAnchor = Anchor.bottomLeft,
+    this.idleConfig,
+    this.dragConfig,
     required this.walkingConfig,
     required this.attackingConfig,
-    required this.dragConfig,
     required this.dyingConfig,
     required this.walkingForwardSpeed,
     this.canBePickedUp = true,

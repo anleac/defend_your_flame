@@ -31,8 +31,11 @@ class DraggableEntity extends Entity with DragCallbacks {
 
   @override
   Future<void> onLoad() async {
+    assert(entityConfig.dragConfig != null,
+        'Drag config must be set for a draggable entity: ${entityConfig.entityResourceName}');
+
     final dragSprite = SpriteManager.getAnimation('mobs/${entityConfig.entityResourceName}/drag',
-        stepTime: entityConfig.dragConfig.stepTime / scale.x, frames: entityConfig.dragConfig.frames, loop: true);
+        stepTime: entityConfig.dragConfig!.stepTime / scale.x, frames: entityConfig.dragConfig!.frames, loop: true);
 
     animations = {
       EntityState.dragged: dragSprite,

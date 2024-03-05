@@ -1,6 +1,7 @@
 import 'dart:collection';
 import 'dart:ui';
 
+import 'package:defend_your_flame/core/flame/components/entities/mobs/mage.dart';
 import 'package:defend_your_flame/core/flame/components/entities/mobs/skeleton.dart';
 import 'package:defend_your_flame/core/flame/components/entities/mobs/slime.dart';
 import 'package:defend_your_flame/core/flame/components/entities/entity.dart';
@@ -87,21 +88,49 @@ class EntityManager extends Component with ParentIsA<MainWorld> {
   }
 
   void spawnEntity() {
+    var randomNumber = GlobalVars.rand.nextInt(100);
+
+    if (randomNumber < 95 - (parent.currentRound * 2)) {
+      spawnGroundEntity();
+    } else {
+      spawnFlyingEntity();
+    }
+  }
+
+  void spawnFlyingEntity() {
+    var startPosition = Vector2(
+      GlobalVars.rand.nextDouble() * 25 - 40,
+      GlobalVars.rand.nextDouble() * parent.worldHeight / 3 + (parent.worldHeight / 6),
+    );
+
+    _addEntity(
+        Mage.spawn(position: startPosition, scaleModifier: MiscHelper.randomDouble(minValue: 1.1, maxValue: 1.25)));
+  }
+
+  void spawnGroundEntity() {
     var startPosition = Vector2(
       GlobalVars.rand.nextDouble() * 25 - 40,
       parent.worldHeight - GlobalVars.rand.nextDouble() * 120 - 80,
     );
 
-    var entity = MiscHelper.randomChance(chance: 80)
-        ? Skeleton.spawn(position: startPosition, scaleModifier: MiscHelper.randomDouble(minValue: 1, maxValue: 1.5))
-        : Slime.spawn(position: startPosition, scaleModifier: MiscHelper.randomDouble(minValue: 1, maxValue: 1.3));
-
-    _addEntity(entity);
+    var randomNumber = GlobalVars.rand.nextInt(100);
+    if (randomNumber < 70) {
+      _addEntity(
+          Skeleton.spawn(position: startPosition, scaleModifier: MiscHelper.randomDouble(minValue: 1, maxValue: 1.5)));
+    } else {
+      _addEntity(
+          Slime.spawn(position: startPosition, scaleModifier: MiscHelper.randomDouble(minValue: 1, maxValue: 1.3)));
+    }
   }
 
   // Wrappers so we can track based on the position of the entity, to render them in the correct order
   _addEntity(Entity entity) {
-    var key = entity.position.y.toInt() + entity.scaledSize.y.toInt();
+    var key = entity.position.y.toInt();
+    if (entity is Skeleton == false) {
+      // Skeletons are unique in that I've anchored it bottom left, therefore we don't need to add the scaled Y.
+      key += entity.scaledSize.y.toInt();
+    }
+
     if (!_entities.containsKey(key)) {
       _entities[key] = [];
     }

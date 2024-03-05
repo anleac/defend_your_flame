@@ -1,1 +1,1 @@
-enum EntityState { walking, attacking, dragged, falling, dying }
+enum EntityState { idle, walking, attacking, dragged, falling, dying }
