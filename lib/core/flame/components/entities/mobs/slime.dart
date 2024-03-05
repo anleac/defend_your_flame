@@ -1,12 +1,12 @@
 import 'package:defend_your_flame/core/flame/components/entities/animation_config.dart';
-import 'package:defend_your_flame/core/flame/components/entities/walking_entity.dart';
-import 'package:defend_your_flame/core/flame/components/entities/walking_entity_config.dart';
+import 'package:defend_your_flame/core/flame/components/entities/draggable_entity.dart';
+import 'package:defend_your_flame/core/flame/components/entities/entity_config.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flutter/animation.dart';
 
-class Slime extends WalkingEntity {
-  static final WalkingEntityConfig _slimeConfig = WalkingEntityConfig(
+class Slime extends DraggableEntity {
+  static final EntityConfig _slimeConfig = EntityConfig(
     entityResourceName: 'slime',
     defaultSize: Vector2(34, 27),
     walkingConfig: AnimationConfig(

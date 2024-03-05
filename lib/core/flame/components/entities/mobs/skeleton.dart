@@ -1,10 +1,10 @@
 import 'package:defend_your_flame/core/flame/components/entities/animation_config.dart';
-import 'package:defend_your_flame/core/flame/components/entities/walking_entity.dart';
-import 'package:defend_your_flame/core/flame/components/entities/walking_entity_config.dart';
+import 'package:defend_your_flame/core/flame/components/entities/draggable_entity.dart';
+import 'package:defend_your_flame/core/flame/components/entities/entity_config.dart';
 import 'package:flame/components.dart';
 
-class Skeleton extends WalkingEntity {
-  static final WalkingEntityConfig _skeletonConfig = WalkingEntityConfig(
+class Skeleton extends DraggableEntity {
+  static final EntityConfig _skeletonConfig = EntityConfig(
     entityResourceName: 'skeleton',
     defaultSize: Vector2(22, 33),
     attackingSize: Vector2(43, 37),
