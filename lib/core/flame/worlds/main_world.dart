@@ -24,6 +24,7 @@ class MainWorld extends World {
   late final EntityManager _entityManager = EntityManager();
   EntityManager get entityManager => _entityManager;
   bool get roundOver => _entityManager.roundOver;
+  bool get gameOver => _castle.destroyed;
 
   Castle get castle => _castle;
 

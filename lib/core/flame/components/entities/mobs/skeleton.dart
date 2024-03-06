@@ -15,6 +15,7 @@ class Skeleton extends DraggableEntity {
     attackingConfig: AnimationConfig(frames: 18, stepTime: 0.1),
     dragConfig: AnimationConfig(frames: 4, stepTime: 0.2),
     dyingConfig: AnimationConfig(frames: 15, stepTime: 0.07),
+    damageOnAttack: 8,
     walkingForwardSpeed: 25,
   );
 

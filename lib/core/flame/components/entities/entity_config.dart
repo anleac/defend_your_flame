@@ -18,6 +18,8 @@ class EntityConfig {
   final Vector2? attackingCollisionOffset;
   final Anchor? collisionAnchor;
 
+  final int extraXBoundaryOffset;
+
   final AnimationConfig? idleConfig;
   final AnimationConfig? dragConfig;
   final AnimationConfig walkingConfig;
@@ -25,6 +27,8 @@ class EntityConfig {
   final AnimationConfig dyingConfig;
 
   final int walkingForwardSpeed;
+
+  final int damageOnAttack;
 
   final bool canBePickedUp;
 
@@ -39,10 +43,12 @@ class EntityConfig {
     this.collisionAnchor = Anchor.bottomLeft,
     this.idleConfig,
     this.dragConfig,
+    this.extraXBoundaryOffset = 0,
     required this.walkingConfig,
     required this.attackingConfig,
     required this.dyingConfig,
     required this.walkingForwardSpeed,
+    required this.damageOnAttack,
     this.canBePickedUp = true,
   });
 }

@@ -2,6 +2,7 @@ import 'package:defend_your_flame/constants/debug_constants.dart';
 import 'package:defend_your_flame/constants/physics_constants.dart';
 import 'package:defend_your_flame/core/flame/components/entities/entity_state.dart';
 import 'package:defend_your_flame/core/flame/components/entities/entity_config.dart';
+import 'package:defend_your_flame/core/flame/components/hud/components/damage_text.dart';
 import 'package:defend_your_flame/core/flame/main_game.dart';
 import 'package:defend_your_flame/core/flame/managers/entity_manager.dart';
 import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
@@ -17,6 +18,8 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
   final EntityConfig entityConfig;
 
   late final double _pickupHeight;
+
+  bool _canInflictDamage = false;
 
   bool get isAlive => current != EntityState.dying;
 
@@ -124,8 +127,29 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
   }
 
   void _updateMovement(double dt) {
+    _attackingLogic(dt);
     _logicCalculation(dt);
     _fallingCalculation(dt);
+  }
+
+  void _attackingLogic(double dt) {
+    if (current == EntityState.attacking) {
+      // Special case where the game has ended.
+      if (parent.gameOver) {
+        current = EntityState.walking;
+      } else {
+        if (_canInflictDamage && animationTicker?.currentIndex == (entityConfig.attackingConfig.frames / 2).ceil()) {
+          // Inflict damage
+          _canInflictDamage = false;
+          parent.attackCastle(entityConfig.damageOnAttack);
+          add(DamageText()
+            ..text = entityConfig.damageOnAttack.toString()
+            ..position = scaledSize / 2 + Vector2(0, -scaledSize.y / 4));
+        } else if (animationTicker?.isFirstFrame == true) {
+          _canInflictDamage = true;
+        }
+      }
+    }
   }
 
   void _logicCalculation(double dt) {
@@ -137,7 +161,8 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
     }
 
     if (current == EntityState.walking &&
-        position.x + (_attackingSize.x / 4) < parent.positionXBoundary - extraXBoundaryOffset) {
+        position.x + (_attackingSize.x / 4) <
+            parent.positionXBoundary - extraXBoundaryOffset + entityConfig.extraXBoundaryOffset) {
       position.x = TimestepHelper.add(position.x, entityConfig.walkingForwardSpeed * scale.x, dt);
     } else if (position.x >= parent.positionXBoundary + 50 && current == EntityState.walking) {
       // TODO this is an MVP way to remove a edge case from early development, definitely re-visit this and remove it.

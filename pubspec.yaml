@@ -31,4 +31,8 @@ flutter:
     - assets/images/mobs/skeleton/
     - assets/images/mobs/slime/
     - assets/images/mobs/mage/
+    - assets/images/environment/
+    - assets/images/hud/
+    - assets/images/flames/purple/loops/
+    - assets/images/flames/blue/loops/
 
