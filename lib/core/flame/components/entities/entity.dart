@@ -138,7 +138,7 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
       if (parent.gameOver) {
         current = EntityState.walking;
       } else {
-        if (_canInflictDamage && animationTicker?.currentIndex == entityConfig.attackingConfig.frames / 2) {
+        if (_canInflictDamage && animationTicker?.currentIndex == (entityConfig.attackingConfig.frames / 2).ceil()) {
           // Inflict damage
           _canInflictDamage = false;
           parent.attackCastle(entityConfig.damageOnAttack);
@@ -161,7 +161,8 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
     }
 
     if (current == EntityState.walking &&
-        position.x + (_attackingSize.x / 4) < parent.positionXBoundary - extraXBoundaryOffset) {
+        position.x + (_attackingSize.x / 4) <
+            parent.positionXBoundary - extraXBoundaryOffset + entityConfig.extraXBoundaryOffset) {
       position.x = TimestepHelper.add(position.x, entityConfig.walkingForwardSpeed * scale.x, dt);
     } else if (position.x >= parent.positionXBoundary + 50 && current == EntityState.walking) {
       // TODO this is an MVP way to remove a edge case from early development, definitely re-visit this and remove it.

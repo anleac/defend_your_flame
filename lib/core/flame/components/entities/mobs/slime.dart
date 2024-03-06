@@ -28,6 +28,7 @@ class Slime extends DraggableEntity {
       frames: 4,
     ),
     damageOnAttack: 3,
+    extraXBoundaryOffset: -10,
     walkingForwardSpeed: 40,
   );
 
