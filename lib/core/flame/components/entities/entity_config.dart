@@ -26,6 +26,8 @@ class EntityConfig {
 
   final int walkingForwardSpeed;
 
+  final int damageOnAttack;
+
   final bool canBePickedUp;
 
   EntityConfig({
@@ -43,6 +45,7 @@ class EntityConfig {
     required this.attackingConfig,
     required this.dyingConfig,
     required this.walkingForwardSpeed,
+    required this.damageOnAttack,
     this.canBePickedUp = true,
   });
 }

@@ -28,6 +28,7 @@ class Mage extends FlyingEntity {
       frames: 8,
     ),
     walkingForwardSpeed: 40,
+    damageOnAttack: 0,
     canBePickedUp: false,
   );
 

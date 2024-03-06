@@ -27,6 +27,7 @@ class Slime extends DraggableEntity {
       stepTime: 0.07,
       frames: 4,
     ),
+    damageOnAttack: 3,
     walkingForwardSpeed: 40,
   );
 

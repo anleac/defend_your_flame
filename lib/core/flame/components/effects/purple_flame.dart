@@ -1,7 +1,7 @@
 import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
 import 'package:flame/components.dart';
 
-class PurpleFlame extends SpriteAnimationComponent {
+class PurpleFlame extends SpriteAnimationComponent with HasVisibility {
   PurpleFlame()
       : super(
             size: Vector2(32, 24),

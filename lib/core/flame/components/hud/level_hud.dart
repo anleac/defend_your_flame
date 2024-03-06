@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:defend_your_flame/core/flame/components/hud/components/game_over_text.dart';
 import 'package:defend_your_flame/core/flame/components/hud/components/health_indicator.dart';
 import 'package:defend_your_flame/core/flame/components/hud/components/round_text.dart';
 import 'package:defend_your_flame/core/flame/components/hud/components/start_round_text.dart';
@@ -25,12 +26,21 @@ class LevelHud extends PositionComponent with ParentIsA<MainWorld> {
     ..position = Vector2(parent.worldWidth / 2, parent.worldHeight / 4)
     ..anchor = Anchor.center;
 
+  late final GameOverText _gameOverText = GameOverText()
+    ..position = Vector2(parent.worldWidth / 2, parent.worldHeight / 4)
+    ..anchor = Anchor.center;
+
+  // TODO fix this positioning, the anchoring seems to not be working correctly.
   late final HealthIndicator _healthIndicator = HealthIndicator()
     ..position = Vector2(parent.worldWidth - 120, 10)
     ..anchor = Anchor.topRight;
 
   int get currentRound => parent.currentRound;
   bool get roundOver => parent.roundOver;
+  bool get gameOver => parent.gameOver;
+
+  int get castleHealth => parent.castle.currentHealth;
+  int get totalCastleHealth => parent.castle.totalHealth;
 
   LevelHud() {
     position = Vector2(0, 0);
@@ -43,6 +53,7 @@ class LevelHud extends PositionComponent with ParentIsA<MainWorld> {
     add(_roundText);
     add(_healthIndicator);
     add(_startRound);
+    add(_gameOverText);
 
     return super.onLoad();
   }
