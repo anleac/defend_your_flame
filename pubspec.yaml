@@ -28,6 +28,8 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/environment/
+    - assets/flames/purple/loops/
     - assets/images/mobs/skeleton/
     - assets/images/mobs/slime/
     - assets/images/mobs/mage/
