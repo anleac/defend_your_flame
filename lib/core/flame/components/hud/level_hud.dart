@@ -26,7 +26,7 @@ class LevelHud extends PositionComponent with ParentIsA<MainWorld> {
     ..anchor = Anchor.center;
 
   late final HealthIndicator _healthIndicator = HealthIndicator()
-    ..position = Vector2(parent.worldWidth - 10, 10)
+    ..position = Vector2(parent.worldWidth - 120, 10)
     ..anchor = Anchor.topRight;
 
   int get currentRound => parent.currentRound;

@@ -1,12 +1,19 @@
 import 'dart:async';
 
-import 'package:defend_your_flame/core/flame/components/effects/flame.dart';
+import 'package:defend_your_flame/core/flame/components/effects/blue_flame.dart';
+import 'package:defend_your_flame/core/flame/components/effects/purple_flame.dart';
 import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 import 'package:flame/components.dart';
 
 class Castle extends SpriteComponent with ParentIsA<MainWorld> {
-  late final Flame _topFlame = Flame()..position = Vector2(0, -20);
+  late final PurpleFlame _topPurpleFlame = PurpleFlame()
+    ..position = Vector2(373, 46)
+    ..scale = Vector2.all(2);
+
+  late final BlueFlame _topBlueFlame = BlueFlame()
+    ..position = Vector2(200, -23)
+    ..scale = Vector2.all(2.6);
 
   Castle()
       : super(
@@ -17,7 +24,8 @@ class Castle extends SpriteComponent with ParentIsA<MainWorld> {
 
   @override
   FutureOr<void> onLoad() {
-    add(_topFlame);
+    add(_topPurpleFlame);
+    add(_topBlueFlame);
     return super.onLoad();
   }
 }
