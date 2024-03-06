@@ -6,6 +6,7 @@ class AppStringData {
       'roundText': 'Round ${AppStrings.placeholderText}',
       'startGame': 'Start Game',
       'startRound': 'Start Next Round',
+      'healthIndicatorText': '${AppStrings.placeholderText}/${AppStrings.placeholderText}'
     },
   };
 }
