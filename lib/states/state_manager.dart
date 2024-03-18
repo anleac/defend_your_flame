@@ -37,11 +37,13 @@ class _StateManagerState extends State<StateManager> with WidgetsBindingObserver
                     child: PopScope(
                         canPop: false,
                         child: _buildPlatformDimensionsIfNeeded(
-                          game: GameWidget(
+                            game: Padding(
+                          padding: EdgeInsets.all(PlatformHelper.borderPadding),
+                          child: GameWidget(
                             game: game,
                             backgroundBuilder: (context) => const Background(),
                           ),
-                        ))));
+                        )))));
           }
         });
   }
@@ -56,15 +58,19 @@ class _StateManagerState extends State<StateManager> with WidgetsBindingObserver
       return game;
     }
 
-    return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-      ClipRect(
-        child: Container(
-          constraints: BoxConstraints(maxWidth: maxWidth, maxHeight: maxHeight),
-          child: game,
-        ),
-      ),
-      if (PlatformHelper.isWeb) PlatformHelper.webRedirectFooter()
-    ]);
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Expanded(
+            child: ClipRect(
+          child: Container(
+            constraints: BoxConstraints(maxWidth: maxWidth, maxHeight: maxHeight),
+            child: game,
+          ),
+        )),
+        if (PlatformHelper.isWeb) PlatformHelper.webRedirectFooter()
+      ],
+    );
   }
 
   @override

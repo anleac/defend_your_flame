@@ -51,13 +51,25 @@ class PlatformHelper {
   static final double? maxRenderWidth = _getMaxRenderSize()?.x;
   static final double? maxRenderHeight = _getMaxRenderSize()?.y;
 
+  static const double _webMaxRenderScale = 1.2;
+
   static Vector2? _getMaxRenderSize() {
     // To scale this better on web, we want to limit the size of the game to the desired width and height.
     if (isWeb) {
-      return Vector2(Constants.desiredWidth, Constants.desiredHeight);
+      return Vector2(Constants.desiredWidth, Constants.desiredHeight) * _webMaxRenderScale;
     }
 
     return null;
+  }
+
+  static final double borderPadding = _getBorderPadding();
+
+  static double _getBorderPadding() {
+    if (isWeb) {
+      return 20;
+    }
+
+    return 0;
   }
 
   static Widget webRedirectFooter() {
