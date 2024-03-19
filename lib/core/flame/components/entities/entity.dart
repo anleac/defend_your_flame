@@ -142,8 +142,7 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
           // Inflict damage
           _canInflictDamage = false;
           parent.attackCastle(entityConfig.damageOnAttack);
-          add(DamageText()
-            ..text = entityConfig.damageOnAttack.toString()
+          add(DamageText(entityConfig.damageOnAttack.toString())
             ..position = scaledSize / 2 + Vector2(0, -scaledSize.y / 4));
         } else if (animationTicker?.isFirstFrame == true) {
           _canInflictDamage = true;

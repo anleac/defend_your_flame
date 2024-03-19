@@ -36,3 +36,20 @@ flutter:
     - assets/images/flames/purple/loops/
     - assets/images/flames/blue/loops/
 
+  fonts:
+    - family: Metropolis
+      fonts:
+      - asset: assets/fonts/Metropolis-Bold.otf
+        weight: 800
+      - asset: assets/fonts/Metropolis-Regular.otf
+      - asset: assets/fonts/Metropolis-Light.otf
+        weight: 300
+      - asset: assets/fonts/Metropolis-RegularItalic.otf
+        style: italic
+    - family: ThaleahFat
+      fonts:
+        - asset: assets/fonts/ThaleahFat.ttf
+    - family: prstart
+      fonts:
+        - asset: assets/fonts/prstart.ttf
+
