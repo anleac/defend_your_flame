@@ -8,8 +8,8 @@ class VersioningConstants {
   static final String version = _getVersion();
 
   static const _majorVersion = 0;
-  static const _minorVersion = 3;
-  static const _patchVersion = 2;
+  static const _minorVersion = 4;
+  static const _patchVersion = 0;
 
   static const _releaseVersion = ReleaseVersion.alpha;
 
