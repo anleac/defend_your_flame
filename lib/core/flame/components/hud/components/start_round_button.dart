@@ -1,11 +1,19 @@
 import 'package:defend_your_flame/core/flame/components/hud/level_hud.dart';
 import 'package:defend_your_flame/core/flame/main_game.dart';
+import 'package:defend_your_flame/core/flame/managers/text_manager.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
+import 'package:flutter/material.dart';
 
-class StartRound extends TextComponent
+class StartRoundButton extends TextBoxComponent
     with ParentIsA<LevelHud>, HasGameReference<MainGame>, TapCallbacks, HasVisibility {
-  StartRound() : super(text: '', anchor: Anchor.center, scale: Vector2.all(1.2));
+  StartRoundButton()
+      : super(
+          text: '',
+          anchor: Anchor.center,
+          textRenderer: TextManager.smallHeaderRenderer,
+          boxConfig: TextBoxConfig(timePerChar: 0.08),
+        );
 
   @override
   void onMount() {
@@ -17,6 +25,20 @@ class StartRound extends TextComponent
   void update(double dt) {
     isVisible = parent.roundOver;
     super.update(dt);
+  }
+
+  @override
+  void render(Canvas canvas) {
+    super.render(canvas);
+
+    final paint = Paint()
+      ..color = Colors.white
+      ..strokeWidth = 2
+      ..style = PaintingStyle.stroke;
+
+    final lineStart = Offset(-8, scaledSize.y / 2 + 15);
+    final lineEnd = Offset(scaledSize.x - 20, scaledSize.y / 2 + 15);
+    canvas.drawLine(lineStart, lineEnd, paint);
   }
 
   @override

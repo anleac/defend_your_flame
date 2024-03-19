@@ -26,8 +26,9 @@ class Skeleton extends DraggableEntity {
 
   static Skeleton spawn({required position, required scaleModifier}) {
     final skeleton = Skeleton(scaleModifier: scaleModifier);
+
     // Since we are using the bottom left anchor, we need to adjust the position.
-    skeleton.position = position + skeleton.size;
+    skeleton.position = position + Vector2(-skeleton.size.x, skeleton.size.y);
     return skeleton;
   }
 }
