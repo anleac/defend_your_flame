@@ -1,6 +1,5 @@
 import 'package:defend_your_flame/constants/translations/app_strings.dart';
 import 'package:defend_your_flame/core/flame/game_provider.dart';
-import 'package:defend_your_flame/core/flame/managers/text_manager.dart';
 import 'package:defend_your_flame/helpers/platform_helper.dart';
 import 'package:defend_your_flame/widgets/background.dart';
 import 'package:flame/game.dart';
@@ -29,7 +28,6 @@ class _StateManagerState extends State<StateManager> with WidgetsBindingObserver
         ],
         supportedLocales: AppStrings.supportedLocales.map((e) => Locale(e)),
         initialRoute: '/',
-        theme: ThemeData(fontFamily: TextManager.defaultFontFamily),
         routes: {
           '/': (context) {
             var game = GameProvider.of(context).game;

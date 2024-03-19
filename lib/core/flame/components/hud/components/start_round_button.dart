@@ -12,7 +12,6 @@ class StartRoundButton extends TextBoxComponent
           text: '',
           anchor: Anchor.center,
           textRenderer: TextManager.smallHeaderRenderer,
-          boxConfig: TextBoxConfig(timePerChar: 0.08),
         );
 
   @override
