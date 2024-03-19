@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import 'package:defend_your_flame/core/flame/components/hud/components/game_over_text.dart';
-import 'package:defend_your_flame/core/flame/components/hud/components/health_indicator.dart';
-import 'package:defend_your_flame/core/flame/components/hud/components/round_text.dart';
-import 'package:defend_your_flame/core/flame/components/hud/components/start_round_button.dart';
-import 'package:defend_your_flame/core/flame/components/hud/components/version_text.dart';
+import 'package:defend_your_flame/core/flame/components/hud/text/game_over_text.dart';
+import 'package:defend_your_flame/core/flame/components/hud/text/health_indicator.dart';
+import 'package:defend_your_flame/core/flame/components/hud/text/round_text.dart';
+import 'package:defend_your_flame/core/flame/components/hud/buttons/start_round_button.dart';
+import 'package:defend_your_flame/core/flame/components/hud/text/version_text.dart';
 import 'package:defend_your_flame/core/flame/managers/text_manager.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 import 'package:flame/components.dart';
