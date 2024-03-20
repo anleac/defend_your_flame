@@ -99,7 +99,7 @@ class EntityManager extends Component with ParentIsA<MainWorld> {
     var randomNumber = GlobalVars.rand.nextInt(100);
 
     // TODO add back in mages when you enable a way to kill them.
-    if (randomNumber < 95 - (parent.roundManager.currentRound * 2)) {
+    if (randomNumber < 95 - (parent.roundManager.currentRound * 2) || true) {
       spawnGroundEntity();
     } else {
       spawnFlyingEntity();
