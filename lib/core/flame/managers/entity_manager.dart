@@ -99,7 +99,7 @@ class EntityManager extends Component with ParentIsA<MainWorld> {
     var randomNumber = GlobalVars.rand.nextInt(100);
 
     // TODO add back in mages when you enable a way to kill them.
-    if (randomNumber < 95 - (parent.roundManager.currentRound * 2) || true) {
+    if (randomNumber < 95 - (parent.roundManager.currentRound * 2)) {
       spawnGroundEntity();
     } else {
       spawnFlyingEntity();
@@ -148,5 +148,15 @@ class EntityManager extends Component with ParentIsA<MainWorld> {
     add(entity);
   }
 
-  void attackCastle(int damageOnAttack) => parent.castle.takeDamage(damageOnAttack);
+  void attackCastle(int damageOnAttack, {Vector2? position}) {
+    parent.castle.takeDamage(damageOnAttack, position: position);
+  }
+
+  void clearEntities() {
+    for (var entity in children) {
+      if (entity is Entity) {
+        entity.removeFromParent();
+      }
+    }
+  }
 }

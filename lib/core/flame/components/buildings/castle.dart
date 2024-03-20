@@ -37,8 +37,21 @@ class Castle extends SpriteComponent with ParentIsA<MainWorld>, HasVisibility {
     return super.onLoad();
   }
 
-  void takeDamage(int damage) {
+  // TODO: Update this properly towards beta to take into account load states etc.
+  void restart() {
+    _health = _totalHealth;
+    isVisible = true;
+    _topPurpleFlame.isVisible = true;
+    _topBlueFlame.isVisible = true;
+  }
+
+  void takeDamage(int damage, {Vector2? position}) {
     _health -= damage;
+    if (position != null) {
+      // If we have a valid damage position, then add a damage text effect.
+      parent.effectManager.addDamageText(damage, position);
+    }
+
     if (destroyed) {
       _topPurpleFlame.isVisible = false;
       _topBlueFlame.isVisible = false;

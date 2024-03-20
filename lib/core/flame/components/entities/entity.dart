@@ -2,7 +2,6 @@ import 'package:defend_your_flame/constants/debug_constants.dart';
 import 'package:defend_your_flame/constants/physics_constants.dart';
 import 'package:defend_your_flame/core/flame/components/entities/entity_state.dart';
 import 'package:defend_your_flame/core/flame/components/entities/entity_config.dart';
-import 'package:defend_your_flame/core/flame/components/hud/text/damage_text.dart';
 import 'package:defend_your_flame/core/flame/main_game.dart';
 import 'package:defend_your_flame/core/flame/managers/entity_manager.dart';
 import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
@@ -126,6 +125,9 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
     _fallVelocity = newFallVelocity;
   }
 
+  // Intended to be overridden by subclasses
+  Vector2? attackEffectPosition() => null;
+
   void _updateMovement(double dt) {
     _attackingLogic(dt);
     _logicCalculation(dt);
@@ -141,9 +143,7 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
         if (_canInflictDamage && animationTicker?.currentIndex == (entityConfig.attackingConfig.frames / 2).ceil()) {
           // Inflict damage
           _canInflictDamage = false;
-          parent.attackCastle(entityConfig.damageOnAttack);
-          add(DamageText(entityConfig.damageOnAttack.toString())
-            ..position = scaledSize / 2 + Vector2(0, -scaledSize.y / 4));
+          parent.attackCastle(entityConfig.damageOnAttack, position: attackEffectPosition());
         } else if (animationTicker?.isFirstFrame == true) {
           _canInflictDamage = true;
         }

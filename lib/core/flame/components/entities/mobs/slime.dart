@@ -54,6 +54,11 @@ class Slime extends DraggableEntity {
     super.update(dt);
   }
 
+  @override
+  Vector2? attackEffectPosition() {
+    return position + Vector2(scaledSize.x, scaledSize.y / 2);
+  }
+
   static Slime spawn({required position, required scaleModifier}) {
     return Slime(scaleModifier: scaleModifier)..position = position;
   }

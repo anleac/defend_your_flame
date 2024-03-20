@@ -55,6 +55,7 @@ class AppStrings {
   String roundText(int round) => TranslationHelper.insertNumber(getValue('roundText'), round);
   String get startRound => getValue('startRound');
   String get startGame => getValue('startGame');
+  String get restartGame => getValue('restartGame');
   String get gameOver => getValue('gameOver');
   String get healthIndicatorText => getValue('healthIndicatorAmount');
 }

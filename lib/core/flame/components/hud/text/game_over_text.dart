@@ -3,7 +3,7 @@ import 'package:defend_your_flame/core/flame/managers/text_manager.dart';
 import 'package:flame/components.dart';
 
 class GameOverText extends TextComponent with HasGameReference<MainGame> {
-  GameOverText() : super(text: '', anchor: Anchor.center, textRenderer: TextManager.smallHeaderRenderer);
+  GameOverText() : super(text: '', anchor: Anchor.center, textRenderer: TextManager.defaultRenderer);
 
   @override
   void onMount() {

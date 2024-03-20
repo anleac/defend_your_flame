@@ -2,6 +2,7 @@ import 'package:defend_your_flame/constants/constants.dart';
 import 'package:defend_your_flame/core/flame/components/buildings/castle.dart';
 import 'package:defend_your_flame/core/flame/components/debug/camera_border.dart';
 import 'package:defend_your_flame/core/flame/components/environment/environment.dart';
+import 'package:defend_your_flame/core/flame/managers/effect_manager.dart';
 import 'package:defend_your_flame/core/flame/managers/entity_manager.dart';
 import 'package:defend_your_flame/core/flame/managers/hud_manager.dart';
 import 'package:defend_your_flame/core/flame/managers/round_manager.dart';
@@ -17,11 +18,13 @@ class MainWorld extends World {
 
   final RoundManager _roundManager = RoundManager();
   final EntityManager _entityManager = EntityManager();
+  final EffectManager _effectManager = EffectManager();
   final WorldStateManager _worldStateManager = WorldStateManager();
 
   Castle get castle => _castle;
 
   EntityManager get entityManager => _entityManager;
+  EffectManager get effectManager => _effectManager;
   RoundManager get roundManager => _roundManager;
   WorldStateManager get worldStateManager => _worldStateManager;
 
@@ -33,6 +36,7 @@ class MainWorld extends World {
     add(_environment);
     add(_castle);
     add(_entityManager);
+    add(_effectManager);
 
     add(CameraBorder());
 

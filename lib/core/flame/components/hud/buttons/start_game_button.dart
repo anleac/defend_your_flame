@@ -1,15 +1,10 @@
-import 'package:defend_your_flame/core/flame/components/hud/abstract_components/text_button.dart';
+import 'package:defend_your_flame/core/flame/components/hud/abstract_components/default_button.dart';
 import 'package:defend_your_flame/core/flame/components/hud/main_menu_hud.dart';
 import 'package:defend_your_flame/core/flame/main_game.dart';
-import 'package:defend_your_flame/core/flame/managers/text_manager.dart';
 import 'package:flame/components.dart';
 
-class StartGameButton extends TextButton with ParentIsA<MainMenuHud>, HasGameReference<MainGame> {
-  StartGameButton()
-      : super(
-          defaultTextRenderer: TextManager.smallHeaderRenderer,
-          hoveredTextRenderer: TextManager.smallHeaderHoveredRenderer,
-        );
+class StartGameButton extends DefaultButton with ParentIsA<MainMenuHud>, HasGameReference<MainGame> {
+  StartGameButton() : super();
 
   @override
   void onMount() {
