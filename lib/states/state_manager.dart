@@ -5,9 +5,6 @@ import 'package:defend_your_flame/widgets/background.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-/*
-  Current game states - TBD
-*/
 
 class StateManager extends StatefulWidget {
   const StateManager({super.key});

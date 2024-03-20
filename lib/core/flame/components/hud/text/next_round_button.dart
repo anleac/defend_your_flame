@@ -4,8 +4,8 @@ import 'package:defend_your_flame/core/flame/main_game.dart';
 import 'package:defend_your_flame/core/flame/managers/text_manager.dart';
 import 'package:flame/components.dart';
 
-class StartRoundButton extends TextButton with ParentIsA<NextRoundHud>, HasGameReference<MainGame> {
-  StartRoundButton()
+class NextRoundButton extends TextButton with ParentIsA<NextRoundHud>, HasGameReference<MainGame> {
+  NextRoundButton()
       : super(
           defaultTextRenderer: TextManager.smallHeaderRenderer,
           hoveredTextRenderer: TextManager.smallHeaderHoveredRenderer,
@@ -13,13 +13,12 @@ class StartRoundButton extends TextButton with ParentIsA<NextRoundHud>, HasGameR
 
   @override
   void onMount() {
-    text = game.appStrings.startGame;
+    text = game.appStrings.startRound;
     super.onMount();
   }
 
   @override
   void onPressed() {
-    text = game.appStrings.startRound;
     parent.startNextRound();
   }
 }

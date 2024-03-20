@@ -21,11 +21,10 @@ class EntityManager extends Component with ParentIsA<MainWorld> {
 
   double _timeCounter = 0;
 
+  bool get gameOver => parent.worldStateManager.gameOver;
   bool get roundOver => !_spawning && !children.any((element) => element is Entity && element.isAlive);
 
-  int get positionXBoundary => !parent.gameOver ? parent.castle.position.x.toInt() - 20 : 100000;
-
-  bool get gameOver => parent.gameOver;
+  int get positionXBoundary => !parent.worldStateManager.gameOver ? parent.castle.position.x.toInt() - 20 : 100000;
 
   void clearRound() {
     _spawning = false;
@@ -45,7 +44,7 @@ class EntityManager extends Component with ParentIsA<MainWorld> {
   void startSpawningRound() {
     clearRound();
 
-    var currentRound = parent.currentRound;
+    var currentRound = parent.roundManager.currentRound;
 
     _spawning = true;
 
@@ -93,7 +92,7 @@ class EntityManager extends Component with ParentIsA<MainWorld> {
     var randomNumber = GlobalVars.rand.nextInt(100);
 
     // TODO add back in mages when you enable a way to kill them.
-    if (randomNumber < 95 - (parent.currentRound * 2) || true) {
+    if (randomNumber < 95 - (parent.roundManager.currentRound * 2) || true) {
       spawnGroundEntity();
     } else {
       spawnFlyingEntity();

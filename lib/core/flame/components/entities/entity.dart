@@ -2,7 +2,7 @@ import 'package:defend_your_flame/constants/debug_constants.dart';
 import 'package:defend_your_flame/constants/physics_constants.dart';
 import 'package:defend_your_flame/core/flame/components/entities/entity_state.dart';
 import 'package:defend_your_flame/core/flame/components/entities/entity_config.dart';
-import 'package:defend_your_flame/core/flame/components/hud/components/damage_text.dart';
+import 'package:defend_your_flame/core/flame/components/hud/text/damage_text.dart';
 import 'package:defend_your_flame/core/flame/main_game.dart';
 import 'package:defend_your_flame/core/flame/managers/entity_manager.dart';
 import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
