@@ -24,6 +24,11 @@ class Skeleton extends DraggableEntity {
     anchor = Anchor.bottomLeft;
   }
 
+  @override
+  Vector2? attackEffectPosition() {
+    return position + Vector2(scaledSize.x - 10, -scaledSize.y / 2);
+  }
+
   static Skeleton spawn({required position, required scaleModifier}) {
     final skeleton = Skeleton(scaleModifier: scaleModifier);
 

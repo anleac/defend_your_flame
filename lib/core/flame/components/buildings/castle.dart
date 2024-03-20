@@ -4,6 +4,7 @@ import 'package:defend_your_flame/core/flame/components/effects/blue_flame.dart'
 import 'package:defend_your_flame/core/flame/components/effects/purple_flame.dart';
 import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
+import 'package:defend_your_flame/core/flame/worlds/main_world_state.dart';
 import 'package:flame/components.dart';
 
 class Castle extends SpriteComponent with ParentIsA<MainWorld>, HasVisibility {
@@ -36,12 +37,29 @@ class Castle extends SpriteComponent with ParentIsA<MainWorld>, HasVisibility {
     return super.onLoad();
   }
 
-  void takeDamage(int damage) {
+  // TODO: Update this properly towards beta to take into account load states etc.
+  void restart() {
+    _health = _totalHealth;
+    isVisible = true;
+    _topPurpleFlame.isVisible = true;
+    _topBlueFlame.isVisible = true;
+  }
+
+  void takeDamage(int damage, {Vector2? position}) {
     _health -= damage;
+    if (position != null) {
+      // If we have a valid damage position, then add a damage text effect.
+      parent.effectManager.addDamageText(damage, position);
+    }
+
     if (destroyed) {
       _topPurpleFlame.isVisible = false;
       _topBlueFlame.isVisible = false;
       isVisible = false;
+
+      if (parent.worldStateManager.playing) {
+        parent.worldStateManager.changeState(MainWorldState.gameOver);
+      }
     }
   }
 }

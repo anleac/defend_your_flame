@@ -6,6 +6,7 @@ import 'package:defend_your_flame/core/flame/components/entities/mobs/skeleton.d
 import 'package:defend_your_flame/core/flame/components/entities/mobs/slime.dart';
 import 'package:defend_your_flame/core/flame/components/entities/entity.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
+import 'package:defend_your_flame/core/flame/worlds/main_world_state.dart';
 import 'package:defend_your_flame/helpers/global_vars.dart';
 import 'package:defend_your_flame/helpers/misc_helper.dart';
 import 'package:flame/components.dart';
@@ -21,11 +22,9 @@ class EntityManager extends Component with ParentIsA<MainWorld> {
 
   double _timeCounter = 0;
 
-  bool get roundOver => !_spawning && !children.any((element) => element is Entity && element.isAlive);
+  bool get gameOver => parent.worldStateManager.gameOver;
 
-  int get positionXBoundary => !parent.gameOver ? parent.castle.position.x.toInt() - 20 : 100000;
-
-  bool get gameOver => parent.gameOver;
+  int get positionXBoundary => !parent.worldStateManager.gameOver ? parent.castle.position.x.toInt() - 20 : 100000;
 
   void clearRound() {
     _spawning = false;
@@ -45,7 +44,7 @@ class EntityManager extends Component with ParentIsA<MainWorld> {
   void startSpawningRound() {
     clearRound();
 
-    var currentRound = parent.currentRound;
+    var currentRound = parent.roundManager.currentRound;
 
     _spawning = true;
 
@@ -71,6 +70,13 @@ class EntityManager extends Component with ParentIsA<MainWorld> {
       } else if (_remainingEntitiesToSpawn == 0) {
         _spawning = false;
       }
+    } else if (parent.worldStateManager.playing) {
+      // We are no longer spawning, so we can check if any entities are still alive.
+      var anyEntitiesAlive = children.any((element) => element is Entity && element.isAlive);
+
+      if (!anyEntitiesAlive) {
+        parent.worldStateManager.changeState(MainWorldState.betweenRounds);
+      }
     }
 
     super.update(dt);
@@ -93,7 +99,7 @@ class EntityManager extends Component with ParentIsA<MainWorld> {
     var randomNumber = GlobalVars.rand.nextInt(100);
 
     // TODO add back in mages when you enable a way to kill them.
-    if (randomNumber < 95 - (parent.currentRound * 2) || true) {
+    if (randomNumber < 95 - (parent.roundManager.currentRound * 2) || true) {
       spawnGroundEntity();
     } else {
       spawnFlyingEntity();
@@ -142,5 +148,15 @@ class EntityManager extends Component with ParentIsA<MainWorld> {
     add(entity);
   }
 
-  void attackCastle(int damageOnAttack) => parent.castle.takeDamage(damageOnAttack);
+  void attackCastle(int damageOnAttack, {Vector2? position}) {
+    parent.castle.takeDamage(damageOnAttack, position: position);
+  }
+
+  void clearEntities() {
+    for (var entity in children) {
+      if (entity is Entity) {
+        entity.removeFromParent();
+      }
+    }
+  }
 }

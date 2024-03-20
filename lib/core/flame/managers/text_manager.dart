@@ -1,3 +1,4 @@
+import 'package:defend_your_flame/constants/theming_constants.dart';
 import 'package:flame/palette.dart';
 import 'package:flame/text.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,11 @@ class TextManager {
   static String get defaultFontFamily => _defaultFontFamily;
   static TextRenderer get defaultRenderer => _defaultRenderer;
 
+  static TextRenderer get largeHeaderRenderer => _largeHeaderRenderer;
+
   static TextRenderer get smallHeaderRenderer => _smallHeaderRenderer;
+  static TextRenderer get smallHeaderHoveredRenderer => _smallHeaderHoveredRenderer;
+
   static TextRenderer get smallSubHeaderRenderer => _smallSubHeaderRenderer;
 
   static TextRenderer get basicHudRenderer => _basicHudRenderer;
@@ -25,7 +30,13 @@ class TextManager {
   }
 
   static final TextRenderer _defaultRenderer = TextPaint(style: _defaultTextStyle);
+
+  static final TextRenderer _largeHeaderRenderer = TextPaint(style: _defaultTextStyle.copyWith(fontSize: 36));
+
   static final TextRenderer _smallHeaderRenderer = TextPaint(style: _defaultTextStyle.copyWith(fontSize: 18));
+  static final TextRenderer _smallHeaderHoveredRenderer = TextPaint(
+      style: _defaultTextStyle.copyWith(fontSize: 18, color: _defaultColor.darken(ThemingConstants.hoveredDarken)));
+
   static final TextRenderer _smallSubHeaderRenderer =
       TextPaint(style: _defaultTextStyle.copyWith(fontSize: 16, color: _defaultColor.withOpacity(0.92)));
   static final TextRenderer _basicHudRenderer =
