@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:defend_your_flame/core/flame/components/hud/text/health_indicator.dart';
+import 'package:defend_your_flame/core/flame/components/hud/complex/health_indicator.dart';
 import 'package:defend_your_flame/core/flame/components/hud/text/round_text.dart';
 import 'package:defend_your_flame/core/flame/components/hud/text/version_text.dart';
 import 'package:defend_your_flame/core/flame/managers/text_manager.dart';

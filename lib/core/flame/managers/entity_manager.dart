@@ -6,6 +6,7 @@ import 'package:defend_your_flame/core/flame/components/entities/mobs/skeleton.d
 import 'package:defend_your_flame/core/flame/components/entities/mobs/slime.dart';
 import 'package:defend_your_flame/core/flame/components/entities/entity.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
+import 'package:defend_your_flame/core/flame/worlds/main_world_state.dart';
 import 'package:defend_your_flame/helpers/global_vars.dart';
 import 'package:defend_your_flame/helpers/misc_helper.dart';
 import 'package:flame/components.dart';
@@ -22,7 +23,6 @@ class EntityManager extends Component with ParentIsA<MainWorld> {
   double _timeCounter = 0;
 
   bool get gameOver => parent.worldStateManager.gameOver;
-  bool get roundOver => !_spawning && !children.any((element) => element is Entity && element.isAlive);
 
   int get positionXBoundary => !parent.worldStateManager.gameOver ? parent.castle.position.x.toInt() - 20 : 100000;
 
@@ -69,6 +69,13 @@ class EntityManager extends Component with ParentIsA<MainWorld> {
         spawnEntity();
       } else if (_remainingEntitiesToSpawn == 0) {
         _spawning = false;
+      }
+    } else if (parent.worldStateManager.playing) {
+      // We are no longer spawning, so we can check if any entities are still alive.
+      var anyEntitiesAlive = children.any((element) => element is Entity && element.isAlive);
+
+      if (!anyEntitiesAlive) {
+        parent.worldStateManager.changeState(MainWorldState.betweenRounds);
       }
     }
 

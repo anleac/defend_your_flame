@@ -4,6 +4,7 @@ import 'package:defend_your_flame/core/flame/components/effects/blue_flame.dart'
 import 'package:defend_your_flame/core/flame/components/effects/purple_flame.dart';
 import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
+import 'package:defend_your_flame/core/flame/worlds/main_world_state.dart';
 import 'package:flame/components.dart';
 
 class Castle extends SpriteComponent with ParentIsA<MainWorld>, HasVisibility {
@@ -42,6 +43,10 @@ class Castle extends SpriteComponent with ParentIsA<MainWorld>, HasVisibility {
       _topPurpleFlame.isVisible = false;
       _topBlueFlame.isVisible = false;
       isVisible = false;
+
+      if (parent.worldStateManager.playing) {
+        parent.worldStateManager.changeState(MainWorldState.gameOver);
+      }
     }
   }
 }

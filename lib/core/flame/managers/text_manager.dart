@@ -13,6 +13,8 @@ class TextManager {
   static String get defaultFontFamily => _defaultFontFamily;
   static TextRenderer get defaultRenderer => _defaultRenderer;
 
+  static TextRenderer get largeHeaderRenderer => _largeHeaderRenderer;
+
   static TextRenderer get smallHeaderRenderer => _smallHeaderRenderer;
   static TextRenderer get smallHeaderHoveredRenderer => _smallHeaderHoveredRenderer;
 
@@ -28,6 +30,9 @@ class TextManager {
   }
 
   static final TextRenderer _defaultRenderer = TextPaint(style: _defaultTextStyle);
+
+  static final TextRenderer _largeHeaderRenderer = TextPaint(style: _defaultTextStyle.copyWith(fontSize: 36));
+
   static final TextRenderer _smallHeaderRenderer = TextPaint(style: _defaultTextStyle.copyWith(fontSize: 18));
   static final TextRenderer _smallHeaderHoveredRenderer = TextPaint(
       style: _defaultTextStyle.copyWith(fontSize: 18, color: _defaultColor.darken(ThemingConstants.hoveredDarken)));
