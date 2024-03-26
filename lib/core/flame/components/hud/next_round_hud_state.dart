@@ -1,1 +1,0 @@
-enum NextRoundHudState { menu, shop }
