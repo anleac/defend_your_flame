@@ -17,6 +17,7 @@ class NextRoundHud extends BasicHud {
   FutureOr<void> onLoad() {
     add(_nextRound);
     add(_enterShop);
+
     return super.onLoad();
   }
 

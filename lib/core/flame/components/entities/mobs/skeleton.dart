@@ -33,7 +33,7 @@ class Skeleton extends DraggableEntity {
     final skeleton = Skeleton(scaleModifier: scaleModifier);
 
     // Since we are using the bottom left anchor, we need to adjust the position.
-    skeleton.position = position + Vector2(-skeleton.size.x, skeleton.size.y);
+    skeleton.position = position + Vector2(-skeleton.scaledSize.x, skeleton.scaledSize.y);
     return skeleton;
   }
 }

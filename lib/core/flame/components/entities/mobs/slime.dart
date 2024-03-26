@@ -60,6 +60,8 @@ class Slime extends DraggableEntity {
   }
 
   static Slime spawn({required position, required scaleModifier}) {
-    return Slime(scaleModifier: scaleModifier)..position = position;
+    final slime = Slime(scaleModifier: scaleModifier);
+    slime.position = position - Vector2(slime.scaledSize.x, -slime.scaledSize.y / 2);
+    return slime;
   }
 }
