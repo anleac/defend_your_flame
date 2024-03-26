@@ -1,4 +1,5 @@
 import 'package:defend_your_flame/constants/theming_constants.dart';
+import 'package:defend_your_flame/core/flame/managers/text_manager.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/palette.dart';
@@ -18,7 +19,9 @@ class TextButton extends TextComponent with TapCallbacks, HasVisibility, HoverCa
 
   final TextRenderer defaultTextRenderer;
   final TextRenderer hoveredTextRenderer;
+  final TextRenderer disabledRenderer;
 
+  final bool comingSoon;
   final bool underlined;
   bool _hovered = false;
 
@@ -27,7 +30,9 @@ class TextButton extends TextComponent with TapCallbacks, HasVisibility, HoverCa
     Anchor anchor = Anchor.center,
     required this.defaultTextRenderer,
     required this.hoveredTextRenderer,
+    required this.disabledRenderer,
     this.underlined = true,
+    this.comingSoon = false,
   }) : super(
           text: text,
           textRenderer: defaultTextRenderer,
@@ -36,7 +41,17 @@ class TextButton extends TextComponent with TapCallbacks, HasVisibility, HoverCa
 
   @override
   bool containsLocalPoint(Vector2 point) {
-    return isVisible && super.containsLocalPoint(point);
+    return isVisible && super.containsLocalPoint(point) && !comingSoon;
+  }
+
+  @override
+  void onMount() {
+    if (comingSoon) {
+      textRenderer = disabledRenderer;
+      text = '$text ${ThemingConstants.comingSoonIndicator}';
+    }
+
+    super.onMount();
   }
 
   @override
@@ -64,7 +79,7 @@ class TextButton extends TextComponent with TapCallbacks, HasVisibility, HoverCa
   void render(Canvas canvas) {
     super.render(canvas);
 
-    if (underlined) {
+    if (underlined && !comingSoon) {
       _drawUnderline(canvas);
     }
   }
