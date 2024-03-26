@@ -127,7 +127,7 @@ class DraggableEntity extends Entity with DragCallbacks {
   }
 
   void dragDeath() {
-    current = EntityState.dying;
+    initiateDeath();
     stopDragging();
   }
 

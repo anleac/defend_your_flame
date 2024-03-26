@@ -24,8 +24,7 @@ class EntityManager extends Component with ParentIsA<MainWorld> {
 
   double _timeCounter = 0;
 
-  bool get gameOver => parent.worldStateManager.gameOver;
-
+  // TODO hacky logic here for where the entities should stop.
   int get positionXBoundary => !parent.worldStateManager.gameOver ? parent.castle.position.x.toInt() - 20 : 100000;
 
   void clearRound() {
@@ -150,10 +149,6 @@ class EntityManager extends Component with ParentIsA<MainWorld> {
 
     _entities[key]!.add(entity);
     add(entity);
-  }
-
-  void attackCastle(int damageOnAttack, {Vector2? position}) {
-    parent.castle.takeDamage(damageOnAttack, position: position);
   }
 
   void clearEntities() {
