@@ -5,6 +5,10 @@ class AppStringData {
     'en': {
       'roundText': 'Round ${AppStrings.placeholderText}',
       'startGame': 'Start Game',
+      'loadGame': 'Load Game',
+      'saveGame': 'Save Game',
+      'enterShop': "Enter Shop",
+      'credits': 'Credits',
       'restartGame': 'Restart Game',
       'gameOver': 'Game Over',
       'startRound': 'Start Next Round',

@@ -29,6 +29,7 @@ class Mage extends FlyingEntity {
     ),
     walkingForwardSpeed: 40,
     damageOnAttack: 0,
+    goldOnKill: 15,
     canBePickedUp: false,
   );
 

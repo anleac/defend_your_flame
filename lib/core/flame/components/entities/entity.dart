@@ -5,6 +5,7 @@ import 'package:defend_your_flame/core/flame/components/entities/entity_config.d
 import 'package:defend_your_flame/core/flame/main_game.dart';
 import 'package:defend_your_flame/core/flame/managers/entity_manager.dart';
 import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
+import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 import 'package:defend_your_flame/helpers/debug/debug_helper.dart';
 import 'package:defend_your_flame/helpers/physics_helper.dart';
 import 'package:defend_your_flame/helpers/timestep/debug/timestep_faker.dart';
@@ -13,7 +14,7 @@ import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
 
 class Entity extends SpriteAnimationGroupComponent<EntityState>
-    with ParentIsA<EntityManager>, HasGameReference<MainGame>, HasVisibility {
+    with ParentIsA<EntityManager>, HasWorldReference<MainWorld>, HasGameReference<MainGame>, HasVisibility {
   final EntityConfig entityConfig;
 
   late final double _pickupHeight;
@@ -137,13 +138,13 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
   void _attackingLogic(double dt) {
     if (current == EntityState.attacking) {
       // Special case where the game has ended.
-      if (parent.gameOver) {
+      if (world.worldStateManager.gameOver) {
         current = EntityState.walking;
       } else {
         if (_canInflictDamage && animationTicker?.currentIndex == (entityConfig.attackingConfig.frames / 2).ceil()) {
           // Inflict damage
           _canInflictDamage = false;
-          parent.attackCastle(entityConfig.damageOnAttack, position: attackEffectPosition());
+          world.castle.takeDamage(entityConfig.damageOnAttack, position: attackEffectPosition());
         } else if (animationTicker?.isFirstFrame == true) {
           _canInflictDamage = true;
         }
@@ -165,7 +166,7 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
       position.x = TimestepHelper.add(position.x, entityConfig.walkingForwardSpeed * scale.x, dt);
     } else if (position.x >= parent.positionXBoundary + 50 && current == EntityState.walking) {
       // TODO this is an MVP way to remove a edge case from early development, definitely re-visit this and remove it.
-      current = EntityState.dying;
+      initiateDeath();
     } else if (position.x <= parent.positionXBoundary + 15 && current == EntityState.walking) {
       current = EntityState.attacking;
     }
@@ -183,11 +184,19 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
       if (position.y >= _pickupHeight) {
         if (_fallVelocity.y > PhysicsConstants.maxVelocity.y * 0.4) {
           // Random 'death velocity'
-          current = EntityState.dying;
+          initiateDeath();
         } else {
           current = EntityState.walking;
         }
       }
+    }
+  }
+
+  void initiateDeath() {
+    if (current != EntityState.dying) {
+      current = EntityState.dying;
+      world.castle.addGold(entityConfig.goldOnKill);
+      world.effectManager.addGoldText(entityConfig.goldOnKill, absoluteCenter);
     }
   }
 }

@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:defend_your_flame/core/flame/components/entities/mobs/mage.dart';
@@ -18,17 +19,18 @@ class EntityManager extends Component with ParentIsA<MainWorld> {
 
   bool _spawning = false;
   int _secondsToSpawnOver = 0;
+  int _totalSpawnCountThisRound = 0;
   int _remainingEntitiesToSpawn = 0;
 
   double _timeCounter = 0;
 
-  bool get gameOver => parent.worldStateManager.gameOver;
-
+  // TODO hacky logic here for where the entities should stop.
   int get positionXBoundary => !parent.worldStateManager.gameOver ? parent.castle.position.x.toInt() - 20 : 100000;
 
   void clearRound() {
     _spawning = false;
     _remainingEntitiesToSpawn = 0;
+    _totalSpawnCountThisRound = 0;
     _timeCounter = 0;
     _secondsToSpawnOver = 0;
 
@@ -48,11 +50,12 @@ class EntityManager extends Component with ParentIsA<MainWorld> {
 
     _spawning = true;
 
-    // Update the logic for how many creatures spawn
-    _remainingEntitiesToSpawn = currentRound * 5 + 10;
+    // TODO revisit this spawn logic
+    _totalSpawnCountThisRound = sqrt(currentRound * 10).ceil() + 4;
+    _remainingEntitiesToSpawn = _totalSpawnCountThisRound;
 
     // Scale the time duration that they should spawn over
-    _secondsToSpawnOver = currentRound + 3;
+    _secondsToSpawnOver = currentRound + 6;
 
     _timeCounter = 0;
   }
@@ -62,7 +65,7 @@ class EntityManager extends Component with ParentIsA<MainWorld> {
     if (_spawning) {
       _timeCounter += dt;
 
-      if (_remainingEntitiesToSpawn > 0 && _timeCounter >= (_secondsToSpawnOver / _remainingEntitiesToSpawn)) {
+      if (_remainingEntitiesToSpawn > 0 && _timeCounter >= (_secondsToSpawnOver / _totalSpawnCountThisRound)) {
         _timeCounter = 0;
 
         _remainingEntitiesToSpawn--;
@@ -146,10 +149,6 @@ class EntityManager extends Component with ParentIsA<MainWorld> {
 
     _entities[key]!.add(entity);
     add(entity);
-  }
-
-  void attackCastle(int damageOnAttack, {Vector2? position}) {
-    parent.castle.takeDamage(damageOnAttack, position: position);
   }
 
   void clearEntities() {

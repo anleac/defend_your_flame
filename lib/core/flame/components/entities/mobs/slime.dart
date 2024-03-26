@@ -28,6 +28,7 @@ class Slime extends DraggableEntity {
       frames: 4,
     ),
     damageOnAttack: 3,
+    goldOnKill: 2,
     extraXBoundaryOffset: -10,
     walkingForwardSpeed: 40,
   );
@@ -60,6 +61,8 @@ class Slime extends DraggableEntity {
   }
 
   static Slime spawn({required position, required scaleModifier}) {
-    return Slime(scaleModifier: scaleModifier)..position = position;
+    final slime = Slime(scaleModifier: scaleModifier);
+    slime.position = position - Vector2(slime.scaledSize.x, -slime.scaledSize.y / 2);
+    return slime;
   }
 }

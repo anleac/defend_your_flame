@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:defend_your_flame/core/flame/components/hud/abstract_components/basic_hud.dart';
 import 'package:defend_your_flame/core/flame/components/hud/game_over_hud.dart';
 import 'package:defend_your_flame/core/flame/components/hud/level_hud.dart';
 import 'package:defend_your_flame/core/flame/components/hud/main_menu_hud.dart';
@@ -37,19 +38,24 @@ class HudManager extends PositionComponent with HasWorldReference<MainWorld> {
       element.removeFromParent();
     }
 
+    late BasicHud hudToShow;
+
     switch (world.worldStateManager.currentState) {
       case MainWorldState.mainMenu:
-        add(_mainMenuHud);
+        hudToShow = _mainMenuHud;
         break;
       case MainWorldState.playing:
-        add(_levelHud);
+        hudToShow = _levelHud;
         break;
       case MainWorldState.betweenRounds:
-        add(_nextRoundHud);
+        hudToShow = _nextRoundHud;
         break;
       case MainWorldState.gameOver:
-        add(_gameOverHud);
+        hudToShow = _gameOverHud;
         break;
     }
+
+    hudToShow.reset();
+    add(hudToShow);
   }
 }

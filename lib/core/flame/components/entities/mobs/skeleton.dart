@@ -16,6 +16,7 @@ class Skeleton extends DraggableEntity {
     dragConfig: AnimationConfig(frames: 4, stepTime: 0.2),
     dyingConfig: AnimationConfig(frames: 15, stepTime: 0.07),
     damageOnAttack: 8,
+    goldOnKill: 5,
     walkingForwardSpeed: 25,
   );
 
@@ -33,7 +34,7 @@ class Skeleton extends DraggableEntity {
     final skeleton = Skeleton(scaleModifier: scaleModifier);
 
     // Since we are using the bottom left anchor, we need to adjust the position.
-    skeleton.position = position + Vector2(-skeleton.size.x, skeleton.size.y);
+    skeleton.position = position + Vector2(-skeleton.scaledSize.x, skeleton.scaledSize.y);
     return skeleton;
   }
 }

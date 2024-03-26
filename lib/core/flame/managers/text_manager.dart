@@ -17,6 +17,7 @@ class TextManager {
 
   static TextRenderer get smallHeaderRenderer => _smallHeaderRenderer;
   static TextRenderer get smallHeaderHoveredRenderer => _smallHeaderHoveredRenderer;
+  static TextRenderer get smallHeaderDisabledRenderer => _smallHeaderDisabledRenderer;
 
   static TextRenderer get smallSubHeaderRenderer => _smallSubHeaderRenderer;
 
@@ -33,9 +34,15 @@ class TextManager {
 
   static final TextRenderer _largeHeaderRenderer = TextPaint(style: _defaultTextStyle.copyWith(fontSize: 36));
 
-  static final TextRenderer _smallHeaderRenderer = TextPaint(style: _defaultTextStyle.copyWith(fontSize: 18));
+  static final TextRenderer _smallHeaderRenderer =
+      TextPaint(style: _defaultTextStyle.copyWith(fontSize: ThemingConstants.smallHeaderFontSize));
   static final TextRenderer _smallHeaderHoveredRenderer = TextPaint(
-      style: _defaultTextStyle.copyWith(fontSize: 18, color: _defaultColor.darken(ThemingConstants.hoveredDarken)));
+      style: _defaultTextStyle.copyWith(
+          fontSize: ThemingConstants.smallHeaderFontSize, color: _defaultColor.darken(ThemingConstants.hoveredDarken)));
+  static final TextRenderer _smallHeaderDisabledRenderer = TextPaint(
+      style: _defaultTextStyle.copyWith(
+          fontSize: ThemingConstants.smallHeaderFontSize,
+          color: _defaultColor.darken(ThemingConstants.disabledDarken)));
 
   static final TextRenderer _smallSubHeaderRenderer =
       TextPaint(style: _defaultTextStyle.copyWith(fontSize: 16, color: _defaultColor.withOpacity(0.92)));
