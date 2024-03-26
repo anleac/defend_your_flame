@@ -1,14 +1,14 @@
 import 'dart:async';
 
+import 'package:defend_your_flame/core/flame/components/hud/abstract_components/basic_hud.dart';
 import 'package:defend_your_flame/core/flame/components/hud/sprite_with_texts/gold_indicator.dart';
 import 'package:defend_your_flame/core/flame/components/hud/sprite_with_texts/health_indicator.dart';
 import 'package:defend_your_flame/core/flame/components/hud/text/round_text.dart';
 import 'package:defend_your_flame/core/flame/components/hud/text/version_text.dart';
 import 'package:defend_your_flame/core/flame/managers/text_manager.dart';
-import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 import 'package:flame/components.dart';
 
-class LevelHud extends PositionComponent with HasWorldReference<MainWorld> {
+class LevelHud extends BasicHud {
   static final Vector2 _topLeftTextGap = Vector2(0, 30);
   static final Vector2 _topRightTextGap = Vector2(0, 35);
 

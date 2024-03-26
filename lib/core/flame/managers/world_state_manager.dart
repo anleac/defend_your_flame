@@ -11,6 +11,8 @@ class WorldStateManager {
   bool get gameOver => _currentState == MainWorldState.gameOver;
 
   void changeState(MainWorldState newState) {
-    _currentState = newState;
+    if (_currentState != newState) {
+      _currentState = newState;
+    }
   }
 }

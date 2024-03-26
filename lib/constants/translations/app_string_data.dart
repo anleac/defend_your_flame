@@ -7,6 +7,7 @@ class AppStringData {
       'startGame': 'Start Game',
       'loadGame': 'Load Game',
       'saveGame': 'Save Game',
+      'enterShop': "Enter Shop",
       'credits': 'Credits',
       'restartGame': 'Restart Game',
       'gameOver': 'Game Over',

@@ -57,6 +57,7 @@ class AppStrings {
   String get startGame => getValue('startGame');
   String get loadGame => getValue('loadGame');
   String get saveGame => getValue('saveGame');
+  String get enterShop => getValue('enterShop');
   String get credits => getValue('credits');
   String get restartGame => getValue('restartGame');
   String get gameOver => getValue('gameOver');
