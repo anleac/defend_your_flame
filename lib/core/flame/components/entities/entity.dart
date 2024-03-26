@@ -195,6 +195,7 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
   void initiateDeath() {
     if (current != EntityState.dying) {
       current = EntityState.dying;
+      world.castle.addGold(entityConfig.goldOnKill);
       world.effectManager.addGoldText(entityConfig.goldOnKill, absoluteCenter);
     }
   }

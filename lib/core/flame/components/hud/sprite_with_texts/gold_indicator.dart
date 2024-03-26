@@ -2,12 +2,11 @@ import 'dart:async';
 
 import 'package:defend_your_flame/core/flame/components/effects/gold_pile.dart';
 import 'package:defend_your_flame/core/flame/components/hud/abstract_components/sprite_with_text.dart';
-import 'package:defend_your_flame/core/flame/main_game.dart';
 import 'package:defend_your_flame/core/flame/managers/text_manager.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 import 'package:flame/components.dart';
 
-class GoldIndicator extends PositionComponent with HasWorldReference<MainWorld>, HasGameReference<MainGame> {
+class GoldIndicator extends PositionComponent with HasWorldReference<MainWorld> {
   late final GoldPile _goldPile = GoldPile()..scale = Vector2.all(0.25);
   late final TextComponent _goldText = TextComponent(textRenderer: TextManager.basicHudRenderer);
 
@@ -32,6 +31,6 @@ class GoldIndicator extends PositionComponent with HasWorldReference<MainWorld>,
   }
 
   _setGoldText() {
-    _goldText.text = "0";
+    _goldText.text = world.castle.totalGold.toString();
   }
 }
