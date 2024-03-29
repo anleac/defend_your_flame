@@ -31,6 +31,7 @@ class Slime extends DraggableEntity {
     goldOnKill: 2,
     extraXBoundaryOffset: -10,
     walkingForwardSpeed: 40,
+    collisionAnchor: Anchor.bottomLeft,
   );
 
   bool _removingAnimation = false;

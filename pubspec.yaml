@@ -29,6 +29,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/mobs/skeleton/
+    - assets/images/mobs/strong_skeleton/
     - assets/images/mobs/slime/
     - assets/images/mobs/mage/
     - assets/images/environment/

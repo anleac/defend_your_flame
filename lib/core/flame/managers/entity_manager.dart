@@ -6,6 +6,7 @@ import 'package:defend_your_flame/core/flame/components/entities/mobs/mage.dart'
 import 'package:defend_your_flame/core/flame/components/entities/mobs/skeleton.dart';
 import 'package:defend_your_flame/core/flame/components/entities/mobs/slime.dart';
 import 'package:defend_your_flame/core/flame/components/entities/entity.dart';
+import 'package:defend_your_flame/core/flame/components/entities/mobs/strong_skeleton.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world_state.dart';
 import 'package:defend_your_flame/helpers/global_vars.dart';
@@ -126,8 +127,12 @@ class EntityManager extends Component with ParentIsA<MainWorld> {
       parent.worldHeight - GlobalVars.rand.nextDouble() * 120 - 80,
     );
 
+    var currentRound = parent.roundManager.currentRound;
     var randomNumber = GlobalVars.rand.nextInt(100);
-    if (randomNumber < 70) {
+    if (randomNumber < max(currentRound * 2, 15) && currentRound > 1) {
+      _addEntity(StrongSkeleton.spawn(
+          position: startPosition, scaleModifier: MiscHelper.randomDouble(minValue: 1, maxValue: 1.2)));
+    } else if (randomNumber < 70) {
       _addEntity(
           Skeleton.spawn(position: startPosition, scaleModifier: MiscHelper.randomDouble(minValue: 1, maxValue: 1.5)));
     } else {
