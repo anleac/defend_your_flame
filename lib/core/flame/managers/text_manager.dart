@@ -54,4 +54,4 @@ class TextManager {
 
   static final TextRenderer _debugRenderer =
       TextPaint(style: TextStyle(fontSize: 18.0, fontFamily: defaultFontFamily, color: BasicPalette.red.color));
-}
+} 

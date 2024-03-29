@@ -144,7 +144,7 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
         if (_canInflictDamage && animationTicker?.currentIndex == (entityConfig.attackingConfig.frames / 2).ceil()) {
           // Inflict damage
           _canInflictDamage = false;
-          world.castle.takeDamage(entityConfig.damageOnAttack, position: attackEffectPosition());
+          world.playerManager.castle.takeDamage(entityConfig.damageOnAttack, position: attackEffectPosition());
         } else if (animationTicker?.isFirstFrame == true) {
           _canInflictDamage = true;
         }
@@ -195,7 +195,7 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
   void initiateDeath() {
     if (current != EntityState.dying) {
       current = EntityState.dying;
-      world.castle.addGold(entityConfig.goldOnKill);
+      world.playerManager.addGold(entityConfig.goldOnKill);
       world.effectManager.addGoldText(entityConfig.goldOnKill, absoluteCenter);
     }
   }
