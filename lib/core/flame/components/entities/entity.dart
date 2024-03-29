@@ -1,5 +1,7 @@
+import 'package:defend_your_flame/constants/bounding_constants.dart';
+import 'package:defend_your_flame/constants/damage_constants.dart';
 import 'package:defend_your_flame/constants/debug_constants.dart';
-import 'package:defend_your_flame/constants/physics_constants.dart';
+import 'package:defend_your_flame/constants/misc_constants.dart';
 import 'package:defend_your_flame/core/flame/components/entities/entity_state.dart';
 import 'package:defend_your_flame/core/flame/components/entities/entity_config.dart';
 import 'package:defend_your_flame/core/flame/main_game.dart';
@@ -12,18 +14,17 @@ import 'package:defend_your_flame/helpers/timestep/debug/timestep_faker.dart';
 import 'package:defend_your_flame/helpers/timestep/timestep_helper.dart';
 import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
+import 'package:flutter/rendering.dart';
 
 class Entity extends SpriteAnimationGroupComponent<EntityState>
     with ParentIsA<EntityManager>, HasWorldReference<MainWorld>, HasGameReference<MainGame>, HasVisibility {
   final EntityConfig entityConfig;
 
-  late final double _pickupHeight;
-
   bool _canInflictDamage = false;
 
-  bool get isAlive => current != EntityState.dying;
+  bool get isAlive => _currentHealth > MiscConstants.eps;
 
-  Vector2 _fallVelocity = Vector2.zero();
+  late double _currentHealth;
 
   Rect get localCollisionRect =>
       Rect.fromLTWH(_scaledCollisionOffset.x, _scaledCollisionOffset.y, _scaledCollisionSize.x, _scaledCollisionSize.y);
@@ -39,6 +40,7 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
     size = entityConfig.defaultSize;
     _attackingSize = entityConfig.attackingSize ?? size;
     scale = Vector2.all(entityConfig.defaultScale * scaleModifier);
+    _currentHealth = entityConfig.totalHealth;
 
     _calculateCollisionSize();
   }
@@ -46,8 +48,10 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
   _calculateCollisionSize() {
     _scaledCollisionSize = (entityConfig.collisionSize ?? size);
 
-    var offset =
-        current == EntityState.attacking ? entityConfig.attackingCollisionOffset : entityConfig.collisionOffset;
+    var offset = current == EntityState.attacking
+        ? entityConfig.attackingCollisionOffset ?? entityConfig.collisionOffset
+        : entityConfig.collisionOffset;
+
     _scaledCollisionOffset = offset ?? Vector2.zero();
 
     if (entityConfig.collisionAnchor == Anchor.bottomLeft) {
@@ -64,12 +68,6 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
       size = newSize;
       _calculateCollisionSize();
     }
-  }
-
-  @override
-  void onMount() {
-    super.onMount();
-    _pickupHeight = position.y;
   }
 
   bool pointInside(Vector2 point) {
@@ -119,11 +117,39 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
       DebugHelper.drawEntityCollisionBox(canvas, this);
     }
 
+    if (entityConfig.totalHealth > DamageConstants.fallDamage + MiscConstants.eps && isAlive) {
+      _drawHealthBar(canvas);
+    }
+
     super.render(canvas);
   }
 
-  void overrideFallVelocity(Vector2 newFallVelocity) {
-    _fallVelocity = newFallVelocity;
+  // TODO one day lets refactor this out to clean up this file a bit
+  void _drawHealthBar(Canvas canvas) {
+    const healthBarHeight = 2.0;
+    const healthBarWidthOffset = 2;
+    final healthBarWidth = _scaledCollisionSize.x + (healthBarWidthOffset * 2);
+
+    final healthBarRect = Rect.fromLTWH(_scaledCollisionOffset.x - healthBarWidthOffset,
+        _scaledCollisionOffset.y - (healthBarHeight * 3), healthBarWidth, healthBarHeight);
+
+    final healthBarBackgroundPaint = Paint()
+      ..color = const Color.fromARGB(150, 66, 0, 0)
+      ..style = PaintingStyle.fill;
+
+    final healthBarBackgroundRect =
+        Rect.fromLTWH(healthBarRect.left, healthBarRect.top, healthBarWidth, healthBarHeight);
+
+    canvas.drawRect(healthBarBackgroundRect, healthBarBackgroundPaint);
+
+    final healthBarFillPaint = Paint()
+      ..color = const Color.fromARGB(150, 228, 0, 0)
+      ..style = PaintingStyle.fill;
+
+    final healthBarFillRect = Rect.fromLTWH(healthBarRect.left, healthBarRect.top,
+        healthBarWidth * _currentHealth / entityConfig.totalHealth, healthBarHeight);
+
+    canvas.drawRect(healthBarFillRect, healthBarFillPaint);
   }
 
   // Intended to be overridden by subclasses
@@ -132,7 +158,8 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
   void _updateMovement(double dt) {
     _attackingLogic(dt);
     _logicCalculation(dt);
-    _fallingCalculation(dt);
+    fallingCalculation(dt);
+    _applyBoundingConstraints(dt);
   }
 
   void _attackingLogic(double dt) {
@@ -144,11 +171,27 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
         if (_canInflictDamage && animationTicker?.currentIndex == (entityConfig.attackingConfig.frames / 2).ceil()) {
           // Inflict damage
           _canInflictDamage = false;
-          world.castle.takeDamage(entityConfig.damageOnAttack, position: attackEffectPosition());
+          world.playerManager.castle.takeDamage(entityConfig.damageOnAttack, position: attackEffectPosition());
         } else if (animationTicker?.isFirstFrame == true) {
           _canInflictDamage = true;
         }
       }
+    }
+  }
+
+  void _applyBoundingConstraints(double dt) {
+    // TODO this is an MVP way to remove a edge case from early development, definitely re-visit this and remove it.
+    if (position.x >= parent.positionXBoundary + 50 && current == EntityState.walking) {
+      initiateDeath();
+    }
+
+    if (position.x > world.worldWidth + BoundingConstants.maxXCoordinateOffScreen) {
+      initiateDeath();
+    }
+
+    // We could also perhaps apply friction here again, too, this would be caused by a high velocity throw.
+    if (position.y < BoundingConstants.minYCoordinate) {
+      position.y = BoundingConstants.minYCoordinate;
     }
   }
 
@@ -164,38 +207,28 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
         position.x + (_attackingSize.x / 4) <
             parent.positionXBoundary - extraXBoundaryOffset + entityConfig.extraXBoundaryOffset) {
       position.x = TimestepHelper.add(position.x, entityConfig.walkingForwardSpeed * scale.x, dt);
-    } else if (position.x >= parent.positionXBoundary + 50 && current == EntityState.walking) {
-      // TODO this is an MVP way to remove a edge case from early development, definitely re-visit this and remove it.
-      initiateDeath();
     } else if (position.x <= parent.positionXBoundary + 15 && current == EntityState.walking) {
       current = EntityState.attacking;
     }
   }
 
-  void _fallingCalculation(double dt) {
-    // Always do this, even if not falling, to scale drag velocity updates.
-    _fallVelocity = PhysicsHelper.applyFriction(_fallVelocity, dt);
-    PhysicsHelper.clampVelocity(_fallVelocity);
+  void fallingCalculation(double dt) {}
 
-    if (current == EntityState.falling) {
-      _fallVelocity = PhysicsHelper.applyGravity(_fallVelocity, dt);
-      position = TimestepHelper.addVector2(position, _fallVelocity, dt);
+  void takeDamage(double damage) {
+    _currentHealth -= damage;
 
-      if (position.y >= _pickupHeight) {
-        if (_fallVelocity.y > PhysicsConstants.maxVelocity.y * 0.4) {
-          // Random 'death velocity'
-          initiateDeath();
-        } else {
-          current = EntityState.walking;
-        }
-      }
+    if (_currentHealth <= MiscConstants.eps) {
+      initiateDeath();
+    } else {
+      world.effectManager.addDamageText(damage.toInt(), absoluteCenter);
     }
   }
 
   void initiateDeath() {
     if (current != EntityState.dying) {
+      _currentHealth = 0;
       current = EntityState.dying;
-      world.castle.addGold(entityConfig.goldOnKill);
+      world.playerManager.addGold(entityConfig.goldOnKill);
       world.effectManager.addGoldText(entityConfig.goldOnKill, absoluteCenter);
     }
   }

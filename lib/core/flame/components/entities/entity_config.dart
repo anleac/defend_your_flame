@@ -1,3 +1,4 @@
+import 'package:defend_your_flame/constants/damage_constants.dart';
 import 'package:defend_your_flame/core/flame/components/entities/animation_config.dart';
 import 'package:flame/components.dart';
 
@@ -28,6 +29,8 @@ class EntityConfig {
 
   final int walkingForwardSpeed;
 
+  final double totalHealth;
+
   final int damageOnAttack;
   final int goldOnKill;
 
@@ -41,7 +44,8 @@ class EntityConfig {
     this.collisionSize,
     this.collisionOffset,
     this.attackingCollisionOffset,
-    this.collisionAnchor = Anchor.bottomLeft,
+    this.totalHealth = DamageConstants.fallDamage,
+    this.collisionAnchor = Anchor.topLeft,
     this.idleConfig,
     this.dragConfig,
     this.extraXBoundaryOffset = 0,

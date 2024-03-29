@@ -7,16 +7,12 @@ import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world_state.dart';
 import 'package:flame/components.dart';
 
-class Castle extends SpriteComponent with ParentIsA<MainWorld>, HasVisibility {
+class Castle extends SpriteComponent with HasAncestor<MainWorld>, HasVisibility {
   int _health = 100;
   int _totalHealth = 100;
 
-  // TODO eventually shift castle into a wrapped helper, that will hold other stats.
-  int _gold = 0;
-
   int get currentHealth => _health < 0 ? 0 : _health;
   int get totalHealth => _totalHealth;
-  int get totalGold => _gold;
 
   late final PurpleFlame _topPurpleFlame = PurpleFlame()
     ..position = Vector2(373, 46)
@@ -41,22 +37,18 @@ class Castle extends SpriteComponent with ParentIsA<MainWorld>, HasVisibility {
     return super.onLoad();
   }
 
-  // TODO: Update this properly towards beta to take into account load states etc.
-  void restart() {
-    _gold = 0;
+  void reset() {
     _health = _totalHealth;
     isVisible = true;
     _topPurpleFlame.isVisible = true;
     _topBlueFlame.isVisible = true;
   }
 
-  void addGold(int gold) => _gold += gold;
-
   void takeDamage(int damage, {Vector2? position}) {
     _health -= damage;
     if (position != null) {
       // If we have a valid damage position, then add a damage text effect.
-      parent.effectManager.addDamageText(damage, position);
+      ancestor.effectManager.addDamageText(damage, position);
     }
 
     if (destroyed) {
@@ -64,8 +56,8 @@ class Castle extends SpriteComponent with ParentIsA<MainWorld>, HasVisibility {
       _topBlueFlame.isVisible = false;
       isVisible = false;
 
-      if (parent.worldStateManager.playing) {
-        parent.worldStateManager.changeState(MainWorldState.gameOver);
+      if (ancestor.worldStateManager.playing) {
+        ancestor.worldStateManager.changeState(MainWorldState.gameOver);
       }
     }
   }

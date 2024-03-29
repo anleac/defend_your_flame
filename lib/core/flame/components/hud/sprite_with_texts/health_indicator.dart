@@ -34,7 +34,7 @@ class HealthIndicator extends PositionComponent with HasWorldReference<MainWorld
   }
 
   _setHealthText() {
-    _healthText.text = TranslationHelper.insertNumbers(
-        game.appStrings.healthIndicatorText, [world.castle.currentHealth, world.castle.totalHealth]);
+    _healthText.text = TranslationHelper.insertNumbers(game.appStrings.healthIndicatorText,
+        [world.playerManager.castle.currentHealth, world.playerManager.castle.totalHealth]);
   }
 }

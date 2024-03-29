@@ -1,15 +1,20 @@
 import 'dart:math';
 
+import 'package:defend_your_flame/constants/bounding_constants.dart';
+import 'package:defend_your_flame/constants/damage_constants.dart';
 import 'package:defend_your_flame/constants/physics_constants.dart';
 import 'package:defend_your_flame/core/flame/components/entities/entity.dart';
 import 'package:defend_your_flame/core/flame/components/entities/entity_state.dart';
 import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
+import 'package:defend_your_flame/helpers/physics_helper.dart';
+import 'package:defend_your_flame/helpers/timestep/timestep_helper.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 
 class DraggableEntity extends Entity with DragCallbacks {
   late final double _pickupHeight;
 
+  Vector2 _fallVelocity = Vector2.zero();
   bool _beingDragged = false;
 
   Vector2 _dragVelocity = Vector2.zero();
@@ -76,9 +81,11 @@ class DraggableEntity extends Entity with DragCallbacks {
   }
 
   void updateDragVelocity(Vector2 newVelocity) {
-    const double influence = 0.2;
+    const double influence = 0.15;
     _dragVelocity.x = influence * newVelocity.x + (1 - influence) * _dragVelocity.x;
     _dragVelocity.y = influence * newVelocity.y + (1 - influence) * _dragVelocity.y;
+
+    _fallVelocity = _dragVelocity / 2;
   }
 
   @override
@@ -92,12 +99,11 @@ class DraggableEntity extends Entity with DragCallbacks {
     var timeSinceLastDragEvent = event.timestamp.inMilliseconds - _timeSinceLastDragEvent;
     _timeSinceLastDragEvent = event.timestamp.inMilliseconds;
 
-    var newVelocity = (event.canvasDelta) / (max(timeSinceLastDragEvent, 1) / 1000.0);
+    var newVelocity = (event.canvasDelta) / (max(timeSinceLastDragEvent, 1) / 1200.0);
     updateDragVelocity(newVelocity);
-    super.overrideFallVelocity(_dragVelocity / 2);
 
     position += event.canvasDelta / game.windowScale;
-    position.y = position.y.clamp(-200, _pickupHeight + 10);
+    position.y = position.y.clamp(BoundingConstants.minYCoordinate, _pickupHeight + 10);
 
     _totalDragDistance += event.canvasDelta.length;
   }
@@ -127,7 +133,7 @@ class DraggableEntity extends Entity with DragCallbacks {
   }
 
   void dragDeath() {
-    initiateDeath();
+    hitGround();
     stopDragging();
   }
 
@@ -145,6 +151,36 @@ class DraggableEntity extends Entity with DragCallbacks {
     if (position.y < _pickupHeight - 10) {
       current = EntityState.falling;
     } else {
+      current = EntityState.walking;
+    }
+  }
+
+  @override
+  void fallingCalculation(double dt) {
+    // Always do this, even if not falling, to scale drag velocity updates.
+    _fallVelocity = PhysicsHelper.applyFriction(_fallVelocity, dt);
+    PhysicsHelper.clampVelocity(_fallVelocity);
+
+    if (current == EntityState.falling) {
+      _fallVelocity = PhysicsHelper.applyGravity(_fallVelocity, dt);
+      position = TimestepHelper.addVector2(position, _fallVelocity, dt);
+
+      if (position.y >= _pickupHeight) {
+        if (_fallVelocity.y > PhysicsConstants.maxVelocity.y * 0.4) {
+          hitGround();
+        } else {
+          current = EntityState.walking;
+        }
+      }
+    }
+
+    super.fallingCalculation(dt);
+  }
+
+  void hitGround() {
+    super.takeDamage(DamageConstants.fallDamage);
+
+    if (isAlive) {
       current = EntityState.walking;
     }
   }

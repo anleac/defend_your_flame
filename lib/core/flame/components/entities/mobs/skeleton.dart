@@ -18,6 +18,7 @@ class Skeleton extends DraggableEntity {
     damageOnAttack: 8,
     goldOnKill: 5,
     walkingForwardSpeed: 25,
+    collisionAnchor: Anchor.bottomLeft,
   );
 
   Skeleton({super.scaleModifier}) : super(entityConfig: _skeletonConfig) {
