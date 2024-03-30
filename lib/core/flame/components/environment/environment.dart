@@ -1,6 +1,7 @@
 import 'package:defend_your_flame/core/flame/components/environment/components/background_scenery.dart';
 import 'package:defend_your_flame/core/flame/components/environment/components/ground.dart';
 import 'package:defend_your_flame/core/flame/components/environment/components/moon.dart';
+import 'package:defend_your_flame/core/flame/components/environment/components/sky.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 import 'package:flame/components.dart';
 
@@ -20,6 +21,7 @@ class Environment extends PositionComponent with ParentIsA<MainWorld> {
 
   @override
   Future<void> onLoad() async {
+    add(Sky());
     add(_backgroundScenery);
     add(_ground);
     add(Moon());

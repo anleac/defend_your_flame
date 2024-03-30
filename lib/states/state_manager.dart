@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:defend_your_flame/constants/constants.dart';
 import 'package:defend_your_flame/constants/translations/app_strings.dart';
 import 'package:defend_your_flame/core/flame/game_provider.dart';
 import 'package:defend_your_flame/helpers/platform_helper.dart';
@@ -30,44 +33,51 @@ class _StateManagerState extends State<StateManager> with WidgetsBindingObserver
             var game = GameProvider.of(context).game;
             game.setExternalDependencies(context);
             return Scaffold(
-                body: Center(
-                    child: PopScope(
-                        canPop: false,
-                        child: _buildPlatformDimensionsIfNeeded(
-                            game: Padding(
-                          padding: EdgeInsets.all(PlatformHelper.borderPadding),
-                          child: GameWidget(
-                            game: game,
-                            backgroundBuilder: (context) => const Background(),
-                          ),
-                        )))));
+                body: Background(
+                    child: Center(
+                        child: PopScope(
+                            canPop: false,
+                            child: _buildPlatformDimensionBounds(
+                                game: Padding(
+                              padding: EdgeInsets.all(PlatformHelper.borderPadding),
+                              child: GameWidget(
+                                game: game,
+                                backgroundBuilder: (context) => const Background(),
+                              ),
+                            ))))));
           }
         });
   }
 
-  Widget _buildPlatformDimensionsIfNeeded({
+  Widget _buildPlatformDimensionBounds({
     required Widget game,
   }) {
-    var maxWidth = PlatformHelper.maxRenderWidth;
-    var maxHeight = PlatformHelper.maxRenderHeight;
+    var maxWidth = PlatformHelper.maxRenderWidth ?? double.infinity;
+    var maxHeight = PlatformHelper.maxRenderHeight ?? double.infinity;
 
-    if (maxWidth == null || maxHeight == null) {
-      return game;
+    var currentWidth = MediaQuery.of(context).size.width;
+
+    var theoriticalMaxHeight = currentWidth / Constants.desiredAspectRatio;
+    var theoriticalMaxWidth = theoriticalMaxHeight * Constants.desiredAspectRatio;
+
+    var realMaxHeight = min(theoriticalMaxHeight, maxHeight);
+    var realMaxWidth = min(theoriticalMaxWidth, maxWidth);
+
+    var boundedGame = Container(
+      constraints: BoxConstraints(maxWidth: realMaxWidth, maxHeight: realMaxHeight),
+      child: game,
+    );
+
+    if (!PlatformHelper.isWeb) {
+      return boundedGame;
     }
 
-    return Column(
+    return SingleChildScrollView(
+        child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Expanded(
-            child: ClipRect(
-          child: Container(
-            constraints: BoxConstraints(maxWidth: maxWidth, maxHeight: maxHeight),
-            child: game,
-          ),
-        )),
-        if (PlatformHelper.isWeb) PlatformHelper.webRedirectFooter()
-      ],
-    );
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [boundedGame, if (PlatformHelper.isWeb) PlatformHelper.webRedirectFooter()],
+    ));
   }
 
   @override

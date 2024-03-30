@@ -1,34 +1,25 @@
 import "package:flutter/material.dart";
 
-class Background extends StatefulWidget {
+class Background extends StatelessWidget {
   final Widget? child;
 
   const Background({super.key, this.child});
 
   @override
-  State<Background> createState() => _BackgroundState();
-}
-
-class _BackgroundState extends State<Background> {
-  @override
   Widget build(BuildContext context) {
     return Container(
-        decoration: const BoxDecoration(
-            gradient: LinearGradient(
-      begin: Alignment.topCenter,
-      colors: <Color>[
-        Color.fromARGB(255, 18, 85, 192),
-        Color.fromARGB(255, 77, 123, 191),
-        Color.fromARGB(255, 139, 180, 218),
-        Color.fromARGB(255, 184, 223, 242)
-      ],
-      stops: [
-        0.5,
-        0.8,
-        0.94,
-        1.0,
-      ],
-      end: Alignment.bottomCenter,
-    )));
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          colors: [
+            Colors.blue.shade200,
+            Colors.blue.shade100,
+          ],
+          stops: const [0.0, 0.5],
+          end: Alignment.bottomCenter,
+        ),
+      ),
+      child: child,
+    );
   }
 }

@@ -1,5 +1,4 @@
 import 'package:defend_your_flame/constants/constants.dart';
-import 'package:defend_your_flame/core/flame/components/debug/camera_border.dart';
 import 'package:defend_your_flame/core/flame/components/environment/environment.dart';
 import 'package:defend_your_flame/core/flame/managers/effect_manager.dart';
 import 'package:defend_your_flame/core/flame/managers/entity_manager.dart';
@@ -33,8 +32,6 @@ class MainWorld extends World {
     add(_playerManager);
     add(_entityManager);
     add(_effectManager);
-
-    add(CameraBorder());
 
     // Generally, we should add the HUD to the camera viewpoint to ensure it doesn't move
     // with the world. However, in this case, we have no camera movement and therefore

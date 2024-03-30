@@ -69,7 +69,7 @@ class PlatformHelper {
       return 20;
     }
 
-    return 0;
+    return 20;
   }
 
   static Widget webRedirectFooter() {
