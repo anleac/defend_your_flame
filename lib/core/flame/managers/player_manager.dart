@@ -1,10 +1,11 @@
-import 'package:defend_your_flame/core/flame/components/buildings/castle.dart';
+import 'package:defend_your_flame/core/flame/components/masonry/castle.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 import 'package:flame/components.dart';
 
 class PlayerManager extends PositionComponent with ParentIsA<MainWorld> {
   late final Castle _castle = Castle()
-    ..position = Vector2(parent.worldWidth - 320, parent.worldHeight - 35)
+    ..size = Vector2(350, 20)
+    ..position = Vector2(parent.worldWidth - 280, parent.worldHeight)
     ..anchor = Anchor.bottomLeft;
 
   int _gold = 0;

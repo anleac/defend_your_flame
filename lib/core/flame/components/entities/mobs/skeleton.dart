@@ -11,13 +11,13 @@ class Skeleton extends DraggableEntity {
     attackingCollisionOffset: Vector2(5, 0),
     collisionSize: Vector2(16, 25),
     defaultScale: 1.2,
-    walkingConfig: AnimationConfig(frames: 13, stepTime: 0.09),
+    walkingConfig: AnimationConfig(frames: 13, stepTime: 0.08),
     attackingConfig: AnimationConfig(frames: 18, stepTime: 0.1),
     dragConfig: AnimationConfig(frames: 4, stepTime: 0.2),
     dyingConfig: AnimationConfig(frames: 15, stepTime: 0.07),
     damageOnAttack: 8,
     goldOnKill: 5,
-    walkingForwardSpeed: 25,
+    walkingForwardSpeed: 27,
     collisionAnchor: Anchor.bottomLeft,
   );
 

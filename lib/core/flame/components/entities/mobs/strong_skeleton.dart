@@ -15,7 +15,7 @@ class StrongSkeleton extends DraggableEntity {
     attackingConfig: AnimationConfig(frames: 13, stepTime: 0.11),
     dragConfig: AnimationConfig(frames: 4, stepTime: 0.16),
     dyingConfig: AnimationConfig(frames: 13, stepTime: 0.12),
-    damageOnAttack: 10,
+    damageOnAttack: 15,
     extraXBoundaryOffset: -25,
     goldOnKill: 12,
     walkingForwardSpeed: 19,

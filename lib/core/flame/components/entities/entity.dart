@@ -35,8 +35,9 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
   late Vector2 _scaledCollisionOffset;
 
   final double extraXBoundaryOffset;
+  final double scaleModifier;
 
-  Entity({required this.entityConfig, double scaleModifier = 1, this.extraXBoundaryOffset = 0}) {
+  Entity({required this.entityConfig, this.scaleModifier = 1, this.extraXBoundaryOffset = 0}) {
     size = entityConfig.defaultSize;
     _attackingSize = entityConfig.attackingSize ?? size;
     scale = Vector2.all(entityConfig.defaultScale * scaleModifier);
@@ -171,7 +172,8 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
         if (_canInflictDamage && animationTicker?.currentIndex == (entityConfig.attackingConfig.frames / 2).ceil()) {
           // Inflict damage
           _canInflictDamage = false;
-          world.playerManager.castle.takeDamage(entityConfig.damageOnAttack, position: attackEffectPosition());
+          var damage = (entityConfig.damageOnAttack * scaleModifier).floor();
+          world.playerManager.castle.takeDamage(damage, position: attackEffectPosition());
         } else if (animationTicker?.isFirstFrame == true) {
           _canInflictDamage = true;
         }

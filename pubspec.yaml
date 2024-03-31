@@ -1,7 +1,7 @@
 name: defend_your_flame
 description: Defend your castles flame from the enemy
 publish_to: 'none'
-version: 0.6.1+1 # +1 since we haven't actually published this yet
+version: 0.7.0+1 # +1 since we haven't actually published this yet
 
 environment:
   sdk: '>=3.1.2 <4.0.0'
@@ -33,6 +33,7 @@ flutter:
     - assets/images/mobs/slime/
     - assets/images/mobs/mage/
     - assets/images/environment/
+    - assets/images/masonry/
     - assets/images/hud/
     - assets/images/flames/purple/loops/
     - assets/images/flames/blue/loops/
