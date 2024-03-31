@@ -1,9 +1,10 @@
 import 'package:defend_your_flame/core/flame/components/hud/abstract_components/default_button.dart';
 import 'package:defend_your_flame/core/flame/components/hud/next_round_hud.dart';
-import 'package:defend_your_flame/core/flame/main_game.dart';
+import 'package:defend_your_flame/core/flame/components/hud/next_round_internal/next_round_hud_state.dart';
+import 'package:defend_your_flame/core/flame/components/hud/next_round_internal/next_round_menu_hud.dart';
 import 'package:flame/components.dart';
 
-class EnterShopButton extends DefaultButton with ParentIsA<NextRoundHud>, HasGameReference<MainGame> {
+class EnterShopButton extends DefaultButton with ParentIsA<NextRoundMenuHud>, HasAncestor<NextRoundHud> {
   EnterShopButton() : super(comingSoon: true);
 
   @override
@@ -14,6 +15,6 @@ class EnterShopButton extends DefaultButton with ParentIsA<NextRoundHud>, HasGam
 
   @override
   void onPressed() {
-    // TODO - load a game!
+    ancestor.changeState(NextRoundHudState.shop);
   }
 }

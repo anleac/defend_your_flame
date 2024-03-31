@@ -1,9 +1,8 @@
 import 'package:defend_your_flame/core/flame/components/hud/abstract_components/default_button.dart';
-import 'package:defend_your_flame/core/flame/components/hud/next_round_hud.dart';
-import 'package:defend_your_flame/core/flame/main_game.dart';
+import 'package:defend_your_flame/core/flame/components/hud/next_round_internal/next_round_menu_hud.dart';
 import 'package:flame/components.dart';
 
-class NextRoundButton extends DefaultButton with ParentIsA<NextRoundHud>, HasGameReference<MainGame> {
+class NextRoundButton extends DefaultButton with ParentIsA<NextRoundMenuHud> {
   NextRoundButton() : super();
 
   @override

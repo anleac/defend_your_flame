@@ -61,6 +61,8 @@ class AppStrings {
   String get credits => getValue('credits');
   String get restartGame => getValue('restartGame');
   String get gameOver => getValue('gameOver');
+  String get back => getValue('back');
+  String get shop => getValue('shop');
 
   String get healthIndicatorText => getValue('healthIndicatorAmount');
 }

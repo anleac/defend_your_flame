@@ -16,15 +16,15 @@ class Wall extends PositionComponent with HasVisibility, Snapshot {
   @override
   void onLoad() {
     super.onLoad();
-    _wallSprite = SpriteManager.getSprite('masonry/stone-wall');
+    _wallSprite = SpriteManager.getSprite('masonry/wood-wall');
   }
 
   @override
   void render(Canvas canvas) {
     super.render(canvas);
     const double verticalDiffPerRender = 18;
-    final double iterations = (verticalRange / verticalDiffPerRender);
-    final double horizontalRange = verticalRange / 7;
+    final double iterations = (verticalRange / verticalDiffPerRender).ceilToDouble();
+    final double horizontalRange = verticalRange / 6;
     final double horitontalDiffPerRender = horizontalRange / iterations;
 
     // Inverted because the anchor is bottom left.

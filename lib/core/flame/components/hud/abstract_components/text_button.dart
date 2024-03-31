@@ -1,5 +1,4 @@
 import 'package:defend_your_flame/constants/theming_constants.dart';
-import 'package:defend_your_flame/core/flame/managers/text_manager.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/palette.dart';
