@@ -8,7 +8,7 @@ class Wall extends PositionComponent with HasVisibility, Snapshot {
   late Sprite _wallSprite;
 
   Wall({required double verticalRange}) : super(size: Vector2(156, 398)) {
-    scale = Vector2.all(0.45);
+    scale = Vector2.all(0.4);
     renderSnapshot = true;
     this.verticalRange = verticalRange / scale.y;
   }

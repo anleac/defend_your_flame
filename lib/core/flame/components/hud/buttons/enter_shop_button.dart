@@ -5,8 +5,6 @@ import 'package:defend_your_flame/core/flame/components/hud/next_round_internal/
 import 'package:flame/components.dart';
 
 class EnterShopButton extends DefaultButton with ParentIsA<NextRoundMenuHud>, HasAncestor<NextRoundHud> {
-  EnterShopButton() : super(comingSoon: true);
-
   @override
   void onMount() {
     text = game.appStrings.enterShop;
