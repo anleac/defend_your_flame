@@ -25,7 +25,7 @@ class LevelHud extends BasicHud {
     ..position = Vector2(world.worldWidth / 2, 15)
     ..anchor = Anchor.topCenter;
 
-  late final HealthIndicator _healthIndicator = HealthIndicator()..position = Vector2(world.worldWidth - 140, 15);
+  late final HealthIndicator _healthIndicator = HealthIndicator()..position = Vector2(world.worldWidth - 90, 15);
 
   late final GoldIndicator _goldIndicator = GoldIndicator()..position = _healthIndicator.position + _topRightTextGap;
 

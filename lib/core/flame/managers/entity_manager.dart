@@ -27,7 +27,7 @@ class EntityManager extends Component with ParentIsA<MainWorld> {
 
   // TODO hacky logic here for where the entities should stop.
   int get positionXBoundary =>
-      !parent.worldStateManager.gameOver ? parent.playerManager.castle.position.x.toInt() - 20 : 100000;
+      !parent.worldStateManager.gameOver ? parent.playerManager.castle.position.x.toInt() - 30 : 100000;
 
   void clearRound() {
     _spawning = false;

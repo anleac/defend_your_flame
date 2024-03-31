@@ -11,7 +11,7 @@ class Environment extends PositionComponent with ParentIsA<MainWorld> {
     ..opacity = 0.35;
 
   late final Ground _ground = Ground()
-    ..position = Vector2(0, parent.worldHeight)
+    ..position = Vector2(0, parent.worldHeight + 20)
     ..anchor = Anchor.bottomLeft;
 
   Environment() {

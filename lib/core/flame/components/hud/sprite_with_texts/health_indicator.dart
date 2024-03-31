@@ -5,7 +5,6 @@ import 'package:defend_your_flame/core/flame/components/hud/abstract_components/
 import 'package:defend_your_flame/core/flame/main_game.dart';
 import 'package:defend_your_flame/core/flame/managers/text_manager.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
-import 'package:defend_your_flame/helpers/translation_helper.dart';
 import 'package:flame/components.dart';
 
 class HealthIndicator extends PositionComponent with HasWorldReference<MainWorld>, HasGameReference<MainGame> {
@@ -34,7 +33,6 @@ class HealthIndicator extends PositionComponent with HasWorldReference<MainWorld
   }
 
   _setHealthText() {
-    _healthText.text = TranslationHelper.insertNumbers(game.appStrings.healthIndicatorText,
-        [world.playerManager.castle.currentHealth, world.playerManager.castle.totalHealth]);
+    _healthText.text = world.playerManager.castle.currentHealth.toString();
   }
 }

@@ -5,5 +5,5 @@ class PurpleFlame extends SpriteAnimationComponent with HasVisibility {
   PurpleFlame()
       : super(
             size: Vector2(32, 24),
-            animation: SpriteManager.getAnimation('flames/purple/loops/1', frames: 8, stepTime: 0.09));
+            animation: SpriteManager.getAnimation('flames/purple/loops/1', frames: 8, stepTime: 0.10));
 }

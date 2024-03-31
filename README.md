@@ -19,3 +19,9 @@ Feel free to open a code change, or open an issue, I'll respond to it!
 
 Delete all merged branches:
 > git branch --merged | grep -Ev "(^\*|master|main|dev)" | xargs git branch -d
+
+### Useful AI tools for graphic generation.
+- Image generation: https://bing.com/create
+- Removing backgrounds: https://www.remove.bg/upload
+- Edit manipulation/extension: https://app.runwayml.com/
+- Removing objects: https://snapedit.app/
