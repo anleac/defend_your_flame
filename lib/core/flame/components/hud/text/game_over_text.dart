@@ -1,4 +1,4 @@
-import 'package:defend_your_flame/core/flame/components/hud/abstract_components/default_text.dart';
+import 'package:defend_your_flame/core/flame/components/hud/base_components/default_text.dart';
 
 class GameOverText extends DefaultText {
   @override

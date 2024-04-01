@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:defend_your_flame/core/flame/components/hud/abstract_components/basic_hud.dart';
+import 'package:defend_your_flame/core/flame/components/hud/base_components/basic_hud.dart';
 import 'package:defend_your_flame/core/flame/components/hud/game_over_hud.dart';
 import 'package:defend_your_flame/core/flame/components/hud/level_hud.dart';
 import 'package:defend_your_flame/core/flame/components/hud/main_menu_hud.dart';

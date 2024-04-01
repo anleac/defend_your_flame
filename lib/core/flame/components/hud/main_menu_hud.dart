@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:defend_your_flame/constants/theming_constants.dart';
-import 'package:defend_your_flame/core/flame/components/hud/abstract_components/basic_hud.dart';
+import 'package:defend_your_flame/core/flame/components/hud/base_components/basic_hud.dart';
 import 'package:defend_your_flame/core/flame/components/hud/buttons/credits_button.dart';
 import 'package:defend_your_flame/core/flame/components/hud/buttons/load_game_button.dart';
 import 'package:defend_your_flame/core/flame/components/hud/buttons/start_game_button.dart';

@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:defend_your_flame/core/flame/components/hud/abstract_components/basic_hud.dart';
+import 'package:defend_your_flame/core/flame/components/hud/base_components/basic_hud.dart';
 import 'package:defend_your_flame/core/flame/components/hud/buttons/restart_game_button.dart';
 import 'package:defend_your_flame/core/flame/components/hud/text/game_over_text.dart';
 import 'package:flame/components.dart';
