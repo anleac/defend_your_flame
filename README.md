@@ -25,3 +25,4 @@ Delete all merged branches:
 - Removing backgrounds: https://www.remove.bg/upload
 - Edit manipulation/extension: https://app.runwayml.com/
 - Removing objects: https://snapedit.app/
+- Pixelifying objects: https://pixelartify.com

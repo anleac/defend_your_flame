@@ -6,6 +6,7 @@ import 'package:defend_your_flame/core/flame/managers/entity_manager.dart';
 import 'package:defend_your_flame/core/flame/managers/hud_manager.dart';
 import 'package:defend_your_flame/core/flame/managers/player_manager.dart';
 import 'package:defend_your_flame/core/flame/managers/round_manager.dart';
+import 'package:defend_your_flame/core/flame/managers/shop_manager.dart';
 import 'package:defend_your_flame/core/flame/managers/world_state_manager.dart';
 import 'package:flame/components.dart';
 
@@ -17,12 +18,14 @@ class MainWorld extends World {
   final EntityManager _entityManager = EntityManager();
   final EffectManager _effectManager = EffectManager();
   final WorldStateManager _worldStateManager = WorldStateManager();
+  final ShopManager _shopManager = ShopManager();
 
   PlayerManager get playerManager => _playerManager;
   EntityManager get entityManager => _entityManager;
   EffectManager get effectManager => _effectManager;
   RoundManager get roundManager => _roundManager;
   WorldStateManager get worldStateManager => _worldStateManager;
+  ShopManager get shopManager => _shopManager;
 
   double get worldHeight => Constants.desiredHeight;
   double get worldWidth => Constants.desiredWidth;
@@ -48,5 +51,6 @@ class MainWorld extends World {
 
   _addNonVisualComponents() {
     add(_roundManager);
+    add(_shopManager);
   }
 }

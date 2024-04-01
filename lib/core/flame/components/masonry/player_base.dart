@@ -1,46 +1,44 @@
 import 'dart:async';
 
-import 'package:defend_your_flame/core/flame/components/effects/blue_flame.dart';
 import 'package:defend_your_flame/core/flame/components/effects/purple_flame.dart';
-import 'package:defend_your_flame/core/flame/components/masonry/rock_pile.dart';
-import 'package:defend_your_flame/core/flame/components/masonry/wall.dart';
+import 'package:defend_your_flame/core/flame/components/masonry/rock_fire_pit.dart';
+import 'package:defend_your_flame/core/flame/components/masonry/walls/wall.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world_state.dart';
 import 'package:flame/components.dart';
 
-class Castle extends PositionComponent with HasAncestor<MainWorld>, HasVisibility {
+class PlayerBase extends PositionComponent with HasAncestor<MainWorld>, HasVisibility {
+  static const double baseWidth = 240;
+  static const double baseHeight = 180;
+  static const double wallOffset = 10;
+
   int _health = 100;
   int _totalHealth = 100;
 
   int get currentHealth => _health < 0 ? 0 : _health;
   int get totalHealth => _totalHealth;
 
-  late final Wall _wall = Wall(verticalRange: 140)
-    ..position = Vector2(0, 0)
-    ..anchor = Anchor.bottomLeft;
+  late final Wall _wall = Wall(verticalRange: baseHeight - wallOffset * 2)..position = Vector2(0, wallOffset);
 
-  late final RockPile _rockPile = RockPile()
-    ..position = Vector2(wallWidth + ((width - wallWidth) / 2) - 40, -60)
-    ..anchor = Anchor.bottomCenter;
+  late final RockFirePit _rockFirePit = RockFirePit()
+    ..position = Vector2(wallWidth + ((width - wallWidth) / 2) - 25, baseHeight / 2 - 20);
 
-  late final PurpleFlame _topPurpleFlame = PurpleFlame()
-    ..position = _rockPile.absoluteCenter - Vector2(0, _rockPile.scaledSize.y / 2)
+  late final PurpleFlame _firePitFlame = PurpleFlame()
+    ..position = _rockFirePit.center - Vector2(30, 8)
     ..anchor = Anchor.bottomCenter
-    ..scale = Vector2.all(1.6);
-
-  late final BlueFlame _topBlueFlame = BlueFlame()
-    ..position = Vector2(200, -23)
-    ..scale = Vector2.all(2);
+    ..scale = Vector2(1.2, 2.5);
 
   bool get destroyed => _health <= 0;
   double get wallWidth => _wall.scaledSize.x;
+  Wall get wall => _wall;
+
+  PlayerBase() : super(size: Vector2(baseWidth, baseHeight));
 
   @override
   FutureOr<void> onLoad() {
     add(_wall);
-    add(_topPurpleFlame);
-    add(_rockPile);
-    // add(_topBlueFlame);
+    add(_rockFirePit);
+    add(_firePitFlame);
     return super.onLoad();
   }
 
@@ -48,8 +46,7 @@ class Castle extends PositionComponent with HasAncestor<MainWorld>, HasVisibilit
     _health = _totalHealth;
     isVisible = true;
     _wall.isVisible = true;
-    _topPurpleFlame.isVisible = true;
-    _topBlueFlame.isVisible = true;
+    _firePitFlame.isVisible = true;
   }
 
   void takeDamage(int damage, {Vector2? position}) {
@@ -60,8 +57,7 @@ class Castle extends PositionComponent with HasAncestor<MainWorld>, HasVisibilit
     }
 
     if (destroyed) {
-      _topPurpleFlame.isVisible = false;
-      _topBlueFlame.isVisible = false;
+      _firePitFlame.isVisible = false;
       isVisible = false;
 
       if (ancestor.worldStateManager.playing) {

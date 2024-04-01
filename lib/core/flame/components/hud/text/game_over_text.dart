@@ -1,10 +1,6 @@
-import 'package:defend_your_flame/core/flame/main_game.dart';
-import 'package:defend_your_flame/core/flame/managers/text_manager.dart';
-import 'package:flame/components.dart';
+import 'package:defend_your_flame/core/flame/components/hud/base_components/default_text.dart';
 
-class GameOverText extends TextComponent with HasGameReference<MainGame> {
-  GameOverText() : super(text: '', anchor: Anchor.center, textRenderer: TextManager.defaultRenderer);
-
+class GameOverText extends DefaultText {
   @override
   void onMount() {
     text = game.appStrings.gameOver;

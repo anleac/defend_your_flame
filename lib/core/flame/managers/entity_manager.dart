@@ -27,7 +27,7 @@ class EntityManager extends Component with ParentIsA<MainWorld> {
 
   // TODO hacky logic here for where the entities should stop.
   int get positionXBoundary =>
-      !parent.worldStateManager.gameOver ? parent.playerManager.castle.position.x.toInt() - 30 : 100000;
+      !parent.worldStateManager.gameOver ? parent.playerManager.playerBase.position.x.toInt() - 60 : 100000;
 
   void clearRound() {
     _spawning = false;
@@ -129,7 +129,7 @@ class EntityManager extends Component with ParentIsA<MainWorld> {
 
     var currentRound = parent.roundManager.currentRound;
     var randomNumber = GlobalVars.rand.nextInt(100);
-    if (randomNumber < max(currentRound * 2, 15) && currentRound > 1) {
+    if (randomNumber < max(currentRound * 3, 25) && currentRound > 1) {
       _addEntity(StrongSkeleton.spawn(
           position: startPosition, scaleModifier: MiscHelper.randomDouble(minValue: 1, maxValue: 1.2)));
     } else if (randomNumber < 70) {

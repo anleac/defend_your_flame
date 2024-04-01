@@ -173,7 +173,7 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
           // Inflict damage
           _canInflictDamage = false;
           var damage = (entityConfig.damageOnAttack * scaleModifier).floor();
-          world.playerManager.castle.takeDamage(damage, position: attackEffectPosition());
+          world.playerManager.playerBase.takeDamage(damage, position: attackEffectPosition());
         } else if (animationTicker?.isFirstFrame == true) {
           _canInflictDamage = true;
         }
@@ -230,7 +230,7 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
     if (current != EntityState.dying) {
       _currentHealth = 0;
       current = EntityState.dying;
-      world.playerManager.addGold(entityConfig.goldOnKill);
+      world.playerManager.mutateGold(entityConfig.goldOnKill);
       world.effectManager.addGoldText(entityConfig.goldOnKill, absoluteCenter);
     }
   }

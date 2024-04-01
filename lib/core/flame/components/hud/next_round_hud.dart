@@ -1,27 +1,57 @@
 import 'dart:async';
 
-import 'package:defend_your_flame/constants/theming_constants.dart';
-import 'package:defend_your_flame/core/flame/components/hud/abstract_components/basic_hud.dart';
-import 'package:defend_your_flame/core/flame/components/hud/buttons/enter_shop_button.dart';
-import 'package:defend_your_flame/core/flame/components/hud/buttons/next_round_button.dart';
-import 'package:flame/components.dart';
+import 'package:defend_your_flame/core/flame/components/hud/base_components/basic_hud.dart';
+import 'package:defend_your_flame/core/flame/components/hud/next_round_internal/next_round_hud_state.dart';
+import 'package:defend_your_flame/core/flame/components/hud/next_round_internal/next_round_menu_hud.dart';
+import 'package:defend_your_flame/core/flame/components/hud/shop/main_shop_hud.dart';
 
 class NextRoundHud extends BasicHud {
-  late final NextRoundButton _nextRound = NextRoundButton()
-    ..position = Vector2(world.worldWidth / 2, world.worldHeight / 4);
+  NextRoundHudState _state = NextRoundHudState.menu;
 
-  late final EnterShopButton _enterShop = EnterShopButton()
-    ..position = _nextRound.position + ThemingConstants.menuButtonGap;
+  late final NextRoundMenuHud _menu = NextRoundMenuHud();
+  late final MainShopHud _shop = MainShopHud();
 
   @override
   FutureOr<void> onLoad() {
-    add(_nextRound);
-    add(_enterShop);
-
+    add(_menu);
     return super.onLoad();
   }
 
-  void startNextRound() {
-    world.roundManager.startNextRound();
+  @override
+  void reset() {
+    for (var child in children) {
+      if (child is BasicHud) {
+        child.reset();
+      }
+    }
+
+    changeState(NextRoundHudState.menu);
+
+    super.reset();
+  }
+
+  void changeState(NextRoundHudState state) {
+    if (_state == state) return;
+    _state = state;
+
+    for (var child in children) {
+      if (child is BasicHud) {
+        child.removeFromParent();
+      }
+    }
+
+    late BasicHud hudToShow;
+
+    switch (_state) {
+      case NextRoundHudState.menu:
+        hudToShow = _menu;
+        break;
+      case NextRoundHudState.shop:
+        hudToShow = _shop;
+        break;
+    }
+
+    hudToShow.reset();
+    add(hudToShow);
   }
 }

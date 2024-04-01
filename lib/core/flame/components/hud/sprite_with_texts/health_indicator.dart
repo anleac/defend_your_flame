@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:defend_your_flame/core/flame/components/effects/rock_heart.dart';
-import 'package:defend_your_flame/core/flame/components/hud/abstract_components/sprite_with_text.dart';
+import 'package:defend_your_flame/core/flame/components/hud/base_components/sprite_with_text.dart';
 import 'package:defend_your_flame/core/flame/main_game.dart';
 import 'package:defend_your_flame/core/flame/managers/text_manager.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
@@ -33,6 +33,6 @@ class HealthIndicator extends PositionComponent with HasWorldReference<MainWorld
   }
 
   _setHealthText() {
-    _healthText.text = world.playerManager.castle.currentHealth.toString();
+    _healthText.text = world.playerManager.playerBase.currentHealth.toString();
   }
 }

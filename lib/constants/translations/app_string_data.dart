@@ -11,6 +11,12 @@ class AppStringData {
       'credits': 'Credits',
       'restartGame': 'Restart Game',
       'gameOver': 'Game Over',
+      'back': 'Back',
+      'shop': 'Shop',
+      'description': 'Description',
+      'itemCostLabel': 'Cost:',
+      'itemTitleLabel': 'Item:',
+      'buy': 'Buy',
       'startRound': 'Start Next Round',
       'healthIndicatorAmount': '${AppStrings.placeholderText}/${AppStrings.placeholderText}'
     },

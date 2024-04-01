@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:defend_your_flame/core/flame/components/effects/gold_pile.dart';
-import 'package:defend_your_flame/core/flame/components/hud/abstract_components/sprite_with_text.dart';
+import 'package:defend_your_flame/core/flame/components/hud/base_components/sprite_with_text.dart';
 import 'package:defend_your_flame/core/flame/managers/text_manager.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 import 'package:flame/components.dart';

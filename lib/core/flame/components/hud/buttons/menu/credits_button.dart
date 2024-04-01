@@ -1,9 +1,8 @@
-import 'package:defend_your_flame/core/flame/components/hud/abstract_components/default_button.dart';
+import 'package:defend_your_flame/core/flame/components/hud/base_components/default_button.dart';
 import 'package:defend_your_flame/core/flame/components/hud/main_menu_hud.dart';
-import 'package:defend_your_flame/core/flame/main_game.dart';
 import 'package:flame/components.dart';
 
-class CreditsButton extends DefaultButton with ParentIsA<MainMenuHud>, HasGameReference<MainGame> {
+class CreditsButton extends DefaultButton with ParentIsA<MainMenuHud> {
   CreditsButton() : super(comingSoon: true);
 
   @override
@@ -14,6 +13,6 @@ class CreditsButton extends DefaultButton with ParentIsA<MainMenuHud>, HasGameRe
 
   @override
   void onPressed() {
-    // TODO - load a game!
+    // TODO - load credits
   }
 }
