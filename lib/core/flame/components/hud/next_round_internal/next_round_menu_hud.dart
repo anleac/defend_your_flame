@@ -1,7 +1,7 @@
 import 'package:defend_your_flame/constants/theming_constants.dart';
 import 'package:defend_your_flame/core/flame/components/hud/base_components/basic_hud.dart';
-import 'package:defend_your_flame/core/flame/components/hud/buttons/enter_shop_button.dart';
-import 'package:defend_your_flame/core/flame/components/hud/buttons/next_round_button.dart';
+import 'package:defend_your_flame/core/flame/components/hud/buttons/between_rounds/enter_shop_button.dart';
+import 'package:defend_your_flame/core/flame/components/hud/buttons/between_rounds/next_round_button.dart';
 import 'package:defend_your_flame/core/flame/components/hud/next_round_hud.dart';
 import 'package:flame/components.dart';
 

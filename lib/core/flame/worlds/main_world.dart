@@ -51,5 +51,6 @@ class MainWorld extends World {
 
   _addNonVisualComponents() {
     add(_roundManager);
+    add(_shopManager);
   }
 }

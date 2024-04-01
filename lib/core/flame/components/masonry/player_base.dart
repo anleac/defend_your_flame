@@ -24,12 +24,13 @@ class PlayerBase extends PositionComponent with HasAncestor<MainWorld>, HasVisib
     ..position = Vector2(wallWidth + ((width - wallWidth) / 2) - 25, baseHeight / 2 - 20);
 
   late final PurpleFlame _firePitFlame = PurpleFlame()
-    ..position = _rockFirePit.center - Vector2(15, -5)
+    ..position = _rockFirePit.center - Vector2(30, 8)
     ..anchor = Anchor.bottomCenter
     ..scale = Vector2(1.2, 2.5);
 
   bool get destroyed => _health <= 0;
   double get wallWidth => _wall.scaledSize.x;
+  Wall get wall => _wall;
 
   PlayerBase() : super(size: Vector2(baseWidth, baseHeight));
 

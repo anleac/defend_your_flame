@@ -63,6 +63,10 @@ class AppStrings {
   String get gameOver => getValue('gameOver');
   String get back => getValue('back');
   String get shop => getValue('shop');
+  String get description => getValue('description');
+  String get itemTitleLabel => getValue('itemTitleLabel');
+  String get itemCostLabel => getValue('itemCostLabel');
+  String get buy => getValue('buy');
 
   String get healthIndicatorText => getValue('healthIndicatorAmount');
 }

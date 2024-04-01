@@ -1,10 +1,11 @@
+import 'package:defend_your_flame/constants/theming_constants.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 
 // Draws an opaque black background with a grey rounded border around it.
 class BorderedBackground extends PositionComponent with Snapshot {
   static final Paint _borderPaint = Paint()
-    ..color = const Color(0xFF808080)
+    ..color = ThemingConstants.borderColour
     ..style = PaintingStyle.stroke;
 
   static final Paint _fillPaint = Paint()

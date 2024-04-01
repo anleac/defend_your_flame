@@ -1,4 +1,4 @@
-import 'package:flame/components.dart';
+import 'package:flame/image_composition.dart';
 
 class ThemingConstants {
   static const String comingSoonIndicator = '(soon)';
@@ -10,4 +10,6 @@ class ThemingConstants {
 
   static final Vector2 _menuButtonGap = Vector2(0, 70);
   static Vector2 get menuButtonGap => _menuButtonGap;
+
+  static const Color borderColour = Color(0xFF808080);
 }

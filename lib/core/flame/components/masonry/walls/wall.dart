@@ -11,10 +11,9 @@ class Wall extends PositionComponent with HasVisibility, Snapshot {
 
   WallType _wallType = WallType.wood;
 
-  Wall({required double verticalRange}) : super(size: Vector2(156, 398)) {
+  Wall({required this.verticalRange}) : super(size: Vector2(156, 398)) {
     scale = WallHelper.getScale(_wallType);
     renderSnapshot = true;
-    this.verticalRange = verticalRange / scale.y;
   }
 
   @override
@@ -28,8 +27,9 @@ class Wall extends PositionComponent with HasVisibility, Snapshot {
   void render(Canvas canvas) {
     super.render(canvas);
     const double verticalDiffPerRender = 30;
-    final double iterations = (verticalRange / verticalDiffPerRender).ceilToDouble();
-    final double horizontalRange = verticalRange / 12;
+    final double scaledVerticalRange = verticalRange / scale.y;
+    final double iterations = (scaledVerticalRange / verticalDiffPerRender).ceilToDouble();
+    final double horizontalRange = scaledVerticalRange / 12;
     final double horitontalDiffPerRender = horizontalRange / iterations;
 
     double runningX = 0;

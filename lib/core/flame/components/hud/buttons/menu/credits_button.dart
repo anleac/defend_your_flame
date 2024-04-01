@@ -13,6 +13,6 @@ class CreditsButton extends DefaultButton with ParentIsA<MainMenuHud> {
 
   @override
   void onPressed() {
-    // TODO - load a game!
+    // TODO - load credits
   }
 }

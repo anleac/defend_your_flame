@@ -11,6 +11,8 @@ class RockFirePit extends PositionComponent with Snapshot {
   static const double ovalWidth = 60;
   static const double ovalHeight = 20;
 
+  static final Vector2 rockSize = Vector2(24, 24);
+
   late final List<Sprite> _rockSprites =
       List.generate(rockTypes, (index) => SpriteManager.getSprite('environment/rocks/rock${index + 1}'));
 
@@ -24,6 +26,7 @@ class RockFirePit extends PositionComponent with Snapshot {
     super.render(canvas);
 
     const int numRocks = 20;
+    const double rockScale = 0.6;
 
     // Create a list of rocks with their positions
     List<Vector2> rocks = [];
@@ -41,7 +44,8 @@ class RockFirePit extends PositionComponent with Snapshot {
     rocks.sort((a, b) => a.y.compareTo(b.y));
 
     for (Vector2 rock in rocks) {
-      MiscHelper.randomElement(_rockSprites).render(canvas, position: rock);
+      MiscHelper.randomElement(_rockSprites)
+          .render(canvas, size: rockSize * rockScale, position: rock, anchor: Anchor.center);
     }
   }
 }
