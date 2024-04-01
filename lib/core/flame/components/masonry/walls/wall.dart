@@ -32,7 +32,6 @@ class Wall extends PositionComponent with HasVisibility, Snapshot {
     final double horizontalRange = verticalRange / 12;
     final double horitontalDiffPerRender = horizontalRange / iterations;
 
-    // Inverted because the anchor is bottom left.
     double runningX = 0;
     double runninyY = 0;
     for (int i = 0; i < iterations; i++) {

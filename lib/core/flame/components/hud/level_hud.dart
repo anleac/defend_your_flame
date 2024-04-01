@@ -22,7 +22,7 @@ class LevelHud extends BasicHud {
     ..scale = _versionText.scale;
 
   late final RoundText _roundText = RoundText()
-    ..position = Vector2(world.worldWidth / 2, 15)
+    ..position = Vector2(world.worldWidth / 2, 20)
     ..anchor = Anchor.topCenter;
 
   late final HealthIndicator _healthIndicator = HealthIndicator()..position = Vector2(world.worldWidth - 90, 15);
