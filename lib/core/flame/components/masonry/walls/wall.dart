@@ -29,7 +29,7 @@ class Wall extends PositionComponent with HasVisibility, Snapshot {
     super.render(canvas);
     const double verticalDiffPerRender = 30;
     final double iterations = (verticalRange / verticalDiffPerRender).ceilToDouble();
-    final double horizontalRange = verticalRange / 6;
+    final double horizontalRange = verticalRange / 12;
     final double horitontalDiffPerRender = horizontalRange / iterations;
 
     // Inverted because the anchor is bottom left.
