@@ -1,3 +1,4 @@
+import 'package:defend_your_flame/constants/theming_constants.dart';
 import 'package:defend_your_flame/core/flame/components/hud/abstract_components/basic_hud.dart';
 import 'package:defend_your_flame/core/flame/components/hud/buttons/go_back_button.dart';
 import 'package:defend_your_flame/core/flame/components/hud/next_round_hud.dart';
@@ -12,7 +13,7 @@ class NextRoundShopHud extends BasicHud with ParentIsA<NextRoundHud> {
     ..anchor = Anchor.topCenter;
 
   late final GoldIndicator _goldIndicator = GoldIndicator()
-    ..position = Vector2(world.worldWidth / 2, world.worldHeight / 3) - Vector2(20, 0)
+    ..position = _shopTitleText.position + ThemingConstants.menuButtonGap - Vector2(55, 0)
     ..scale = Vector2.all(2);
 
   late final GoBackButton _backButton = GoBackButton(backFunction: onBackButtonPressed)

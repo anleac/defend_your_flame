@@ -1,0 +1,1 @@
+enum WallType { wood, stone }

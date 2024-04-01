@@ -101,6 +101,7 @@ class EntityManager extends Component with ParentIsA<MainWorld> {
   }
 
   void spawnEntity() {
+    return;
     var randomNumber = GlobalVars.rand.nextInt(100);
 
     // TODO add back in mages when you enable a way to kill them.

@@ -2,25 +2,26 @@ import 'dart:async';
 
 import 'package:defend_your_flame/core/flame/components/effects/purple_flame.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/rock_fire_pit.dart';
-import 'package:defend_your_flame/core/flame/components/masonry/wall.dart';
+import 'package:defend_your_flame/core/flame/components/masonry/walls/wall.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world_state.dart';
 import 'package:flame/components.dart';
 
-class Castle extends PositionComponent with HasAncestor<MainWorld>, HasVisibility {
+class PlayerBase extends PositionComponent with HasAncestor<MainWorld>, HasVisibility {
+  static const double baseWidth = 240;
+  static const double baseHeight = 180;
+  static const double wallOffset = 10;
+
   int _health = 100;
   int _totalHealth = 100;
 
   int get currentHealth => _health < 0 ? 0 : _health;
   int get totalHealth => _totalHealth;
 
-  late final Wall _wall = Wall(verticalRange: 140)
-    ..position = Vector2(0, 0)
-    ..anchor = Anchor.bottomLeft;
+  late final Wall _wall = Wall(verticalRange: baseHeight - wallOffset * 2)..position = Vector2(0, wallOffset);
 
   late final RockFirePit _rockFirePit = RockFirePit()
-    ..position = Vector2(wallWidth + ((width - wallWidth) / 2) - 40, -60)
-    ..anchor = Anchor.bottomLeft;
+    ..position = Vector2(wallWidth + ((width - wallWidth) / 2) - 25, baseHeight / 2 - 20);
 
   late final PurpleFlame _firePitFlame = PurpleFlame()
     ..position = _rockFirePit.center - Vector2(15, -5)
@@ -29,6 +30,8 @@ class Castle extends PositionComponent with HasAncestor<MainWorld>, HasVisibilit
 
   bool get destroyed => _health <= 0;
   double get wallWidth => _wall.scaledSize.x;
+
+  PlayerBase() : super(size: Vector2(baseWidth, baseHeight));
 
   @override
   FutureOr<void> onLoad() {
