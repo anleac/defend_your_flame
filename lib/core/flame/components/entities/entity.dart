@@ -34,6 +34,8 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
   late Vector2 _scaledCollisionSize;
   late Vector2 _scaledCollisionOffset;
 
+  late Vector2 _startingPosition;
+
   final double extraXBoundaryOffset;
   final double scaleModifier;
 
@@ -69,6 +71,12 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
       size = newSize;
       _calculateCollisionSize();
     }
+  }
+
+  @override
+  void onMount() {
+    super.onMount();
+    _startingPosition = position.clone();
   }
 
   bool pointInside(Vector2 point) {
@@ -182,18 +190,22 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
   }
 
   void _applyBoundingConstraints(double dt) {
-    // TODO this is an MVP way to remove a edge case from early development, definitely re-visit this and remove it.
-    if (position.x >= parent.positionXBoundary + 50 && current == EntityState.walking) {
-      initiateDeath();
-    }
-
-    if (position.x > world.worldWidth + BoundingConstants.maxXCoordinateOffScreen) {
-      initiateDeath();
-    }
-
     // We could also perhaps apply friction here again, too, this would be caused by a high velocity throw.
     if (position.y < BoundingConstants.minYCoordinate) {
       position.y = BoundingConstants.minYCoordinate;
+    }
+
+    // Bind the entity to the left of the screen so they don't get thrown too hard off the screen.
+    if (position.x < BoundingConstants.minXCoordinateOffScreen) {
+      position.x = BoundingConstants.minXCoordinateOffScreen;
+    }
+
+    if (current != EntityState.dragged && world.playerManager.playerBase.entityInside(this)) {
+      teleportToStart();
+    }
+
+    if (position.x > world.worldWidth + BoundingConstants.maxXCoordinateOffScreen) {
+      teleportToStart();
     }
   }
 
@@ -233,5 +245,10 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
       world.playerManager.mutateGold(entityConfig.goldOnKill);
       world.effectManager.addGoldText(entityConfig.goldOnKill, absoluteCenter);
     }
+  }
+
+  void teleportToStart() {
+    position = _startingPosition;
+    current = EntityState.walking;
   }
 }
