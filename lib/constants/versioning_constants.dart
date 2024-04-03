@@ -9,7 +9,7 @@ class VersioningConstants {
 
   static const _majorVersion = 0;
   static const _minorVersion = 8;
-  static const _patchVersion = 0;
+  static const _patchVersion = 1;
 
   static const _releaseVersion = ReleaseVersion.alpha;
 

@@ -53,7 +53,7 @@ class EntityManager extends Component with ParentIsA<MainWorld> {
     _spawning = true;
 
     // TODO revisit this spawn logic
-    _totalSpawnCountThisRound = sqrt(currentRound * 10).ceil() + 4;
+    _totalSpawnCountThisRound = sqrt(currentRound * 15).ceil() + 4;
     _remainingEntitiesToSpawn = _totalSpawnCountThisRound;
 
     // Scale the time duration that they should spawn over

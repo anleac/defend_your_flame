@@ -33,6 +33,6 @@ class HealthIndicator extends PositionComponent with HasWorldReference<MainWorld
   }
 
   _setHealthText() {
-    _healthText.text = world.playerManager.playerBase.currentHealth.toString();
+    _healthText.text = world.playerManager.playerBase.wall.health.toString();
   }
 }

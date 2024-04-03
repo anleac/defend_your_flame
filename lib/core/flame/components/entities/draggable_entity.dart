@@ -81,7 +81,7 @@ class DraggableEntity extends Entity with DragCallbacks {
   }
 
   void updateDragVelocity(Vector2 newVelocity) {
-    const double influence = 0.13;
+    const double influence = 0.15;
     _dragVelocity.x = influence * newVelocity.x + (1 - influence) * _dragVelocity.x;
     _dragVelocity.y = influence * newVelocity.y + (1 - influence) * _dragVelocity.y;
 
@@ -159,7 +159,15 @@ class DraggableEntity extends Entity with DragCallbacks {
   void fallingCalculation(double dt) {
     // Always do this, even if not falling, to scale drag velocity updates.
     _fallVelocity = PhysicsHelper.applyFriction(_fallVelocity, dt);
+    _dragVelocity = PhysicsHelper.applyFriction(_dragVelocity, dt);
+
+    // Helps to reset when drag is idle.
+    if (current == EntityState.dragged) {
+      updateDragVelocity(Vector2.zero());
+    }
+
     PhysicsHelper.clampVelocity(_fallVelocity);
+    PhysicsHelper.clampVelocity(_dragVelocity);
 
     if (current == EntityState.falling) {
       _fallVelocity = PhysicsHelper.applyGravity(_fallVelocity, dt);
