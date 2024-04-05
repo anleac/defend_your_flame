@@ -81,11 +81,11 @@ class DraggableEntity extends Entity with DragCallbacks {
   }
 
   void updateDragVelocity(Vector2 newVelocity) {
-    const double influence = 0.15;
+    const double influence = 0.2;
     _dragVelocity.x = influence * newVelocity.x + (1 - influence) * _dragVelocity.x;
     _dragVelocity.y = influence * newVelocity.y + (1 - influence) * _dragVelocity.y;
 
-    _fallVelocity = _dragVelocity / 1.5;
+    _fallVelocity = _dragVelocity / 2;
   }
 
   @override
@@ -96,14 +96,22 @@ class DraggableEntity extends Entity with DragCallbacks {
       return;
     }
 
-    var timeSinceLastDragEvent = event.timestamp.inMilliseconds - _timeSinceLastDragEvent;
-    _timeSinceLastDragEvent = event.timestamp.inMilliseconds;
+    var timeSinceLastDragEvent = event.timestamp.inMicroseconds - _timeSinceLastDragEvent;
+    _timeSinceLastDragEvent = event.timestamp.inMicroseconds;
 
-    var newVelocity = (event.canvasDelta) / (max(timeSinceLastDragEvent, 1) / 1200.0);
+    var dragDistance = (event.canvasDelta / game.windowScale) * entityConfig.dragResistance;
+
+    // Since we are dealing in time delta in microseconds, we want to divide by 1,000,000 to get seconds.
+    const divisionFactor = 1000000;
+
+    var newVelocity = dragDistance / (max(timeSinceLastDragEvent, 1) / divisionFactor);
     updateDragVelocity(newVelocity);
 
-    position += event.canvasDelta / game.windowScale;
+    position += dragDistance;
+
     position.y = position.y.clamp(BoundingConstants.minYCoordinate, _pickupHeight + 10);
+    position.x = position.x
+        .clamp(BoundingConstants.minXCoordinateOffScreen, world.worldWidth + BoundingConstants.maxXCoordinateOffScreen);
 
     _totalDragDistance += event.canvasDelta.length;
   }

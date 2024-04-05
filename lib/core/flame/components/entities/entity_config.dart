@@ -23,6 +23,7 @@ class EntityConfig {
 
   final AnimationConfig? idleConfig;
   final AnimationConfig? dragConfig;
+
   final AnimationConfig walkingConfig;
   final AnimationConfig attackingConfig;
   final AnimationConfig dyingConfig;
@@ -34,7 +35,8 @@ class EntityConfig {
   final int damageOnAttack;
   final int goldOnKill;
 
-  final bool canBePickedUp;
+  final bool canBeDragged;
+  final double dragResistance;
 
   EntityConfig({
     required this.entityResourceName,
@@ -55,6 +57,7 @@ class EntityConfig {
     required this.walkingForwardSpeed,
     required this.damageOnAttack,
     required this.goldOnKill,
-    this.canBePickedUp = true,
+    this.canBeDragged = true,
+    this.dragResistance = 1.0,
   });
 }
