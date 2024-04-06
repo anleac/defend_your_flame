@@ -35,7 +35,6 @@ class EntityConfig {
   final int damageOnAttack;
   final int goldOnKill;
 
-  final bool canBeDragged;
   final double dragResistance;
 
   EntityConfig({
@@ -57,7 +56,6 @@ class EntityConfig {
     required this.walkingForwardSpeed,
     required this.damageOnAttack,
     required this.goldOnKill,
-    this.canBeDragged = true,
     this.dragResistance = 1.0,
   });
 }

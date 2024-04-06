@@ -10,7 +10,6 @@ import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 import 'package:defend_your_flame/helpers/debug/debug_helper.dart';
 import 'package:defend_your_flame/helpers/physics_helper.dart';
-import 'package:defend_your_flame/helpers/timestep/debug/timestep_faker.dart';
 import 'package:defend_your_flame/helpers/timestep/timestep_helper.dart';
 import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
@@ -18,16 +17,13 @@ import 'package:flutter/rendering.dart';
 
 class Entity extends SpriteAnimationGroupComponent<EntityState>
     with ParentIsA<EntityManager>, HasWorldReference<MainWorld>, HasGameReference<MainGame>, HasVisibility {
+  static const double offscreenTimeoutInSeconds = 3;
+
   final EntityConfig entityConfig;
-
-  bool _canInflictDamage = false;
-
-  bool get isAlive => _currentHealth > MiscConstants.eps;
+  final double extraXBoundaryOffset;
+  final double scaleModifier;
 
   late double _currentHealth;
-
-  Rect get localCollisionRect =>
-      Rect.fromLTWH(_scaledCollisionOffset.x, _scaledCollisionOffset.y, _scaledCollisionSize.x, _scaledCollisionSize.y);
 
   late Vector2 _attackingSize;
 
@@ -36,8 +32,12 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
 
   late Vector2 _startingPosition;
 
-  final double extraXBoundaryOffset;
-  final double scaleModifier;
+  bool _canInflictDamage = false;
+  double _offscreenTimerInMilliseconds = 0;
+
+  bool get isAlive => _currentHealth > MiscConstants.eps;
+  Rect get localCollisionRect =>
+      Rect.fromLTWH(_scaledCollisionOffset.x, _scaledCollisionOffset.y, _scaledCollisionSize.x, _scaledCollisionSize.y);
 
   Entity({required this.entityConfig, this.scaleModifier = 1, this.extraXBoundaryOffset = 0}) {
     size = entityConfig.defaultSize;
@@ -109,15 +109,12 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
 
   @override
   void update(double dt) {
-    var fakeTimestep = game.findByKeyName<TimestepFaker>(TimestepFaker.componentKey);
-
-    if (fakeTimestep != null) {
-      fakeTimestep.updateWithFakeTimestep(dt, _updateMovement);
-    } else {
-      _updateMovement(dt);
-    }
-
     super.update(dt);
+
+    _attackingLogic(dt);
+    _logicCalculation(dt);
+    fallingCalculation(dt);
+    _applyBoundingConstraints(dt);
   }
 
   @override
@@ -164,13 +161,6 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
   // Intended to be overridden by subclasses
   Vector2? attackEffectPosition() => null;
 
-  void _updateMovement(double dt) {
-    _attackingLogic(dt);
-    _logicCalculation(dt);
-    fallingCalculation(dt);
-    _applyBoundingConstraints(dt);
-  }
-
   void _attackingLogic(double dt) {
     if (current == EntityState.attacking) {
       // Special case where the game has ended.
@@ -190,6 +180,10 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
   }
 
   void _applyBoundingConstraints(double dt) {
+    if (!isAlive) {
+      return;
+    }
+
     // We could also perhaps apply friction here again, too, this would be caused by a high velocity throw.
     if (position.y < BoundingConstants.minYCoordinate) {
       position.y = BoundingConstants.minYCoordinate;
@@ -204,9 +198,21 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
       teleportToStart();
     }
 
-    if (position.x > world.worldWidth + BoundingConstants.maxXCoordinateOffScreen) {
-      teleportToStart();
+    if (position.x > world.worldWidth) {
+      _offscreenTimerInMilliseconds += dt;
+
+      if (position.x > world.worldWidth + BoundingConstants.maxXCoordinateOffScreen &&
+          _offscreenTimerInMilliseconds > offscreenTimeoutInSeconds) {
+        teleportToStart();
+      }
+    } else {
+      _offscreenTimerInMilliseconds = 0;
     }
+  }
+
+  void _checkStuckLogic() {
+    // There are a few cases I've observed so far where the entity can get stuck.
+    // 1. If the entity is dragged and then the game is paused, the entity will be stuck in the dragged state.
   }
 
   void _logicCalculation(double dt) {
@@ -248,7 +254,10 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
   }
 
   void teleportToStart() {
-    position = _startingPosition;
-    current = EntityState.walking;
+    // If they're dead, theres no real point to do this.
+    if (isAlive) {
+      position = _startingPosition;
+      current = EntityState.walking;
+    }
   }
 }

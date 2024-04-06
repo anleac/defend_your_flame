@@ -18,6 +18,7 @@ class Skeleton extends DraggableEntity {
     damageOnAttack: 8,
     goldOnKill: 5,
     walkingForwardSpeed: 27,
+    dragResistance: 0.9,
     collisionAnchor: Anchor.bottomLeft,
   );
 

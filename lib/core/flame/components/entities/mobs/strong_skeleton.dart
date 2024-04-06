@@ -21,7 +21,7 @@ class StrongSkeleton extends DraggableEntity {
     walkingForwardSpeed: 19,
     // Let him survive two falls
     totalHealth: DamageConstants.fallDamage * 2,
-    dragResistance: 0.4,
+    dragResistance: 0.48,
   );
 
   StrongSkeleton({super.scaleModifier}) : super(entityConfig: _strongSkeletonConfig);

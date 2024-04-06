@@ -12,13 +12,17 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 
 class DraggableEntity extends Entity with DragCallbacks {
+  static const double dragTimeoutInSeconds = 3.5;
+
   late final double _pickupHeight;
 
   Vector2 _fallVelocity = Vector2.zero();
   bool _beingDragged = false;
 
   Vector2 _dragVelocity = Vector2.zero();
-  int _timeSinceLastDragEvent = 0;
+
+  double _stuckTimerInMilliseconds = 0;
+  int _timeSinceLastDragEventInMicroseconds = 0;
   double _totalDragDistance = 0;
 
   DraggableEntity({required super.entityConfig, super.scaleModifier});
@@ -53,8 +57,18 @@ class DraggableEntity extends Entity with DragCallbacks {
   @override
   void update(double dt) {
     _dragCalculation(dt);
+    _checkDragStuckLogic(dt);
 
     super.update(dt);
+  }
+
+  void _checkDragStuckLogic(double dt) {
+    if (_beingDragged) {
+      _stuckTimerInMilliseconds += dt;
+      if (_stuckTimerInMilliseconds > dragTimeoutInSeconds) {
+        stopDragging();
+      }
+    }
   }
 
   void _dragCalculation(double dt) {
@@ -85,7 +99,7 @@ class DraggableEntity extends Entity with DragCallbacks {
     _dragVelocity.x = influence * newVelocity.x + (1 - influence) * _dragVelocity.x;
     _dragVelocity.y = influence * newVelocity.y + (1 - influence) * _dragVelocity.y;
 
-    _fallVelocity = _dragVelocity / 2;
+    _fallVelocity = _dragVelocity / 1.6;
   }
 
   @override
@@ -96,8 +110,9 @@ class DraggableEntity extends Entity with DragCallbacks {
       return;
     }
 
-    var timeSinceLastDragEvent = event.timestamp.inMicroseconds - _timeSinceLastDragEvent;
-    _timeSinceLastDragEvent = event.timestamp.inMicroseconds;
+    var timeSinceLastDragEvent = event.timestamp.inMicroseconds - _timeSinceLastDragEventInMicroseconds;
+    _timeSinceLastDragEventInMicroseconds = event.timestamp.inMicroseconds;
+    _stuckTimerInMilliseconds = 0;
 
     var dragDistance = (event.canvasDelta / game.windowScale) * entityConfig.dragResistance;
 
@@ -136,7 +151,8 @@ class DraggableEntity extends Entity with DragCallbacks {
     _beingDragged = true;
     _totalDragDistance = 0;
     _dragVelocity = Vector2.zero();
-    _timeSinceLastDragEvent = 0;
+    _timeSinceLastDragEventInMicroseconds = 0;
+    _stuckTimerInMilliseconds = 0;
     current = EntityState.dragged;
   }
 
