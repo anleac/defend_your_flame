@@ -31,10 +31,10 @@ class MainGame extends FlameGame {
   Future<void> onLoad() async {
     await SpriteManager.init();
 
-    add(TimestepFaker(
+    /*add(TimestepFaker(
       useFakeTimestep: DebugConstants.useFakeTimestep,
       fakeFps: DebugConstants.fakeFps,
-    ));
+    ));*/
 
     return super.onLoad();
   }

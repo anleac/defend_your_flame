@@ -30,7 +30,6 @@ class Mage extends FlyingEntity {
     walkingForwardSpeed: 40,
     damageOnAttack: 0,
     goldOnKill: 15,
-    canBeDragged: false,
   );
 
   Mage({super.scaleModifier, super.extraXBoundaryOffset}) : super(entityConfig: _mageConfig);

@@ -10,7 +10,6 @@ import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 import 'package:defend_your_flame/helpers/debug/debug_helper.dart';
 import 'package:defend_your_flame/helpers/physics_helper.dart';
-import 'package:defend_your_flame/helpers/timestep/debug/timestep_faker.dart';
 import 'package:defend_your_flame/helpers/timestep/timestep_helper.dart';
 import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
@@ -109,15 +108,12 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
 
   @override
   void update(double dt) {
-    var fakeTimestep = game.findByKeyName<TimestepFaker>(TimestepFaker.componentKey);
-
-    if (fakeTimestep != null) {
-      fakeTimestep.updateWithFakeTimestep(dt, _updateMovement);
-    } else {
-      _updateMovement(dt);
-    }
-
     super.update(dt);
+
+    _attackingLogic(dt);
+    _logicCalculation(dt);
+    fallingCalculation(dt);
+    _applyBoundingConstraints(dt);
   }
 
   @override
@@ -164,13 +160,6 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
   // Intended to be overridden by subclasses
   Vector2? attackEffectPosition() => null;
 
-  void _updateMovement(double dt) {
-    _attackingLogic(dt);
-    _logicCalculation(dt);
-    fallingCalculation(dt);
-    _applyBoundingConstraints(dt);
-  }
-
   void _attackingLogic(double dt) {
     if (current == EntityState.attacking) {
       // Special case where the game has ended.
@@ -207,6 +196,11 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
     if (position.x > world.worldWidth + BoundingConstants.maxXCoordinateOffScreen) {
       teleportToStart();
     }
+  }
+
+  void _checkStuckLogic() {
+    // There are a few cases I've observed so far where the entity can get stuck.
+    // 1. If the entity is dragged and then the game is paused, the entity will be stuck in the dragged state.
   }
 
   void _logicCalculation(double dt) {
