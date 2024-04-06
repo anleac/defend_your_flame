@@ -12,7 +12,7 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 
 class DraggableEntity extends Entity with DragCallbacks {
-  static const double dragTimeoutInMilliseconds = 4000;
+  static const double dragTimeoutInSeconds = 3.5;
 
   late final double _pickupHeight;
 
@@ -65,7 +65,7 @@ class DraggableEntity extends Entity with DragCallbacks {
   void _checkDragStuckLogic(double dt) {
     if (_beingDragged) {
       _stuckTimerInMilliseconds += dt;
-      if (_stuckTimerInMilliseconds > dragTimeoutInMilliseconds) {
+      if (_stuckTimerInMilliseconds > dragTimeoutInSeconds) {
         stopDragging();
       }
     }

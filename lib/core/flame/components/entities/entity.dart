@@ -17,16 +17,13 @@ import 'package:flutter/rendering.dart';
 
 class Entity extends SpriteAnimationGroupComponent<EntityState>
     with ParentIsA<EntityManager>, HasWorldReference<MainWorld>, HasGameReference<MainGame>, HasVisibility {
+  static const double offscreenTimeoutInSeconds = 3;
+
   final EntityConfig entityConfig;
-
-  bool _canInflictDamage = false;
-
-  bool get isAlive => _currentHealth > MiscConstants.eps;
+  final double extraXBoundaryOffset;
+  final double scaleModifier;
 
   late double _currentHealth;
-
-  Rect get localCollisionRect =>
-      Rect.fromLTWH(_scaledCollisionOffset.x, _scaledCollisionOffset.y, _scaledCollisionSize.x, _scaledCollisionSize.y);
 
   late Vector2 _attackingSize;
 
@@ -35,8 +32,12 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
 
   late Vector2 _startingPosition;
 
-  final double extraXBoundaryOffset;
-  final double scaleModifier;
+  bool _canInflictDamage = false;
+  double _offscreenTimerInMilliseconds = 0;
+
+  bool get isAlive => _currentHealth > MiscConstants.eps;
+  Rect get localCollisionRect =>
+      Rect.fromLTWH(_scaledCollisionOffset.x, _scaledCollisionOffset.y, _scaledCollisionSize.x, _scaledCollisionSize.y);
 
   Entity({required this.entityConfig, this.scaleModifier = 1, this.extraXBoundaryOffset = 0}) {
     size = entityConfig.defaultSize;
@@ -179,6 +180,10 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
   }
 
   void _applyBoundingConstraints(double dt) {
+    if (!isAlive) {
+      return;
+    }
+
     // We could also perhaps apply friction here again, too, this would be caused by a high velocity throw.
     if (position.y < BoundingConstants.minYCoordinate) {
       position.y = BoundingConstants.minYCoordinate;
@@ -193,8 +198,15 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
       teleportToStart();
     }
 
-    if (position.x > world.worldWidth + BoundingConstants.maxXCoordinateOffScreen) {
-      teleportToStart();
+    if (position.x > world.worldWidth) {
+      _offscreenTimerInMilliseconds += dt;
+
+      if (position.x > world.worldWidth + BoundingConstants.maxXCoordinateOffScreen &&
+          _offscreenTimerInMilliseconds > offscreenTimeoutInSeconds) {
+        teleportToStart();
+      }
+    } else {
+      _offscreenTimerInMilliseconds = 0;
     }
   }
 
@@ -242,7 +254,10 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
   }
 
   void teleportToStart() {
-    position = _startingPosition;
-    current = EntityState.walking;
+    // If they're dead, theres no real point to do this.
+    if (isAlive) {
+      position = _startingPosition;
+      current = EntityState.walking;
+    }
   }
 }
