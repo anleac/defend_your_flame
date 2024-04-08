@@ -1,3 +1,4 @@
+import 'package:defend_your_flame/core/flame/collisions/polygon_box.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/walls/wall_helper.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/walls/wall_type.dart';
 import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
@@ -6,7 +7,7 @@ import 'package:flame/components.dart';
 import 'package:flame/image_composition.dart';
 import 'package:flutter/material.dart';
 
-class Wall extends PositionComponent with HasVisibility, HasWorldReference<MainWorld>, Snapshot {
+class Wall extends PositionComponent with HasVisibility, HasWorldReference<MainWorld>, Snapshot, PolygonBox {
   late final double verticalRange;
   late Sprite _wallSprite;
 
@@ -53,6 +54,17 @@ class Wall extends PositionComponent with HasVisibility, HasWorldReference<MainW
       runningX += horitontalDiffPerRender;
       runninyY += verticalDiffPerRender;
     }
+
+    var boundingPolygon = <Vector2>[];
+    boundingPolygon.add(Vector2(-size.x, -size.y));
+    boundingPolygon.add(Vector2(0, -size.y));
+    boundingPolygon.add(Vector2(horizontalRange, scaledVerticalRange));
+    boundingPolygon.add(Vector2(-size.x + runningX, scaledVerticalRange));
+
+    // scale the bounding polygon
+    boundingPolygon = boundingPolygon.map((e) => Vector2(e.x * scale.x, e.y * scale.y)).toList();
+    setBoundingPolygon(boundingPolygon);
+    renderPolygonBox(canvas);
   }
 
   void updateWallType(WallType wallType, {bool firstLoad = false}) {
