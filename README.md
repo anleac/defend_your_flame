@@ -21,7 +21,9 @@ Delete all merged branches:
 > git branch --merged | grep -Ev "(^\*|master|main|dev)" | xargs git branch -d
 
 ### Useful AI tools for graphic generation.
-- Image generation: https://bing.com/create
+- Image generation
+    - Generic free tool: https://bing.com/create
+    - Fremium tool that appears to be higher quality: https://app.leonardo.ai
 - Removing backgrounds: https://www.remove.bg/upload
 - Edit manipulation/extension: https://app.runwayml.com/
 - Removing objects: https://snapedit.app/
