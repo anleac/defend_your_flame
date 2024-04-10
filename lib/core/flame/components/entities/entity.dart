@@ -180,7 +180,7 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
   }
 
   void _applyBoundingConstraints(double dt) {
-    if (!isAlive) {
+    if (!isAlive || world.worldStateManager.gameOver) {
       return;
     }
 
@@ -208,11 +208,6 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
     } else {
       _offscreenTimerInMilliseconds = 0;
     }
-  }
-
-  void _checkStuckLogic() {
-    // There are a few cases I've observed so far where the entity can get stuck.
-    // 1. If the entity is dragged and then the game is paused, the entity will be stuck in the dragged state.
   }
 
   void _logicCalculation(double dt) {

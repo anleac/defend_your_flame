@@ -2,15 +2,11 @@ import 'dart:collection';
 import 'dart:math';
 import 'dart:ui';
 
-import 'package:defend_your_flame/core/flame/components/entities/mobs/mage.dart';
 import 'package:defend_your_flame/core/flame/components/entities/mobs/skeleton.dart';
-import 'package:defend_your_flame/core/flame/components/entities/mobs/slime.dart';
 import 'package:defend_your_flame/core/flame/components/entities/entity.dart';
-import 'package:defend_your_flame/core/flame/components/entities/mobs/strong_skeleton.dart';
+import 'package:defend_your_flame/core/flame/helpers/entity_spawn_helper.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world_state.dart';
-import 'package:defend_your_flame/helpers/global_vars.dart';
-import 'package:defend_your_flame/helpers/misc_helper.dart';
 import 'package:flame/components.dart';
 
 class EntityManager extends Component with ParentIsA<MainWorld> {
@@ -19,7 +15,8 @@ class EntityManager extends Component with ParentIsA<MainWorld> {
   final SplayTreeMap<int, List<Entity>> _entities = SplayTreeMap();
 
   bool _spawning = false;
-  int _secondsToSpawnOver = 0;
+  double _secondsToSpawnOver = 0;
+
   int _totalSpawnCountThisRound = 0;
   int _remainingEntitiesToSpawn = 0;
 
@@ -52,12 +49,10 @@ class EntityManager extends Component with ParentIsA<MainWorld> {
 
     _spawning = true;
 
-    // TODO revisit this spawn logic
-    _totalSpawnCountThisRound = sqrt(currentRound * 15).ceil() + 4;
+    _totalSpawnCountThisRound = EntitySpawnHelper.totalSpawnCountThisRound(currentRound);
     _remainingEntitiesToSpawn = _totalSpawnCountThisRound;
 
-    // Scale the time duration that they should spawn over
-    _secondsToSpawnOver = currentRound + 6;
+    _secondsToSpawnOver = EntitySpawnHelper.secondsToSpawnOver(currentRound);
 
     _timeCounter = 0;
   }
@@ -71,7 +66,8 @@ class EntityManager extends Component with ParentIsA<MainWorld> {
         _timeCounter = 0;
 
         _remainingEntitiesToSpawn--;
-        spawnEntity();
+        _addEntity(EntitySpawnHelper.spawnEntity(
+            worldHeight: parent.worldHeight, currentRound: parent.roundManager.currentRound));
       } else if (_remainingEntitiesToSpawn == 0) {
         _spawning = false;
       }
@@ -98,47 +94,6 @@ class EntityManager extends Component with ParentIsA<MainWorld> {
     }
 
     // super.renderTree(canvas);
-  }
-
-  void spawnEntity() {
-    var randomNumber = GlobalVars.rand.nextInt(100);
-
-    // TODO add back in mages when you enable a way to kill them.
-    if (randomNumber < 95 - (parent.roundManager.currentRound * 2) || true) {
-      spawnGroundEntity();
-    } else {
-      spawnFlyingEntity();
-    }
-  }
-
-  void spawnFlyingEntity() {
-    var startPosition = Vector2(
-      GlobalVars.rand.nextDouble() * 25 - 40,
-      GlobalVars.rand.nextDouble() * parent.worldHeight / 3 + (parent.worldHeight / 6),
-    );
-
-    _addEntity(
-        Mage.spawn(position: startPosition, scaleModifier: MiscHelper.randomDouble(minValue: 1.1, maxValue: 1.25)));
-  }
-
-  void spawnGroundEntity() {
-    var startPosition = Vector2(
-      GlobalVars.rand.nextDouble() * 25 - 40,
-      parent.worldHeight - GlobalVars.rand.nextDouble() * 120 - 80,
-    );
-
-    var currentRound = parent.roundManager.currentRound;
-    var randomNumber = GlobalVars.rand.nextInt(100);
-    if (randomNumber < max(currentRound * 3, 25) && currentRound > 1) {
-      _addEntity(StrongSkeleton.spawn(
-          position: startPosition, scaleModifier: MiscHelper.randomDouble(minValue: 1, maxValue: 1.2)));
-    } else if (randomNumber < 70) {
-      _addEntity(
-          Skeleton.spawn(position: startPosition, scaleModifier: MiscHelper.randomDouble(minValue: 1, maxValue: 1.5)));
-    } else {
-      _addEntity(
-          Slime.spawn(position: startPosition, scaleModifier: MiscHelper.randomDouble(minValue: 1, maxValue: 1.3)));
-    }
   }
 
   // Wrappers so we can track based on the position of the entity, to render them in the correct order
