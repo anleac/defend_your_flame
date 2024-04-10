@@ -21,7 +21,7 @@ class PlayerBase extends PositionComponent with HasWorldReference<MainWorld>, Ha
     ..position = Vector2(wallWidth + ((width - wallWidth) / 2) - 25, baseHeight / 2 - 20);
 
   late final PurpleFlame _firePitFlame = PurpleFlame()
-    ..position = _rockFirePit.center - Vector2(30, 8)
+    ..position = _rockFirePit.center - Vector2(33, 8)
     ..anchor = Anchor.bottomCenter
     ..scale = Vector2(1.2, 2.5);
 
