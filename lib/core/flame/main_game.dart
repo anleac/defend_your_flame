@@ -1,9 +1,7 @@
 import 'package:defend_your_flame/constants/constants.dart';
-import 'package:defend_your_flame/constants/debug_constants.dart';
 import 'package:defend_your_flame/constants/translations/app_strings.dart';
 import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
 import 'package:defend_your_flame/core/storage/game_data.dart';
-import 'package:defend_your_flame/helpers/timestep/debug/timestep_faker.dart';
 import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
