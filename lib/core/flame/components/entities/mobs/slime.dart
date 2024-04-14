@@ -30,7 +30,6 @@ class Slime extends DraggableEntity {
     ),
     damageOnAttack: 3,
     goldOnKill: 4,
-    extraXBoundaryOffset: -10,
     walkingForwardSpeed: 42,
     defaultScale: 1.05,
   );
@@ -65,8 +64,7 @@ class Slime extends DraggableEntity {
   @override
   List<ShapeHitbox> addHitboxes() {
     return [
-      EntityHelper.createRectangleHitbox(
-          size: Vector2(25, 16), position: Vector2(17, 27), anchor: Anchor.bottomCenter, drawDebugBorder: true)
+      EntityHelper.createRectangleHitbox(size: Vector2(25, 16), position: Vector2(17, 27), anchor: Anchor.bottomCenter)
     ];
   }
 

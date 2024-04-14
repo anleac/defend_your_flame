@@ -13,8 +13,6 @@ class EntityConfig {
   final Vector2? attackingSize;
   final double defaultScale;
 
-  final int extraXBoundaryOffset;
-
   final AnimationConfig? idleConfig;
   final AnimationConfig? dragConfig;
 
@@ -39,7 +37,6 @@ class EntityConfig {
     this.totalHealth = DamageConstants.fallDamage,
     this.idleConfig,
     this.dragConfig,
-    this.extraXBoundaryOffset = 0,
     required this.walkingConfig,
     required this.attackingConfig,
     required this.dyingConfig,

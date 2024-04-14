@@ -36,7 +36,7 @@ class Mage extends FlyingEntity {
 
   @override
   List<ShapeHitbox> addHitboxes() {
-    return [EntityHelper.createRectangleHitbox(size: Vector2(40, 60), drawDebugBorder: true)];
+    return [EntityHelper.createRectangleHitbox(size: Vector2(40, 60))];
   }
 
   static Mage spawn({required scaleModifier, required position}) {

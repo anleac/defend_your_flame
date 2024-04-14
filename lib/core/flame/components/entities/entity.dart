@@ -1,20 +1,24 @@
 import 'package:defend_your_flame/constants/bounding_constants.dart';
-import 'package:defend_your_flame/constants/damage_constants.dart';
 import 'package:defend_your_flame/constants/misc_constants.dart';
 import 'package:defend_your_flame/core/flame/components/entities/entity_state.dart';
 import 'package:defend_your_flame/core/flame/components/entities/entity_config.dart';
 import 'package:defend_your_flame/core/flame/main_game.dart';
 import 'package:defend_your_flame/core/flame/managers/entity_manager.dart';
 import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
+import 'package:defend_your_flame/core/flame/mixins/has_wall_collision.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 import 'package:defend_your_flame/helpers/timestep/timestep_helper.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:flame/extensions.dart';
-import 'package:flutter/rendering.dart';
 
 class Entity extends SpriteAnimationGroupComponent<EntityState>
-    with ParentIsA<EntityManager>, HasWorldReference<MainWorld>, HasGameReference<MainGame>, HasVisibility {
+    with
+        ParentIsA<EntityManager>,
+        HasWorldReference<MainWorld>,
+        HasGameReference<MainGame>,
+        HasVisibility,
+        CollisionCallbacks,
+        HasWallCollision {
   static const double offscreenTimeoutInSeconds = 3;
 
   final EntityConfig entityConfig;
@@ -152,12 +156,10 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
   }
 
   void _logicCalculation(double dt) {
-    if (current == EntityState.walking &&
-        position.x + (_attackingSize.x / 4) <
-            parent.positionXBoundary - extraXBoundaryOffset + entityConfig.extraXBoundaryOffset) {
-      position.x = TimestepHelper.add(position.x, entityConfig.walkingForwardSpeed * scale.x, dt);
-    } else if (position.x <= parent.positionXBoundary + 15 && current == EntityState.walking) {
+    if (current == EntityState.walking && isCollidingWithWall) {
       current = EntityState.attacking;
+    } else if (current == EntityState.walking) {
+      position.x = TimestepHelper.add(position.x, entityConfig.walkingForwardSpeed * scale.x, dt);
     }
   }
 

@@ -18,7 +18,6 @@ class StrongSkeleton extends DraggableEntity {
     dragConfig: AnimationConfig(frames: 4, stepTime: 0.16),
     dyingConfig: AnimationConfig(frames: 13, stepTime: 0.12),
     damageOnAttack: 15,
-    extraXBoundaryOffset: -40,
     goldOnKill: 12,
     walkingForwardSpeed: 19,
     // Let him survive two falls
@@ -26,12 +25,8 @@ class StrongSkeleton extends DraggableEntity {
     dragResistance: 0.48,
   );
 
-  late final RectangleHitbox _hitbox = EntityHelper.createRectangleHitbox(
-    size: Vector2(24, 33),
-    position: Vector2(30, 48),
-    anchor: Anchor.bottomCenter,
-    drawDebugBorder: true,
-  );
+  late final RectangleHitbox _hitbox =
+      EntityHelper.createRectangleHitbox(size: Vector2(24, 33), position: Vector2(30, 48), anchor: Anchor.bottomCenter);
 
   StrongSkeleton({super.scaleModifier}) : super(entityConfig: _strongSkeletonConfig);
 

@@ -21,10 +21,6 @@ class EntityManager extends Component with ParentIsA<MainWorld> {
 
   double _timeCounter = 0;
 
-  // TODO hacky logic here for where the entities should stop.
-  int get positionXBoundary =>
-      !parent.worldStateManager.gameOver ? parent.playerManager.playerBase.position.x.toInt() - 60 : 100000;
-
   void clearRound() {
     _spawning = false;
     _remainingEntitiesToSpawn = 0;

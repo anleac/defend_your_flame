@@ -1,17 +1,17 @@
-import 'package:defend_your_flame/constants/constants.dart';
 import 'package:defend_your_flame/constants/debug_constants.dart';
 import 'package:defend_your_flame/core/flame/components/entities/entity.dart';
+import 'package:defend_your_flame/helpers/debug/debug_helper.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/rendering.dart';
 
 class EntityHelper {
-  static RectangleHitbox createRectangleHitbox(
-      {required Vector2 size,
-      Vector2? position,
-      Anchor anchor = Anchor.center,
-      CollisionType collisionType = CollisionType.passive,
-      bool drawDebugBorder = false}) {
+  static RectangleHitbox createRectangleHitbox({
+    required Vector2 size,
+    Vector2? position,
+    Anchor anchor = Anchor.center,
+    CollisionType collisionType = CollisionType.passive,
+  }) {
     final hitbox = RectangleHitbox(
       position: position,
       size: size,
@@ -19,7 +19,7 @@ class EntityHelper {
       collisionType: collisionType,
     );
 
-    if (drawDebugBorder && Constants.debugBuild) {
+    if (DebugHelper.renderCollisionHitboxes) {
       hitbox.renderShape = true;
       hitbox.paint = DebugConstants.transparentPaint;
     }

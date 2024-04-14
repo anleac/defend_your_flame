@@ -1,8 +1,10 @@
 import 'package:defend_your_flame/constants/debug_constants.dart';
+import 'package:defend_your_flame/constants/misc_constants.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/walls/wall_helper.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/walls/wall_type.dart';
 import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
+import 'package:defend_your_flame/helpers/debug/debug_helper.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/image_composition.dart';
@@ -26,6 +28,8 @@ class Wall extends PositionComponent with HasVisibility, HasWorldReference<MainW
   int get health => _health < 0 ? 0 : _health;
   int get totalHealth => _totalHealth;
 
+  PolygonHitbox? _hitbox;
+
   Wall({required this.verticalRange}) : super(size: Vector2(156, 398)) {
     scale = WallHelper.getScale(_wallType);
     renderSnapshot = true;
@@ -46,22 +50,18 @@ class Wall extends PositionComponent with HasVisibility, HasWorldReference<MainW
   }
 
   _clearAndAddHitbox() {
-    for (final child in children) {
-      if (child is PolygonHitbox) {
-        child.removeFromParent();
-      }
-    }
+    _hitbox?.removeFromParent();
 
     _updateRenderValues();
 
     add(
-      PolygonHitbox([
+      _hitbox = PolygonHitbox([
         Vector2(-size.x, -size.y),
         Vector2(0, -size.y),
         Vector2(_horizontalRange, _verticalRange),
         Vector2(-size.x + _horizontalRange, _verticalRange)
       ])
-        ..renderShape = true
+        ..renderShape = DebugHelper.renderCollisionHitboxes
         ..paint = DebugConstants.transparentPaint,
     );
   }
@@ -113,6 +113,10 @@ class Wall extends PositionComponent with HasVisibility, HasWorldReference<MainW
     if (position != null) {
       // If we have a valid damage position, then add a damage text effect.
       world.effectManager.addDamageText(damage, position);
+    }
+
+    if (_health <= MiscConstants.eps) {
+      _hitbox?.collisionType = CollisionType.inactive;
     }
   }
 }

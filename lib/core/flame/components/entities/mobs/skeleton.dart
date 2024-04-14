@@ -26,8 +26,8 @@ class Skeleton extends DraggableEntity {
 
   bool _attackingState = false;
 
-  late final RectangleHitbox _hitBox = EntityHelper.createRectangleHitbox(
-      size: Vector2(16, 25), position: Vector2(8, 33), anchor: Anchor.bottomCenter, drawDebugBorder: true);
+  late final RectangleHitbox _hitBox =
+      EntityHelper.createRectangleHitbox(size: Vector2(16, 25), position: Vector2(8, 33), anchor: Anchor.bottomCenter);
 
   Skeleton({super.scaleModifier}) : super(entityConfig: _skeletonConfig) {
     // We use the bottom left anchor because the attack animation is larger than the walking one, to stop the skeleton from moving when attacking.
@@ -56,8 +56,10 @@ class Skeleton extends DraggableEntity {
 
     if (attacking) {
       _hitBox.position += _hitboxAttackingOffset;
+      position -= Vector2(_hitboxAttackingOffset.x, 0);
     } else {
       _hitBox.position -= _hitboxAttackingOffset;
+      position += Vector2(_hitboxAttackingOffset.x, 0);
     }
   }
 
