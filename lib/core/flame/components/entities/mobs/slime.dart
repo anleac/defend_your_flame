@@ -1,7 +1,9 @@
 import 'package:defend_your_flame/core/flame/components/entities/animation_config.dart';
 import 'package:defend_your_flame/core/flame/components/entities/draggable_entity.dart';
 import 'package:defend_your_flame/core/flame/components/entities/entity_config.dart';
+import 'package:defend_your_flame/core/flame/helpers/entity_helper.dart';
 import 'package:defend_your_flame/helpers/misc_helper.dart';
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flutter/animation.dart';
@@ -10,8 +12,6 @@ class Slime extends DraggableEntity {
   static final EntityConfig _slimeConfig = EntityConfig(
     entityResourceName: 'slime',
     defaultSize: Vector2(34, 27),
-    collisionSize: Vector2(25, 16),
-    collisionOffset: Vector2(5, 0),
     walkingConfig: AnimationConfig(
       stepTime: 0.12,
       frames: 4,
@@ -30,10 +30,8 @@ class Slime extends DraggableEntity {
     ),
     damageOnAttack: 3,
     goldOnKill: 4,
-    extraXBoundaryOffset: -10,
     walkingForwardSpeed: 42,
     defaultScale: 1.05,
-    collisionAnchor: Anchor.bottomLeft,
   );
 
   bool _removingAnimation = false;
@@ -61,6 +59,13 @@ class Slime extends DraggableEntity {
   @override
   Vector2? attackEffectPosition() {
     return position + Vector2(scaledSize.x, scaledSize.y / 2);
+  }
+
+  @override
+  List<ShapeHitbox> addHitboxes() {
+    return [
+      EntityHelper.createRectangleHitbox(size: Vector2(25, 16), position: Vector2(17, 27), anchor: Anchor.bottomCenter)
+    ];
   }
 
   static Slime spawn({required position}) {

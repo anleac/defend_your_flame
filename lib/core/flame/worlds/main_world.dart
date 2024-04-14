@@ -10,7 +10,7 @@ import 'package:defend_your_flame/core/flame/managers/shop_manager.dart';
 import 'package:defend_your_flame/core/flame/managers/world_state_manager.dart';
 import 'package:flame/components.dart';
 
-class MainWorld extends World {
+class MainWorld extends World with HasCollisionDetection {
   final Environment _environment = Environment();
 
   final PlayerManager _playerManager = PlayerManager();

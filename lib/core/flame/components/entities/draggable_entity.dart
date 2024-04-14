@@ -11,7 +11,7 @@ import 'package:defend_your_flame/helpers/timestep/timestep_helper.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 
-class DraggableEntity extends Entity with DragCallbacks {
+class DraggableEntity extends Entity with DragCallbacks, GestureHitboxes {
   static const double dragTimeoutInSeconds = 3.5;
 
   late final double _pickupHeight;
@@ -35,7 +35,7 @@ class DraggableEntity extends Entity with DragCallbacks {
 
   @override
   bool containsLocalPoint(Vector2 point) {
-    return super.pointInside(point);
+    return isVisible && super.containsLocalPoint(point);
   }
 
   @override

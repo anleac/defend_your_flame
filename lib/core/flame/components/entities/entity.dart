@@ -1,22 +1,24 @@
 import 'package:defend_your_flame/constants/bounding_constants.dart';
-import 'package:defend_your_flame/constants/damage_constants.dart';
-import 'package:defend_your_flame/constants/debug_constants.dart';
 import 'package:defend_your_flame/constants/misc_constants.dart';
 import 'package:defend_your_flame/core/flame/components/entities/entity_state.dart';
 import 'package:defend_your_flame/core/flame/components/entities/entity_config.dart';
 import 'package:defend_your_flame/core/flame/main_game.dart';
 import 'package:defend_your_flame/core/flame/managers/entity_manager.dart';
 import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
+import 'package:defend_your_flame/core/flame/mixins/has_wall_collision.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
-import 'package:defend_your_flame/helpers/debug/debug_helper.dart';
-import 'package:defend_your_flame/helpers/physics_helper.dart';
 import 'package:defend_your_flame/helpers/timestep/timestep_helper.dart';
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:flame/extensions.dart';
-import 'package:flutter/rendering.dart';
 
 class Entity extends SpriteAnimationGroupComponent<EntityState>
-    with ParentIsA<EntityManager>, HasWorldReference<MainWorld>, HasGameReference<MainGame>, HasVisibility {
+    with
+        ParentIsA<EntityManager>,
+        HasWorldReference<MainWorld>,
+        HasGameReference<MainGame>,
+        HasVisibility,
+        CollisionCallbacks,
+        HasWallCollision {
   static const double offscreenTimeoutInSeconds = 3;
 
   final EntityConfig entityConfig;
@@ -27,61 +29,29 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
 
   late Vector2 _attackingSize;
 
-  late Vector2 _scaledCollisionSize;
-  late Vector2 _scaledCollisionOffset;
-
   late Vector2 _startingPosition;
+
+  late final List<ShapeHitbox> _hitboxes = addHitboxes();
 
   bool _canInflictDamage = false;
   double _offscreenTimerInMilliseconds = 0;
 
   bool get isAlive => _currentHealth > MiscConstants.eps;
-  Rect get localCollisionRect =>
-      Rect.fromLTWH(_scaledCollisionOffset.x, _scaledCollisionOffset.y, _scaledCollisionSize.x, _scaledCollisionSize.y);
+
+  double get currentHealth => _currentHealth;
+  double get totalHealth => entityConfig.totalHealth;
 
   Entity({required this.entityConfig, this.scaleModifier = 1, this.extraXBoundaryOffset = 0}) {
     size = entityConfig.defaultSize;
     _attackingSize = entityConfig.attackingSize ?? size;
     scale = Vector2.all(entityConfig.defaultScale * scaleModifier);
     _currentHealth = entityConfig.totalHealth;
-
-    _calculateCollisionSize();
-  }
-
-  _calculateCollisionSize() {
-    _scaledCollisionSize = (entityConfig.collisionSize ?? size);
-
-    var offset = current == EntityState.attacking
-        ? entityConfig.attackingCollisionOffset ?? entityConfig.collisionOffset
-        : entityConfig.collisionOffset;
-
-    _scaledCollisionOffset = offset ?? Vector2.zero();
-
-    if (entityConfig.collisionAnchor == Anchor.bottomLeft) {
-      // We need to adjust the offset to account for the fact that the anchor is bottom left.
-      // For this we need to find the diff between the position, size, and collision size.
-      var collisionSizeDiff = size - _scaledCollisionSize;
-      // We only care about Y, since the anchor is bottom left.
-      _scaledCollisionOffset += Vector2(0, collisionSizeDiff.y);
-    }
-  }
-
-  _updateSize(Vector2 newSize) {
-    if (size != newSize) {
-      size = newSize;
-      _calculateCollisionSize();
-    }
   }
 
   @override
   void onMount() {
     super.onMount();
     _startingPosition = position.clone();
-  }
-
-  bool pointInside(Vector2 point) {
-    return isVisible &&
-        PhysicsHelper.pointIsInsideBounds(point: point, size: _scaledCollisionSize, offset: _scaledCollisionOffset);
   }
 
   @override
@@ -105,11 +75,24 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
     };
 
     current = EntityState.walking;
+
+    addAll(_hitboxes);
   }
+
+  // Intended to be overridden by subclasses
+  Vector2? attackEffectPosition() => null;
+  List<ShapeHitbox> addHitboxes() => [];
 
   @override
   void update(double dt) {
     super.update(dt);
+
+    // Special case where the attacking animation is bigger than the default size, maybe we can remove this one day.
+    if (current == EntityState.attacking) {
+      updateSize(_attackingSize, attacking: true);
+    } else {
+      updateSize(entityConfig.defaultSize, attacking: false);
+    }
 
     _attackingLogic(dt);
     _logicCalculation(dt);
@@ -117,49 +100,11 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
     _applyBoundingConstraints(dt);
   }
 
-  @override
-  void render(Canvas canvas) {
-    if (DebugConstants.drawEntityCollisionBoxes) {
-      DebugHelper.drawEntityCollisionBox(canvas, this);
+  updateSize(Vector2 newSize, {required bool attacking}) {
+    if (size != newSize) {
+      size = newSize;
     }
-
-    if (entityConfig.totalHealth > DamageConstants.fallDamage + MiscConstants.eps && isAlive) {
-      _drawHealthBar(canvas);
-    }
-
-    super.render(canvas);
   }
-
-  // TODO one day lets refactor this out to clean up this file a bit
-  void _drawHealthBar(Canvas canvas) {
-    const healthBarHeight = 2.0;
-    const healthBarWidthOffset = 2;
-    final healthBarWidth = _scaledCollisionSize.x + (healthBarWidthOffset * 2);
-
-    final healthBarRect = Rect.fromLTWH(_scaledCollisionOffset.x - healthBarWidthOffset,
-        _scaledCollisionOffset.y - (healthBarHeight * 3), healthBarWidth, healthBarHeight);
-
-    final healthBarBackgroundPaint = Paint()
-      ..color = const Color.fromARGB(150, 66, 0, 0)
-      ..style = PaintingStyle.fill;
-
-    final healthBarBackgroundRect =
-        Rect.fromLTWH(healthBarRect.left, healthBarRect.top, healthBarWidth, healthBarHeight);
-
-    canvas.drawRect(healthBarBackgroundRect, healthBarBackgroundPaint);
-
-    final healthBarFillPaint = Paint()
-      ..color = const Color.fromARGB(150, 228, 0, 0)
-      ..style = PaintingStyle.fill;
-
-    final healthBarFillRect = Rect.fromLTWH(healthBarRect.left, healthBarRect.top,
-        healthBarWidth * _currentHealth / entityConfig.totalHealth, healthBarHeight);
-
-    canvas.drawRect(healthBarFillRect, healthBarFillPaint);
-  }
-
-  // Intended to be overridden by subclasses
-  Vector2? attackEffectPosition() => null;
 
   void _attackingLogic(double dt) {
     if (current == EntityState.attacking) {
@@ -211,19 +156,10 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
   }
 
   void _logicCalculation(double dt) {
-    // Special case where the attacking animation is bigger than the default size.
-    if (current == EntityState.attacking) {
-      _updateSize(_attackingSize);
-    } else {
-      _updateSize(entityConfig.defaultSize);
-    }
-
-    if (current == EntityState.walking &&
-        position.x + (_attackingSize.x / 4) <
-            parent.positionXBoundary - extraXBoundaryOffset + entityConfig.extraXBoundaryOffset) {
-      position.x = TimestepHelper.add(position.x, entityConfig.walkingForwardSpeed * scale.x, dt);
-    } else if (position.x <= parent.positionXBoundary + 15 && current == EntityState.walking) {
+    if (current == EntityState.walking && isCollidingWithWall) {
       current = EntityState.attacking;
+    } else if (current == EntityState.walking) {
+      position.x = TimestepHelper.add(position.x, entityConfig.walkingForwardSpeed * scale.x, dt);
     }
   }
 
@@ -245,6 +181,10 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
       current = EntityState.dying;
       world.playerManager.mutateGold(entityConfig.goldOnKill);
       world.effectManager.addGoldText(entityConfig.goldOnKill, absoluteCenter);
+
+      for (var hitbox in _hitboxes) {
+        hitbox.collisionType = CollisionType.inactive;
+      }
     }
   }
 

@@ -1,12 +1,22 @@
+import 'package:defend_your_flame/constants/debug_constants.dart';
+import 'package:defend_your_flame/constants/misc_constants.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/walls/wall_helper.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/walls/wall_type.dart';
 import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
+import 'package:defend_your_flame/helpers/debug/debug_helper.dart';
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/image_composition.dart';
 import 'package:flutter/material.dart';
 
 class Wall extends PositionComponent with HasVisibility, HasWorldReference<MainWorld>, Snapshot {
+  static const double verticalDiffPerRender = 30;
+  double _horizontalRange = 0;
+  double _verticalRange = 0;
+  double _verticalRenders = 0;
+  double _horizontalDiffPerRender = 0;
+
   late final double verticalRange;
   late Sprite _wallSprite;
 
@@ -18,6 +28,8 @@ class Wall extends PositionComponent with HasVisibility, HasWorldReference<MainW
   int get health => _health < 0 ? 0 : _health;
   int get totalHealth => _totalHealth;
 
+  PolygonHitbox? _hitbox;
+
   Wall({required this.verticalRange}) : super(size: Vector2(156, 398)) {
     scale = WallHelper.getScale(_wallType);
     renderSnapshot = true;
@@ -26,31 +38,49 @@ class Wall extends PositionComponent with HasVisibility, HasWorldReference<MainW
   @override
   void onLoad() {
     super.onLoad();
-
     updateWallType(_wallType, firstLoad: true);
+  }
+
+  _updateRenderValues() {
+    _verticalRange = verticalRange / scale.y;
+    _verticalRenders = (_verticalRange / verticalDiffPerRender).ceilToDouble();
+
+    _horizontalRange = _verticalRange / 12;
+    _horizontalDiffPerRender = _horizontalRange / _verticalRenders;
+  }
+
+  _clearAndAddHitbox() {
+    _hitbox?.removeFromParent();
+
+    _updateRenderValues();
+
+    add(
+      _hitbox = PolygonHitbox([
+        Vector2(-size.x, -size.y),
+        Vector2(0, -size.y),
+        Vector2(_horizontalRange, _verticalRange),
+        Vector2(-size.x + _horizontalRange, _verticalRange)
+      ])
+        ..renderShape = DebugHelper.renderCollisionHitboxes
+        ..paint = DebugConstants.transparentPaint,
+    );
   }
 
   @override
   void render(Canvas canvas) {
     super.render(canvas);
 
-    const double verticalDiffPerRender = 30;
-    final double scaledVerticalRange = verticalRange / scale.y;
-    final double iterations = (scaledVerticalRange / verticalDiffPerRender).ceilToDouble();
-    final double horizontalRange = scaledVerticalRange / 12;
-    final double horitontalDiffPerRender = horizontalRange / iterations;
-
     double runningX = 0;
     double runninyY = 0;
-    for (int i = 0; i < iterations; i++) {
+    for (int i = 0; i < _verticalRenders; i++) {
       _wallSprite.render(
         canvas,
         position: Vector2(runningX, runninyY) - size,
         size: size,
-        overridePaint: Paint()..color = Colors.white.withOpacity(1 - ((iterations - i) / 90.0)),
+        overridePaint: Paint()..color = Colors.white.withOpacity(1 - ((_verticalRenders - i) / 90.0)),
       );
 
-      runningX += horitontalDiffPerRender;
+      runningX += _horizontalDiffPerRender;
       runninyY += verticalDiffPerRender;
     }
   }
@@ -64,6 +94,7 @@ class Wall extends PositionComponent with HasVisibility, HasWorldReference<MainW
     _wallSprite = SpriteManager.getSprite('masonry/${wallType.name}-wall');
     scale = WallHelper.getScale(_wallType);
     _totalHealth = WallHelper.getDefaultTotalHealth(_wallType);
+    _clearAndAddHitbox();
 
     if (!firstLoad) {
       // We need to re-render the snapshot, we ignore first load as we're not in the render loop yet.
@@ -82,6 +113,10 @@ class Wall extends PositionComponent with HasVisibility, HasWorldReference<MainW
     if (position != null) {
       // If we have a valid damage position, then add a damage text effect.
       world.effectManager.addDamageText(damage, position);
+    }
+
+    if (_health <= MiscConstants.eps) {
+      _hitbox?.collisionType = CollisionType.inactive;
     }
   }
 }

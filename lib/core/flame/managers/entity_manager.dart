@@ -1,5 +1,4 @@
 import 'dart:collection';
-import 'dart:math';
 import 'dart:ui';
 
 import 'package:defend_your_flame/core/flame/components/entities/mobs/skeleton.dart';
@@ -21,10 +20,6 @@ class EntityManager extends Component with ParentIsA<MainWorld> {
   int _remainingEntitiesToSpawn = 0;
 
   double _timeCounter = 0;
-
-  // TODO hacky logic here for where the entities should stop.
-  int get positionXBoundary =>
-      !parent.worldStateManager.gameOver ? parent.playerManager.playerBase.position.x.toInt() - 60 : 100000;
 
   void clearRound() {
     _spawning = false;

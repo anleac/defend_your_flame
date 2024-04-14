@@ -1,7 +1,7 @@
 name: defend_your_flame
 description: Defend your castles flame from the enemy
 publish_to: 'none'
-version: 0.8.3+1 # +1 since we haven't actually published this yet
+version: 0.8.5+1 # +1 since we haven't actually published this yet
 
 environment:
   sdk: '>=3.1.2 <4.0.0'
@@ -14,9 +14,9 @@ dependencies:
   
   flame: ^1.17.0
   scoped_model: ^2.0.0
-  shared_preferences: ^2.2.2
+  shared_preferences: ^2.2.3
   cupertino_icons: ^1.0.6
-  url_launcher: ^6.2.5
+  url_launcher: ^6.2.6
 
 dev_dependencies:
   flutter_test:
