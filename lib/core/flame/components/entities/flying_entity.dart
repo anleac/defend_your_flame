@@ -3,11 +3,12 @@ import 'package:defend_your_flame/core/flame/components/entities/entity_state.da
 import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
 import 'package:defend_your_flame/helpers/global_vars.dart';
 
+// TODO FIX flying entities are currently broken with when to stop because they never collide with a wall.
 class FlyingEntity extends Entity {
   double _idleTimer = 0.0;
   double _nextIdleTime = 0.0;
 
-  FlyingEntity({required super.entityConfig, super.scaleModifier, super.extraXBoundaryOffset});
+  FlyingEntity({required super.entityConfig, super.scaleModifier});
 
   @override
   Future<void> onLoad() async {

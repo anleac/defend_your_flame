@@ -22,16 +22,15 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
   static const double offscreenTimeoutInSeconds = 3;
 
   final EntityConfig entityConfig;
-  final double extraXBoundaryOffset;
   final double scaleModifier;
 
-  late double _currentHealth;
+  late double _currentHealth = entityConfig.totalHealth;
 
-  late Vector2 _attackingSize;
+  late final List<ShapeHitbox> _hitboxes = addHitboxes();
 
   late Vector2 _startingPosition;
 
-  late final List<ShapeHitbox> _hitboxes = addHitboxes();
+  Vector2 _lastPosition = Vector2.zero();
 
   bool _canInflictDamage = false;
   double _offscreenTimerInMilliseconds = 0;
@@ -41,11 +40,11 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
   double get currentHealth => _currentHealth;
   double get totalHealth => entityConfig.totalHealth;
 
-  Entity({required this.entityConfig, this.scaleModifier = 1, this.extraXBoundaryOffset = 0}) {
+  Vector2 get lastPosition => _lastPosition;
+
+  Entity({required this.entityConfig, this.scaleModifier = 1}) {
     size = entityConfig.defaultSize;
-    _attackingSize = entityConfig.attackingSize ?? size;
     scale = Vector2.all(entityConfig.defaultScale * scaleModifier);
-    _currentHealth = entityConfig.totalHealth;
   }
 
   @override
@@ -88,8 +87,8 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
     super.update(dt);
 
     // Special case where the attacking animation is bigger than the default size, maybe we can remove this one day.
-    if (current == EntityState.attacking) {
-      updateSize(_attackingSize, attacking: true);
+    if (current == EntityState.attacking && entityConfig.attackingSize != null) {
+      updateSize(entityConfig.attackingSize!, attacking: true);
     } else {
       updateSize(entityConfig.defaultSize, attacking: false);
     }
@@ -98,6 +97,8 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
     _logicCalculation(dt);
     fallingCalculation(dt);
     _applyBoundingConstraints(dt);
+
+    _lastPosition = position.clone();
   }
 
   updateSize(Vector2 newSize, {required bool attacking}) {
@@ -156,10 +157,30 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
   }
 
   void _logicCalculation(double dt) {
-    if (current == EntityState.walking && isCollidingWithWall) {
-      current = EntityState.attacking;
+    if (isCollidingWithWall) {
+      wallCollisionCalculation(dt);
     } else if (current == EntityState.walking) {
       position.x = TimestepHelper.add(position.x, entityConfig.walkingForwardSpeed * scale.x, dt);
+    }
+  }
+
+  void wallCollisionCalculation(double dt) {
+    if (!isCollidingWithWall) {
+      return;
+    }
+
+    bool tryRevert = false;
+    if (current == EntityState.walking) {
+      current = EntityState.attacking;
+      tryRevert = true;
+    }
+
+    if (current == EntityState.dragged) {
+      tryRevert = true;
+    }
+
+    if (tryRevert) {
+      position = _lastPosition;
     }
   }
 

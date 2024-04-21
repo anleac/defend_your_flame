@@ -15,7 +15,7 @@ dependencies:
   flame: ^1.17.0
   scoped_model: ^2.0.0
   shared_preferences: ^2.2.3
-  cupertino_icons: ^1.0.6
+  cupertino_icons: ^1.0.8
   url_launcher: ^6.2.6
 
 dev_dependencies:

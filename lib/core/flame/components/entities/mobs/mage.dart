@@ -2,7 +2,6 @@ import 'package:defend_your_flame/core/flame/components/entities/animation_confi
 import 'package:defend_your_flame/core/flame/components/entities/entity_config.dart';
 import 'package:defend_your_flame/core/flame/components/entities/flying_entity.dart';
 import 'package:defend_your_flame/core/flame/helpers/entity_helper.dart';
-import 'package:defend_your_flame/helpers/global_vars.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 
@@ -32,7 +31,7 @@ class Mage extends FlyingEntity {
     goldOnKill: 15,
   );
 
-  Mage({super.scaleModifier, super.extraXBoundaryOffset}) : super(entityConfig: _mageConfig);
+  Mage({super.scaleModifier}) : super(entityConfig: _mageConfig);
 
   @override
   List<ShapeHitbox> addHitboxes() {
@@ -40,7 +39,6 @@ class Mage extends FlyingEntity {
   }
 
   static Mage spawn({required scaleModifier, required position}) {
-    return Mage(scaleModifier: scaleModifier, extraXBoundaryOffset: GlobalVars.rand.nextDouble() * 150 + 150)
-      ..position = position - Vector2(_mageConfig.defaultSize.x, 0);
+    return Mage(scaleModifier: scaleModifier)..position = position - Vector2(_mageConfig.defaultSize.x, 0);
   }
 }
