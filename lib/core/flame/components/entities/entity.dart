@@ -30,7 +30,7 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
 
   late Vector2 _startingPosition;
 
-  Vector2 _lastPosition = Vector2.zero();
+  Vector2 _lastValidPosition = Vector2.zero();
 
   bool _canInflictDamage = false;
   double _offscreenTimerInMilliseconds = 0;
@@ -40,7 +40,7 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
   double get currentHealth => _currentHealth;
   double get totalHealth => entityConfig.totalHealth;
 
-  Vector2 get lastPosition => _lastPosition;
+  Vector2 get lastPosition => _lastValidPosition;
 
   Entity({required this.entityConfig, this.scaleModifier = 1}) {
     size = entityConfig.defaultSize;
@@ -98,7 +98,9 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
     fallingCalculation(dt);
     _applyBoundingConstraints(dt);
 
-    _lastPosition = position.clone();
+    if (!isCollidingWithWall) {
+      _lastValidPosition = position.clone();
+    }
   }
 
   updateSize(Vector2 newSize, {required bool attacking}) {
@@ -169,19 +171,15 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
       return;
     }
 
-    bool tryRevert = false;
     if (current == EntityState.walking) {
       current = EntityState.attacking;
-      tryRevert = true;
     }
 
-    if (current == EntityState.dragged) {
-      tryRevert = true;
+    if (current == EntityState.falling) {
+      current = EntityState.walking;
     }
 
-    if (tryRevert) {
-      position = _lastPosition;
-    }
+    position = _lastValidPosition;
   }
 
   void fallingCalculation(double dt) {}
