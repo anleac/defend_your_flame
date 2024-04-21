@@ -54,13 +54,14 @@ class Wall extends PositionComponent with HasVisibility, HasWorldReference<MainW
 
     _updateRenderValues();
 
+    // TODO post-beta release check performance of isSolid.
     add(
       _hitbox = PolygonHitbox([
         Vector2(-size.x, -size.y),
         Vector2(0, -size.y),
         Vector2(_horizontalRange, _verticalRange),
         Vector2(-size.x + _horizontalRange, _verticalRange)
-      ])
+      ], isSolid: true)
         ..renderShape = DebugHelper.renderCollisionHitboxes
         ..paint = DebugConstants.transparentPaint,
     );
@@ -105,6 +106,7 @@ class Wall extends PositionComponent with HasVisibility, HasWorldReference<MainW
   void reset() {
     updateWallType(WallType.wood);
     _health = _totalHealth;
+    _hitbox?.collisionType = CollisionType.active;
     isVisible = true;
   }
 
