@@ -1,5 +1,6 @@
 import 'package:defend_your_flame/constants/debug_constants.dart';
 import 'package:defend_your_flame/constants/misc_constants.dart';
+import 'package:defend_your_flame/constants/parallax_constants.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/walls/wall_helper.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/walls/wall_type.dart';
 import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
@@ -48,7 +49,7 @@ class Wall extends PositionComponent with HasVisibility, HasWorldReference<MainW
     _verticalRange = verticalRange / scale.y;
     _verticalRenders = (_verticalRange / verticalDiffPerRender).ceilToDouble();
 
-    _horizontalRange = _verticalRange / 12;
+    _horizontalRange = _verticalRange * ParallaxConstants.horizontalDisplacementFactor;
     _horizontalDiffPerRender = _horizontalRange / _verticalRenders;
   }
 

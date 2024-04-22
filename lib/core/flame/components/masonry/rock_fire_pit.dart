@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:defend_your_flame/constants/parallax_constants.dart';
 import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
 import 'package:defend_your_flame/helpers/misc_helper.dart';
 import 'package:flame/components.dart';
@@ -43,6 +44,12 @@ class RockFirePit extends PositionComponent with Snapshot {
     }
 
     rocks.sort((a, b) => a.y.compareTo(b.y));
+
+    // Find the Y range, because there are negatives, then apply the horizontal displacement factor
+    double yRange = (rocks.last.y - rocks.first.y) / 2;
+    for (var rock in rocks) {
+      rock.x += (rock.y + yRange) * ParallaxConstants.horizontalDisplacementFactor;
+    }
 
     for (Vector2 rock in rocks) {
       MiscHelper.randomElement(_rockSprites)
