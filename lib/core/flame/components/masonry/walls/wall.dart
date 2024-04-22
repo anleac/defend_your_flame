@@ -24,11 +24,14 @@ class Wall extends PositionComponent with HasVisibility, HasWorldReference<MainW
   late int _totalHealth = WallHelper.getDefaultTotalHealth(_wallType);
   int _health = 100;
 
+  PolygonHitbox? _hitbox;
+  List<Vector2> _wallCornerPoints = [];
+
   WallType get wallType => _wallType;
   int get health => _health < 0 ? 0 : _health;
   int get totalHealth => _totalHealth;
 
-  PolygonHitbox? _hitbox;
+  List<Vector2> get wallCornerPoints => _wallCornerPoints;
 
   Wall({required this.verticalRange}) : super(size: Vector2(156, 398)) {
     scale = WallHelper.getScale(_wallType);
@@ -53,15 +56,17 @@ class Wall extends PositionComponent with HasVisibility, HasWorldReference<MainW
     _hitbox?.removeFromParent();
 
     _updateRenderValues();
+    _wallCornerPoints.clear();
+    _wallCornerPoints.addAll([
+      Vector2(-size.x, -size.y),
+      Vector2(0, -size.y),
+      Vector2(_horizontalRange, _verticalRange),
+      Vector2(-size.x + _horizontalRange, _verticalRange)
+    ]);
 
     // TODO post-beta release check performance of isSolid.
     add(
-      _hitbox = PolygonHitbox([
-        Vector2(-size.x, -size.y),
-        Vector2(0, -size.y),
-        Vector2(_horizontalRange, _verticalRange),
-        Vector2(-size.x + _horizontalRange, _verticalRange)
-      ], isSolid: true)
+      _hitbox = PolygonHitbox(_wallCornerPoints, isSolid: true)
         ..renderShape = DebugHelper.renderCollisionHitboxes
         ..paint = DebugConstants.transparentPaint,
     );
