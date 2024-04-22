@@ -30,10 +30,8 @@ class RockFirePit extends PositionComponent with Snapshot {
     const double rockScale = 0.66;
     final int numRocks = (20 * rockPitScale).ceil();
 
-    // Create a list of rocks with their positions
     List<Vector2> rocks = [];
     for (int i = 0; i < numRocks; i++) {
-      // Calculate the angle for this rock
       double angle = 2 * pi * i / numRocks;
 
       // Calculate the x and y coordinates using the equation of an ellipse
