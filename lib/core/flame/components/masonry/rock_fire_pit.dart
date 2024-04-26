@@ -8,10 +8,11 @@ import 'package:flutter/rendering.dart';
 
 class RockFirePit extends PositionComponent with Snapshot {
   // The amount of rock textures we have in our assets.
-  static const int rockTypes = 6;
+  // We are excluding the 6th rock for now.
+  static const int rockTypes = 5;
   static const double rockPitScale = 1;
-  static const double ovalWidth = 66 * rockPitScale;
-  static const double ovalHeight = 22 * rockPitScale;
+  static const double ovalWidth = 70 * rockPitScale;
+  static const double ovalHeight = 27 * rockPitScale;
 
   static final Vector2 rockSize = Vector2(24, 24);
 

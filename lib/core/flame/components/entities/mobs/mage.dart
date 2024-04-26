@@ -9,7 +9,7 @@ class Mage extends FlyingEntity {
   static final EntityConfig _mageConfig = EntityConfig(
     entityResourceName: 'mage',
     defaultSize: Vector2(160, 128),
-    defaultScale: 1,
+    defaultScale: 1.1,
     walkingConfig: AnimationConfig(
       stepTime: 0.12,
       frames: 8,
