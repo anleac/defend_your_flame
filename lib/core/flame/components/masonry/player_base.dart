@@ -21,7 +21,7 @@ class PlayerBase extends PositionComponent with HasWorldReference<MainWorld>, Ha
     ..position = Vector2(wallWidth + ((width - wallWidth) / 2) - 25, baseHeight / 2 - 20);
 
   late final PurpleFlame _firePitFlame = PurpleFlame()
-    ..position = _rockFirePit.center - Vector2(33, 8)
+    ..position = _rockFirePit.center - Vector2(34, 10)
     ..anchor = Anchor.bottomCenter
     ..scale = Vector2(1.2, 2.5);
 
@@ -66,6 +66,7 @@ class PlayerBase extends PositionComponent with HasWorldReference<MainWorld>, Ha
   }
 
   bool entityInside(Entity entity) {
+    // This is used instead of a collision box as this is more efficient
     if (entity.position.x < world.worldWidth - baseWidth) {
       return false;
     }

@@ -11,7 +11,7 @@ class Skeleton extends DraggableEntity {
     entityResourceName: 'skeleton',
     defaultSize: Vector2(22, 33),
     attackingSize: Vector2(43, 37),
-    defaultScale: 1.4,
+    defaultScale: 1.5,
     walkingConfig: AnimationConfig(frames: 13, stepTime: 0.09),
     attackingConfig: AnimationConfig(frames: 18, stepTime: 0.1),
     dragConfig: AnimationConfig(frames: 4, stepTime: 0.2),
@@ -19,7 +19,6 @@ class Skeleton extends DraggableEntity {
     damageOnAttack: 8,
     goldOnKill: 5,
     walkingForwardSpeed: 20,
-    dragResistance: 0.9,
   );
 
   final Vector2 _hitboxAttackingOffset = Vector2(3, 4);

@@ -1,3 +1,4 @@
+import 'package:defend_your_flame/constants/misc_constants.dart';
 import 'package:defend_your_flame/helpers/global_vars.dart';
 
 class MiscHelper {
@@ -12,5 +13,9 @@ class MiscHelper {
 
   static randomChance({required int chance}) {
     return GlobalVars.rand.nextInt(100) < chance;
+  }
+
+  static bool doubleEquals(double a, double b) {
+    return (a - b).abs() < MiscConstants.eps;
   }
 }

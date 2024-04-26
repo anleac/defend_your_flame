@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:defend_your_flame/constants/parallax_constants.dart';
 import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
 import 'package:defend_your_flame/helpers/misc_helper.dart';
 import 'package:flame/components.dart';
@@ -7,10 +8,11 @@ import 'package:flutter/rendering.dart';
 
 class RockFirePit extends PositionComponent with Snapshot {
   // The amount of rock textures we have in our assets.
-  static const int rockTypes = 6;
+  // We are excluding the 6th rock for now.
+  static const int rockTypes = 5;
   static const double rockPitScale = 1;
-  static const double ovalWidth = 66 * rockPitScale;
-  static const double ovalHeight = 22 * rockPitScale;
+  static const double ovalWidth = 70 * rockPitScale;
+  static const double ovalHeight = 27 * rockPitScale;
 
   static final Vector2 rockSize = Vector2(24, 24);
 
@@ -29,10 +31,8 @@ class RockFirePit extends PositionComponent with Snapshot {
     const double rockScale = 0.66;
     final int numRocks = (20 * rockPitScale).ceil();
 
-    // Create a list of rocks with their positions
     List<Vector2> rocks = [];
     for (int i = 0; i < numRocks; i++) {
-      // Calculate the angle for this rock
       double angle = 2 * pi * i / numRocks;
 
       // Calculate the x and y coordinates using the equation of an ellipse
@@ -43,6 +43,12 @@ class RockFirePit extends PositionComponent with Snapshot {
     }
 
     rocks.sort((a, b) => a.y.compareTo(b.y));
+
+    // Find the Y range, because there are negatives, then apply the horizontal displacement factor
+    double yRange = (rocks.last.y - rocks.first.y) / 2;
+    for (var rock in rocks) {
+      rock.x += (rock.y + yRange) * ParallaxConstants.horizontalDisplacementFactor;
+    }
 
     for (Vector2 rock in rocks) {
       MiscHelper.randomElement(_rockSprites)

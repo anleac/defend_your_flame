@@ -1,5 +1,6 @@
 import 'package:defend_your_flame/constants/debug_constants.dart';
 import 'package:defend_your_flame/constants/misc_constants.dart';
+import 'package:defend_your_flame/constants/parallax_constants.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/walls/wall_helper.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/walls/wall_type.dart';
 import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
@@ -24,11 +25,14 @@ class Wall extends PositionComponent with HasVisibility, HasWorldReference<MainW
   late int _totalHealth = WallHelper.getDefaultTotalHealth(_wallType);
   int _health = 100;
 
+  PolygonHitbox? _hitbox;
+  List<Vector2> _wallCornerPoints = [];
+
   WallType get wallType => _wallType;
   int get health => _health < 0 ? 0 : _health;
   int get totalHealth => _totalHealth;
 
-  PolygonHitbox? _hitbox;
+  List<Vector2> get wallCornerPoints => _wallCornerPoints;
 
   Wall({required this.verticalRange}) : super(size: Vector2(156, 398)) {
     scale = WallHelper.getScale(_wallType);
@@ -45,7 +49,7 @@ class Wall extends PositionComponent with HasVisibility, HasWorldReference<MainW
     _verticalRange = verticalRange / scale.y;
     _verticalRenders = (_verticalRange / verticalDiffPerRender).ceilToDouble();
 
-    _horizontalRange = _verticalRange / 12;
+    _horizontalRange = _verticalRange * ParallaxConstants.horizontalDisplacementFactor;
     _horizontalDiffPerRender = _horizontalRange / _verticalRenders;
   }
 
@@ -53,15 +57,17 @@ class Wall extends PositionComponent with HasVisibility, HasWorldReference<MainW
     _hitbox?.removeFromParent();
 
     _updateRenderValues();
+    _wallCornerPoints.clear();
+    _wallCornerPoints.addAll([
+      Vector2(-size.x, -size.y),
+      Vector2(0, -size.y),
+      Vector2(_horizontalRange, _verticalRange),
+      Vector2(-size.x + _horizontalRange, _verticalRange)
+    ]);
 
     // TODO post-beta release check performance of isSolid.
     add(
-      _hitbox = PolygonHitbox([
-        Vector2(-size.x, -size.y),
-        Vector2(0, -size.y),
-        Vector2(_horizontalRange, _verticalRange),
-        Vector2(-size.x + _horizontalRange, _verticalRange)
-      ], isSolid: true)
+      _hitbox = PolygonHitbox(_wallCornerPoints, isSolid: true)
         ..renderShape = DebugHelper.renderCollisionHitboxes
         ..paint = DebugConstants.transparentPaint,
     );
