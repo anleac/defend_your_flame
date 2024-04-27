@@ -38,7 +38,7 @@ class Mage extends FlyingEntity {
       stepTime: 0.1,
       frames: 8,
     ),
-    attackRange: () => GlobalVars.rand.nextInt(250) + 225,
+    attackRange: () => GlobalVars.rand.nextInt(125) + 225,
   );
 
   late final RectangleHitbox _hitbox =
