@@ -1,0 +1,1 @@
+enum DeathType { falling, wallCollision }
