@@ -1,9 +1,11 @@
-import 'package:defend_your_flame/core/flame/components/entities/animation_config.dart';
-import 'package:defend_your_flame/core/flame/components/entities/entity_config.dart';
+import 'package:defend_your_flame/constants/damage_constants.dart';
+import 'package:defend_your_flame/core/flame/components/entities/configs/animation_config.dart';
+import 'package:defend_your_flame/core/flame/components/entities/configs/entity_config.dart';
 import 'package:defend_your_flame/core/flame/components/entities/flying_entity.dart';
 import 'package:defend_your_flame/core/flame/helpers/entity_helper.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flutter/painting.dart';
 
 class Mage extends FlyingEntity {
   static final EntityConfig _mageConfig = EntityConfig(
@@ -29,13 +31,25 @@ class Mage extends FlyingEntity {
     walkingForwardSpeed: 40,
     damageOnAttack: 0,
     goldOnKill: 15,
+    totalHealth: DamageConstants.fallDamage * 4,
   );
+
+  late final RectangleHitbox _hitbox =
+      EntityHelper.createRectangleHitbox(size: Vector2(36, 50), anchor: Anchor.topCenter, position: Vector2(80, 67));
 
   Mage({super.scaleModifier}) : super(entityConfig: _mageConfig);
 
   @override
   List<ShapeHitbox> addHitboxes() {
-    return [EntityHelper.createRectangleHitbox(size: Vector2(40, 60))];
+    return [_hitbox];
+  }
+
+  @override
+  void render(Canvas canvas) {
+    EntityHelper.drawHealthBar(canvas,
+        entity: this, width: _hitbox.width, centerPosition: Vector2(_hitbox.center.x, _hitbox.topLeftPosition.y));
+
+    super.render(canvas);
   }
 
   static Mage spawn({required scaleModifier, required position}) {

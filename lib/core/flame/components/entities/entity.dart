@@ -173,7 +173,9 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
     }
 
     // Try revert it to the position before the collision, to avoid it getting stuck (this is super hacky, but it works for alpha).
-    position = _lastValidPosition;
+    if (isAlive) {
+      position = _lastValidPosition;
+    }
   }
 
   void fallingCalculation(double dt) {}

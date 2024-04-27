@@ -1,5 +1,5 @@
 import 'package:defend_your_flame/constants/damage_constants.dart';
-import 'package:defend_your_flame/core/flame/components/entities/animation_config.dart';
+import 'package:defend_your_flame/core/flame/components/entities/configs/animation_config.dart';
 import 'package:flame/components.dart';
 
 /// EntityConfig is a class that holds the information used to define

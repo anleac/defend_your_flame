@@ -6,6 +6,7 @@ import 'package:defend_your_flame/constants/misc_constants.dart';
 import 'package:defend_your_flame/constants/physics_constants.dart';
 import 'package:defend_your_flame/core/flame/components/entities/entity.dart';
 import 'package:defend_your_flame/core/flame/components/entities/enums/entity_state.dart';
+import 'package:defend_your_flame/core/flame/helpers/damage_helper.dart';
 import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
 import 'package:defend_your_flame/helpers/physics_helper.dart';
 import 'package:defend_your_flame/helpers/timestep/timestep_helper.dart';
@@ -14,6 +15,7 @@ import 'package:flame/events.dart';
 
 class DraggableEntity extends Entity with DragCallbacks, GestureHitboxes {
   static const double dragTimeoutInSeconds = 3.5;
+  static const double _dragEps = 1;
 
   late final double _pickupHeight;
 
@@ -73,15 +75,19 @@ class DraggableEntity extends Entity with DragCallbacks, GestureHitboxes {
   }
 
   void _dragCalculation(double dt) {
-    if (_beingDragged) {
-      // Want to ensure they've been dragged at least a bit to avoid abuse.
-      if (position.y >= _pickupHeight - 10 && _totalDragDistance > 150) {
-        if (_dragVelocity.y > PhysicsConstants.maxVelocity.y * 0.9) {
-          // Slammed into the ground.
-          dragDeath();
-        }
-      }
+    if (!_beingDragged) {
+      return;
     }
+
+    if (position.y >= _pickupHeight - _dragEps && _dragDamagePossible(considerHorizontal: false)) {
+      // Slammed into the ground.
+      dragDamage();
+    }
+  }
+
+  bool _dragDamagePossible({required bool considerHorizontal}) {
+    return _totalDragDistance > 150 &&
+        DamageHelper.hasVelocityImpact(velocity: _velocity, considerHorizontal: considerHorizontal);
   }
 
   @override
@@ -157,7 +163,7 @@ class DraggableEntity extends Entity with DragCallbacks, GestureHitboxes {
     current = EntityState.dragged;
   }
 
-  void dragDeath() {
+  void dragDamage() {
     hitGround();
     stopDragging();
   }
@@ -173,11 +179,30 @@ class DraggableEntity extends Entity with DragCallbacks, GestureHitboxes {
       return;
     }
 
-    if (position.y < _pickupHeight - 10) {
+    if (position.y < _pickupHeight - _dragEps) {
       current = EntityState.falling;
     } else {
       current = EntityState.walking;
     }
+  }
+
+  @override
+  void wallCollisionCalculation(double dt) {
+    if (_beingDragged) {
+      if (_dragDamagePossible(considerHorizontal: true)) {
+        dragDamage();
+      } else {
+        stopDragging();
+      }
+    }
+
+    if (current == EntityState.falling) {
+      if (position.y >= _pickupHeight) {
+        current = EntityState.walking;
+      }
+    }
+
+    super.wallCollisionCalculation(dt);
   }
 
   @override
