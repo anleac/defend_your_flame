@@ -23,7 +23,7 @@ class EntitySpawnHelper {
     var randomNumber = GlobalVars.rand.nextInt(100);
 
     // TODO add back in mages when you enable a way to kill them.
-    if (randomNumber < 95 - (currentRound * 2) || true) {
+    if (randomNumber < 95 - (currentRound * 2) && false) {
       return _spawnGroundEntity(worldHeight, currentRound);
       // ignore: dead_code
     } else {

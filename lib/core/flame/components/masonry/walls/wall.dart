@@ -5,7 +5,6 @@ import 'package:defend_your_flame/core/flame/components/masonry/walls/wall_helpe
 import 'package:defend_your_flame/core/flame/components/masonry/walls/wall_type.dart';
 import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
-import 'package:defend_your_flame/helpers/debug/debug_helper.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/image_composition.dart';
@@ -68,7 +67,7 @@ class Wall extends PositionComponent with HasVisibility, HasWorldReference<MainW
     // TODO post-beta release check performance of isSolid.
     add(
       _hitbox = PolygonHitbox(_wallCornerPoints, isSolid: true)
-        ..renderShape = DebugHelper.renderCollisionHitboxes
+        ..renderShape = DebugConstants.drawEntityCollisionBoxes
         ..paint = DebugConstants.transparentPaint,
     );
   }
