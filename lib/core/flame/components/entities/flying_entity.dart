@@ -1,22 +1,29 @@
+import 'package:defend_your_flame/core/flame/components/entities/configs/flying_entity_config.dart';
 import 'package:defend_your_flame/core/flame/components/entities/entity.dart';
 import 'package:defend_your_flame/core/flame/components/entities/enums/entity_state.dart';
 import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
 import 'package:defend_your_flame/helpers/global_vars.dart';
 
-// TODO FIX flying entities are currently broken with when to stop because they never collide with a wall.
 class FlyingEntity extends Entity {
+  final FlyingEntityConfig flyingEntityConfig;
+
+  late final double _distanceToWallToAttack = flyingEntityConfig.attackRange();
+
   double _idleTimer = 0.0;
   double _nextIdleTime = 0.0;
 
-  FlyingEntity({required super.entityConfig, super.scaleModifier});
+  FlyingEntity({required this.flyingEntityConfig, super.scaleModifier})
+      : super(entityConfig: flyingEntityConfig.entityConfig);
 
   @override
   Future<void> onLoad() async {
-    assert(entityConfig.idleConfig != null,
+    assert(flyingEntityConfig.idleConfig != null,
         'Idle config must be set for a flying entity: ${entityConfig.entityResourceName}');
 
     final idleSprite = SpriteManager.getAnimation('mobs/${entityConfig.entityResourceName}/idle',
-        stepTime: entityConfig.idleConfig!.stepTime / scale.x, frames: entityConfig.idleConfig!.frames, loop: true);
+        stepTime: flyingEntityConfig.idleConfig!.stepTime / scale.x,
+        frames: flyingEntityConfig.idleConfig!.frames,
+        loop: true);
 
     animations = {
       EntityState.idle: idleSprite,
@@ -46,6 +53,13 @@ class FlyingEntity extends Entity {
     _idleTimer += dt;
     if (_idleTimer >= _nextIdleTime) {
       _shiftStateFromIdle();
+    }
+
+    if (current == EntityState.walking) {
+      final horizontalDistanceToWall = world.playerManager.playerBase.position.x - position.x;
+      if (horizontalDistanceToWall <= _distanceToWallToAttack) {
+        current = EntityState.attacking;
+      }
     }
 
     super.update(dt);

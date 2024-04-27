@@ -13,7 +13,6 @@ class EntityConfig {
   final Vector2? attackingSize;
   final double defaultScale;
 
-  final AnimationConfig? idleConfig;
   final AnimationConfig? dragConfig;
 
   final AnimationConfig walkingConfig;
@@ -35,7 +34,6 @@ class EntityConfig {
     this.defaultScale = 1.0,
     this.attackingSize,
     this.totalHealth = DamageConstants.fallDamage,
-    this.idleConfig,
     this.dragConfig,
     required this.walkingConfig,
     required this.attackingConfig,

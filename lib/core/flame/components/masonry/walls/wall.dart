@@ -58,10 +58,10 @@ class Wall extends PositionComponent with HasVisibility, HasWorldReference<MainW
     _updateRenderValues();
     _wallCornerPoints.clear();
     _wallCornerPoints.addAll([
-      Vector2(-size.x, -size.y),
       Vector2(0, -size.y),
+      Vector2(size.x, -size.y),
+      Vector2(size.x + _horizontalRange, _verticalRange),
       Vector2(_horizontalRange, _verticalRange),
-      Vector2(-size.x + _horizontalRange, _verticalRange)
     ]);
 
     // TODO post-beta release check performance of isSolid.
@@ -81,7 +81,7 @@ class Wall extends PositionComponent with HasVisibility, HasWorldReference<MainW
     for (int i = 0; i < _verticalRenders; i++) {
       _wallSprite.render(
         canvas,
-        position: Vector2(runningX, runninyY) - size,
+        position: Vector2(runningX, runninyY - size.y),
         size: size,
         overridePaint: Paint()..color = Colors.white.withOpacity(1 - ((_verticalRenders - i) / 90.0)),
       );
