@@ -1,7 +1,7 @@
 import 'package:defend_your_flame/constants/bounding_constants.dart';
 import 'package:defend_your_flame/constants/misc_constants.dart';
-import 'package:defend_your_flame/core/flame/components/entities/entity_state.dart';
-import 'package:defend_your_flame/core/flame/components/entities/entity_config.dart';
+import 'package:defend_your_flame/core/flame/components/entities/enums/entity_state.dart';
+import 'package:defend_your_flame/core/flame/components/entities/configs/entity_config.dart';
 import 'package:defend_your_flame/core/flame/main_game.dart';
 import 'package:defend_your_flame/core/flame/managers/entity_manager.dart';
 import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
@@ -166,19 +166,13 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
     }
   }
 
+  // This should only ever be called when the entity is colliding with a wall.
   void wallCollisionCalculation(double dt) {
-    if (!isCollidingWithWall) {
-      return;
-    }
-
     if (current == EntityState.walking) {
       current = EntityState.attacking;
     }
 
-    if (current == EntityState.falling) {
-      current = EntityState.walking;
-    }
-
+    // Try revert it to the position before the collision, to avoid it getting stuck (this is super hacky, but it works for alpha).
     position = _lastValidPosition;
   }
 

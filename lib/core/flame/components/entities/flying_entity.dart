@@ -1,5 +1,5 @@
 import 'package:defend_your_flame/core/flame/components/entities/entity.dart';
-import 'package:defend_your_flame/core/flame/components/entities/entity_state.dart';
+import 'package:defend_your_flame/core/flame/components/entities/enums/entity_state.dart';
 import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
 import 'package:defend_your_flame/helpers/global_vars.dart';
 

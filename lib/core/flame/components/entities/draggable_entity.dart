@@ -5,9 +5,8 @@ import 'package:defend_your_flame/constants/damage_constants.dart';
 import 'package:defend_your_flame/constants/misc_constants.dart';
 import 'package:defend_your_flame/constants/physics_constants.dart';
 import 'package:defend_your_flame/core/flame/components/entities/entity.dart';
-import 'package:defend_your_flame/core/flame/components/entities/entity_state.dart';
+import 'package:defend_your_flame/core/flame/components/entities/enums/entity_state.dart';
 import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
-import 'package:defend_your_flame/helpers/misc_helper.dart';
 import 'package:defend_your_flame/helpers/physics_helper.dart';
 import 'package:defend_your_flame/helpers/timestep/timestep_helper.dart';
 import 'package:flame/components.dart';
@@ -18,7 +17,7 @@ class DraggableEntity extends Entity with DragCallbacks, GestureHitboxes {
 
   late final double _pickupHeight;
 
-  Vector2 _fallVelocity = Vector2.zero();
+  Vector2 _velocity = Vector2.zero();
   bool _beingDragged = false;
 
   Vector2 _dragVelocity = Vector2.zero();
@@ -101,7 +100,7 @@ class DraggableEntity extends Entity with DragCallbacks, GestureHitboxes {
     _dragVelocity.x = influence * newVelocity.x + (1 - influence) * _dragVelocity.x;
     _dragVelocity.y = influence * newVelocity.y + (1 - influence) * _dragVelocity.y;
 
-    _fallVelocity = _dragVelocity / 1.6;
+    _velocity = _dragVelocity / 1.7;
   }
 
   @override
@@ -184,7 +183,7 @@ class DraggableEntity extends Entity with DragCallbacks, GestureHitboxes {
   @override
   void fallingCalculation(double dt) {
     // Always do this, even if not falling, to scale drag velocity updates.
-    _fallVelocity = PhysicsHelper.applyFriction(_fallVelocity, dt);
+    _velocity = PhysicsHelper.applyFriction(_velocity, dt);
     _dragVelocity = PhysicsHelper.applyFriction(_dragVelocity, dt);
 
     // Helps to reset when drag is idle.
@@ -192,15 +191,15 @@ class DraggableEntity extends Entity with DragCallbacks, GestureHitboxes {
       updateDragVelocity(Vector2.zero());
     }
 
-    PhysicsHelper.clampVelocity(_fallVelocity);
+    PhysicsHelper.clampVelocity(_velocity);
     PhysicsHelper.clampVelocity(_dragVelocity);
 
     if (current == EntityState.falling) {
-      _fallVelocity = PhysicsHelper.applyGravity(_fallVelocity, dt);
-      position = TimestepHelper.addVector2(position, _fallVelocity, dt);
+      _velocity = PhysicsHelper.applyGravity(_velocity, dt);
+      position = TimestepHelper.addVector2(position, _velocity, dt);
 
       if (position.y >= _pickupHeight) {
-        if (_fallVelocity.y > PhysicsConstants.maxVelocity.y * 0.4) {
+        if (_velocity.y > PhysicsConstants.maxVelocity.y * 0.4) {
           hitGround();
         } else {
           current = EntityState.walking;

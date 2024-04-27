@@ -1,0 +1,1 @@
+enum DamageSource { falling, wallCollision }
