@@ -3,6 +3,7 @@ import 'package:defend_your_flame/core/flame/components/entities/configs/animati
 import 'package:defend_your_flame/core/flame/components/entities/configs/entity_config.dart';
 import 'package:defend_your_flame/core/flame/components/entities/configs/flying_entity_config.dart';
 import 'package:defend_your_flame/core/flame/components/entities/flying_entity.dart';
+import 'package:defend_your_flame/core/flame/components/projectiles/curving_magic_projectile.dart';
 import 'package:defend_your_flame/core/flame/helpers/entity_helper.dart';
 import 'package:defend_your_flame/helpers/global_vars.dart';
 import 'package:flame/collisions.dart';
@@ -19,14 +20,14 @@ class Mage extends FlyingEntity {
       frames: 8,
     ),
     attackingConfig: AnimationConfig(
-      stepTime: 0.12,
+      stepTime: 0.14,
       frames: 13,
     ),
     dyingConfig: AnimationConfig(
       stepTime: 0.07,
       frames: 8,
     ),
-    walkingForwardSpeed: 40,
+    walkingForwardSpeed: 34,
     damageOnAttack: 0,
     goldOnKill: 15,
     totalHealth: DamageConstants.fallDamage * 4,
@@ -38,7 +39,7 @@ class Mage extends FlyingEntity {
       stepTime: 0.1,
       frames: 8,
     ),
-    attackRange: () => GlobalVars.rand.nextInt(125) + 225,
+    attackRange: () => GlobalVars.rand.nextInt(220) + 300,
   );
 
   late final RectangleHitbox _hitbox =
@@ -57,6 +58,16 @@ class Mage extends FlyingEntity {
         entity: this, width: _hitbox.width, centerPosition: Vector2(_hitbox.center.x, _hitbox.topLeftPosition.y));
 
     super.render(canvas);
+  }
+
+  @override
+  void performAttack() {
+    // We want it to come from the top right of the hitbox
+    var attackPosition =
+        _hitbox.absoluteTopLeftPosition + Vector2(_hitbox.width, 0) + (Vector2(8, -22) * scaleModifier);
+
+    world.projectileManager.addProjectile(CurvingMagicProjectile(
+        initialPosition: attackPosition, targetPosition: world.playerManager.playerBase.wall.absoluteCenter));
   }
 
   static Mage spawn({required scaleModifier, required position}) {

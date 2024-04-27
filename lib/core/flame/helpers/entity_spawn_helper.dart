@@ -50,7 +50,7 @@ class EntitySpawnHelper {
   static Entity _spawnFlyingEntity(double worldHeight) {
     var startPosition = Vector2(
       GlobalVars.rand.nextDouble() * 25 - 40,
-      GlobalVars.rand.nextDouble() * worldHeight / 3 + (worldHeight / 6),
+      GlobalVars.rand.nextDouble() * worldHeight / 3 + (worldHeight / 5),
     );
 
     return Mage.spawn(position: startPosition, scaleModifier: MiscHelper.randomDouble(minValue: 1.1, maxValue: 1.25));

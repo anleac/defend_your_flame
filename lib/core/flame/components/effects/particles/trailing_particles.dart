@@ -3,12 +3,13 @@
 import 'dart:ui';
 
 import 'package:defend_your_flame/core/flame/helpers/performance_helper.dart';
+import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 import 'package:defend_your_flame/helpers/global_vars.dart';
 import 'package:flame/components.dart';
 import 'package:flame/particles.dart';
 import 'package:flutter/animation.dart';
 
-class TrailingParticles extends PositionComponent {
+class TrailingParticles extends PositionComponent with HasWorldReference<MainWorld> {
   final double emissionsPerSecond;
   final double particleLifetime;
 
@@ -29,7 +30,7 @@ class TrailingParticles extends PositionComponent {
 
   ParticleSystemComponent _generateParticlesAtCurrentPosition() {
     return ParticleSystemComponent(
-      position: position,
+      position: absolutePosition.clone(),
       particle: Particle.generate(
         count: PerformanceHelper.toParticleAmount(4),
         generator: (i) {
@@ -41,7 +42,7 @@ class TrailingParticles extends PositionComponent {
                 ) *
                 i.toDouble(),
             child: CircleParticle(
-              radius: 2,
+              radius: 1,
               paint: Paint()..color = colorTween.transform(GlobalVars.rand.nextDouble())!,
             ),
           );
@@ -57,7 +58,7 @@ class TrailingParticles extends PositionComponent {
     timeSinceLastEmission += dt;
 
     if (timeSinceLastEmission >= 1 / emissionsPerSecond) {
-      add(_generateParticlesAtCurrentPosition());
+      world.effectManager.add(_generateParticlesAtCurrentPosition());
       timeSinceLastEmission = 0.0;
     }
   }

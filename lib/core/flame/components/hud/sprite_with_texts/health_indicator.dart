@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:defend_your_flame/core/flame/components/effects/rock_heart.dart';
+import 'package:defend_your_flame/core/flame/components/hud/components/rock_heart.dart';
 import 'package:defend_your_flame/core/flame/components/hud/base_components/sprite_with_text.dart';
 import 'package:defend_your_flame/core/flame/main_game.dart';
 import 'package:defend_your_flame/core/flame/managers/text_manager.dart';

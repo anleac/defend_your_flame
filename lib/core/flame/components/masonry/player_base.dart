@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:defend_your_flame/constants/bounding_constants.dart';
 import 'package:defend_your_flame/constants/debug_constants.dart';
-import 'package:defend_your_flame/core/flame/components/effects/purple_flame.dart';
+import 'package:defend_your_flame/core/flame/components/masonry/flames/purple_flame.dart';
 import 'package:defend_your_flame/core/flame/components/entities/entity.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/rock_fire_pit.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/walls/wall.dart';
@@ -66,9 +66,11 @@ class PlayerBase extends PositionComponent with HasWorldReference<MainWorld>, Ha
   void render(Canvas canvas) {
     super.render(canvas);
 
-    // This is used for debugging
-    var relativeRect = _exposedAreaRect.translate(-position.x, -position.y);
-    canvas.drawRect(relativeRect, DebugConstants.debugPaint);
+    if (DebugConstants.drawEntityCollisionBoxes) {
+      // This is used for debugging
+      var relativeRect = _exposedAreaRect.translate(-position.x, -position.y);
+      canvas.drawRect(relativeRect, DebugConstants.debugPaint);
+    }
   }
 
   bool entityInside(Entity entity) {

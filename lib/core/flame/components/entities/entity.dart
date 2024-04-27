@@ -32,7 +32,7 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
 
   Vector2 _lastValidPosition = Vector2.zero();
 
-  bool _canInflictDamage = false;
+  bool _canAttack = false;
   double _offscreenTimerInMilliseconds = 0;
 
   bool get isAlive => _currentHealth > MiscConstants.eps;
@@ -115,16 +115,19 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
       if (world.worldStateManager.gameOver) {
         current = EntityState.walking;
       } else {
-        if (_canInflictDamage && animationTicker?.currentIndex == (entityConfig.attackingConfig.frames / 2).ceil()) {
-          // Inflict damage
-          _canInflictDamage = false;
-          var damage = (entityConfig.damageOnAttack * scaleModifier).floor();
-          world.playerManager.playerBase.takeDamage(damage, position: attackEffectPosition());
+        if (_canAttack && animationTicker?.currentIndex == (entityConfig.attackingConfig.frames / 2).ceil()) {
+          _canAttack = false;
+          performAttack();
         } else if (animationTicker?.isFirstFrame == true) {
-          _canInflictDamage = true;
+          _canAttack = true;
         }
       }
     }
+  }
+
+  performAttack() {
+    var damage = (entityConfig.damageOnAttack * scaleModifier).floor();
+    world.playerManager.playerBase.takeDamage(damage, position: attackEffectPosition());
   }
 
   void _applyBoundingConstraints(double dt) {

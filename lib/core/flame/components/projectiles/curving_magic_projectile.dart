@@ -5,6 +5,7 @@
 // Gravity is already represented by PhysicsConstants.gravity (which is a vector2), where the y represents the force of gravity over a second (thus we need to use dt)
 
 import 'dart:async';
+import 'dart:math';
 
 import 'package:defend_your_flame/constants/physics_constants.dart';
 import 'package:defend_your_flame/core/flame/components/effects/particles/trailing_particles.dart';
@@ -21,10 +22,17 @@ class CurvingMagicProjectile extends PositionComponent {
 
   final double speed;
 
+  late final TrailingParticles _trailingParticles = TrailingParticles(
+    emissionsPerSecond: 50,
+    particleLifetime: 0.2,
+    colorFrom: Colors.orange,
+    colorTo: Colors.red,
+  )..position = Vector2.zero();
+
   CurvingMagicProjectile({
     required this.initialPosition,
     required this.targetPosition,
-    required this.speed,
+    this.speed = 200,
   }) {
     position = initialPosition.clone();
 
@@ -32,24 +40,22 @@ class CurvingMagicProjectile extends PositionComponent {
     double distanceX = targetPosition.x - initialPosition.x;
     double distanceY = targetPosition.y - initialPosition.y;
 
+    // Calculate the total distance to the target
+    double totalDistance = sqrt(distanceX * distanceX + distanceY * distanceY);
+
     // Calculate the time it will take to reach the target
-    double time = distanceX / speed;
+    double time = totalDistance / speed;
 
     // Calculate the initial x and y velocities
-    double vx = speed;
-    double vy = distanceY / time + 0.5 * PhysicsConstants.gravity.y * time;
+    double vx = distanceX / time;
+    double vy = (distanceY - 0.5 * PhysicsConstants.magicalGravity.y * time * time) / time;
 
     _velocity = Vector2(vx, vy);
   }
 
   @override
   FutureOr<void> onLoad() {
-    add(TrailingParticles(
-      emissionsPerSecond: 5,
-      particleLifetime: 0.5,
-      colorFrom: Colors.orange,
-      colorTo: Colors.red,
-    ));
+    add(_trailingParticles);
 
     return super.onLoad();
   }
@@ -58,7 +64,7 @@ class CurvingMagicProjectile extends PositionComponent {
   void update(double dt) {
     super.update(dt);
 
-    _velocity = PhysicsHelper.applyGravity(_velocity, dt);
+    _velocity = PhysicsHelper.applyMagicalGravity(_velocity, dt);
     position = TimestepHelper.addVector2(position, _velocity, dt);
   }
 }

@@ -4,7 +4,7 @@ import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 
 class Moon extends PositionComponent {
-  final double _rotationalSpeed = MathHelper.degreesToRads(2);
+  final double _rotationalSpeed = MathHelper.degreesToRads(1);
   final double moonRadius = 30;
 
   final Vector2 _initialPosition = Vector2(-(Constants.desiredWidth * 0.1), Constants.desiredHeight);
@@ -34,7 +34,7 @@ class Moon extends PositionComponent {
 
   @override
   void render(Canvas canvas) {
-    canvas.drawCircle(Offset.zero, moonRadius, Paint()..color = Colors.white.withOpacity(0.7));
+    canvas.drawCircle(Offset.zero, moonRadius, Paint()..color = Colors.white.withOpacity(0.4));
     super.render(canvas);
   }
 }

@@ -5,6 +5,7 @@ import 'package:defend_your_flame/core/flame/managers/effect_manager.dart';
 import 'package:defend_your_flame/core/flame/managers/entity_manager.dart';
 import 'package:defend_your_flame/core/flame/managers/hud_manager.dart';
 import 'package:defend_your_flame/core/flame/managers/player_manager.dart';
+import 'package:defend_your_flame/core/flame/managers/projectile_manager.dart';
 import 'package:defend_your_flame/core/flame/managers/round_manager.dart';
 import 'package:defend_your_flame/core/flame/managers/shop_manager.dart';
 import 'package:defend_your_flame/core/flame/managers/world_state_manager.dart';
@@ -16,12 +17,14 @@ class MainWorld extends World with HasCollisionDetection {
   final PlayerManager _playerManager = PlayerManager();
   final RoundManager _roundManager = RoundManager();
   final EntityManager _entityManager = EntityManager();
+  final ProjectileManager _projectileManager = ProjectileManager();
   final EffectManager _effectManager = EffectManager();
   final WorldStateManager _worldStateManager = WorldStateManager();
   final ShopManager _shopManager = ShopManager();
 
   PlayerManager get playerManager => _playerManager;
   EntityManager get entityManager => _entityManager;
+  ProjectileManager get projectileManager => _projectileManager;
   EffectManager get effectManager => _effectManager;
   RoundManager get roundManager => _roundManager;
   WorldStateManager get worldStateManager => _worldStateManager;
@@ -35,6 +38,7 @@ class MainWorld extends World with HasCollisionDetection {
     add(_environment);
     add(_playerManager);
     add(_entityManager);
+    add(_projectileManager);
     add(_effectManager);
 
     add(CameraBorder());

@@ -32,6 +32,7 @@ class Wall extends PositionComponent with HasVisibility, HasWorldReference<MainW
   int get totalHealth => _totalHealth;
 
   List<Vector2> get wallCornerPoints => _wallCornerPoints;
+  Vector2 get wallCenter => center;
 
   Wall({required this.verticalRange}) : super(size: Vector2(156, 398)) {
     scale = WallHelper.getScale(_wallType);
