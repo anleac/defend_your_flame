@@ -21,3 +21,4 @@
 - Re-adjusted the size of various UX elements
 - Made it easier to slam enemies into the ground by reducing the velocity required
 - Made all current entities disappear on death
+- Fixed small render issue where slimes appeared behind skeletons

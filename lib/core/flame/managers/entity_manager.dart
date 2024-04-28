@@ -96,11 +96,8 @@ class EntityManager extends Component with HasWorldReference<MainWorld> {
 
   // Wrappers so we can track based on the position of the entity, to render them in the correct order
   _addEntity(Entity entity) {
-    var key = entity.position.y.toInt();
-    if (entity is Skeleton == false) {
-      // Skeletons are unique in that I've anchored it bottom left, therefore we don't need to add the scaled Y.
-      key += entity.scaledSize.y.toInt();
-    }
+    // We want to sort by the bottom of the entity as this takes into account various anchor points and sizes.
+    var key = (entity.topLeftPosition.y + entity.scaledSize.y).toInt();
 
     if (!_entities.containsKey(key)) {
       _entities[key] = [];
