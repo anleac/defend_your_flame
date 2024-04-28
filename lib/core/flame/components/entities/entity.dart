@@ -6,6 +6,7 @@ import 'package:defend_your_flame/core/flame/main_game.dart';
 import 'package:defend_your_flame/core/flame/managers/entity_manager.dart';
 import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
 import 'package:defend_your_flame/core/flame/mixins/has_wall_collision.dart';
+import 'package:defend_your_flame/core/flame/mixins/wall_as_solid.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 import 'package:defend_your_flame/helpers/timestep/timestep_helper.dart';
 import 'package:flame/collisions.dart';
@@ -18,7 +19,8 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
         HasGameReference<MainGame>,
         HasVisibility,
         CollisionCallbacks,
-        HasWallCollision {
+        HasWallCollision,
+        WallAsSolid {
   static const double offscreenTimeoutInSeconds = 3;
 
   final EntityConfig entityConfig;
@@ -30,8 +32,6 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
 
   late Vector2 _startingPosition;
 
-  Vector2 _lastValidPosition = Vector2.zero();
-
   bool _canAttack = false;
   double _offscreenTimerInMilliseconds = 0;
 
@@ -39,8 +39,6 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
 
   double get currentHealth => _currentHealth;
   double get totalHealth => entityConfig.totalHealth;
-
-  Vector2 get lastPosition => _lastValidPosition;
 
   Entity({required this.entityConfig, this.scaleModifier = 1}) {
     size = entityConfig.defaultSize;
@@ -97,10 +95,6 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
     _logicCalculation(dt);
     fallingCalculation(dt);
     _applyBoundingConstraints(dt);
-
-    if (!isCollidingWithWall) {
-      _lastValidPosition = position.clone();
-    }
   }
 
   updateSize(Vector2 newSize, {required bool attacking}) {
@@ -173,11 +167,6 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
   void wallCollisionCalculation(double dt) {
     if (current == EntityState.walking) {
       current = EntityState.attacking;
-    }
-
-    // Try revert it to the position before the collision, to avoid it getting stuck (this is super hacky, but it works for alpha).
-    if (isAlive) {
-      position = _lastValidPosition;
     }
   }
 

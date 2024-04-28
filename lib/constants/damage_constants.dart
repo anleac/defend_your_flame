@@ -4,6 +4,8 @@ import 'package:flame/components.dart';
 class DamageConstants {
   static const double fallDamage = 10;
 
+  static const double wallImpactDamage = fallDamage / 2;
+
   static const double _fractionOfMaxVelocityForDragDamage = 0.6;
   static const double _fractionOfMaxVelocityForFallDamage = 0.5;
 

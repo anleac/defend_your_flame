@@ -162,7 +162,7 @@ class DraggableEntity extends Entity with DragCallbacks, GestureHitboxes {
 
     _beingDragged = true;
     _totalDragDistance = 0;
-    _dragVelocity = Vector2.zero();
+    _clearVelocities();
     _timeSinceLastDragEventInMicroseconds = 0;
     _stuckTimerInMilliseconds = 0;
     current = EntityState.dragged;
@@ -199,6 +199,8 @@ class DraggableEntity extends Entity with DragCallbacks, GestureHitboxes {
   void wallCollisionCalculation(double dt) {
     if (_beingDragged) {
       if (_dragDamagePossible(considerHorizontal: true)) {
+        world.playerManager.playerBase
+            .takeDamage(DamageConstants.wallImpactDamage.toInt(), position: wallIntersectionPoints.first);
         dragDamage();
       } else {
         stopDragging();
@@ -245,10 +247,15 @@ class DraggableEntity extends Entity with DragCallbacks, GestureHitboxes {
       super.takeDamage(DamageConstants.fallDamage);
     }
 
-    _velocity = Vector2.zero();
+    _clearVelocities();
 
     if (isAlive) {
       current = EntityState.walking;
     }
+  }
+
+  _clearVelocities() {
+    _velocity = Vector2.zero();
+    _dragVelocity = Vector2.zero();
   }
 }

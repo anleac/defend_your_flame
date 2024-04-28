@@ -5,7 +5,7 @@ class PhysicsConstants {
   static const double friction = 0.95;
   static final Vector2 gravity = Vector2(0, 2600.0);
 
-  static final Vector2 magicalGravity = gravity / 6;
+  static final Vector2 magicalGravity = gravity / 8;
 
   static final Vector2 maxVelocity = Vector2(2000, 3000);
   static final Vector2 negativeMaxVelocity = -maxVelocity;

@@ -16,7 +16,7 @@ class Mage extends FlyingEntity with DisappearOnDeath {
   static final EntityConfig _baseEntityConfig = EntityConfig(
     entityResourceName: 'mage',
     defaultSize: Vector2(160, 128),
-    defaultScale: 1.1,
+    defaultScale: 1.2,
     walkingConfig: AnimationConfig(
       stepTime: 0.12,
       frames: 8,

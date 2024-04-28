@@ -6,4 +6,10 @@ class ProjectileManager extends PositionComponent {
   addProjectile(Component projectile) {
     add(projectile);
   }
+
+  void clearAllProjectiles() {
+    for (final projectile in children) {
+      projectile.removeFromParent();
+    }
+  }
 }

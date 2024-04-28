@@ -16,7 +16,8 @@ class TrailingParticles extends PositionComponent with HasWorldReference<MainWor
   final Color colorFrom;
   final Color colorTo;
 
-  final Tween<double> noise = Tween(begin: -1, end: 1);
+  final Tween<double> noise = Tween(begin: -3, end: 3);
+  final Tween<double> radius = Tween(begin: 1, end: 2);
   final ColorTween colorTween;
 
   double timeSinceLastEmission = 0.0;
@@ -42,7 +43,7 @@ class TrailingParticles extends PositionComponent with HasWorldReference<MainWor
                 ) *
                 i.toDouble(),
             child: CircleParticle(
-              radius: 1,
+              radius: radius.transform(GlobalVars.rand.nextDouble()),
               paint: Paint()..color = colorTween.transform(GlobalVars.rand.nextDouble())!,
             ),
           );

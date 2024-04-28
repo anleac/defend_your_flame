@@ -73,6 +73,7 @@ class EntityManager extends Component with HasWorldReference<MainWorld> {
       var anyEntitiesAlive = children.any((element) => element is Entity && element.isAlive);
 
       if (!anyEntitiesAlive) {
+        world.projectileManager.clearAllProjectiles();
         world.worldStateManager.changeState(MainWorldState.betweenRounds);
       }
     }
