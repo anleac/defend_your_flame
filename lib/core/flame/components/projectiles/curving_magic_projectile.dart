@@ -31,7 +31,7 @@ class CurvingMagicProjectile extends PositionComponent {
   CurvingMagicProjectile({
     required this.initialPosition,
     required this.targetPosition,
-    this.horizontalPixelsPerSecond = 180,
+    this.horizontalPixelsPerSecond = 170,
   }) {
     position = initialPosition.clone();
     _velocity = PhysicsHelper.calculateVelocityToTarget(
