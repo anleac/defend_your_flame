@@ -4,7 +4,8 @@ class StoneWallPurchase extends Purchasable {
   StoneWallPurchase()
       : super(
           name: 'Stone Wall',
-          description: '"I found a wall of wood, and left it a wall\nof stone."',
+          description:
+              '- +40 max health\n\n- +1 defence\n\n\n\n"I found a wall of wood, and left it a wall\nof stone."',
           cost: 110,
           oneOffPurchase: true,
         );

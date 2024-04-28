@@ -19,4 +19,13 @@ class WallHelper {
         return 140;
     }
   }
+
+  static int defenseValue(WallType type) {
+    switch (type) {
+      case WallType.wood:
+        return 0;
+      case WallType.stone:
+        return 1;
+    }
+  }
 }
