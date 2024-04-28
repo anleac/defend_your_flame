@@ -8,12 +8,16 @@ import 'dart:async';
 
 import 'package:defend_your_flame/constants/physics_constants.dart';
 import 'package:defend_your_flame/core/flame/components/effects/particles/trailing_particles.dart';
+import 'package:defend_your_flame/core/flame/mixins/has_wall_collision.dart';
+import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 import 'package:defend_your_flame/helpers/physics_helper.dart';
 import 'package:defend_your_flame/helpers/timestep/timestep_helper.dart';
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 
-class CurvingMagicProjectile extends PositionComponent {
+class CurvingMagicProjectile extends PositionComponent
+    with CollisionCallbacks, HasWallCollision, HasWorldReference<MainWorld> {
   final Vector2 initialPosition;
   final Vector2 targetPosition;
 
@@ -45,6 +49,7 @@ class CurvingMagicProjectile extends PositionComponent {
   @override
   FutureOr<void> onLoad() {
     add(_trailingParticles);
+    add(CircleHitbox(radius: 2));
 
     return super.onLoad();
   }
@@ -55,5 +60,10 @@ class CurvingMagicProjectile extends PositionComponent {
 
     _velocity = PhysicsHelper.applyMagicalGravity(_velocity, dt);
     position = TimestepHelper.addVector2(position, _velocity, dt);
+
+    if (isCollidingWithWall) {
+      removeFromParent();
+      world.playerManager.playerBase.takeDamage(12, position: wallIntersectionPoints.first);
+    }
   }
 }

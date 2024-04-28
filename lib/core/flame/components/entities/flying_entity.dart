@@ -61,9 +61,11 @@ class FlyingEntity extends Entity {
 
     if (current == EntityState.walking) {
       final horizontalDistanceToWall = (world.playerManager.playerBase.position.x - position.x).abs();
-      if (horizontalDistanceToWall <= _distanceToWallToAttack) {
+      if (horizontalDistanceToWall <= _distanceToWallToAttack && world.worldStateManager.playing) {
         current = EntityState.attacking;
       }
+    } else if (current == EntityState.attacking && world.worldStateManager.gameOver) {
+      current = EntityState.walking;
     }
 
     super.update(dt);
