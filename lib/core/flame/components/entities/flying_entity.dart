@@ -1,10 +1,13 @@
+import 'package:defend_your_flame/constants/damage_constants.dart';
 import 'package:defend_your_flame/core/flame/components/entities/configs/flying_entity_config.dart';
 import 'package:defend_your_flame/core/flame/components/entities/entity.dart';
 import 'package:defend_your_flame/core/flame/components/entities/enums/entity_state.dart';
 import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
 import 'package:defend_your_flame/helpers/global_vars.dart';
+import 'package:flame/components.dart';
+import 'package:flame/events.dart';
 
-class FlyingEntity extends Entity {
+class FlyingEntity extends Entity with TapCallbacks, GestureHitboxes {
   final FlyingEntityConfig flyingEntityConfig;
 
   late final double _distanceToWallToAttack = flyingEntityConfig.attackRange();
@@ -32,7 +35,7 @@ class FlyingEntity extends Entity {
     super.onLoad();
   }
 
-  void _shiftStateFromIdle() {
+  void _shiftStateFromIdle({bool shortDuration = false}) {
     if (current == EntityState.idle) {
       current = EntityState.walking;
     } else if (current == EntityState.walking) {
@@ -42,14 +45,13 @@ class FlyingEntity extends Entity {
     _idleTimer = 0.0;
     _nextIdleTime = _calculateNextIdleTime();
 
-    if (current == EntityState.idle) {
-      // Make idle time much less.
-      _nextIdleTime /= 3;
+    if (shortDuration) {
+      _nextIdleTime /= 4;
     }
   }
 
   double _calculateNextIdleTime() {
-    return GlobalVars.rand.nextDouble() * 5 + 5; // next idle time in seconds
+    return GlobalVars.rand.nextDouble() * 2 + 2; // next idle time in seconds
   }
 
   @override
@@ -69,5 +71,16 @@ class FlyingEntity extends Entity {
     }
 
     super.update(dt);
+  }
+
+  @override
+  void onTapDown(TapDownEvent event) {
+    // Inflict damage on tap and make them idle if they were walking.
+    takeDamage(DamageConstants.fallDamage / 5);
+    _idleTimer = 0.0;
+
+    if (current == EntityState.walking) {
+      _shiftStateFromIdle(shortDuration: true);
+    }
   }
 }

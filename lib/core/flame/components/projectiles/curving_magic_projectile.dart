@@ -6,6 +6,7 @@
 
 import 'dart:async';
 
+import 'package:defend_your_flame/constants/bounding_constants.dart';
 import 'package:defend_your_flame/constants/physics_constants.dart';
 import 'package:defend_your_flame/core/flame/components/effects/particles/trailing_particles.dart';
 import 'package:defend_your_flame/core/flame/mixins/has_wall_collision.dart';
@@ -63,7 +64,11 @@ class CurvingMagicProjectile extends PositionComponent
 
     if (isCollidingWithWall) {
       removeFromParent();
-      world.playerManager.playerBase.takeDamage(12, position: wallIntersectionPoints.first);
+      world.playerManager.playerBase.takeDamage(15, position: wallIntersectionPoints.first);
+    }
+
+    if (position.y > world.worldHeight + BoundingConstants.maxYCoordinateOffScreen) {
+      removeFromParent();
     }
   }
 }
