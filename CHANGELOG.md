@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.9.1 alpha - 28th April, 2024
+
+### New Features
+- Add concept of defense to a wall, which removes damage 1:1
+   - Gave the stone wall upgrade a defense of 1 (wood has 0)
+
+### Bug Fixes
+- N/A
+
+### Improvements
+- Scaled the spawning logic better to prefer mages later on, and strong skeletons more in the early rounds
+- Nerfed the mage damage
+- Added a better description to the stone wall upgrade
+
 ## 0.9.0 alpha - 28th April, 2024
 
 ### New Features
