@@ -6,7 +6,7 @@ class PlayerManager extends PositionComponent with ParentIsA<MainWorld> {
   late final PlayerBase _playerBase = PlayerBase()
     ..position = Vector2(parent.worldWidth - PlayerBase.baseWidth, parent.worldHeight - PlayerBase.baseHeight);
 
-  int _gold = 0;
+  int _gold = 100;
 
   int get totalGold => _gold;
   PlayerBase get playerBase => _playerBase;

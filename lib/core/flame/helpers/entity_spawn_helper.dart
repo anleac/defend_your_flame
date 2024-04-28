@@ -21,7 +21,7 @@ class EntitySpawnHelper {
   static Entity spawnEntity({required double worldHeight, required double skyHeight, required int currentRound}) {
     var randomNumber = GlobalVars.rand.nextInt(100);
 
-    if (randomNumber < 95 - (currentRound * 2) || currentRound <= 2) {
+    if (randomNumber < 95 - (currentRound * 1.5) || currentRound <= 3) {
       return _spawnGroundEntity(worldHeight: worldHeight, currentRound: currentRound);
       // ignore: dead_code
     } else {
@@ -36,7 +36,7 @@ class EntitySpawnHelper {
     );
 
     var randomNumber = GlobalVars.rand.nextInt(100);
-    if (randomNumber < max(sqrt(currentRound * 5), 25) && currentRound > 2) {
+    if (randomNumber < max(sqrt(currentRound * 4), 25) && currentRound > 2) {
       return StrongSkeleton.spawn(position: startPosition);
     } else if (randomNumber < 70) {
       return Skeleton.spawn(position: startPosition);

@@ -22,6 +22,8 @@ class CurvingMagicProjectile extends PositionComponent
   final Vector2 initialPosition;
   final Vector2 targetPosition;
 
+  final int damage;
+
   Vector2 _velocity = Vector2.zero();
 
   final double horizontalPixelsPerSecond;
@@ -36,6 +38,7 @@ class CurvingMagicProjectile extends PositionComponent
   CurvingMagicProjectile({
     required this.initialPosition,
     required this.targetPosition,
+    required this.damage,
     this.horizontalPixelsPerSecond = 170,
   }) {
     position = initialPosition.clone();
@@ -64,7 +67,7 @@ class CurvingMagicProjectile extends PositionComponent
 
     if (isCollidingWithWall) {
       removeFromParent();
-      world.playerManager.playerBase.takeDamage(15, position: wallIntersectionPoints.first);
+      world.playerManager.playerBase.takeDamage(damage, position: wallIntersectionPoints.first);
     }
 
     if (position.y > world.worldHeight + BoundingConstants.maxYCoordinateOffScreen) {

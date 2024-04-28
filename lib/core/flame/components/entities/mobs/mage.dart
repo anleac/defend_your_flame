@@ -30,7 +30,7 @@ class Mage extends FlyingEntity with DisappearOnDeath {
       frames: 8,
     ),
     walkingForwardSpeed: 34,
-    damageOnAttack: 0,
+    damageOnAttack: 12,
     goldOnKill: 15,
     totalHealth: DamageConstants.fallDamage * 4,
   );
@@ -47,7 +47,9 @@ class Mage extends FlyingEntity with DisappearOnDeath {
   late final RectangleHitbox _hitbox =
       EntityHelper.createRectangleHitbox(size: Vector2(36, 50), anchor: Anchor.topCenter, position: Vector2(80, 67));
 
-  Mage({super.scaleModifier}) : super(flyingEntityConfig: _mageConfig);
+  Mage({super.scaleModifier}) : super(flyingEntityConfig: _mageConfig) {
+    setDisappearSpeedFactor(2);
+  }
 
   @override
   List<ShapeHitbox> addHitboxes() {
@@ -69,7 +71,9 @@ class Mage extends FlyingEntity with DisappearOnDeath {
         _hitbox.absoluteTopLeftPosition + Vector2(_hitbox.width, 0) + (Vector2(8, -22) * scaleModifier);
 
     world.projectileManager.addProjectile(CurvingMagicProjectile(
-        initialPosition: attackPosition, targetPosition: world.playerManager.playerBase.wall.absoluteCenter));
+        initialPosition: attackPosition,
+        targetPosition: world.playerManager.playerBase.wall.absoluteCenter,
+        damage: _baseEntityConfig.damageOnAttack));
   }
 
   static Mage spawn({required double skyHeight}) {

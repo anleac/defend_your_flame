@@ -12,19 +12,37 @@ class Wall extends PositionComponent with HasVisibility, HasWorldReference<MainW
   final double verticalRange;
 
   WallType _wallType = WallType.wood;
-  late int _totalHealth = WallHelper.getDefaultTotalHealth(_wallType);
-  int _health = 100;
+
+  // Wall stats that need to be carefully reset when upgrading the wall, loading a save game, restarting game, etc.
+  // To make this less error prone, we centralize this logic in `_setWallStats`
+  late int _totalHealth;
+  late int _health;
+  late int _defenseValue;
 
   PolygonHitbox? _hitbox;
 
   WallType get wallType => _wallType;
   int get health => _health < 0 ? 0 : _health;
   int get totalHealth => _totalHealth;
+  int get defenseValue => _defenseValue;
 
   Vector2 get wallCenter => center;
 
   Wall({required this.verticalRange}) : super(size: Vector2(156, 398)) {
     scale = WallHelper.getScale(_wallType);
+    _setWallStats();
+  }
+
+  _setWallStats({bool resetHealth = true}) {
+    // Needed simply for rendering, not logic, but changes based on wall type.
+    scale = WallHelper.getScale(_wallType);
+
+    _totalHealth = WallHelper.getDefaultTotalHealth(_wallType);
+    _defenseValue = WallHelper.defenseValue(_wallType);
+
+    if (resetHealth) {
+      _health = _totalHealth;
+    }
   }
 
   @override
@@ -47,39 +65,38 @@ class Wall extends PositionComponent with HasVisibility, HasWorldReference<MainW
     );
   }
 
-  void updateWallType(WallType wallType, {bool firstLoad = false}) {
+  void updateWallType(WallType wallType, {bool firstLoad = false, bool resetHealth = false}) {
     if (!firstLoad && _wallType == wallType) {
       return;
     }
 
     _wallType = wallType;
-    scale = WallHelper.getScale(_wallType);
-    var newTotalHealth = WallHelper.getDefaultTotalHealth(_wallType);
 
+    var newTotalHealth = WallHelper.getDefaultTotalHealth(_wallType);
     if (_totalHealth != newTotalHealth && newTotalHealth > _totalHealth) {
-      // Add the difference to the health.
       _health += newTotalHealth - _totalHealth;
     }
 
-    _totalHealth = newTotalHealth;
+    _setWallStats(resetHealth: resetHealth);
 
     _clearAndAddHitbox();
     _wallRenderer.renderWallType(firstLoad: firstLoad);
   }
 
   void reset() {
-    updateWallType(WallType.wood);
-    _health = _totalHealth;
-    _hitbox?.collisionType = CollisionType.active;
+    updateWallType(WallType.wood, resetHealth: true);
 
+    _hitbox?.collisionType = CollisionType.active;
     isVisible = true;
   }
 
   void takeDamage(int damage, {Vector2? position}) {
-    _health -= damage;
+    var trueDamage = damage - _defenseValue;
+    _health -= trueDamage;
+
     if (position != null) {
       // If we have a valid damage position, then add a damage text effect.
-      world.effectManager.addDamageText(damage, position);
+      world.effectManager.addDamageText(trueDamage, position);
     }
 
     if (_health <= MiscConstants.eps) {
