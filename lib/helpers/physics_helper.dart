@@ -7,6 +7,10 @@ class PhysicsHelper {
     return TimestepHelper.addVector2(velocity, PhysicsConstants.gravity, dt);
   }
 
+  static Vector2 applyMagicalGravity(Vector2 velocity, double dt) {
+    return TimestepHelper.addVector2(velocity, PhysicsConstants.magicalGravity, dt);
+  }
+
   static void clampVelocity(Vector2 velocity) {
     velocity.clamp(PhysicsConstants.negativeMaxVelocity, PhysicsConstants.maxVelocity);
   }
@@ -22,5 +26,22 @@ class PhysicsHelper {
         point.x <= position.x + size.x + offset.x &&
         point.y >= position.y + offset.y &&
         point.y <= position.y + size.y + offset.y;
+  }
+
+  static Vector2 calculateVelocityToTarget(
+      {required Vector2 initialPosition,
+      required Vector2 targetPosition,
+      required double horizontalPixelsPerSecond,
+      required Vector2 gravity}) {
+    // Calculate the distance to the target
+    double distanceX = targetPosition.x - initialPosition.x;
+    double distanceY = targetPosition.y - initialPosition.y;
+
+    double time = distanceX / horizontalPixelsPerSecond;
+
+    double vx = distanceX / time;
+    double vy = (distanceY - 0.5 * gravity.y * time * time) / time;
+
+    return Vector2(vx, vy);
   }
 }

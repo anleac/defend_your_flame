@@ -8,6 +8,9 @@ mixin HasWallCollision on PositionComponent, CollisionCallbacks {
   bool _onTopOfWall = false;
   double _wallTopY = 0;
 
+  Set<Vector2> _wallIntersectionPoints = {};
+  Set<Vector2> get wallIntersectionPoints => _wallIntersectionPoints;
+
   bool get isCollidingWithWall => _isCollidingWithWall;
   bool get onTopOfWall => _onTopOfWall;
   double get wallTopY => _wallTopY;
@@ -19,6 +22,7 @@ mixin HasWallCollision on PositionComponent, CollisionCallbacks {
   ) {
     if (other is Wall) {
       _isCollidingWithWall = true;
+      _wallIntersectionPoints = intersectionPoints;
 
       // We can do a hacky calculation here to judge if the collision is on the top of the wall
       // By assuming at least 2 intersection points are needed, and they have the same y value
@@ -37,6 +41,7 @@ mixin HasWallCollision on PositionComponent, CollisionCallbacks {
   void onCollisionEnd(PositionComponent other) {
     if (other is Wall) {
       _isCollidingWithWall = false;
+      _wallIntersectionPoints.clear();
     }
 
     super.onCollisionEnd(other);

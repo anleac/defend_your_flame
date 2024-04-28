@@ -8,7 +8,7 @@ import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world_state.dart';
 import 'package:flame/components.dart';
 
-class EntityManager extends Component with ParentIsA<MainWorld> {
+class EntityManager extends Component with HasWorldReference<MainWorld> {
   // Used to keep a weak reference to the entities, based on their Y position, so we can render them in the correct order.
   // Using this datastructure as it supports O(log n) for insertion and deletion, and O(n) for iteration.
   final SplayTreeMap<int, List<Entity>> _entities = SplayTreeMap();
@@ -40,7 +40,7 @@ class EntityManager extends Component with ParentIsA<MainWorld> {
   void startSpawningRound() {
     clearRound();
 
-    var currentRound = parent.roundManager.currentRound;
+    var currentRound = world.roundManager.currentRound;
 
     _spawning = true;
 
@@ -62,16 +62,19 @@ class EntityManager extends Component with ParentIsA<MainWorld> {
 
         _remainingEntitiesToSpawn--;
         _addEntity(EntitySpawnHelper.spawnEntity(
-            worldHeight: parent.worldHeight, currentRound: parent.roundManager.currentRound));
+            worldHeight: world.worldHeight,
+            skyHeight: world.environment.skyHeight,
+            currentRound: world.roundManager.currentRound));
       } else if (_remainingEntitiesToSpawn == 0) {
         _spawning = false;
       }
-    } else if (parent.worldStateManager.playing) {
+    } else if (world.worldStateManager.playing) {
       // We are no longer spawning, so we can check if any entities are still alive.
       var anyEntitiesAlive = children.any((element) => element is Entity && element.isAlive);
 
       if (!anyEntitiesAlive) {
-        parent.worldStateManager.changeState(MainWorldState.betweenRounds);
+        world.projectileManager.clearAllProjectiles();
+        world.worldStateManager.changeState(MainWorldState.betweenRounds);
       }
     }
 
@@ -93,11 +96,8 @@ class EntityManager extends Component with ParentIsA<MainWorld> {
 
   // Wrappers so we can track based on the position of the entity, to render them in the correct order
   _addEntity(Entity entity) {
-    var key = entity.position.y.toInt();
-    if (entity is Skeleton == false) {
-      // Skeletons are unique in that I've anchored it bottom left, therefore we don't need to add the scaled Y.
-      key += entity.scaledSize.y.toInt();
-    }
+    // We want to sort by the bottom of the entity as this takes into account various anchor points and sizes.
+    var key = (entity.topLeftPosition.y + entity.scaledSize.y).toInt();
 
     if (!_entities.containsKey(key)) {
       _entities[key] = [];

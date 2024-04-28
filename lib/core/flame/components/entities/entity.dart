@@ -1,11 +1,12 @@
 import 'package:defend_your_flame/constants/bounding_constants.dart';
 import 'package:defend_your_flame/constants/misc_constants.dart';
-import 'package:defend_your_flame/core/flame/components/entities/entity_state.dart';
-import 'package:defend_your_flame/core/flame/components/entities/entity_config.dart';
+import 'package:defend_your_flame/core/flame/components/entities/enums/entity_state.dart';
+import 'package:defend_your_flame/core/flame/components/entities/configs/entity_config.dart';
 import 'package:defend_your_flame/core/flame/main_game.dart';
 import 'package:defend_your_flame/core/flame/managers/entity_manager.dart';
 import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
 import 'package:defend_your_flame/core/flame/mixins/has_wall_collision.dart';
+import 'package:defend_your_flame/core/flame/mixins/wall_as_solid.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 import 'package:defend_your_flame/helpers/timestep/timestep_helper.dart';
 import 'package:flame/collisions.dart';
@@ -18,7 +19,8 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
         HasGameReference<MainGame>,
         HasVisibility,
         CollisionCallbacks,
-        HasWallCollision {
+        HasWallCollision,
+        WallAsSolid {
   static const double offscreenTimeoutInSeconds = 3;
 
   final EntityConfig entityConfig;
@@ -30,17 +32,13 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
 
   late Vector2 _startingPosition;
 
-  Vector2 _lastValidPosition = Vector2.zero();
-
-  bool _canInflictDamage = false;
+  bool _canAttack = false;
   double _offscreenTimerInMilliseconds = 0;
 
   bool get isAlive => _currentHealth > MiscConstants.eps;
 
   double get currentHealth => _currentHealth;
   double get totalHealth => entityConfig.totalHealth;
-
-  Vector2 get lastPosition => _lastValidPosition;
 
   Entity({required this.entityConfig, this.scaleModifier = 1}) {
     size = entityConfig.defaultSize;
@@ -97,10 +95,6 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
     _logicCalculation(dt);
     fallingCalculation(dt);
     _applyBoundingConstraints(dt);
-
-    if (!isCollidingWithWall) {
-      _lastValidPosition = position.clone();
-    }
   }
 
   updateSize(Vector2 newSize, {required bool attacking}) {
@@ -115,16 +109,19 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
       if (world.worldStateManager.gameOver) {
         current = EntityState.walking;
       } else {
-        if (_canInflictDamage && animationTicker?.currentIndex == (entityConfig.attackingConfig.frames / 2).ceil()) {
-          // Inflict damage
-          _canInflictDamage = false;
-          var damage = (entityConfig.damageOnAttack * scaleModifier).floor();
-          world.playerManager.playerBase.takeDamage(damage, position: attackEffectPosition());
+        if (_canAttack && animationTicker?.currentIndex == (entityConfig.attackingConfig.frames / 2).ceil()) {
+          _canAttack = false;
+          performAttack();
         } else if (animationTicker?.isFirstFrame == true) {
-          _canInflictDamage = true;
+          _canAttack = true;
         }
       }
     }
+  }
+
+  performAttack() {
+    var damage = (entityConfig.damageOnAttack * scaleModifier).floor();
+    world.playerManager.playerBase.takeDamage(damage, position: attackEffectPosition());
   }
 
   void _applyBoundingConstraints(double dt) {
@@ -166,20 +163,11 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
     }
   }
 
+  // This should only ever be called when the entity is colliding with a wall.
   void wallCollisionCalculation(double dt) {
-    if (!isCollidingWithWall) {
-      return;
-    }
-
     if (current == EntityState.walking) {
       current = EntityState.attacking;
     }
-
-    if (current == EntityState.falling) {
-      current = EntityState.walking;
-    }
-
-    position = _lastValidPosition;
   }
 
   void fallingCalculation(double dt) {}

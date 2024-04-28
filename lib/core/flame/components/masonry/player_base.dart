@@ -1,7 +1,8 @@
 import 'dart:async';
 
 import 'package:defend_your_flame/constants/bounding_constants.dart';
-import 'package:defend_your_flame/core/flame/components/effects/purple_flame.dart';
+import 'package:defend_your_flame/constants/debug_constants.dart';
+import 'package:defend_your_flame/core/flame/components/masonry/flames/purple_flame.dart';
 import 'package:defend_your_flame/core/flame/components/entities/entity.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/rock_fire_pit.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/walls/wall.dart';
@@ -11,14 +12,14 @@ import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 
 class PlayerBase extends PositionComponent with HasWorldReference<MainWorld>, HasVisibility {
-  static const double baseWidth = 240;
+  static const double baseWidth = 290;
   static const double baseHeight = 180;
   static const double _wallOffset = 10;
 
   late final Wall _wall = Wall(verticalRange: baseHeight - _wallOffset * 2)..position = Vector2(0, _wallOffset);
 
   late final RockFirePit _rockFirePit = RockFirePit()
-    ..position = Vector2(wallWidth + ((width - wallWidth) / 2) - 25, baseHeight / 2 - 20);
+    ..position = Vector2(wallWidth + ((width - wallWidth) / 2), baseHeight / 2 - 20);
 
   late final PurpleFlame _firePitFlame = PurpleFlame()
     ..position = _rockFirePit.center - Vector2(34, 10)
@@ -26,8 +27,8 @@ class PlayerBase extends PositionComponent with HasWorldReference<MainWorld>, Ha
     ..scale = Vector2(1.2, 2.5);
 
   // This excludes the wall
-  late final Rect _exposedAreaRect =
-      Rect.fromLTWH(wallWidth + position.x, position.y, width + BoundingConstants.maxXCoordinateOffScreen, baseHeight);
+  late final Rect _exposedAreaRect = Rect.fromLTWH(
+      wallWidth + position.x, position.y - _wallOffset, width + BoundingConstants.maxXCoordinateOffScreen, baseHeight);
 
   bool get destroyed => _wall.health <= 0;
 
@@ -46,22 +47,29 @@ class PlayerBase extends PositionComponent with HasWorldReference<MainWorld>, Ha
 
   void reset() {
     _wall.reset();
-
     isVisible = true;
-    _firePitFlame.isVisible = true;
   }
 
   void takeDamage(int damage, {Vector2? position}) {
     _wall.takeDamage(damage, position: position);
 
     if (destroyed) {
-      _firePitFlame.isVisible = false;
-      _wall.isVisible = false;
       isVisible = false;
 
       if (world.worldStateManager.playing) {
         world.worldStateManager.changeState(MainWorldState.gameOver);
       }
+    }
+  }
+
+  @override
+  void render(Canvas canvas) {
+    super.render(canvas);
+
+    if (DebugConstants.drawEntityCollisionBoxes) {
+      // This is used for debugging
+      var relativeRect = _exposedAreaRect.translate(-position.x, -position.y);
+      canvas.drawRect(relativeRect, DebugConstants.debugPaint);
     }
   }
 

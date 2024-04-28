@@ -1,12 +1,13 @@
-import 'package:defend_your_flame/core/flame/components/entities/animation_config.dart';
+import 'package:defend_your_flame/core/flame/components/entities/configs/animation_config.dart';
+import 'package:defend_your_flame/core/flame/components/entities/disappear_on_death.dart';
 import 'package:defend_your_flame/core/flame/components/entities/draggable_entity.dart';
-import 'package:defend_your_flame/core/flame/components/entities/entity_config.dart';
+import 'package:defend_your_flame/core/flame/components/entities/configs/entity_config.dart';
 import 'package:defend_your_flame/core/flame/helpers/entity_helper.dart';
 import 'package:defend_your_flame/helpers/misc_helper.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 
-class Skeleton extends DraggableEntity {
+class Skeleton extends DraggableEntity with DisappearOnDeath {
   static final EntityConfig _skeletonConfig = EntityConfig(
     entityResourceName: 'skeleton',
     defaultSize: Vector2(22, 33),
@@ -25,6 +26,7 @@ class Skeleton extends DraggableEntity {
 
   bool _attackingState = false;
 
+  // TODO maybe add a head hitbox to make the skeleton more accurate.
   late final RectangleHitbox _hitBox =
       EntityHelper.createRectangleHitbox(size: Vector2(16, 25), position: Vector2(8, 33), anchor: Anchor.bottomCenter);
 

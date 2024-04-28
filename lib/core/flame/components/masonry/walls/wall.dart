@@ -5,7 +5,6 @@ import 'package:defend_your_flame/core/flame/components/masonry/walls/wall_helpe
 import 'package:defend_your_flame/core/flame/components/masonry/walls/wall_type.dart';
 import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
-import 'package:defend_your_flame/helpers/debug/debug_helper.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/image_composition.dart';
@@ -33,6 +32,7 @@ class Wall extends PositionComponent with HasVisibility, HasWorldReference<MainW
   int get totalHealth => _totalHealth;
 
   List<Vector2> get wallCornerPoints => _wallCornerPoints;
+  Vector2 get wallCenter => center;
 
   Wall({required this.verticalRange}) : super(size: Vector2(156, 398)) {
     scale = WallHelper.getScale(_wallType);
@@ -59,16 +59,16 @@ class Wall extends PositionComponent with HasVisibility, HasWorldReference<MainW
     _updateRenderValues();
     _wallCornerPoints.clear();
     _wallCornerPoints.addAll([
-      Vector2(-size.x, -size.y),
       Vector2(0, -size.y),
+      Vector2(size.x, -size.y),
+      Vector2(size.x + _horizontalRange, _verticalRange),
       Vector2(_horizontalRange, _verticalRange),
-      Vector2(-size.x + _horizontalRange, _verticalRange)
     ]);
 
     // TODO post-beta release check performance of isSolid.
     add(
       _hitbox = PolygonHitbox(_wallCornerPoints, isSolid: true)
-        ..renderShape = DebugHelper.renderCollisionHitboxes
+        ..renderShape = DebugConstants.drawEntityCollisionBoxes
         ..paint = DebugConstants.transparentPaint,
     );
   }
@@ -82,7 +82,7 @@ class Wall extends PositionComponent with HasVisibility, HasWorldReference<MainW
     for (int i = 0; i < _verticalRenders; i++) {
       _wallSprite.render(
         canvas,
-        position: Vector2(runningX, runninyY) - size,
+        position: Vector2(runningX, runninyY - size.y),
         size: size,
         overridePaint: Paint()..color = Colors.white.withOpacity(1 - ((_verticalRenders - i) / 90.0)),
       );

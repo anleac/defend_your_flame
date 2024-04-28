@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:defend_your_flame/core/flame/components/effects/rock_heart.dart';
+import 'package:defend_your_flame/core/flame/components/hud/components/rock_heart.dart';
 import 'package:defend_your_flame/core/flame/components/hud/base_components/sprite_with_text.dart';
 import 'package:defend_your_flame/core/flame/main_game.dart';
 import 'package:defend_your_flame/core/flame/managers/text_manager.dart';
@@ -8,7 +8,7 @@ import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 import 'package:flame/components.dart';
 
 class HealthIndicator extends PositionComponent with HasWorldReference<MainWorld>, HasGameReference<MainGame> {
-  late final RockHeart _rockHeart = RockHeart()..scale = Vector2.all(0.3);
+  late final RockHeart _rockHeart = RockHeart()..scale = Vector2.all(0.25);
 
   late final TextComponent _healthText = TextComponent(textRenderer: TextManager.basicHudRenderer);
 

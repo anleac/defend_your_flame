@@ -3,22 +3,26 @@ import 'dart:math';
 import 'package:defend_your_flame/constants/bounding_constants.dart';
 import 'package:defend_your_flame/constants/damage_constants.dart';
 import 'package:defend_your_flame/constants/misc_constants.dart';
-import 'package:defend_your_flame/constants/physics_constants.dart';
 import 'package:defend_your_flame/core/flame/components/entities/entity.dart';
-import 'package:defend_your_flame/core/flame/components/entities/entity_state.dart';
+import 'package:defend_your_flame/core/flame/components/entities/enums/entity_state.dart';
+import 'package:defend_your_flame/core/flame/helpers/damage_helper.dart';
 import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
-import 'package:defend_your_flame/helpers/misc_helper.dart';
 import 'package:defend_your_flame/helpers/physics_helper.dart';
 import 'package:defend_your_flame/helpers/timestep/timestep_helper.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
+import 'package:flame/rendering.dart';
+import 'package:flutter/material.dart';
 
 class DraggableEntity extends Entity with DragCallbacks, GestureHitboxes {
   static const double dragTimeoutInSeconds = 3.5;
+  static const double _dragEps = 1;
+
+  static final PaintDecorator _dragTintDecorator = PaintDecorator.tint(const Color.fromARGB(80, 255, 45, 45));
 
   late final double _pickupHeight;
 
-  Vector2 _fallVelocity = Vector2.zero();
+  Vector2 _velocity = Vector2.zero();
   bool _beingDragged = false;
 
   Vector2 _dragVelocity = Vector2.zero();
@@ -74,15 +78,19 @@ class DraggableEntity extends Entity with DragCallbacks, GestureHitboxes {
   }
 
   void _dragCalculation(double dt) {
-    if (_beingDragged) {
-      // Want to ensure they've been dragged at least a bit to avoid abuse.
-      if (position.y >= _pickupHeight - 10 && _totalDragDistance > 150) {
-        if (_dragVelocity.y > PhysicsConstants.maxVelocity.y * 0.9) {
-          // Slammed into the ground.
-          dragDeath();
-        }
-      }
+    if (!_beingDragged) {
+      return;
     }
+
+    if (position.y >= _pickupHeight - _dragEps && _dragDamagePossible(considerHorizontal: false)) {
+      // Slammed into the ground.
+      dragDamage();
+    }
+  }
+
+  bool _dragDamagePossible({required bool considerHorizontal}) {
+    return _totalDragDistance > 150 &&
+        DamageHelper.hasDragVelocityImpact(velocity: _velocity, considerHorizontal: considerHorizontal);
   }
 
   @override
@@ -101,7 +109,7 @@ class DraggableEntity extends Entity with DragCallbacks, GestureHitboxes {
     _dragVelocity.x = influence * newVelocity.x + (1 - influence) * _dragVelocity.x;
     _dragVelocity.y = influence * newVelocity.y + (1 - influence) * _dragVelocity.y;
 
-    _fallVelocity = _dragVelocity / 1.6;
+    _velocity = _dragVelocity / 1.7;
   }
 
   @override
@@ -124,11 +132,13 @@ class DraggableEntity extends Entity with DragCallbacks, GestureHitboxes {
     var newVelocity = dragDistance / (max(timeSinceLastDragEvent, 1) / divisionFactor);
     updateDragVelocity(newVelocity);
 
-    position += dragDistance;
+    if (!isCollidingWithWall) {
+      position += dragDistance;
 
-    position.y = position.y.clamp(BoundingConstants.minYCoordinate, _pickupHeight + MiscConstants.eps);
-    position.x = position.x
-        .clamp(BoundingConstants.minXCoordinateOffScreen, world.worldWidth + BoundingConstants.maxXCoordinateOffScreen);
+      position.y = position.y.clamp(BoundingConstants.minYCoordinate, _pickupHeight + MiscConstants.eps);
+      position.x = position.x.clamp(
+          BoundingConstants.minXCoordinateOffScreen, world.worldWidth + BoundingConstants.maxXCoordinateOffScreen);
+    }
 
     _totalDragDistance += event.canvasDelta.length;
   }
@@ -152,14 +162,16 @@ class DraggableEntity extends Entity with DragCallbacks, GestureHitboxes {
 
     _beingDragged = true;
     _totalDragDistance = 0;
-    _dragVelocity = Vector2.zero();
+    _clearVelocities();
     _timeSinceLastDragEventInMicroseconds = 0;
     _stuckTimerInMilliseconds = 0;
     current = EntityState.dragged;
+
+    decorator.addLast(_dragTintDecorator);
   }
 
-  void dragDeath() {
-    hitGround();
+  void dragDamage() {
+    hitGround(forceDamage: true);
     stopDragging();
   }
 
@@ -168,13 +180,15 @@ class DraggableEntity extends Entity with DragCallbacks, GestureHitboxes {
       return;
     }
 
+    decorator.removeLast();
+
     _beingDragged = false;
 
     if (current == EntityState.dying) {
       return;
     }
 
-    if (position.y < _pickupHeight - 10) {
+    if (position.y < _pickupHeight - _dragEps) {
       current = EntityState.falling;
     } else {
       current = EntityState.walking;
@@ -182,9 +196,30 @@ class DraggableEntity extends Entity with DragCallbacks, GestureHitboxes {
   }
 
   @override
+  void wallCollisionCalculation(double dt) {
+    if (_beingDragged) {
+      if (_dragDamagePossible(considerHorizontal: true)) {
+        world.playerManager.playerBase
+            .takeDamage(DamageConstants.wallImpactDamage.toInt(), position: wallIntersectionPoints.first);
+        dragDamage();
+      } else {
+        stopDragging();
+      }
+    }
+
+    if (current == EntityState.falling) {
+      if (position.y >= _pickupHeight) {
+        current = EntityState.walking;
+      }
+    }
+
+    super.wallCollisionCalculation(dt);
+  }
+
+  @override
   void fallingCalculation(double dt) {
     // Always do this, even if not falling, to scale drag velocity updates.
-    _fallVelocity = PhysicsHelper.applyFriction(_fallVelocity, dt);
+    _velocity = PhysicsHelper.applyFriction(_velocity, dt);
     _dragVelocity = PhysicsHelper.applyFriction(_dragVelocity, dt);
 
     // Helps to reset when drag is idle.
@@ -192,30 +227,35 @@ class DraggableEntity extends Entity with DragCallbacks, GestureHitboxes {
       updateDragVelocity(Vector2.zero());
     }
 
-    PhysicsHelper.clampVelocity(_fallVelocity);
+    PhysicsHelper.clampVelocity(_velocity);
     PhysicsHelper.clampVelocity(_dragVelocity);
 
-    if (current == EntityState.falling) {
-      _fallVelocity = PhysicsHelper.applyGravity(_fallVelocity, dt);
-      position = TimestepHelper.addVector2(position, _fallVelocity, dt);
+    if (current == EntityState.falling && !isCollidingWithWall) {
+      _velocity = PhysicsHelper.applyGravity(_velocity, dt);
+      position = TimestepHelper.addVector2(position, _velocity, dt);
 
       if (position.y >= _pickupHeight) {
-        if (_fallVelocity.y > PhysicsConstants.maxVelocity.y * 0.4) {
-          hitGround();
-        } else {
-          current = EntityState.walking;
-        }
+        hitGround();
       }
     }
 
     super.fallingCalculation(dt);
   }
 
-  void hitGround() {
-    super.takeDamage(DamageConstants.fallDamage);
+  void hitGround({bool forceDamage = false}) {
+    if (forceDamage || DamageHelper.hasFallVelocityImpact(velocity: _velocity)) {
+      super.takeDamage(DamageConstants.fallDamage);
+    }
+
+    _clearVelocities();
 
     if (isAlive) {
       current = EntityState.walking;
     }
+  }
+
+  _clearVelocities() {
+    _velocity = Vector2.zero();
+    _dragVelocity = Vector2.zero();
   }
 }

@@ -1,7 +1,7 @@
-import 'package:defend_your_flame/core/flame/components/entities/animation_config.dart';
+import 'package:defend_your_flame/core/flame/components/entities/configs/animation_config.dart';
 import 'package:defend_your_flame/core/flame/components/entities/disappear_on_death.dart';
 import 'package:defend_your_flame/core/flame/components/entities/draggable_entity.dart';
-import 'package:defend_your_flame/core/flame/components/entities/entity_config.dart';
+import 'package:defend_your_flame/core/flame/components/entities/configs/entity_config.dart';
 import 'package:defend_your_flame/core/flame/helpers/entity_helper.dart';
 import 'package:defend_your_flame/helpers/misc_helper.dart';
 import 'package:flame/collisions.dart';
