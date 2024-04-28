@@ -46,7 +46,7 @@ class FlyingEntity extends Entity with TapCallbacks, GestureHitboxes {
     _nextIdleTime = _calculateNextIdleTime();
 
     if (shortDuration) {
-      _nextIdleTime /= 4;
+      _nextIdleTime /= 6;
     }
   }
 

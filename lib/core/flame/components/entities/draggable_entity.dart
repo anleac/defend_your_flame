@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:defend_your_flame/constants/bounding_constants.dart';
 import 'package:defend_your_flame/constants/damage_constants.dart';
 import 'package:defend_your_flame/constants/misc_constants.dart';
-import 'package:defend_your_flame/constants/physics_constants.dart';
 import 'package:defend_your_flame/core/flame/components/entities/entity.dart';
 import 'package:defend_your_flame/core/flame/components/entities/enums/entity_state.dart';
 import 'package:defend_your_flame/core/flame/helpers/damage_helper.dart';
@@ -12,10 +11,14 @@ import 'package:defend_your_flame/helpers/physics_helper.dart';
 import 'package:defend_your_flame/helpers/timestep/timestep_helper.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
+import 'package:flame/rendering.dart';
+import 'package:flutter/material.dart';
 
 class DraggableEntity extends Entity with DragCallbacks, GestureHitboxes {
   static const double dragTimeoutInSeconds = 3.5;
   static const double _dragEps = 1;
+
+  static final PaintDecorator _dragTintDecorator = PaintDecorator.tint(const Color.fromARGB(80, 255, 45, 45));
 
   late final double _pickupHeight;
 
@@ -87,7 +90,7 @@ class DraggableEntity extends Entity with DragCallbacks, GestureHitboxes {
 
   bool _dragDamagePossible({required bool considerHorizontal}) {
     return _totalDragDistance > 150 &&
-        DamageHelper.hasVelocityImpact(velocity: _velocity, considerHorizontal: considerHorizontal);
+        DamageHelper.hasDragVelocityImpact(velocity: _velocity, considerHorizontal: considerHorizontal);
   }
 
   @override
@@ -129,11 +132,13 @@ class DraggableEntity extends Entity with DragCallbacks, GestureHitboxes {
     var newVelocity = dragDistance / (max(timeSinceLastDragEvent, 1) / divisionFactor);
     updateDragVelocity(newVelocity);
 
-    position += dragDistance;
+    if (!isCollidingWithWall) {
+      position += dragDistance;
 
-    position.y = position.y.clamp(BoundingConstants.minYCoordinate, _pickupHeight + MiscConstants.eps);
-    position.x = position.x
-        .clamp(BoundingConstants.minXCoordinateOffScreen, world.worldWidth + BoundingConstants.maxXCoordinateOffScreen);
+      position.y = position.y.clamp(BoundingConstants.minYCoordinate, _pickupHeight + MiscConstants.eps);
+      position.x = position.x.clamp(
+          BoundingConstants.minXCoordinateOffScreen, world.worldWidth + BoundingConstants.maxXCoordinateOffScreen);
+    }
 
     _totalDragDistance += event.canvasDelta.length;
   }
@@ -161,10 +166,12 @@ class DraggableEntity extends Entity with DragCallbacks, GestureHitboxes {
     _timeSinceLastDragEventInMicroseconds = 0;
     _stuckTimerInMilliseconds = 0;
     current = EntityState.dragged;
+
+    decorator.addLast(_dragTintDecorator);
   }
 
   void dragDamage() {
-    hitGround();
+    hitGround(forceDamage: true);
     stopDragging();
   }
 
@@ -172,6 +179,8 @@ class DraggableEntity extends Entity with DragCallbacks, GestureHitboxes {
     if (!_beingDragged) {
       return;
     }
+
+    decorator.removeLast();
 
     _beingDragged = false;
 
@@ -219,24 +228,24 @@ class DraggableEntity extends Entity with DragCallbacks, GestureHitboxes {
     PhysicsHelper.clampVelocity(_velocity);
     PhysicsHelper.clampVelocity(_dragVelocity);
 
-    if (current == EntityState.falling) {
+    if (current == EntityState.falling && !isCollidingWithWall) {
       _velocity = PhysicsHelper.applyGravity(_velocity, dt);
       position = TimestepHelper.addVector2(position, _velocity, dt);
 
       if (position.y >= _pickupHeight) {
-        if (_velocity.y > PhysicsConstants.maxVelocity.y * 0.4) {
-          hitGround();
-        } else {
-          current = EntityState.walking;
-        }
+        hitGround();
       }
     }
 
     super.fallingCalculation(dt);
   }
 
-  void hitGround() {
-    super.takeDamage(DamageConstants.fallDamage);
+  void hitGround({bool forceDamage = false}) {
+    if (forceDamage || DamageHelper.hasFallVelocityImpact(velocity: _velocity)) {
+      super.takeDamage(DamageConstants.fallDamage);
+    }
+
+    _velocity = Vector2.zero();
 
     if (isAlive) {
       current = EntityState.walking;

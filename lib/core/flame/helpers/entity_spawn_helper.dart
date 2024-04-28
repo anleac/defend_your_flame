@@ -6,7 +6,6 @@ import 'package:defend_your_flame/core/flame/components/entities/mobs/skeleton.d
 import 'package:defend_your_flame/core/flame/components/entities/mobs/slime.dart';
 import 'package:defend_your_flame/core/flame/components/entities/mobs/strong_skeleton.dart';
 import 'package:defend_your_flame/helpers/global_vars.dart';
-import 'package:defend_your_flame/helpers/misc_helper.dart';
 import 'package:flame/components.dart';
 
 class EntitySpawnHelper {
@@ -22,7 +21,7 @@ class EntitySpawnHelper {
   static Entity spawnEntity({required double worldHeight, required double skyHeight, required int currentRound}) {
     var randomNumber = GlobalVars.rand.nextInt(100);
 
-    if (randomNumber < 95 - (currentRound * 2)) {
+    if (randomNumber < 95 - (currentRound * 2) || currentRound <= 2) {
       return _spawnGroundEntity(worldHeight: worldHeight, currentRound: currentRound);
       // ignore: dead_code
     } else {
