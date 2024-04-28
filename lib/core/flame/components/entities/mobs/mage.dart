@@ -6,6 +6,7 @@ import 'package:defend_your_flame/core/flame/components/entities/flying_entity.d
 import 'package:defend_your_flame/core/flame/components/projectiles/curving_magic_projectile.dart';
 import 'package:defend_your_flame/core/flame/helpers/entity_helper.dart';
 import 'package:defend_your_flame/helpers/global_vars.dart';
+import 'package:defend_your_flame/helpers/misc_helper.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/painting.dart';
@@ -70,9 +71,17 @@ class Mage extends FlyingEntity {
         initialPosition: attackPosition, targetPosition: world.playerManager.playerBase.wall.absoluteCenter));
   }
 
-  static Mage spawn({required scaleModifier, required position}) {
+  static Mage spawn({required double skyHeight}) {
+    var scaleModifier = MiscHelper.randomDouble(minValue: 1.1, maxValue: 1.25);
     var mage = Mage(scaleModifier: scaleModifier);
-    mage.position = position - Vector2(mage.scaledSize.x, mage.scaledSize.y / 2);
+
+    // Magic ✨
+    var startPosition = Vector2(
+      -GlobalVars.rand.nextDouble() * mage.scaledSize.x / 2,
+      GlobalVars.rand.nextDouble() * (skyHeight / 3) + (skyHeight / 2.5),
+    );
+
+    mage.position = startPosition - Vector2(mage.scaledSize.x, mage.scaledSize.y / 2.5);
     return mage;
   }
 }

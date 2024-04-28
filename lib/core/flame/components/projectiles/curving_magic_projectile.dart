@@ -23,15 +23,15 @@ class CurvingMagicProjectile extends PositionComponent {
 
   late final TrailingParticles _trailingParticles = TrailingParticles(
     emissionsPerSecond: 50,
-    particleLifetime: 0.2,
-    colorFrom: Colors.orange,
-    colorTo: Colors.red,
+    particleLifetime: 0.22,
+    colorFrom: Colors.deepOrange,
+    colorTo: const Color.fromARGB(255, 238, 16, 0),
   )..position = Vector2.zero();
 
   CurvingMagicProjectile({
     required this.initialPosition,
     required this.targetPosition,
-    this.horizontalPixelsPerSecond = 220,
+    this.horizontalPixelsPerSecond = 180,
   }) {
     position = initialPosition.clone();
     _velocity = PhysicsHelper.calculateVelocityToTarget(

@@ -22,6 +22,8 @@ class MainWorld extends World with HasCollisionDetection {
   final WorldStateManager _worldStateManager = WorldStateManager();
   final ShopManager _shopManager = ShopManager();
 
+  Environment get environment => _environment;
+
   PlayerManager get playerManager => _playerManager;
   EntityManager get entityManager => _entityManager;
   ProjectileManager get projectileManager => _projectileManager;

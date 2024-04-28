@@ -8,9 +8,9 @@ class FlyingEntity extends Entity {
   final FlyingEntityConfig flyingEntityConfig;
 
   late final double _distanceToWallToAttack = flyingEntityConfig.attackRange();
+  late double _nextIdleTime = _calculateNextIdleTime();
 
   double _idleTimer = 0.0;
-  double _nextIdleTime = 0.0;
 
   FlyingEntity({required this.flyingEntityConfig, super.scaleModifier})
       : super(entityConfig: flyingEntityConfig.entityConfig);
@@ -35,17 +35,21 @@ class FlyingEntity extends Entity {
   void _shiftStateFromIdle() {
     if (current == EntityState.idle) {
       current = EntityState.walking;
-    } else {
+    } else if (current == EntityState.walking) {
       current = EntityState.idle;
     }
 
     _idleTimer = 0.0;
-    _nextIdleTime = GlobalVars.rand.nextDouble() * 5 + 5; // next idle time in seconds
+    _nextIdleTime = _calculateNextIdleTime();
 
     if (current == EntityState.idle) {
       // Make idle time much less.
       _nextIdleTime /= 3;
     }
+  }
+
+  double _calculateNextIdleTime() {
+    return GlobalVars.rand.nextDouble() * 5 + 5; // next idle time in seconds
   }
 
   @override

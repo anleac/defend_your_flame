@@ -4,15 +4,19 @@ import 'package:defend_your_flame/core/flame/components/environment/components/m
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 import 'package:flame/components.dart';
 
-class Environment extends PositionComponent with ParentIsA<MainWorld> {
+class Environment extends PositionComponent with HasWorldReference<MainWorld> {
   late final BackgroundScenery _backgroundScenery = BackgroundScenery()
-    ..position = Vector2(0, parent.worldHeight)
+    ..position = Vector2(0, world.worldHeight)
     ..anchor = Anchor.bottomLeft
     ..opacity = 0.35;
 
   late final Ground _ground = Ground()
-    ..position = Vector2(0, parent.worldHeight + 20)
+    ..position = Vector2(0, world.worldHeight + 20)
     ..anchor = Anchor.bottomLeft;
+
+  // The height of the sky, where the ground starts.
+  late final double _skyHeight = _ground.topLeftPosition.y;
+  double get skyHeight => _skyHeight;
 
   Environment() {
     position = Vector2(0, 0);
