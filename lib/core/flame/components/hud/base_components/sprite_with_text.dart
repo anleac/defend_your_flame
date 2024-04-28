@@ -6,7 +6,7 @@ import 'package:flame/components.dart';
 // Component functions to try have a correctly aligned "icon" / sprite against a text.
 // This will be used to conform HUD elements for consistency.
 class SpriteWithText extends PositionComponent {
-  static const gapBetween = 10;
+  static const gapBetween = 8;
 
   final SpriteComponent sprite;
   final TextComponent text;

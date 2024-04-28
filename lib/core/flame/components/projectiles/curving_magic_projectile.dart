@@ -5,7 +5,6 @@
 // Gravity is already represented by PhysicsConstants.gravity (which is a vector2), where the y represents the force of gravity over a second (thus we need to use dt)
 
 import 'dart:async';
-import 'dart:math';
 
 import 'package:defend_your_flame/constants/physics_constants.dart';
 import 'package:defend_your_flame/core/flame/components/effects/particles/trailing_particles.dart';
@@ -20,7 +19,7 @@ class CurvingMagicProjectile extends PositionComponent {
 
   Vector2 _velocity = Vector2.zero();
 
-  final double speed;
+  final double horizontalPixelsPerSecond;
 
   late final TrailingParticles _trailingParticles = TrailingParticles(
     emissionsPerSecond: 50,
@@ -32,25 +31,15 @@ class CurvingMagicProjectile extends PositionComponent {
   CurvingMagicProjectile({
     required this.initialPosition,
     required this.targetPosition,
-    this.speed = 200,
+    this.horizontalPixelsPerSecond = 220,
   }) {
     position = initialPosition.clone();
-
-    // Calculate the distance to the target
-    double distanceX = targetPosition.x - initialPosition.x;
-    double distanceY = targetPosition.y - initialPosition.y;
-
-    // Calculate the total distance to the target
-    double totalDistance = sqrt(distanceX * distanceX + distanceY * distanceY);
-
-    // Calculate the time it will take to reach the target
-    double time = totalDistance / speed;
-
-    // Calculate the initial x and y velocities
-    double vx = distanceX / time;
-    double vy = (distanceY - 0.5 * PhysicsConstants.magicalGravity.y * time * time) / time;
-
-    _velocity = Vector2(vx, vy);
+    _velocity = PhysicsHelper.calculateVelocityToTarget(
+      initialPosition: initialPosition,
+      targetPosition: targetPosition,
+      horizontalPixelsPerSecond: horizontalPixelsPerSecond,
+      gravity: PhysicsConstants.magicalGravity,
+    );
   }
 
   @override

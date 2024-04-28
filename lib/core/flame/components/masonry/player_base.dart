@@ -12,7 +12,7 @@ import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 
 class PlayerBase extends PositionComponent with HasWorldReference<MainWorld>, HasVisibility {
-  static const double baseWidth = 280;
+  static const double baseWidth = 290;
   static const double baseHeight = 180;
   static const double _wallOffset = 10;
 
