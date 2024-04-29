@@ -1,6 +1,4 @@
-import 'package:defend_your_flame/constants/bounding_constants.dart';
 import 'package:defend_your_flame/constants/damage_constants.dart';
-import 'package:defend_your_flame/constants/misc_constants.dart';
 import 'package:defend_your_flame/core/flame/components/entities/entity.dart';
 import 'package:defend_your_flame/core/flame/components/entities/enums/entity_state.dart';
 import 'package:defend_your_flame/core/flame/helpers/damage_helper.dart';
@@ -18,9 +16,7 @@ class DraggableEntity extends Entity with DragCallbacks, GestureHitboxes {
 
   static final PaintDecorator _dragTintDecorator = PaintDecorator.tint(const Color.fromARGB(80, 255, 45, 45));
 
-  late final double _pickupHeight;
-
-  Vector2 _lastDraggedPosition = Vector2.zero();
+  Vector2 _lastPosition = Vector2.zero();
   Vector2 _velocity = Vector2.zero();
   bool _beingDragged = false;
 
@@ -29,13 +25,9 @@ class DraggableEntity extends Entity with DragCallbacks, GestureHitboxes {
   double _stuckTimerInMilliseconds = 0;
   double _totalDragDistance = 0;
 
-  DraggableEntity({required super.entityConfig, super.scaleModifier});
+  bool get _contactingGround => startPosition.y - position.y < _dragEps;
 
-  @override
-  void onMount() {
-    super.onMount();
-    _pickupHeight = position.y;
-  }
+  DraggableEntity({required super.entityConfig, super.scaleModifier});
 
   @override
   bool containsLocalPoint(Vector2 point) {
@@ -64,6 +56,7 @@ class DraggableEntity extends Entity with DragCallbacks, GestureHitboxes {
     _checkDragStuckLogic(dt);
 
     super.update(dt);
+    _lastPosition = position.clone();
   }
 
   void _checkDragStuckLogic(double dt) {
@@ -80,18 +73,17 @@ class DraggableEntity extends Entity with DragCallbacks, GestureHitboxes {
       return;
     }
 
-    if (position.y >= _pickupHeight - _dragEps && beenDraggedFarEnough) {
-      if (DamageHelper.hasDragVelocityImpact(velocity: _velocity, considerHorizontal: false)) {
+    if (_contactingGround && beenDraggedFarEnough) {
+      if (DamageHelper.hasDragVelocityImpact(velocity: _dragVelocity, considerHorizontal: false)) {
         dragDamage();
       } else {
         stopDragging();
       }
     }
 
-    var dragDistance = position - _lastDraggedPosition;
-    _updateDragVelocity(dragDistance * (1 / dt));
-
-    _lastDraggedPosition = position.clone();
+    var dragChange = position - _lastPosition;
+    var dragVelocity = dragChange / dt;
+    _updateDragVelocity(dragVelocity);
   }
 
   bool get beenDraggedFarEnough => _totalDragDistance > 150;
@@ -108,11 +100,11 @@ class DraggableEntity extends Entity with DragCallbacks, GestureHitboxes {
   }
 
   void _updateDragVelocity(Vector2 newVelocity) {
-    const double influence = 0.7;
+    double influence = newVelocity == Vector2.zero() ? 0.1 : 0.2;
     _dragVelocity.x = influence * newVelocity.x + (1 - influence) * _dragVelocity.x;
     _dragVelocity.y = influence * newVelocity.y + (1 - influence) * _dragVelocity.y;
 
-    _velocity = _dragVelocity / 2;
+    _velocity = _dragVelocity / 1.7;
   }
 
   @override
@@ -127,10 +119,7 @@ class DraggableEntity extends Entity with DragCallbacks, GestureHitboxes {
     var dragDistance = (event.canvasDelta / game.windowScale) * entityConfig.dragResistance;
     position += dragDistance;
 
-    position.y = position.y.clamp(BoundingConstants.minYCoordinate, _pickupHeight + MiscConstants.eps);
-    position.x = position.x
-        .clamp(BoundingConstants.minXCoordinateOffScreen, world.worldWidth + BoundingConstants.maxXCoordinateOffScreen);
-    _totalDragDistance += event.canvasDelta.length;
+    _totalDragDistance += dragDistance.length;
   }
 
   @override
@@ -177,10 +166,10 @@ class DraggableEntity extends Entity with DragCallbacks, GestureHitboxes {
       return;
     }
 
-    if (position.y < _pickupHeight - _dragEps) {
-      current = EntityState.falling;
-    } else {
+    if (_contactingGround) {
       current = EntityState.walking;
+    } else {
+      current = EntityState.falling;
     }
   }
 
@@ -196,10 +185,8 @@ class DraggableEntity extends Entity with DragCallbacks, GestureHitboxes {
       }
     }
 
-    if (current == EntityState.falling) {
-      if (position.y >= _pickupHeight) {
-        current = EntityState.walking;
-      }
+    if (current == EntityState.falling && _contactingGround) {
+      current = EntityState.walking;
     }
 
     super.wallCollisionCalculation(dt);
@@ -218,7 +205,7 @@ class DraggableEntity extends Entity with DragCallbacks, GestureHitboxes {
       _velocity = PhysicsHelper.applyGravity(_velocity, dt);
       position = TimestepHelper.addVector2(position, _velocity, dt);
 
-      if (position.y >= _pickupHeight) {
+      if (_contactingGround) {
         hitGround();
       }
     }

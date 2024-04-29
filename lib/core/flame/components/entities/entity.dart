@@ -40,6 +40,8 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
   double get currentHealth => _currentHealth;
   double get totalHealth => entityConfig.totalHealth;
 
+  Vector2 get startPosition => _startingPosition;
+
   Entity({required this.entityConfig, this.scaleModifier = 1}) {
     size = entityConfig.defaultSize;
     scale = Vector2.all(entityConfig.defaultScale * scaleModifier);
@@ -125,18 +127,12 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
   }
 
   void _applyBoundingConstraints(double dt) {
+    position.y = position.y.clamp(BoundingConstants.minYCoordinate, _startingPosition.y + MiscConstants.eps);
+    position.x = position.x
+        .clamp(BoundingConstants.minXCoordinateOffScreen, world.worldWidth + BoundingConstants.maxXCoordinateOffScreen);
+
     if (!isAlive || world.worldStateManager.gameOver) {
       return;
-    }
-
-    // We could also perhaps apply friction here again, too, this would be caused by a high velocity throw.
-    if (position.y < BoundingConstants.minYCoordinate) {
-      position.y = BoundingConstants.minYCoordinate;
-    }
-
-    // Bind the entity to the left of the screen so they don't get thrown too hard off the screen.
-    if (position.x < BoundingConstants.minXCoordinateOffScreen) {
-      position.x = BoundingConstants.minXCoordinateOffScreen;
     }
 
     if (current != EntityState.dragged && world.playerManager.playerBase.entityInside(this)) {
@@ -186,6 +182,9 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
     if (current != EntityState.dying) {
       _currentHealth = 0;
       current = EntityState.dying;
+
+      // Apply the bounding constraints to make sure the entity is in the correct position.
+      _applyBoundingConstraints(0);
       world.playerManager.mutateGold(entityConfig.goldOnKill);
       world.effectManager.addGoldText(entityConfig.goldOnKill, absoluteCenter);
 
