@@ -112,7 +112,7 @@ class DraggableEntity extends Entity with DragCallbacks, GestureHitboxes {
     _dragVelocity.x = influence * newVelocity.x + (1 - influence) * _dragVelocity.x;
     _dragVelocity.y = influence * newVelocity.y + (1 - influence) * _dragVelocity.y;
 
-    _velocity = _dragVelocity / 1.7;
+    _velocity = _dragVelocity / 2;
   }
 
   @override
