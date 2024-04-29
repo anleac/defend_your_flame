@@ -7,7 +7,7 @@ class DamageConstants {
   static const double wallImpactDamage = fallDamage / 2;
 
   static const double _fractionOfMaxVelocityForDragDamage = 0.6;
-  static const double _fractionOfMaxVelocityForFallDamage = 0.5;
+  static const double _fractionOfMaxVelocityForFallDamage = 0.4;
 
   static final Vector2 velocityThresholdForDragDamage =
       PhysicsConstants.maxVelocity * _fractionOfMaxVelocityForDragDamage;

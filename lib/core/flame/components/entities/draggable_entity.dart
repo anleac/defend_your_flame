@@ -82,16 +82,16 @@ class DraggableEntity extends Entity with DragCallbacks, GestureHitboxes {
       return;
     }
 
-    if (position.y >= _pickupHeight - _dragEps && _dragDamagePossible(considerHorizontal: false)) {
-      // Slammed into the ground.
-      dragDamage();
+    if (position.y >= _pickupHeight - _dragEps && beenDraggedFarEnough) {
+      if (DamageHelper.hasDragVelocityImpact(velocity: _velocity, considerHorizontal: false)) {
+        dragDamage();
+      } else {
+        stopDragging();
+      }
     }
   }
 
-  bool _dragDamagePossible({required bool considerHorizontal}) {
-    return _totalDragDistance > 150 &&
-        DamageHelper.hasDragVelocityImpact(velocity: _velocity, considerHorizontal: considerHorizontal);
-  }
+  bool get beenDraggedFarEnough => _totalDragDistance > 150;
 
   @override
   void onDragStart(DragStartEvent event) {
@@ -198,7 +198,7 @@ class DraggableEntity extends Entity with DragCallbacks, GestureHitboxes {
   @override
   void wallCollisionCalculation(double dt) {
     if (_beingDragged) {
-      if (_dragDamagePossible(considerHorizontal: true)) {
+      if (DamageHelper.hasDragVelocityImpact(velocity: _velocity, considerHorizontal: true)) {
         world.playerManager.playerBase
             .takeDamage(DamageConstants.wallImpactDamage.toInt(), position: wallIntersectionPoints.first);
         dragDamage();
