@@ -6,7 +6,7 @@ import 'package:defend_your_flame/helpers/misc_helper.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/rendering.dart';
 
-class RockFirePit extends PositionComponent with Snapshot {
+class RockCircle extends PositionComponent with Snapshot {
   // The amount of rock textures we have in our assets.
   // We are excluding the 6th rock for now.
   static const int rockTypes = 5;
@@ -19,7 +19,7 @@ class RockFirePit extends PositionComponent with Snapshot {
   late final List<Sprite> _rockSprites =
       List.generate(rockTypes, (index) => SpriteManager.getSprite('environment/rocks/rock${index + 1}'));
 
-  RockFirePit() {
+  RockCircle() {
     renderSnapshot = true;
     size = Vector2(ovalWidth, ovalHeight);
   }
@@ -31,7 +31,7 @@ class RockFirePit extends PositionComponent with Snapshot {
     const double rockScale = 0.66;
     final int numRocks = (20 * rockPitScale).ceil();
 
-    List<Vector2> rocks = [];
+    List<Vector2> rockPositions = [];
     for (int i = 0; i < numRocks; i++) {
       double angle = 2 * pi * i / numRocks;
 
@@ -39,20 +39,20 @@ class RockFirePit extends PositionComponent with Snapshot {
       double x = ovalWidth / 2 * cos(angle);
       double y = ovalHeight / 2 * sin(angle);
 
-      rocks.add(Vector2(x, y));
+      rockPositions.add(Vector2(x, y));
     }
 
-    rocks.sort((a, b) => a.y.compareTo(b.y));
+    rockPositions.sort((a, b) => a.y.compareTo(b.y));
 
     // Find the Y range, because there are negatives, then apply the horizontal displacement factor
-    double yRange = (rocks.last.y - rocks.first.y) / 2;
-    for (var rock in rocks) {
+    double yRange = (rockPositions.last.y - rockPositions.first.y) / 2;
+    for (var rock in rockPositions) {
       rock.x += (rock.y + yRange) * ParallaxConstants.horizontalDisplacementFactor;
     }
 
-    for (Vector2 rock in rocks) {
+    for (Vector2 rockPosition in rockPositions) {
       MiscHelper.randomElement(_rockSprites)
-          .render(canvas, size: rockSize * rockScale, position: rock, anchor: Anchor.center);
+          .render(canvas, size: rockSize * rockScale, position: rockPosition + (size / 2), anchor: Anchor.center);
     }
   }
 }

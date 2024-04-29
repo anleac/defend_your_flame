@@ -1,5 +1,6 @@
 import 'package:defend_your_flame/constants/debug_constants.dart';
 import 'package:defend_your_flame/constants/misc_constants.dart';
+import 'package:defend_your_flame/core/flame/components/masonry/player_base.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/walls/wall_helper.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/walls/wall_renderer.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/walls/wall_type.dart';
@@ -8,8 +9,13 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 
 class Wall extends PositionComponent with HasVisibility, HasWorldReference<MainWorld> {
+  // The offset from the bottom of the wall to the bottom of the base
+  static const double wallOffsetFromGround = 10;
+  static const double wallAreaWidth = 70;
+
+  static const double verticalRange = PlayerBase.baseHeight - wallOffsetFromGround * 2;
+
   late final WallRenderer _wallRenderer = WallRenderer(verticalRange: verticalRange)..size = size;
-  final double verticalRange;
 
   WallType _wallType = WallType.wood;
 
@@ -28,7 +34,7 @@ class Wall extends PositionComponent with HasVisibility, HasWorldReference<MainW
 
   Vector2 get wallCenter => center;
 
-  Wall({required this.verticalRange}) : super(size: Vector2(156, 398)) {
+  Wall() : super(size: Vector2(156, 398)) {
     scale = WallHelper.getScale(_wallType);
     _setWallStats();
   }
