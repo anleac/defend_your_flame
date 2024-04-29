@@ -21,9 +21,8 @@ class StrongSkeleton extends DraggableEntity with DisappearOnDeath {
     damageOnAttack: 15,
     goldOnKill: 12,
     walkingForwardSpeed: 19,
-    // Let him survive two falls
     totalHealth: DamageConstants.fallDamage * 2,
-    dragResistance: 0.48,
+    dragResistance: 0.55,
   );
 
   late final RectangleHitbox _hitbox =

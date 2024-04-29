@@ -2,9 +2,8 @@ import 'dart:async';
 
 import 'package:defend_your_flame/constants/bounding_constants.dart';
 import 'package:defend_your_flame/constants/debug_constants.dart';
-import 'package:defend_your_flame/core/flame/components/masonry/flames/purple_flame.dart';
 import 'package:defend_your_flame/core/flame/components/entities/entity.dart';
-import 'package:defend_your_flame/core/flame/components/masonry/rock_fire_pit.dart';
+import 'package:defend_your_flame/core/flame/components/masonry/fire_pit.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/walls/wall.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world_state.dart';
@@ -12,27 +11,21 @@ import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 
 class PlayerBase extends PositionComponent with HasWorldReference<MainWorld>, HasVisibility {
-  static const double baseWidth = 290;
+  static const double baseWidthWithoutWall = 220;
+  static const double baseWidth = baseWidthWithoutWall + Wall.wallAreaWidth;
   static const double baseHeight = 180;
-  static const double _wallOffset = 10;
 
-  late final Wall _wall = Wall(verticalRange: baseHeight - _wallOffset * 2)..position = Vector2(0, _wallOffset);
+  late final Rect _innerBaseRect = Rect.fromLTWH(
+      Wall.wallAreaWidth + position.x,
+      position.y + Wall.wallOffsetFromGround,
+      width + BoundingConstants.maxXCoordinateOffScreen,
+      baseHeight - (Wall.wallOffsetFromGround * 2));
 
-  late final RockFirePit _rockFirePit = RockFirePit()
-    ..position = Vector2(wallWidth + ((width - wallWidth) / 2), baseHeight / 2 - 20);
-
-  late final PurpleFlame _firePitFlame = PurpleFlame()
-    ..position = _rockFirePit.center - Vector2(34, 10)
-    ..anchor = Anchor.bottomCenter
-    ..scale = Vector2(1.2, 2.5);
-
-  // This excludes the wall
-  late final Rect _exposedAreaRect = Rect.fromLTWH(
-      wallWidth + position.x, position.y - _wallOffset, width + BoundingConstants.maxXCoordinateOffScreen, baseHeight);
+  late final Wall _wall = Wall()..position = Vector2(0, Wall.wallOffsetFromGround);
+  late final FirePit _firePit = FirePit()
+    ..position = Vector2(Wall.wallAreaWidth + (baseWidthWithoutWall / 2), baseHeight / 2 - 10);
 
   bool get destroyed => _wall.health <= 0;
-
-  double get wallWidth => _wall.scaledSize.x;
   Wall get wall => _wall;
 
   PlayerBase() : super(size: Vector2(baseWidth, baseHeight));
@@ -40,8 +33,7 @@ class PlayerBase extends PositionComponent with HasWorldReference<MainWorld>, Ha
   @override
   FutureOr<void> onLoad() {
     add(_wall);
-    add(_rockFirePit);
-    add(_firePitFlame);
+    add(_firePit);
     return super.onLoad();
   }
 
@@ -68,7 +60,7 @@ class PlayerBase extends PositionComponent with HasWorldReference<MainWorld>, Ha
 
     if (DebugConstants.drawEntityCollisionBoxes) {
       // This is used for debugging
-      var relativeRect = _exposedAreaRect.translate(-position.x, -position.y);
+      var relativeRect = _innerBaseRect.translate(-position.x, -position.y);
       canvas.drawRect(relativeRect, DebugConstants.debugPaint);
     }
   }
@@ -79,6 +71,6 @@ class PlayerBase extends PositionComponent with HasWorldReference<MainWorld>, Ha
       return false;
     }
 
-    return _exposedAreaRect.contains(entity.center.toOffset());
+    return _innerBaseRect.contains(entity.center.toOffset());
   }
 }

@@ -2,12 +2,13 @@ import 'package:defend_your_flame/constants/damage_constants.dart';
 import 'package:defend_your_flame/core/flame/components/entities/configs/flying_entity_config.dart';
 import 'package:defend_your_flame/core/flame/components/entities/entity.dart';
 import 'package:defend_your_flame/core/flame/components/entities/enums/entity_state.dart';
+import 'package:defend_your_flame/core/flame/components/entities/mixins/has_draggable_collisions.dart';
 import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
 import 'package:defend_your_flame/helpers/global_vars.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 
-class FlyingEntity extends Entity with TapCallbacks, GestureHitboxes {
+class FlyingEntity extends Entity with TapCallbacks, GestureHitboxes, HasDraggableCollisions {
   final FlyingEntityConfig flyingEntityConfig;
 
   late final double _distanceToWallToAttack = flyingEntityConfig.attackRange();
@@ -68,6 +69,12 @@ class FlyingEntity extends Entity with TapCallbacks, GestureHitboxes {
       }
     } else if (current == EntityState.attacking && world.worldStateManager.gameOver) {
       current = EntityState.walking;
+    }
+
+    if (isCollidingWithDraggableEntity) {
+      takeDamage(DamageConstants.collisionDamage);
+      draggableEntity!.takeDamage(DamageConstants.collisionDamage);
+      clearDraggableEntity(stopEntityDrag: true);
     }
 
     super.update(dt);

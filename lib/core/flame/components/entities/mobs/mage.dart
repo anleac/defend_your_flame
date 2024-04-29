@@ -44,8 +44,12 @@ class Mage extends FlyingEntity with DisappearOnDeath {
     attackRange: () => GlobalVars.rand.nextInt(220) + 300,
   );
 
-  late final RectangleHitbox _hitbox =
-      EntityHelper.createRectangleHitbox(size: Vector2(36, 50), anchor: Anchor.topCenter, position: Vector2(80, 67));
+  late final RectangleHitbox _hitbox = EntityHelper.createRectangleHitbox(
+      size: Vector2(36, 50),
+      anchor: Anchor.topCenter,
+      position: Vector2(80, 67),
+      collisionType: CollisionType.active,
+      isSolid: true);
 
   Mage({super.scaleModifier}) : super(flyingEntityConfig: _mageConfig) {
     setDisappearSpeedFactor(2);
@@ -86,7 +90,7 @@ class Mage extends FlyingEntity with DisappearOnDeath {
       GlobalVars.rand.nextDouble() * (skyHeight / 3) + (skyHeight / 2.5),
     );
 
-    mage.position = startPosition - Vector2(mage.scaledSize.x, mage.scaledSize.y / 2.5);
+    mage.position = startPosition - Vector2(mage.scaledSize.x, mage.scaledSize.y / 2.2);
     return mage;
   }
 }
