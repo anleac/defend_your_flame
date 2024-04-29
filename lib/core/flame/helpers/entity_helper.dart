@@ -10,13 +10,14 @@ class EntityHelper {
     Vector2? position,
     Anchor anchor = Anchor.center,
     CollisionType collisionType = CollisionType.passive,
+    bool isSolid = false,
   }) {
     final hitbox = RectangleHitbox(
       position: position,
       size: size,
       anchor: anchor,
       collisionType: collisionType,
-    );
+    )..isSolid = isSolid;
 
     if (DebugConstants.drawEntityCollisionBoxes) {
       hitbox.renderShape = true;

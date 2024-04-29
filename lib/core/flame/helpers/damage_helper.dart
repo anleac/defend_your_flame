@@ -13,6 +13,12 @@ class DamageHelper {
     return yImpact || xImpact;
   }
 
+  static bool hasCollisionVelocityImpact({required Vector2 velocity}) {
+    var yImpact = velocity.y.abs() > DamageConstants.velocityThresholdForCollisionDamage.y;
+    var xImpact = velocity.x.abs() > DamageConstants.velocityThresholdForCollisionDamage.x;
+    return yImpact || xImpact;
+  }
+
   static bool hasFallVelocityImpact({required Vector2 velocity}) {
     return velocity.y.abs() > DamageConstants.velocityThresholdForFallDamage.y;
   }

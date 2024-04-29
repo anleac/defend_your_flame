@@ -26,6 +26,7 @@ class DraggableEntity extends Entity with DragCallbacks, GestureHitboxes {
   double _totalDragDistance = 0;
 
   bool get _contactingGround => startPosition.y - position.y < _dragEps;
+  Vector2 get currentVelocity => _beingDragged ? _dragVelocity : _velocity;
 
   DraggableEntity({required super.entityConfig, super.scaleModifier});
 
@@ -57,6 +58,11 @@ class DraggableEntity extends Entity with DragCallbacks, GestureHitboxes {
 
     super.update(dt);
     _lastPosition = position.clone();
+  }
+
+  void stopDraggingAndBounce() {
+    _velocity = _velocity * -0.1;
+    stopDragging();
   }
 
   void _checkDragStuckLogic(double dt) {
@@ -100,7 +106,7 @@ class DraggableEntity extends Entity with DragCallbacks, GestureHitboxes {
   }
 
   void _updateDragVelocity(Vector2 newVelocity) {
-    double influence = newVelocity == Vector2.zero() ? 0.1 : 0.2;
+    double influence = newVelocity == Vector2.zero() ? 0.15 : 0.22;
     _dragVelocity.x = influence * newVelocity.x + (1 - influence) * _dragVelocity.x;
     _dragVelocity.y = influence * newVelocity.y + (1 - influence) * _dragVelocity.y;
 

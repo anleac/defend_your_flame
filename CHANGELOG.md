@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.10.0 alpha - 29th April, 2024
+
+### New Features
+- You can now drag entities into the mage to damage both, this is a far faster way to kill the mage
+   - A certain velocity will need to be met however to cause damage, damage will cause the dragged entity to stop being dragged
+
+### Bug Fixes
+- N/A
+
+### Improvements
+- Improved dragging logic to be more stable across varying devices
+- Reduced velocity needed for fall and drag damage to be a kill
+- Made the strong skeleton easier to drag
+
 ## 0.9.1 alpha - 28th April, 2024
 
 ### New Features
