@@ -23,6 +23,7 @@ class TextButton extends TextComponent with TapCallbacks, HasVisibility, HoverCa
   final bool comingSoon;
   final bool underlined;
   bool _hovered = false;
+  bool _canClick = true;
 
   TextButton({
     String text = '',
@@ -38,9 +39,17 @@ class TextButton extends TextComponent with TapCallbacks, HasVisibility, HoverCa
           anchor: anchor,
         );
 
+  void toggleClickable(bool canClick) {
+    _canClick = canClick;
+
+    if (!canClick) {
+      _hovered = false;
+    }
+  }
+
   @override
   bool containsLocalPoint(Vector2 point) {
-    return isVisible && super.containsLocalPoint(point) && !comingSoon;
+    return isVisible && super.containsLocalPoint(point) && !comingSoon && _canClick;
   }
 
   @override
@@ -78,7 +87,7 @@ class TextButton extends TextComponent with TapCallbacks, HasVisibility, HoverCa
   void render(Canvas canvas) {
     super.render(canvas);
 
-    if (underlined && !comingSoon) {
+    if (underlined && !comingSoon && _canClick) {
       _drawUnderline(canvas);
     }
   }

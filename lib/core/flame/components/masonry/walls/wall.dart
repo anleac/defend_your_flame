@@ -17,7 +17,7 @@ class Wall extends PositionComponent with HasVisibility, HasWorldReference<MainW
 
   late final WallRenderer _wallRenderer = WallRenderer(verticalRange: verticalRange)..size = size;
 
-  WallType _wallType = WallType.wood;
+  WallType _wallType = WallType.barricade;
 
   // Wall stats that need to be carefully reset when upgrading the wall, loading a save game, restarting game, etc.
   // To make this less error prone, we centralize this logic in `_setWallStats`
@@ -34,16 +34,16 @@ class Wall extends PositionComponent with HasVisibility, HasWorldReference<MainW
 
   Vector2 get wallCenter => center;
 
-  Wall() : super(size: Vector2(156, 398)) {
-    scale = WallHelper.getScale(_wallType);
+  Wall() {
     _setWallStats();
   }
 
   _setWallStats({bool resetHealth = true}) {
     // Needed simply for rendering, not logic, but changes based on wall type.
+    size = WallHelper.getWallSize(_wallType);
     scale = WallHelper.getScale(_wallType);
 
-    _totalHealth = WallHelper.getDefaultTotalHealth(_wallType);
+    _totalHealth = WallHelper.totalHealth(_wallType);
     _defenseValue = WallHelper.defenseValue(_wallType);
 
     if (resetHealth) {
@@ -78,7 +78,7 @@ class Wall extends PositionComponent with HasVisibility, HasWorldReference<MainW
 
     _wallType = wallType;
 
-    var newTotalHealth = WallHelper.getDefaultTotalHealth(_wallType);
+    var newTotalHealth = WallHelper.totalHealth(_wallType);
     if (_totalHealth != newTotalHealth && newTotalHealth > _totalHealth) {
       _health += newTotalHealth - _totalHealth;
     }

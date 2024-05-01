@@ -7,51 +7,56 @@ class TextManager {
   static const String _defaultFontFamily = "prstart";
   // static const String _boldFontFamily = "Metropolis-Bold";
 
-  static final _defaultColor = BasicPalette.white.color;
-  static final _defaultTextStyle = TextStyle(fontSize: 26.0, fontFamily: defaultFontFamily, color: _defaultColor);
+  static final _defaultTextStyle =
+      TextStyle(fontSize: 26.0, fontFamily: defaultFontFamily, color: ThemingConstants.defaultTextColour);
 
   static String get defaultFontFamily => _defaultFontFamily;
-  static TextRenderer get defaultRenderer => _defaultRenderer;
+  static TextPaint get defaultRenderer => _defaultRenderer;
 
-  static TextRenderer get largeHeaderRenderer => _largeHeaderRenderer;
+  static TextPaint get largeHeaderRenderer => _largeHeaderRenderer;
 
-  static TextRenderer get smallHeaderRenderer => _smallHeaderRenderer;
-  static TextRenderer get smallHeaderHoveredRenderer => _smallHeaderHoveredRenderer;
-  static TextRenderer get smallHeaderDisabledRenderer => _smallHeaderDisabledRenderer;
+  static TextPaint get smallHeaderRenderer => _smallHeaderRenderer;
+  static TextPaint get smallHeaderHoveredRenderer => _smallHeaderHoveredRenderer;
+  static TextPaint get smallHeaderDisabledRenderer => _smallHeaderDisabledRenderer;
 
-  static TextRenderer get smallSubHeaderRenderer => _smallSubHeaderRenderer;
+  static TextPaint get smallSubHeaderRenderer => _smallSubHeaderRenderer;
 
-  static TextRenderer get basicHudRenderer => _basicHudRenderer;
-  static TextRenderer get tinyRenderer => _tinyRenderer;
+  static TextPaint get basicHudRenderer => _basicHudRenderer;
+  static TextPaint get tinyRenderer => _tinyRenderer;
 
-  static TextRenderer get debugRenderer => _debugRenderer;
+  static TextPaint get debugRenderer => _debugRenderer;
 
-  static TextRenderer customDefaultRenderer({double fontSize = 26, Color color = Colors.white, bool bold = false}) {
+  static TextPaint customDefaultRenderer({double fontSize = 26, Color color = Colors.white, bool bold = false}) {
     return TextPaint(style: TextStyle(fontSize: fontSize, fontFamily: _defaultFontFamily, color: color));
   }
 
-  static final TextRenderer _defaultRenderer = TextPaint(style: _defaultTextStyle);
+  static TextPaint copyWith(TextPaint paint, {Color? color}) {
+    return TextPaint(style: paint.style.copyWith(color: color));
+  }
 
-  static final TextRenderer _largeHeaderRenderer = TextPaint(style: _defaultTextStyle.copyWith(fontSize: 36));
+  static final TextPaint _defaultRenderer = TextPaint(style: _defaultTextStyle);
 
-  static final TextRenderer _smallHeaderRenderer =
+  static final TextPaint _largeHeaderRenderer = TextPaint(style: _defaultTextStyle.copyWith(fontSize: 36));
+
+  static final TextPaint _smallHeaderRenderer =
       TextPaint(style: _defaultTextStyle.copyWith(fontSize: ThemingConstants.smallHeaderFontSize));
-  static final TextRenderer _smallHeaderHoveredRenderer = TextPaint(
-      style: _defaultTextStyle.copyWith(
-          fontSize: ThemingConstants.smallHeaderFontSize, color: _defaultColor.darken(ThemingConstants.hoveredDarken)));
-  static final TextRenderer _smallHeaderDisabledRenderer = TextPaint(
+  static final TextPaint _smallHeaderHoveredRenderer = TextPaint(
       style: _defaultTextStyle.copyWith(
           fontSize: ThemingConstants.smallHeaderFontSize,
-          color: _defaultColor.darken(ThemingConstants.disabledDarken)));
+          color: ThemingConstants.defaultTextColour.darken(ThemingConstants.hoveredDarken)));
+  static final TextPaint _smallHeaderDisabledRenderer = TextPaint(
+      style: _defaultTextStyle.copyWith(
+          fontSize: ThemingConstants.smallHeaderFontSize,
+          color: ThemingConstants.defaultTextColour.darken(ThemingConstants.disabledDarken)));
 
-  static final TextRenderer _smallSubHeaderRenderer =
-      TextPaint(style: _defaultTextStyle.copyWith(fontSize: 16, color: _defaultColor.withOpacity(0.92)));
-  static final TextRenderer _basicHudRenderer =
-      TextPaint(style: _defaultTextStyle.copyWith(fontSize: 12, color: _defaultColor.withOpacity(0.92)));
+  static final TextPaint _smallSubHeaderRenderer = TextPaint(
+      style: _defaultTextStyle.copyWith(fontSize: 16, color: ThemingConstants.defaultTextColour.withOpacity(0.92)));
+  static final TextPaint _basicHudRenderer = TextPaint(
+      style: _defaultTextStyle.copyWith(fontSize: 12, color: ThemingConstants.defaultTextColour.withOpacity(0.92)));
 
-  static final TextRenderer _tinyRenderer =
-      TextPaint(style: _defaultTextStyle.copyWith(fontSize: 9, color: _defaultColor.withOpacity(0.92)));
+  static final TextPaint _tinyRenderer = TextPaint(
+      style: _defaultTextStyle.copyWith(fontSize: 9, color: ThemingConstants.defaultTextColour.withOpacity(0.92)));
 
-  static final TextRenderer _debugRenderer =
+  static final TextPaint _debugRenderer =
       TextPaint(style: TextStyle(fontSize: 18.0, fontFamily: defaultFontFamily, color: BasicPalette.red.color));
-} 
+}

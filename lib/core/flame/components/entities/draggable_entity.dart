@@ -10,7 +10,7 @@ import 'package:flame/events.dart';
 import 'package:flame/rendering.dart';
 import 'package:flutter/material.dart';
 
-class DraggableEntity extends Entity with DragCallbacks, GestureHitboxes {
+class DraggableEntity extends Entity with DragCallbacks {
   static const double dragTimeoutInSeconds = 3.5;
   static const double _dragEps = 1;
 
@@ -97,8 +97,18 @@ class DraggableEntity extends Entity with DragCallbacks, GestureHitboxes {
   @override
   void onDragStart(DragStartEvent event) {
     super.onDragStart(event);
+    _attemptToBeginDragging();
+  }
 
-    if (!isAlive) {
+  // A limitation within Flame draggable callback is that it won't register a start of drag on click, but instead, on drag.
+  // This is a workaround to make sure that the drag starts on click.
+  @override
+  void onTapDown(TapDownEvent event) {
+    _attemptToBeginDragging();
+  }
+
+  _attemptToBeginDragging() {
+    if (!isAlive || _beingDragged) {
       return;
     }
 
@@ -131,6 +141,11 @@ class DraggableEntity extends Entity with DragCallbacks, GestureHitboxes {
   @override
   void onDragEnd(DragEndEvent event) {
     super.onDragEnd(event);
+    stopDragging();
+  }
+
+  @override
+  void onTapUp(TapUpEvent event) {
     stopDragging();
   }
 
