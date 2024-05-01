@@ -9,7 +9,7 @@ class BorderedBackground extends PositionComponent with Snapshot {
     ..style = PaintingStyle.stroke;
 
   static final Paint _fillPaint = Paint()
-    ..color = Colors.black.withOpacity(0.4)
+    ..color = Colors.black.withOpacity(0.5)
     ..style = PaintingStyle.fill;
 
   final double borderThickness;

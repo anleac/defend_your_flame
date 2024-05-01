@@ -11,6 +11,7 @@ import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 import 'package:defend_your_flame/helpers/timestep/timestep_helper.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flame/events.dart';
 
 class Entity extends SpriteAnimationGroupComponent<EntityState>
     with
@@ -18,6 +19,8 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
         HasWorldReference<MainWorld>,
         HasGameReference<MainGame>,
         HasVisibility,
+        TapCallbacks,
+        GestureHitboxes,
         CollisionCallbacks,
         HasWallCollision,
         WallAsSolid {

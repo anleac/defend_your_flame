@@ -5,10 +5,9 @@ import 'package:defend_your_flame/core/flame/components/entities/enums/entity_st
 import 'package:defend_your_flame/core/flame/components/entities/mixins/has_draggable_collisions.dart';
 import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
 import 'package:defend_your_flame/helpers/global_vars.dart';
-import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 
-class FlyingEntity extends Entity with TapCallbacks, GestureHitboxes, HasDraggableCollisions {
+class FlyingEntity extends Entity with HasDraggableCollisions {
   final FlyingEntityConfig flyingEntityConfig;
 
   late final double _distanceToWallToAttack = flyingEntityConfig.attackRange();

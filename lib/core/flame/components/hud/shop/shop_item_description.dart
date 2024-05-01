@@ -1,12 +1,12 @@
 import 'package:defend_your_flame/core/flame/components/hud/backgrounds/bordered_background.dart';
-import 'package:defend_your_flame/core/flame/components/hud/buttons/shop/buy_button.dart';
+import 'package:defend_your_flame/core/flame/components/hud/buttons/shop/shop_item_action_button.dart';
 import 'package:defend_your_flame/core/flame/components/hud/shop/main_shop_hud.dart';
 import 'package:defend_your_flame/core/flame/components/hud/text/shop/item_cost_text.dart';
 import 'package:defend_your_flame/core/flame/components/hud/text/shop/item_description_title.dart';
 import 'package:defend_your_flame/core/flame/components/hud/text/shop/item_title.dart';
 import 'package:defend_your_flame/core/flame/managers/text_manager.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
-import 'package:defend_your_flame/core/shop/purchasable.dart';
+import 'package:defend_your_flame/core/flame/shop/purchasable.dart';
 import 'package:flame/components.dart';
 
 class ShopItemDescription extends PositionComponent with ParentIsA<MainShopHud>, HasWorldReference<MainWorld> {
@@ -31,9 +31,9 @@ class ShopItemDescription extends PositionComponent with ParentIsA<MainShopHud>,
     textRenderer: TextManager.basicHudRenderer,
   )..position = _descriptionLabel.position + _itemGap;
 
-  late final BuyButton _buyButton = BuyButton()
-    ..isVisible = false
+  late final ShopItemActionButton _itemActionButton = ShopItemActionButton()
     ..anchor = Anchor.bottomRight
+    ..isVisible = false
     ..position = size - Vector2(padding, padding);
 
   @override
@@ -43,7 +43,7 @@ class ShopItemDescription extends PositionComponent with ParentIsA<MainShopHud>,
     add(_costText);
     add(_descriptionLabel);
     add(_descriptionText);
-    add(_buyButton);
+    add(_itemActionButton);
     return super.onLoad();
   }
 
@@ -55,13 +55,25 @@ class ShopItemDescription extends PositionComponent with ParentIsA<MainShopHud>,
 
     _descriptionText.text = _selectedItem?.description ?? '';
 
-    _buyButton.isVisible = _purchasePossible;
+    _updateActionButton();
   }
 
   void tryToBuy() {
     if (_purchasePossible) {
       world.shopManager.handlePurchase(_selectedItem!);
-      _buyButton.isVisible = false;
+      _updateActionButton();
+      parent.refreshShopList();
+    }
+  }
+
+  void _updateActionButton() {
+    _itemActionButton.isVisible = _selectedItem != null;
+
+    if (_selectedItem != null && _selectedItem!.purchased) {
+      _itemActionButton.updateAction(ShopItemActionButtonState.alreadyPurchased);
+    } else {
+      _itemActionButton.updateAction(
+          _purchasePossible ? ShopItemActionButtonState.canPurchase : ShopItemActionButtonState.cantAfford);
     }
   }
 

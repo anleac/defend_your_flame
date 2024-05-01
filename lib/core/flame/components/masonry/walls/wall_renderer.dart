@@ -1,13 +1,12 @@
 import 'package:defend_your_flame/constants/parallax_constants.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/walls/wall.dart';
+import 'package:defend_your_flame/core/flame/components/masonry/walls/wall_helper.dart';
 import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
 import 'package:flame/components.dart';
 import 'package:flame/image_composition.dart';
 import 'package:flutter/material.dart';
 
 class WallRenderer extends PositionComponent with ParentIsA<Wall>, Snapshot {
-  static const double verticalDiffPerRender = 30;
-
   double _verticalRange = 0;
   double _horizontalRange = 0;
   double _verticalRenders = 0;
@@ -20,13 +19,15 @@ class WallRenderer extends PositionComponent with ParentIsA<Wall>, Snapshot {
 
   List<Vector2> get wallCornerPoints => _wallCornerPoints;
 
+  double get _verticalDiffPerRender => WallHelper.getVerticalRendersPerDiff(parent.wallType);
+
   WallRenderer({required this.verticalRange}) {
     renderSnapshot = true;
   }
 
   _updateRenderValues() {
     _verticalRange = verticalRange / parent.scale.y;
-    _verticalRenders = (_verticalRange / verticalDiffPerRender).ceilToDouble();
+    _verticalRenders = (_verticalRange / _verticalDiffPerRender).ceilToDouble();
 
     _horizontalRange = _verticalRange * ParallaxConstants.horizontalDisplacementFactor;
     _horizontalDiffPerRender = _horizontalRange / _verticalRenders;
@@ -61,7 +62,7 @@ class WallRenderer extends PositionComponent with ParentIsA<Wall>, Snapshot {
       );
 
       runningX += _horizontalDiffPerRender;
-      runninyY += verticalDiffPerRender;
+      runninyY += _verticalDiffPerRender;
     }
   }
 

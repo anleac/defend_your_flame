@@ -1,1 +1,1 @@
-enum WallType { wood, stone }
+enum WallType { barricade, wood, stone }

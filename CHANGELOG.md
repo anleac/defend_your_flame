@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.11.0 alpha - 1st May, 2024
+
+### New Features
+- New purchaseable, "Wooden wall".
+   - You now start with a basic wooden barricade, and therefore, have two wall upgrades
+
+### Bug Fixes
+- Overhauled the drag initiation logic, it now takes into account clicks (without a drag) and is much more reliable
+
+### Improvements
+- Small improvements ot the shop HUD
+
 ## 0.10.0 alpha - 29th April, 2024
 
 ### New Features

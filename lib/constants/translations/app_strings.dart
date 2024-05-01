@@ -67,6 +67,15 @@ class AppStrings {
   String get itemTitleLabel => getValue('itemTitleLabel');
   String get itemCostLabel => getValue('itemCostLabel');
   String get buy => getValue('buy');
+  String get cantAfford => getValue('cantAfford');
+  String get alreadyPurchased => getValue('alreadyPurchased');
 
   String get healthIndicatorText => getValue('healthIndicatorAmount');
+
+  // Purchasables
+  String get woodenWallName => getValue('woodenWallName');
+  String get woodenWallDescription => getValue('woodenWallDescription');
+
+  String get stoneWallName => getValue('stoneWallName');
+  String get stoneWallDescription => getValue('stoneWallDescription');
 }

@@ -1,7 +1,7 @@
 import 'package:defend_your_flame/core/flame/components/hud/base_components/default_button.dart';
 import 'package:defend_your_flame/core/flame/components/hud/shop/main_shop_hud.dart';
 import 'package:defend_your_flame/core/flame/components/hud/shop/shop_item_list.dart';
-import 'package:defend_your_flame/core/shop/purchasable.dart';
+import 'package:defend_your_flame/core/flame/shop/purchasable.dart';
 import 'package:flame/components.dart';
 
 class ShopItemButton extends DefaultButton with ParentIsA<ShopItemList>, HasAncestor<MainShopHud> {
