@@ -6,37 +6,55 @@ import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 import 'package:flame/components.dart';
 
 class ShopItemList extends PositionComponent with ParentIsA<MainShopHud>, HasWorldReference<MainWorld> {
-  static const double shopItemHeight = 50;
+  static const double shopItemHeight = 40;
   static const double padding = 10;
 
   late final BorderedBackground _background = BorderedBackground(hasFill: false)
     ..position = Vector2.zero()
     ..size = size;
 
-  late final List<ShopItemButton> _buttons;
+  final List<ShopItemButton> _buttons = [];
+  final List<HorizontalDivider> _dividers = [];
 
   @override
   Future<void> onLoad() async {
     add(_background);
+    refresh();
+    return super.onLoad();
+  }
+
+  void refresh() {
+    for (final button in _buttons) {
+      button.removeFromParent();
+    }
+    for (final divider in _dividers) {
+      divider.removeFromParent();
+    }
+
+    _buttons.clear();
+    _dividers.clear();
+
+    var visiblePurchases =
+        world.shopManager.purchasables.where((p) => p.shouldBeVisible(world.shopManager.purchasables)).toList();
 
     var rollingButtonPosition = Vector2(size.x / 2, shopItemHeight / 2 + padding);
-    _buttons = world.shopManager.purchasables.map((item) {
+    _buttons.addAll(visiblePurchases.map((item) {
       final button = ShopItemButton(item)..position = rollingButtonPosition;
       rollingButtonPosition += Vector2(0, shopItemHeight + padding);
       return button;
-    }).toList();
+    }).toList());
 
     // Add a horizontal divider between each item
     for (var i = 0; i < _buttons.length; i++) {
       if (i > 0) {
-        add(HorizontalDivider(padding: 5)
+        final divider = HorizontalDivider(padding: 5)
           ..position = _buttons[i].position
-          ..size = Vector2(size.x, 2));
+          ..size = Vector2(size.x, 2);
+        _dividers.add(divider);
+        add(divider);
       }
 
       add(_buttons[i]);
     }
-
-    return super.onLoad();
   }
 }

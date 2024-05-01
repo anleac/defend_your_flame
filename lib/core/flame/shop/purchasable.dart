@@ -29,9 +29,13 @@ abstract class Purchasable {
   }
 
   // TODO post-beta release: re-consider this logic, feels hacky and also not the most efficient.
-  bool shouldBeVisible(MainWorld world) {
-    return world.shopManager.purchasables
+  bool shouldBeVisible(List<Purchasable> purchasables) {
+    if (dependencies.isEmpty) {
+      return true;
+    }
+
+    return purchasables
         .where((element) => dependencies.contains(element.runtimeType))
-        .every((element) => false == element.purchased);
+        .every((element) => element.purchased);
   }
 }

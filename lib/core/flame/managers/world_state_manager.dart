@@ -2,7 +2,7 @@
 import 'package:defend_your_flame/core/flame/worlds/main_world_state.dart';
 
 class WorldStateManager {
-  MainWorldState _currentState = MainWorldState.betweenRounds;
+  MainWorldState _currentState = MainWorldState.mainMenu;
   MainWorldState get currentState => _currentState;
 
   bool get mainMenu => _currentState == MainWorldState.mainMenu;

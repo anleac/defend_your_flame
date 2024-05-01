@@ -42,6 +42,7 @@ class Wall extends PositionComponent with HasVisibility, HasWorldReference<MainW
     // Needed simply for rendering, not logic, but changes based on wall type.
     size = WallHelper.getWallSize(_wallType);
     scale = WallHelper.getScale(_wallType);
+    _wallRenderer.size = size;
 
     _totalHealth = WallHelper.totalHealth(_wallType);
     _defenseValue = WallHelper.defenseValue(_wallType);

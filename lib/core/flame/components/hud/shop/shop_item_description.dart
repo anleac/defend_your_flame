@@ -61,7 +61,8 @@ class ShopItemDescription extends PositionComponent with ParentIsA<MainShopHud>,
   void tryToBuy() {
     if (_purchasePossible) {
       world.shopManager.handlePurchase(_selectedItem!);
-      _itemActionButton.isVisible = false;
+      _updateActionButton();
+      parent.refreshShopList();
     }
   }
 

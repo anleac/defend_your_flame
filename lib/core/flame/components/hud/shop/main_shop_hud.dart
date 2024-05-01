@@ -92,4 +92,8 @@ class MainShopHud extends BasicHud with ParentIsA<NextRoundHud> {
   void showItemDescription(Purchasable purchasable) {
     _shopItemDescription.itemSelected(purchasable);
   }
+
+  void refreshShopList() {
+    _shopItemList.refresh();
+  }
 }

@@ -8,8 +8,8 @@ import 'package:defend_your_flame/helpers/translation_helper.dart';
 class WoodenWallPurchase extends Purchasable {
   WoodenWallPurchase(AppStrings appStrings)
       : super(
-          name: appStrings.stoneWallName,
-          description: TranslationHelper.insertNumbers(appStrings.stoneWallDescription, [
+          name: appStrings.woodenWallName,
+          description: TranslationHelper.insertNumbers(appStrings.woodenWallDescription, [
             WallHelper.totalHealth(WallType.wood) - WallHelper.totalHealth(WallType.barricade),
             WallHelper.defenseValue(WallType.wood) - WallHelper.defenseValue(WallType.barricade),
           ]),
