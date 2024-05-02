@@ -12,7 +12,7 @@ class Skeleton extends DraggableEntity with DisappearOnDeath {
     entityResourceName: 'skeleton',
     defaultSize: Vector2(22, 33),
     attackingSize: Vector2(43, 37),
-    defaultScale: 1.5,
+    defaultScale: 1.6,
     walkingConfig: AnimationConfig(frames: 13, stepTime: 0.09),
     attackingConfig: AnimationConfig(frames: 18, stepTime: 0.1),
     dragConfig: AnimationConfig(frames: 4, stepTime: 0.2),
@@ -28,7 +28,7 @@ class Skeleton extends DraggableEntity with DisappearOnDeath {
 
   // TODO maybe add a head hitbox to make the skeleton more accurate.
   late final RectangleHitbox _hitBox =
-      EntityHelper.createRectangleHitbox(size: Vector2(19, 25), position: Vector2(8, 33), anchor: Anchor.bottomCenter);
+      EntityHelper.createRectangleHitbox(size: Vector2(16, 25), position: Vector2(8, 33), anchor: Anchor.bottomCenter);
 
   Skeleton({super.scaleModifier}) : super(entityConfig: _skeletonConfig) {
     // We use the bottom left anchor because the attack animation is larger than the walking one, to stop the skeleton from moving when attacking.
@@ -37,7 +37,7 @@ class Skeleton extends DraggableEntity with DisappearOnDeath {
 
   @override
   Vector2? attackEffectPosition() {
-    return position + Vector2(scaledSize.x - 10, -scaledSize.y / 2);
+    return position + Vector2(scaledSize.x - 15, -scaledSize.y / 2);
   }
 
   @override

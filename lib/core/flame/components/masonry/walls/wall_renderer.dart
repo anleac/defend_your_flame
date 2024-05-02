@@ -12,6 +12,9 @@ class WallRenderer extends PositionComponent with ParentIsA<Wall>, Snapshot {
   double _verticalRenders = 0;
   double _horizontalDiffPerRender = 0;
 
+  // Used to render the wall in the centered position based on the current wall width.
+  double _xOffset = 0;
+
   late final double verticalRange;
   late Sprite _wallSprite;
 
@@ -31,6 +34,8 @@ class WallRenderer extends PositionComponent with ParentIsA<Wall>, Snapshot {
 
     _horizontalRange = _verticalRange * ParallaxConstants.horizontalDisplacementFactor;
     _horizontalDiffPerRender = _horizontalRange / _verticalRenders;
+
+    _xOffset = (Wall.wallAreaWidth - parent.size.x) / 2;
   }
 
   updateWallRenderValues() {
@@ -40,10 +45,10 @@ class WallRenderer extends PositionComponent with ParentIsA<Wall>, Snapshot {
     _updateRenderValues();
     _wallCornerPoints.clear();
     _wallCornerPoints.addAll([
-      Vector2(0, -size.y),
-      Vector2(size.x, -size.y),
-      Vector2(size.x + _horizontalRange, _verticalRange),
-      Vector2(_horizontalRange, _verticalRange),
+      Vector2(_xOffset, -size.y),
+      Vector2(size.x + _xOffset, -size.y),
+      Vector2(size.x + _xOffset + _horizontalRange, _verticalRange),
+      Vector2(_horizontalRange + _xOffset, _verticalRange),
     ]);
   }
 
@@ -56,7 +61,7 @@ class WallRenderer extends PositionComponent with ParentIsA<Wall>, Snapshot {
     for (int i = 0; i < _verticalRenders; i++) {
       _wallSprite.render(
         canvas,
-        position: Vector2(runningX, runninyY - size.y),
+        position: Vector2(runningX + _xOffset, runninyY - size.y),
         size: size,
         overridePaint: Paint()..color = Colors.white.withOpacity(1 - ((_verticalRenders - i) / 90.0)),
       );

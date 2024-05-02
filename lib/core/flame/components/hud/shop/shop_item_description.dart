@@ -78,5 +78,5 @@ class ShopItemDescription extends PositionComponent with ParentIsA<MainShopHud>,
   }
 
   bool get _purchasePossible =>
-      _selectedItem != null && world.playerManager.totalGold >= _selectedItem!.cost && !_selectedItem!.purchased;
+      _selectedItem != null && world.playerBase.totalGold >= _selectedItem!.cost && !_selectedItem!.purchased;
 }

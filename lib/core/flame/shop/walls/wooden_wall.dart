@@ -19,7 +19,7 @@ class WoodenWallPurchase extends Purchasable {
 
   @override
   void purchase(MainWorld world) {
-    world.playerManager.playerBase.wall.updateWallType(WallType.wood);
+    world.playerBase.wall.updateWallType(WallType.wood);
     super.purchase(world);
   }
 }

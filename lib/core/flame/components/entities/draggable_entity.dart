@@ -198,8 +198,7 @@ class DraggableEntity extends Entity with DragCallbacks {
   void wallCollisionCalculation(double dt) {
     if (_beingDragged) {
       if (DamageHelper.hasDragVelocityImpact(velocity: _velocity, considerHorizontal: true)) {
-        world.playerManager.playerBase
-            .takeDamage(DamageConstants.wallImpactDamage.toInt(), position: wallIntersectionPoints.first);
+        world.playerBase.takeDamage(DamageConstants.wallImpactDamage.toInt(), position: wallIntersectionPoints.first);
         dragDamage();
       } else {
         stopDragging();

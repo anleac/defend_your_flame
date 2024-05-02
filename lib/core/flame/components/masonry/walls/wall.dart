@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:defend_your_flame/constants/debug_constants.dart';
 import 'package:defend_your_flame/constants/misc_constants.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/player_base.dart';
@@ -10,10 +12,10 @@ import 'package:flame/components.dart';
 
 class Wall extends PositionComponent with HasVisibility, HasWorldReference<MainWorld> {
   // The offset from the bottom of the wall to the bottom of the base
-  static const double wallOffsetFromGround = 10;
-  static const double wallAreaWidth = 70;
+  static const double wallYOffset = 10;
+  static const double wallAreaWidth = 100;
 
-  static const double verticalRange = PlayerBase.baseHeight - wallOffsetFromGround * 2;
+  static const double verticalRange = PlayerBase.baseHeight - wallYOffset * 2;
 
   late final WallRenderer _wallRenderer = WallRenderer(verticalRange: verticalRange)..size = size;
 
@@ -98,7 +100,7 @@ class Wall extends PositionComponent with HasVisibility, HasWorldReference<MainW
   }
 
   void takeDamage(int damage, {Vector2? position}) {
-    var trueDamage = damage - _defenseValue;
+    var trueDamage = max(damage - _defenseValue, 1);
     _health -= trueDamage;
 
     if (position != null) {

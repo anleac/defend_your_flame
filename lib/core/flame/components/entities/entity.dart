@@ -79,6 +79,8 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
     current = EntityState.walking;
 
     addAll(_hitboxes);
+
+    super.onLoad();
   }
 
   // Intended to be overridden by subclasses
@@ -126,7 +128,7 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
 
   performAttack() {
     var damage = (entityConfig.damageOnAttack * scaleModifier).floor();
-    world.playerManager.playerBase.takeDamage(damage, position: attackEffectPosition());
+    world.playerBase.takeDamage(damage, position: attackEffectPosition());
   }
 
   void _applyBoundingConstraints(double dt) {
@@ -138,7 +140,7 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
       return;
     }
 
-    if (current != EntityState.dragged && world.playerManager.playerBase.entityInside(this)) {
+    if (current != EntityState.dragged && world.playerBase.entityInside(this)) {
       teleportToStart();
     }
 
@@ -188,7 +190,7 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
 
       // Apply the bounding constraints to make sure the entity is in the correct position.
       _applyBoundingConstraints(0);
-      world.playerManager.mutateGold(entityConfig.goldOnKill);
+      world.playerBase.mutateGold(entityConfig.goldOnKill);
       world.effectManager.addGoldText(entityConfig.goldOnKill, absoluteCenter);
 
       for (var hitbox in _hitboxes) {

@@ -1,10 +1,10 @@
 import 'package:defend_your_flame/constants/constants.dart';
 import 'package:defend_your_flame/core/flame/components/debug/camera_border.dart';
 import 'package:defend_your_flame/core/flame/components/environment/environment.dart';
+import 'package:defend_your_flame/core/flame/components/masonry/player_base.dart';
 import 'package:defend_your_flame/core/flame/managers/effect_manager.dart';
 import 'package:defend_your_flame/core/flame/managers/entity_manager.dart';
 import 'package:defend_your_flame/core/flame/managers/hud_manager.dart';
-import 'package:defend_your_flame/core/flame/managers/player_manager.dart';
 import 'package:defend_your_flame/core/flame/managers/projectile_manager.dart';
 import 'package:defend_your_flame/core/flame/managers/round_manager.dart';
 import 'package:defend_your_flame/core/flame/managers/shop_manager.dart';
@@ -14,7 +14,7 @@ import 'package:flame/components.dart';
 class MainWorld extends World with HasCollisionDetection {
   final Environment _environment = Environment();
 
-  final PlayerManager _playerManager = PlayerManager();
+  late final PlayerBase _playerBase = PlayerBase(worldWidth: worldWidth, worldHeight: worldHeight);
   final RoundManager _roundManager = RoundManager();
   final EntityManager _entityManager = EntityManager();
   final ProjectileManager _projectileManager = ProjectileManager();
@@ -24,7 +24,7 @@ class MainWorld extends World with HasCollisionDetection {
 
   Environment get environment => _environment;
 
-  PlayerManager get playerManager => _playerManager;
+  PlayerBase get playerBase => _playerBase;
   EntityManager get entityManager => _entityManager;
   ProjectileManager get projectileManager => _projectileManager;
   EffectManager get effectManager => _effectManager;
@@ -38,7 +38,7 @@ class MainWorld extends World with HasCollisionDetection {
   @override
   Future<void> onLoad() async {
     add(_environment);
-    add(_playerManager);
+    add(_playerBase);
     add(_entityManager);
     add(_projectileManager);
     add(_effectManager);

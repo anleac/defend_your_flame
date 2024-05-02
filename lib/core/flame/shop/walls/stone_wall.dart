@@ -21,7 +21,7 @@ class StoneWallPurchase extends Purchasable {
 
   @override
   void purchase(MainWorld world) {
-    world.playerManager.playerBase.wall.updateWallType(WallType.stone);
+    world.playerBase.wall.updateWallType(WallType.stone);
     super.purchase(world);
   }
 }

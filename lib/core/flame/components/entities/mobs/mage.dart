@@ -76,7 +76,7 @@ class Mage extends FlyingEntity with DisappearOnDeath {
 
     world.projectileManager.addProjectile(CurvingMagicProjectile(
         initialPosition: attackPosition,
-        targetPosition: world.playerManager.playerBase.wall.absoluteCenter,
+        targetPosition: world.playerBase.wall.absoluteCenter,
         damage: _baseEntityConfig.damageOnAttack));
   }
 

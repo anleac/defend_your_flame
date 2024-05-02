@@ -14,7 +14,7 @@ class RoundManager extends Component with HasWorldReference<MainWorld> {
 
   void restartGame() {
     _currentRound = 0;
-    world.playerManager.reset();
+    world.playerBase.reset();
     world.entityManager.clearEntities();
 
     startNextRound();

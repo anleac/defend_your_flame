@@ -31,6 +31,6 @@ class GoldIndicator extends PositionComponent with HasWorldReference<MainWorld> 
   }
 
   _setGoldText() {
-    _goldText.text = world.playerManager.totalGold.toString();
+    _goldText.text = world.playerBase.totalGold.toString();
   }
 }

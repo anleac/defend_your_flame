@@ -11,24 +11,26 @@ import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 
 class PlayerBase extends PositionComponent with HasWorldReference<MainWorld>, HasVisibility {
-  static const double baseWidthWithoutWall = 220;
+  static const double baseWidthWithoutWall = 210;
   static const double baseWidth = baseWidthWithoutWall + Wall.wallAreaWidth;
   static const double baseHeight = 180;
 
-  late final Rect _innerBaseRect = Rect.fromLTWH(
-      Wall.wallAreaWidth + position.x,
-      position.y + Wall.wallOffsetFromGround,
-      width + BoundingConstants.maxXCoordinateOffScreen,
-      baseHeight - (Wall.wallOffsetFromGround * 2));
+  late final Rect _innerBaseRect = Rect.fromLTWH(Wall.wallAreaWidth + position.x, position.y + Wall.wallYOffset,
+      width + BoundingConstants.maxXCoordinateOffScreen, baseHeight - (Wall.wallYOffset * 2));
 
-  late final Wall _wall = Wall()..position = Vector2(0, Wall.wallOffsetFromGround);
+  late final Wall _wall = Wall()..position = Vector2(0, Wall.wallYOffset);
   late final FirePit _firePit = FirePit()
     ..position = Vector2(Wall.wallAreaWidth + (baseWidthWithoutWall / 2), baseHeight / 2 - 10);
 
+  int _gold = 0;
+
+  int get totalGold => _gold;
   bool get destroyed => _wall.health <= 0;
   Wall get wall => _wall;
 
-  PlayerBase() : super(size: Vector2(baseWidth, baseHeight));
+  PlayerBase({required double worldWidth, required double worldHeight})
+      : super(
+            size: Vector2(baseWidth, baseHeight), position: Vector2(worldWidth - baseWidth, worldHeight - baseHeight));
 
   @override
   FutureOr<void> onLoad() {
@@ -38,9 +40,12 @@ class PlayerBase extends PositionComponent with HasWorldReference<MainWorld>, Ha
   }
 
   void reset() {
+    _gold = 0;
     _wall.reset();
     isVisible = true;
   }
+
+  void mutateGold(int gold) => _gold += gold;
 
   void takeDamage(int damage, {Vector2? position}) {
     _wall.takeDamage(damage, position: position);

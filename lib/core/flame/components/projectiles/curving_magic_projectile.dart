@@ -67,7 +67,7 @@ class CurvingMagicProjectile extends PositionComponent
 
     if (isCollidingWithWall) {
       removeFromParent();
-      world.playerManager.playerBase.takeDamage(damage, position: wallIntersectionPoints.first);
+      world.playerBase.takeDamage(damage, position: wallIntersectionPoints.first);
     }
 
     if (position.y > world.worldHeight + BoundingConstants.maxYCoordinateOffScreen) {
