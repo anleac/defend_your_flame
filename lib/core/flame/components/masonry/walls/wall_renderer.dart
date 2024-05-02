@@ -35,7 +35,7 @@ class WallRenderer extends PositionComponent with ParentIsA<Wall>, Snapshot {
     _horizontalRange = _verticalRange * ParallaxConstants.horizontalDisplacementFactor;
     _horizontalDiffPerRender = _horizontalRange / _verticalRenders;
 
-    _xOffset = (Wall.wallAreaWidth - parent.size.x) / 2;
+    _xOffset = (parent.scaledSize.x - Wall.wallAreaWidth) / 2;
   }
 
   updateWallRenderValues() {

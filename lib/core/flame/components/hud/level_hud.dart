@@ -5,7 +5,7 @@ import 'package:defend_your_flame/core/flame/components/hud/sprite_with_texts/go
 import 'package:defend_your_flame/core/flame/components/hud/sprite_with_texts/health_indicator.dart';
 import 'package:defend_your_flame/core/flame/components/hud/text/round_text.dart';
 import 'package:defend_your_flame/core/flame/components/hud/text/version_text.dart';
-import 'package:defend_your_flame/core/flame/managers/text_manager.dart';
+import 'package:defend_your_flame/core/flame/managers/text/text_manager.dart';
 import 'package:flame/components.dart';
 
 class LevelHud extends BasicHud {

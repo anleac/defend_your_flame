@@ -6,6 +6,7 @@ import 'package:defend_your_flame/core/flame/components/hud/next_round_internal/
 import 'package:defend_your_flame/core/flame/components/hud/shop/shop_item_description.dart';
 import 'package:defend_your_flame/core/flame/components/hud/shop/shop_item_list.dart';
 import 'package:defend_your_flame/core/flame/components/hud/sprite_with_texts/gold_indicator.dart';
+import 'package:defend_your_flame/core/flame/components/hud/text/shop/no_item_selected_text.dart';
 import 'package:defend_your_flame/core/flame/components/hud/text/shop/shop_title_text.dart';
 import 'package:defend_your_flame/core/flame/shop/purchasable.dart';
 import 'package:flame/components.dart';
@@ -55,10 +56,19 @@ class MainShopHud extends BasicHud with ParentIsA<NextRoundHud> {
     ..anchor = Anchor.center;
 
   late final GoldIndicator _goldIndicator = GoldIndicator()
-    ..position = _headerRect.centerRight.toVector2() - Vector2(130, 15)
+    ..position = _headerRect.centerRight.toVector2() - Vector2(140, 15)
     ..scale = Vector2.all(1.5);
 
+  late final NoItemSelectedText _noItemSelectedText = NoItemSelectedText()
+    ..position = _rightBodyRect.center.toVector2()
+    ..anchor = Anchor.center;
+
   late final ShopItemDescription _shopItemDescription = ShopItemDescription()
+    ..position = _rightBodyRect.center.toVector2()
+    ..anchor = Anchor.center
+    ..size = _rightBodyRect.size.toVector2();
+
+  late final BorderedBackground _descriptionBackground = BorderedBackground(hasFill: false)
     ..position = _rightBodyRect.center.toVector2()
     ..anchor = Anchor.center
     ..size = _rightBodyRect.size.toVector2();
@@ -76,7 +86,8 @@ class MainShopHud extends BasicHud with ParentIsA<NextRoundHud> {
   Future<void> onLoad() async {
     add(_background);
     add(_shopItemList);
-    add(_shopItemDescription);
+    add(_descriptionBackground);
+    add(_noItemSelectedText);
     add(_shopTitleText);
     add(_goldIndicator);
     add(_backButton);
@@ -86,10 +97,17 @@ class MainShopHud extends BasicHud with ParentIsA<NextRoundHud> {
 
   void onBackButtonPressed() {
     _shopItemDescription.itemSelected(null);
+
+    _shopItemDescription.removeFromParent();
+    _noItemSelectedText.isVisible = true;
+
     parent.changeState(NextRoundHudState.menu);
   }
 
   void showItemDescription(Purchasable purchasable) {
+    _noItemSelectedText.isVisible = false;
+    add(_shopItemDescription);
+
     _shopItemDescription.itemSelected(purchasable);
   }
 

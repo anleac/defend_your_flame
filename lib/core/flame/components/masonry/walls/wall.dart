@@ -13,7 +13,7 @@ import 'package:flame/components.dart';
 class Wall extends PositionComponent with HasVisibility, HasWorldReference<MainWorld> {
   // The offset from the bottom of the wall to the bottom of the base
   static const double wallYOffset = 10;
-  static const double wallAreaWidth = 100;
+  static const double wallAreaWidth = 80;
 
   static const double verticalRange = PlayerBase.baseHeight - wallYOffset * 2;
 

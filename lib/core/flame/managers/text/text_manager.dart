@@ -40,10 +40,12 @@ class TextManager {
 
   static final TextPaint _smallHeaderRenderer =
       TextPaint(style: _defaultTextStyle.copyWith(fontSize: ThemingConstants.smallHeaderFontSize));
+
   static final TextPaint _smallHeaderHoveredRenderer = TextPaint(
       style: _defaultTextStyle.copyWith(
           fontSize: ThemingConstants.smallHeaderFontSize,
           color: ThemingConstants.defaultTextColour.darken(ThemingConstants.hoveredDarken)));
+
   static final TextPaint _smallHeaderDisabledRenderer = TextPaint(
       style: _defaultTextStyle.copyWith(
           fontSize: ThemingConstants.smallHeaderFontSize,
@@ -59,4 +61,13 @@ class TextManager {
 
   static final TextPaint _debugRenderer =
       TextPaint(style: TextStyle(fontSize: 18.0, fontFamily: defaultFontFamily, color: BasicPalette.red.color));
+
+  // Return 3 TextPaints, one for each of the 3 states of a button, based off of the passed in textpaint
+  static List<TextPaint> getButtonRenderers(TextPaint textPaint) {
+    return [
+      textPaint,
+      copyWith(textPaint, color: textPaint.style.color!.darken(ThemingConstants.hoveredDarken)),
+      copyWith(textPaint, color: textPaint.style.color!.darken(ThemingConstants.disabledDarken)),
+    ];
+  }
 }

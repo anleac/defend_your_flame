@@ -62,6 +62,9 @@ class AppStrings {
   String get restartGame => getValue('restartGame');
   String get gameOver => getValue('gameOver');
   String get back => getValue('back');
+  String get healthIndicatorText => getValue('healthIndicatorAmount');
+
+  // Shop
   String get shop => getValue('shop');
   String get description => getValue('description');
   String get itemTitleLabel => getValue('itemTitleLabel');
@@ -69,8 +72,7 @@ class AppStrings {
   String get buy => getValue('buy');
   String get cantAfford => getValue('cantAfford');
   String get alreadyPurchased => getValue('alreadyPurchased');
-
-  String get healthIndicatorText => getValue('healthIndicatorAmount');
+  String get noItemSelected => getValue('noItemSelected');
 
   // Purchasables
   String get woodenWallName => getValue('woodenWallName');

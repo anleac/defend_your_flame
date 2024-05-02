@@ -1,10 +1,9 @@
-import 'package:defend_your_flame/core/flame/components/hud/backgrounds/bordered_background.dart';
 import 'package:defend_your_flame/core/flame/components/hud/buttons/shop/shop_item_action_button.dart';
 import 'package:defend_your_flame/core/flame/components/hud/shop/main_shop_hud.dart';
 import 'package:defend_your_flame/core/flame/components/hud/text/shop/item_cost_text.dart';
 import 'package:defend_your_flame/core/flame/components/hud/text/shop/item_description_title.dart';
 import 'package:defend_your_flame/core/flame/components/hud/text/shop/item_title.dart';
-import 'package:defend_your_flame/core/flame/managers/text_manager.dart';
+import 'package:defend_your_flame/core/flame/managers/text/text_manager.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 import 'package:defend_your_flame/core/flame/shop/purchasable.dart';
 import 'package:flame/components.dart';
@@ -13,10 +12,6 @@ class ShopItemDescription extends PositionComponent with ParentIsA<MainShopHud>,
   static const double padding = 20;
   static final Vector2 _itemGap = Vector2(0, 35);
   Purchasable? _selectedItem;
-
-  late final BorderedBackground _background = BorderedBackground(hasFill: false)
-    ..position = Vector2.zero()
-    ..size = size;
 
   late final ItemTitle _itemTitle = ItemTitle()..position = Vector2(padding, padding);
 
@@ -33,12 +28,10 @@ class ShopItemDescription extends PositionComponent with ParentIsA<MainShopHud>,
 
   late final ShopItemActionButton _itemActionButton = ShopItemActionButton()
     ..anchor = Anchor.bottomRight
-    ..isVisible = false
-    ..position = size - Vector2(padding, padding);
+    ..position = size - Vector2(padding, padding) * 1.5;
 
   @override
   Future<void> onLoad() async {
-    add(_background);
     add(_itemTitle);
     add(_costText);
     add(_descriptionLabel);
@@ -67,9 +60,11 @@ class ShopItemDescription extends PositionComponent with ParentIsA<MainShopHud>,
   }
 
   void _updateActionButton() {
-    _itemActionButton.isVisible = _selectedItem != null;
+    if (_selectedItem == null) {
+      return;
+    }
 
-    if (_selectedItem != null && _selectedItem!.purchased) {
+    if (_selectedItem!.purchased) {
       _itemActionButton.updateAction(ShopItemActionButtonState.alreadyPurchased);
     } else {
       _itemActionButton.updateAction(
