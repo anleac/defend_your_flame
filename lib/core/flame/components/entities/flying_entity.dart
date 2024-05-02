@@ -62,7 +62,7 @@ class FlyingEntity extends Entity with HasDraggableCollisions {
     }
 
     if (current == EntityState.walking) {
-      final horizontalDistanceToWall = (world.playerManager.playerBase.position.x - position.x).abs();
+      final horizontalDistanceToWall = (world.playerBase.position.x - position.x).abs();
       if (horizontalDistanceToWall <= _distanceToWallToAttack && world.worldStateManager.playing) {
         current = EntityState.attacking;
       }

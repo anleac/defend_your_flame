@@ -79,6 +79,10 @@ class TextButton extends TextComponent with TapCallbacks, HasVisibility, HoverCa
 
   @override
   void onHoverExit() {
+    if (!_hovered) {
+      return;
+    }
+
     super.textRenderer = defaultTextRenderer;
     _hovered = false;
   }

@@ -14,14 +14,14 @@ class StoneWallPurchase extends Purchasable {
             WallHelper.totalHealth(WallType.stone) - WallHelper.totalHealth(WallType.wood),
             WallHelper.defenseValue(WallType.stone) - WallHelper.defenseValue(WallType.wood),
           ]),
-          cost: 110,
+          cost: 225,
           oneOffPurchase: true,
           dependencies: {WoodenWallPurchase},
         );
 
   @override
   void purchase(MainWorld world) {
-    world.playerManager.playerBase.wall.updateWallType(WallType.stone);
+    world.playerBase.wall.updateWallType(WallType.stone);
     super.purchase(world);
   }
 }

@@ -1,27 +1,21 @@
-import 'package:defend_your_flame/constants/theming_constants.dart';
+import 'dart:async';
+
 import 'package:defend_your_flame/core/flame/components/hud/base_components/default_button.dart';
 import 'package:defend_your_flame/core/flame/components/hud/shop/shop_item_description.dart';
-import 'package:defend_your_flame/core/flame/managers/text_manager.dart';
+import 'package:defend_your_flame/core/flame/managers/text/shop_text_manager.dart';
 import 'package:flame/components.dart';
 
 enum ShopItemActionButtonState { canPurchase, cantAfford, alreadyPurchased }
 
 class ShopItemActionButton extends DefaultButton with ParentIsA<ShopItemDescription> {
-  static final TextPaint _canPurchaseRenderer = TextManager.smallHeaderRenderer;
-  static final TextPaint _cantAffordRenderer =
-      TextManager.copyWith(_canPurchaseRenderer, color: ThemingConstants.cantAffordColour);
-
-  static final TextPaint _alreadyPurchasedRenderer =
-      TextManager.copyWith(_canPurchaseRenderer, color: ThemingConstants.purchasedItemColour);
-
   ShopItemActionButtonState _actionState = ShopItemActionButtonState.canPurchase;
 
   ShopItemActionButton() : super();
 
   @override
-  void onMount() {
+  FutureOr<void> onLoad() {
     text = game.appStrings.buy;
-    super.onMount();
+    return super.onLoad();
   }
 
   @override
@@ -34,15 +28,15 @@ class ShopItemActionButton extends DefaultButton with ParentIsA<ShopItemDescript
     switch (_actionState) {
       case ShopItemActionButtonState.canPurchase:
         text = game.appStrings.buy;
-        textRenderer = _canPurchaseRenderer;
+        textRenderer = ShopTextManager.canPurchaseRenderer;
         break;
       case ShopItemActionButtonState.cantAfford:
         text = game.appStrings.cantAfford;
-        textRenderer = _cantAffordRenderer;
+        textRenderer = ShopTextManager.cantAffordRenderer;
         break;
       case ShopItemActionButtonState.alreadyPurchased:
         text = game.appStrings.alreadyPurchased;
-        textRenderer = _alreadyPurchasedRenderer;
+        textRenderer = ShopTextManager.alreadyPurchasedRenderer;
         break;
     }
 

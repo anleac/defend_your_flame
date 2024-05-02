@@ -1,5 +1,5 @@
 import 'package:defend_your_flame/core/flame/components/effects/text/floating_text.dart';
-import 'package:defend_your_flame/core/flame/managers/text_manager.dart';
+import 'package:defend_your_flame/core/flame/managers/text/text_manager.dart';
 import 'package:flame/components.dart';
 import 'package:flame/text.dart';
 import 'package:flutter/material.dart';
