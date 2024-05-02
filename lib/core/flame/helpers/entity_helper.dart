@@ -5,6 +5,26 @@ import 'package:flame/components.dart';
 import 'package:flutter/rendering.dart';
 
 class EntityHelper {
+  static CircleHitbox createCircleHitbox({
+    required double radius,
+    Vector2? position,
+    CollisionType collisionType = CollisionType.passive,
+    bool isSolid = false,
+  }) {
+    final hitbox = CircleHitbox(
+      position: position,
+      radius: radius,
+      collisionType: collisionType,
+    )..isSolid = isSolid;
+
+    if (DebugConstants.drawEntityCollisionBoxes) {
+      hitbox.renderShape = true;
+      hitbox.paint = DebugConstants.transparentPaint;
+    }
+
+    return hitbox;
+  }
+
   static RectangleHitbox createRectangleHitbox({
     required Vector2 size,
     Vector2? position,

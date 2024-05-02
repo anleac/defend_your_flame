@@ -145,9 +145,10 @@ class DraggableEntity extends Entity with DragCallbacks {
   }
 
   @override
-  void onTapUp(TapUpEvent event) {
-    stopDragging();
-  }
+  void onTapUp(TapUpEvent event) => stopDragging();
+
+  @override
+  void onTapCancel(TapCancelEvent event) => stopDragging();
 
   @override
   void onDragCancel(DragCancelEvent event) {
