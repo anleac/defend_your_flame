@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.11.1 alpha - 2nd May, 2024
+
+### New Features
+- N/A
+
+### Bug Fixes
+- N/A
+
+### Improvements
+- Improved the colours within the shop HUD to be more consistent with whats been purchased
+- Small wording changes
+- Updated the cost of both wooden wall and stone wall from 65 and 110, to 150 and 225 gold respectively
+
 ## 0.11.0 alpha - 1st May, 2024
 
 ### New Features
