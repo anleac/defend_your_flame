@@ -9,6 +9,7 @@ import 'package:defend_your_flame/core/flame/managers/projectile_manager.dart';
 import 'package:defend_your_flame/core/flame/managers/round_manager.dart';
 import 'package:defend_your_flame/core/flame/managers/shop_manager.dart';
 import 'package:defend_your_flame/core/flame/managers/world_state_manager.dart';
+import 'package:defend_your_flame/core/flame/worlds/main_world_state.dart';
 import 'package:flame/components.dart';
 
 class MainWorld extends World with HasCollisionDetection {
@@ -58,5 +59,17 @@ class MainWorld extends World with HasCollisionDetection {
   _addNonVisualComponents() {
     add(_roundManager);
     add(_shopManager);
+  }
+
+  void moonClickFastTrack() {
+    // Only allow this to be used in the main menu.
+    if (_worldStateManager.currentState != MainWorldState.mainMenu) {
+      return;
+    }
+
+    // Advance to round 10, give gold, and go to the shop.
+    _worldStateManager.changeState(MainWorldState.betweenRounds);
+    _roundManager.overrideRound(9); // It's actually 9, because clicking next round will go to 10.
+    _playerBase.mutateGold(500);
   }
 }

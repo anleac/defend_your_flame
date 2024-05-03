@@ -9,6 +9,8 @@ class DamageConstants {
   static const double wallImpactDamage = 5;
   static const double collisionDamage = 8;
 
+  static const double clickingDamage = 2;
+
   static const double _fractionOfMaxVelocityForDragDamage = 0.45;
   static const double _fractionOfMaxVelocityForFallDamage = 0.4;
   static const double _fractionOfMaxVelocityForCollisionDamage = 0.3;

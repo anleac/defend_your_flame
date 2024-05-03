@@ -19,4 +19,8 @@ class RoundManager extends Component with HasWorldReference<MainWorld> {
 
     startNextRound();
   }
+
+  void overrideRound(int round) {
+    _currentRound = round;
+  }
 }

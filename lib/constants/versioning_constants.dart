@@ -17,4 +17,7 @@ class VersioningConstants {
     var releaseSuffix = _releaseVersion != ReleaseVersion.release ? _releaseVersion.toString().split('.').last : '';
     return 'v$_majorVersion.$_minorVersion.$_patchVersion $releaseSuffix'.trim();
   }
+
+  static const bool isAlpha = _releaseVersion == ReleaseVersion.alpha;
+  static const bool isBeta = _releaseVersion == ReleaseVersion.beta;
 }
