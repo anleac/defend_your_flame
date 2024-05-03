@@ -13,12 +13,13 @@ class ShopItemButton extends TextButton with ParentIsA<ShopItemList>, HasAncesto
           text: purchasable.name,
           underlined: false,
           comingSoon: purchasable.comingSoon,
-          defaultTextRenderer:
-              purchasable.purchased ? ShopTextManager.alreadyPurchasedRenderer : ShopTextManager.canPurchaseRenderer,
-          hoveredTextRenderer: purchasable.purchased
+          defaultTextRenderer: purchasable.purchasedMaxAmount
+              ? ShopTextManager.alreadyPurchasedRenderer
+              : ShopTextManager.canPurchaseRenderer,
+          hoveredTextRenderer: purchasable.purchasedMaxAmount
               ? ShopTextManager.alreadyPurchasedRendererHovered
               : ShopTextManager.canPurchaseRendererHovered,
-          disabledRenderer: purchasable.purchased
+          disabledRenderer: purchasable.purchasedMaxAmount
               ? ShopTextManager.alreadyPurchasedRendererDisabled
               : ShopTextManager.canPurchaseRendererDisabled,
         );

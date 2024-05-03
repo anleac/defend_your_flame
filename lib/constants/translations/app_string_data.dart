@@ -5,15 +5,18 @@ class AppStringData {
   static final Map<String, Map<String, String>> values = {
     'en': {
       'roundText': 'Round ${AppStrings.placeholderText}',
-      'startGame': 'Start Game',
-      'loadGame': 'Load Game',
       'saveGame': 'Save Game',
-      'credits': 'Credits',
       'restartGame': 'Restart Game',
       'gameOver': 'Game Over',
       'back': 'Back',
       'startRound': 'Start Next Round',
       'healthIndicatorAmount': '${AppStrings.placeholderText}/${AppStrings.placeholderText}',
+
+      // Main menu
+      'startGame': 'Start Game',
+      'loadGame': 'Load Game',
+      'howToPlay': 'How To Play',
+      'credits': 'Credits',
 
       // Shop
       'enterShop': "Enter Shop",
@@ -25,6 +28,7 @@ class AppStringData {
       'cantAfford': 'Not enough gold',
       'alreadyPurchased': 'Purchased',
       'noItemSelected': 'No item selected',
+      'potentialPurchaseCount': '${AppStrings.placeholderText}/${AppStrings.placeholderText} purchased',
 
       // Purchasables
       'woodenWallName': 'Wooden Wall',
@@ -38,6 +42,12 @@ class AppStringData {
         "+${AppStrings.placeholderText} max wall health",
         "+${AppStrings.placeholderText} wall defence",
       ], quote: "I found a wall of wood, and left it a wall\nof stone."),
+
+      'defensiveTotemName': 'Attack Totem',
+      'defensiveTotemDescription': AppStringHelper.purchasableDescription(attributes: [
+        "Automatically attacks enemies",
+        "Damage scales with the strength of\nyour flame",
+      ], quote: "A totem to protect your base."),
     },
   };
 }

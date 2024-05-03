@@ -2,10 +2,14 @@ import 'package:defend_your_flame/constants/physics_constants.dart';
 import 'package:flame/components.dart';
 
 class DamageConstants {
+  // We also base the health of most entities on the fall damage.
+  // This is because the basic entities should die from a fall from a certain height.
   static const double fallDamage = 10;
 
-  static const double wallImpactDamage = fallDamage / 2;
-  static const double collisionDamage = fallDamage / 2;
+  static const double wallImpactDamage = 5;
+  static const double collisionDamage = 8;
+
+  static const double clickingDamage = 2;
 
   static const double _fractionOfMaxVelocityForDragDamage = 0.45;
   static const double _fractionOfMaxVelocityForFallDamage = 0.4;

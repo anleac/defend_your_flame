@@ -6,7 +6,7 @@ import 'package:flame/components.dart';
 // Component functions to try have a correctly aligned "icon" / sprite against a text.
 // This will be used to conform HUD elements for consistency.
 class SpriteWithText extends PositionComponent {
-  static const gapBetween = 8;
+  static const double gapBetween = 8;
 
   final SpriteComponent sprite;
   final TextComponent text;
@@ -19,8 +19,18 @@ class SpriteWithText extends PositionComponent {
   _generateLabelPosition() {
     // Given we are inside the component rendering, we just need to consider size and not absolute position.
     var rightSpritePosition = Vector2(sprite.scaledSize.x, sprite.scaledSize.y / 2);
-    text.position = Vector2(max(rightSpritePosition.y, minimumGapBetween) + gapBetween, rightSpritePosition.y);
+    var leftOffsetFromZero = max(rightSpritePosition.x, minimumGapBetween) + gapBetween;
+    text.position = Vector2(leftOffsetFromZero, rightSpritePosition.y);
     text.anchor = Anchor.centerLeft;
+
+    size = sprite.scaledSize + Vector2(text.scaledSize.x, 0) + Vector2(leftOffsetFromZero, 0);
+  }
+
+  updateLabelText(String newText) {
+    if (text.text == newText) return;
+
+    text.text = newText;
+    _generateLabelPosition();
   }
 
   @override

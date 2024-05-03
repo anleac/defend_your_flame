@@ -82,7 +82,7 @@ class FlyingEntity extends Entity with HasDraggableCollisions {
   @override
   void onTapDown(TapDownEvent event) {
     // Inflict damage on tap and make them idle if they were walking.
-    takeDamage(DamageConstants.fallDamage / 5);
+    takeDamage(DamageConstants.clickingDamage);
     _idleTimer = 0.0;
 
     if (current == EntityState.walking) {

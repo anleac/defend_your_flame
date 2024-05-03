@@ -1,6 +1,7 @@
 import 'package:defend_your_flame/core/flame/components/hud/backgrounds/bordered_background.dart';
 import 'package:defend_your_flame/core/flame/components/hud/base_components/basic_hud.dart';
 import 'package:defend_your_flame/core/flame/components/hud/buttons/go_back_button.dart';
+import 'package:defend_your_flame/core/flame/components/hud/components/default_hud_background.dart';
 import 'package:defend_your_flame/core/flame/components/hud/next_round_hud.dart';
 import 'package:defend_your_flame/core/flame/components/hud/next_round_internal/next_round_hud_state.dart';
 import 'package:defend_your_flame/core/flame/components/hud/shop/shop_item_description.dart';
@@ -15,12 +16,7 @@ import 'package:flame/image_composition.dart';
 class MainShopHud extends BasicHud with ParentIsA<NextRoundHud> {
   static const double _padding = 30;
 
-  late final Vector2 _hudSize = Vector2(parent.world.worldWidth / 1.2, parent.world.worldHeight / 1.2);
-
-  late final BorderedBackground _background = BorderedBackground()
-    ..position = Vector2(world.worldWidth / 2, world.worldHeight / 2)
-    ..anchor = Anchor.center
-    ..size = _hudSize;
+  late final DefaultHudBackground _background = DefaultHudBackground(world: world);
 
   // Offset will be accurately represented by the top left position of the background, as it's the center of the HUD.
   late final Vector2 _offset = _background.topLeftPosition;
@@ -28,26 +24,26 @@ class MainShopHud extends BasicHud with ParentIsA<NextRoundHud> {
   // TODO: I'd like to create an abstract base component that has header/footer and a body, to make positioning a lot easier.
   // Perhaps we can re-vist this in the future if another HUD requires this. For now, for PoC, I'll add the logic here.
   static const double _headerFooterHeight = 80;
-  late final Rect _headerRect = Rect.fromLTWH(_offset.x, _offset.y, _hudSize.x, _headerFooterHeight);
-  late final Rect _footerRect =
-      Rect.fromLTWH(_offset.x, _hudSize.y - _headerFooterHeight + _offset.y, _hudSize.x, _headerFooterHeight);
+  late final Rect _headerRect = Rect.fromLTWH(_offset.x, _offset.y, _background.size.x, _headerFooterHeight);
+  late final Rect _footerRect = Rect.fromLTWH(
+      _offset.x, _background.size.y - _headerFooterHeight + _offset.y, _background.size.x, _headerFooterHeight);
 
-  late final Rect _bodyRect =
-      Rect.fromLTWH(_offset.x, _headerFooterHeight + _offset.y, _hudSize.x, _hudSize.y - (_headerFooterHeight * 2));
+  late final Rect _bodyRect = Rect.fromLTWH(
+      _offset.x, _headerFooterHeight + _offset.y, _background.size.x, _background.size.y - (_headerFooterHeight * 2));
 
   // In this case, the right body rectangle will take 2/3rds of the body, and the left will take 1/3rd.
   // This is because the right side will contain the description of the item, and the left will contain the shop items.
   late final Rect _rightBodyRect = Rect.fromLTWH(
-    _bodyRect.right - _hudSize.x * 2 / 3 + _padding,
+    _bodyRect.right - _background.size.x * 2 / 3 + _padding,
     _bodyRect.top,
-    _hudSize.x * 2 / 3 - _padding * 2,
+    _background.size.x * 2 / 3 - _padding * 2,
     _bodyRect.height,
   );
 
   late final Rect _leftBodyRect = Rect.fromLTWH(
     _bodyRect.left + _padding,
     _bodyRect.top,
-    _hudSize.x / 3 - (_padding / 2), // Reduce the padding between the two rectangles internally.
+    _background.size.x / 3 - (_padding / 2), // Reduce the padding between the two rectangles internally.
     _bodyRect.height,
   );
 
@@ -56,7 +52,8 @@ class MainShopHud extends BasicHud with ParentIsA<NextRoundHud> {
     ..anchor = Anchor.center;
 
   late final GoldIndicator _goldIndicator = GoldIndicator()
-    ..position = _headerRect.centerRight.toVector2() - Vector2(140, 15)
+    ..position = _headerRect.centerRight.toVector2()
+    ..anchor = Anchor.centerRight
     ..scale = Vector2.all(1.5);
 
   late final NoItemSelectedText _noItemSelectedText = NoItemSelectedText()

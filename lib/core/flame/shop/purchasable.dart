@@ -6,26 +6,25 @@ abstract class Purchasable {
   final String name;
   final String description;
   final int cost;
-  final bool oneOffPurchase;
-
+  final int maxPurchaseCount;
   final bool comingSoon;
 
-  bool _purchased = false;
-  bool get purchased => _purchased;
+  int _purchaseCount = 0;
+
+  bool get purchasedAnyAmount => _purchaseCount > 0;
+  bool get purchasedMaxAmount => _purchaseCount >= maxPurchaseCount;
+  int get purchaseCount => _purchaseCount;
 
   Purchasable(
       {required this.name,
       required this.description,
       required this.cost,
-      required this.oneOffPurchase,
+      this.maxPurchaseCount = 1,
       this.dependencies = const {},
-      this.comingSoon = false,
-      bool purchased = false}) {
-    _purchased = purchased;
-  }
+      this.comingSoon = false});
 
   void purchase(MainWorld world) {
-    _purchased = true;
+    _purchaseCount++;
   }
 
   // TODO post-beta release: re-consider this logic, feels hacky and also not the most efficient.
@@ -36,6 +35,6 @@ abstract class Purchasable {
 
     return purchasables
         .where((element) => dependencies.contains(element.runtimeType))
-        .every((element) => element.purchased);
+        .every((element) => element.purchasedAnyAmount);
   }
 }

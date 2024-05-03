@@ -93,7 +93,7 @@ class Wall extends PositionComponent with HasVisibility, HasWorldReference<MainW
   }
 
   void reset() {
-    updateWallType(WallType.wood, resetHealth: true);
+    updateWallType(WallType.barricade, resetHealth: true);
 
     _hitbox?.collisionType = CollisionType.active;
     isVisible = true;

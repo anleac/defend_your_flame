@@ -21,6 +21,7 @@ class GoldIndicator extends PositionComponent with HasWorldReference<MainWorld> 
   @override
   void onMount() {
     _setGoldText();
+    _updateSizeOfParent();
     super.onMount();
   }
 
@@ -30,7 +31,13 @@ class GoldIndicator extends PositionComponent with HasWorldReference<MainWorld> 
     _setGoldText();
   }
 
+  _updateSizeOfParent() {
+    size = _indicator.size;
+  }
+
   _setGoldText() {
-    _goldText.text = world.playerBase.totalGold.toString();
+    var gold = world.playerBase.totalGold.toString();
+    _indicator.updateLabelText(gold);
+    _updateSizeOfParent();
   }
 }

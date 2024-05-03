@@ -4,7 +4,7 @@ import 'package:defend_your_flame/core/flame/components/entities/configs/entity_
 import 'package:defend_your_flame/core/flame/components/entities/configs/flying_entity_config.dart';
 import 'package:defend_your_flame/core/flame/components/entities/disappear_on_death.dart';
 import 'package:defend_your_flame/core/flame/components/entities/flying_entity.dart';
-import 'package:defend_your_flame/core/flame/components/projectiles/curving_magic_projectile.dart';
+import 'package:defend_your_flame/core/flame/components/projectiles/concrete_curving_projectiles/mage_curving_projectile.dart';
 import 'package:defend_your_flame/core/flame/helpers/entity_helper.dart';
 import 'package:defend_your_flame/helpers/global_vars.dart';
 import 'package:defend_your_flame/helpers/misc_helper.dart';
@@ -74,7 +74,7 @@ class Mage extends FlyingEntity with DisappearOnDeath {
     var attackPosition =
         _hitbox.absoluteTopLeftPosition + Vector2(_hitbox.width, 0) + (Vector2(8, -22) * scaleModifier);
 
-    world.projectileManager.addProjectile(CurvingMagicProjectile(
+    world.projectileManager.addProjectile(MageCurvingProjectile(
         initialPosition: attackPosition,
         targetPosition: world.playerBase.wall.absoluteCenter,
         damage: _baseEntityConfig.damageOnAttack));
