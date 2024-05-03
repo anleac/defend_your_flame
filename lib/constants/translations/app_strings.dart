@@ -53,16 +53,21 @@ class AppStrings {
 
   // Below this are declarations of all the strings used in the app, above is setup.
   String roundText(int round) => TranslationHelper.insertNumber(getValue('roundText'), round);
-  String get startRound => getValue('startRound');
-  String get startGame => getValue('startGame');
-  String get loadGame => getValue('loadGame');
-  String get saveGame => getValue('saveGame');
-  String get enterShop => getValue('enterShop');
-  String get credits => getValue('credits');
   String get restartGame => getValue('restartGame');
   String get gameOver => getValue('gameOver');
   String get back => getValue('back');
   String get healthIndicatorText => getValue('healthIndicatorAmount');
+
+  // Main menu
+  String get startGame => getValue('startGame');
+  String get loadGame => getValue('loadGame');
+  String get howToPlay => getValue('howToPlay');
+  String get credits => getValue('credits');
+
+  // Between rounds
+  String get startRound => getValue('startRound');
+  String get saveGame => getValue('saveGame');
+  String get enterShop => getValue('enterShop');
 
   // Shop
   String get shop => getValue('shop');

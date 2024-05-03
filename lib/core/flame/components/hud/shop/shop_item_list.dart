@@ -1,6 +1,6 @@
 import 'package:defend_your_flame/core/flame/components/hud/backgrounds/bordered_background.dart';
 import 'package:defend_your_flame/core/flame/components/hud/buttons/shop/shop_item_button.dart';
-import 'package:defend_your_flame/core/flame/components/hud/misc/horizontal_divider.dart';
+import 'package:defend_your_flame/core/flame/components/hud/components/horizontal_divider.dart';
 import 'package:defend_your_flame/core/flame/components/hud/shop/main_shop_hud.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 import 'package:flame/components.dart';
