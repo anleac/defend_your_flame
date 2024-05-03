@@ -1,13 +1,13 @@
 import 'dart:async';
 
 import 'package:defend_your_flame/core/flame/components/masonry/flames/purple_flame.dart';
+import 'package:defend_your_flame/core/flame/components/masonry/player_base_component.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/totems/stone_totem.dart';
 import 'package:defend_your_flame/core/flame/components/projectiles/concrete_curving_projectiles/attack_totem_curving_projectile.dart';
-import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 import 'package:defend_your_flame/helpers/global_vars.dart';
 import 'package:flame/components.dart';
 
-class AttackTotem extends PositionComponent with HasWorldReference<MainWorld> {
+class AttackTotem extends PlayerBaseComponent {
   final StoneTotem _stoneTotem = StoneTotem();
   late final PurpleFlame _firePitFlame = PurpleFlame()
     ..scale = Vector2(1.4, 2.3)

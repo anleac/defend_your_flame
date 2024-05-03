@@ -34,17 +34,13 @@ class PhysicsHelper {
       required double horizontalPixelsPerSecond,
       required Vector2 gravity,
       double targetXVelocity = 0}) {
-    // Calculate the relative horizontal speed
     double relativeHorizontalSpeed = horizontalPixelsPerSecond - targetXVelocity;
 
-    // Calculate the distance to the target
     double distanceX = targetPosition.x - initialPosition.x;
     double distanceY = targetPosition.y - initialPosition.y;
 
-    // Calculate the time it will take to reach the target
     double time = distanceX.abs() / relativeHorizontalSpeed;
 
-    // Calculate the y velocity needed to reach the target in the given time, taking into account the effect of gravity
     double vy = distanceY / time - 0.5 * gravity.y * time;
 
     return Vector2(relativeHorizontalSpeed * (distanceX >= 0 ? 1 : -1), vy);

@@ -1,9 +1,9 @@
 import 'package:defend_your_flame/core/flame/main_game.dart';
-import 'package:defend_your_flame/core/flame/shop/defenses/attack_totem.dart';
-import 'package:defend_your_flame/core/flame/shop/walls/wooden_wall.dart';
+import 'package:defend_your_flame/core/flame/shop/defenses/attack_totem_purchase.dart';
+import 'package:defend_your_flame/core/flame/shop/walls/wooden_wall_purchase.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 import 'package:defend_your_flame/core/flame/shop/purchasable.dart';
-import 'package:defend_your_flame/core/flame/shop/walls/stone_wall.dart';
+import 'package:defend_your_flame/core/flame/shop/walls/stone_wall_purchase.dart';
 import 'package:flame/components.dart';
 
 class ShopManager extends Component with HasWorldReference<MainWorld>, HasGameReference<MainGame> {

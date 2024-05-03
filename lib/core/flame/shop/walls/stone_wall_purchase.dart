@@ -3,7 +3,7 @@ import 'package:defend_your_flame/constants/translations/app_strings.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/walls/wall_helper.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/walls/wall_type.dart';
 import 'package:defend_your_flame/core/flame/shop/purchasable.dart';
-import 'package:defend_your_flame/core/flame/shop/walls/wooden_wall.dart';
+import 'package:defend_your_flame/core/flame/shop/walls/wooden_wall_purchase.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 
 class StoneWallPurchase extends Purchasable {

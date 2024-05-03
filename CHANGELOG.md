@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.12.0 alpha - 3rd May, 2024
+
+### New Features
+- Added in new `Attack Totem` purchasable, max of 2 currently
+   - 120 gold each, they will auto attack incoming enemies currently for 8 damage, in theory accurate, but the physics could use improving here
+- Added in a secret way to bypass to level 10 with gold, useful for debugging
+
+### Bug Fixes
+- N/A
+
+### Improvements
+- Made the base slightly wider
+- Improved the UX of the gold indicator labels
+- Small UX improvements to the shop UX
+- Started scaffolding for a "How To Play" screen
+- Increased costs of walls again
+- Decreased gold on kill for strong skeletons from 12 to 10
+- Increased damage of entity drag collisions from 5 to 8
+
 ## 0.11.1 alpha - 2nd May, 2024
 
 ### New Features

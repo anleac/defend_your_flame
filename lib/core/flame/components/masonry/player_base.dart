@@ -5,6 +5,7 @@ import 'package:defend_your_flame/constants/debug_constants.dart';
 import 'package:defend_your_flame/core/flame/components/entities/entity.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/fire_pit.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/misc/rock_circle.dart';
+import 'package:defend_your_flame/core/flame/components/masonry/player_base_component.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/totems/attack_totem.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/walls/wall.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
@@ -30,6 +31,13 @@ class PlayerBase extends PositionComponent with HasWorldReference<MainWorld>, Ha
   bool get destroyed => _wall.health <= 0;
   Wall get wall => _wall;
 
+  final List<PlayerBaseComponent> _additionalComponents = [];
+
+  late final List<AttackTotem> _potentialAttackTotems = [
+    AttackTotem()..position = _firePit.position + Vector2(RockCircle.ovalWidth / 2 + 10, -52),
+    AttackTotem()..position = _firePit.position + Vector2(RockCircle.ovalWidth / 2 + 13, -10),
+  ];
+
   PlayerBase({required double worldWidth, required double worldHeight})
       : super(
             size: Vector2(baseWidth, baseHeight), position: Vector2(worldWidth - baseWidth, worldHeight - baseHeight));
@@ -39,8 +47,6 @@ class PlayerBase extends PositionComponent with HasWorldReference<MainWorld>, Ha
     add(_wall);
     add(_firePit);
 
-    add(AttackTotem()..position = _firePit.position + Vector2(RockCircle.ovalWidth / 2 + 10, -52));
-    add(AttackTotem()..position = _firePit.position + Vector2(RockCircle.ovalWidth / 2 + 13, -10));
     return super.onLoad();
   }
 
@@ -48,6 +54,12 @@ class PlayerBase extends PositionComponent with HasWorldReference<MainWorld>, Ha
     _gold = 0;
     _wall.reset();
     isVisible = true;
+
+    for (var component in _additionalComponents) {
+      component.removeFromParent();
+    }
+
+    _additionalComponents.clear();
   }
 
   void mutateGold(int gold) => _gold += gold;
@@ -61,6 +73,13 @@ class PlayerBase extends PositionComponent with HasWorldReference<MainWorld>, Ha
       if (world.worldStateManager.playing) {
         world.worldStateManager.changeState(MainWorldState.gameOver);
       }
+    }
+  }
+
+  void addAttackTotem(int totemIndex) {
+    if (totemIndex < _potentialAttackTotems.length) {
+      var totem = _potentialAttackTotems[totemIndex];
+      _addAdditionalBaseComponent(totem);
     }
   }
 
@@ -82,5 +101,10 @@ class PlayerBase extends PositionComponent with HasWorldReference<MainWorld>, Ha
     }
 
     return _innerBaseRect.contains(entity.center.toOffset());
+  }
+
+  _addAdditionalBaseComponent(PlayerBaseComponent component) {
+    _additionalComponents.add(component);
+    add(component);
   }
 }
