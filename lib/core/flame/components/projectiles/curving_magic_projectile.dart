@@ -9,6 +9,7 @@ import 'dart:async';
 import 'package:defend_your_flame/constants/bounding_constants.dart';
 import 'package:defend_your_flame/constants/physics_constants.dart';
 import 'package:defend_your_flame/core/flame/components/effects/particles/trailing_particles.dart';
+import 'package:defend_your_flame/core/flame/components/entities/mixins/has_entity_collisions.dart';
 import 'package:defend_your_flame/core/flame/mixins/has_wall_collision.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 import 'package:defend_your_flame/helpers/physics_helper.dart';
@@ -18,42 +19,56 @@ import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 
 class CurvingMagicProjectile extends PositionComponent
-    with CollisionCallbacks, HasWallCollision, HasWorldReference<MainWorld> {
+    with CollisionCallbacks, HasWallCollision, HasEntityCollisions, HasWorldReference<MainWorld> {
   final Vector2 initialPosition;
   final Vector2 targetPosition;
 
+  final double targetXVelocity;
+
   final int damage;
+  final bool isFriendly;
 
   Vector2 _velocity = Vector2.zero();
 
   final double horizontalPixelsPerSecond;
+  final Color colorFrom;
+  final Color colorTo;
+
+  late Vector2 _gravityInUse;
 
   late final TrailingParticles _trailingParticles = TrailingParticles(
     emissionsPerSecond: 50,
     particleLifetime: 0.22,
-    colorFrom: Colors.deepOrange,
-    colorTo: const Color.fromARGB(255, 238, 16, 0),
+    colorFrom: colorFrom,
+    colorTo: colorTo,
   )..position = Vector2.zero();
 
   CurvingMagicProjectile({
     required this.initialPosition,
     required this.targetPosition,
     required this.damage,
+    required this.colorFrom,
+    required this.colorTo,
+    this.targetXVelocity = 0,
     this.horizontalPixelsPerSecond = 170,
+    this.isFriendly = false,
+    bool strongMagicalGravity = false,
   }) {
     position = initialPosition.clone();
+    _gravityInUse = strongMagicalGravity ? PhysicsConstants.strongMagicalGravity : PhysicsConstants.magicalGravity;
     _velocity = PhysicsHelper.calculateVelocityToTarget(
       initialPosition: initialPosition,
       targetPosition: targetPosition,
       horizontalPixelsPerSecond: horizontalPixelsPerSecond,
-      gravity: PhysicsConstants.magicalGravity,
+      gravity: _gravityInUse,
+      targetXVelocity: targetXVelocity,
     );
   }
 
   @override
   FutureOr<void> onLoad() {
     add(_trailingParticles);
-    add(CircleHitbox(radius: 2));
+    add(CircleHitbox(radius: 3));
 
     return super.onLoad();
   }
@@ -62,12 +77,19 @@ class CurvingMagicProjectile extends PositionComponent
   void update(double dt) {
     super.update(dt);
 
-    _velocity = PhysicsHelper.applyMagicalGravity(_velocity, dt);
+    _velocity = PhysicsHelper.applyCustomGravity(_velocity, _gravityInUse, dt);
     position = TimestepHelper.addVector2(position, _velocity, dt);
 
     if (isCollidingWithWall) {
       removeFromParent();
-      world.playerBase.takeDamage(damage, position: wallIntersectionPoints.first);
+      if (!isFriendly) {
+        world.playerBase.takeDamage(damage, position: wallIntersectionPoints.first);
+      }
+    } else if (isCollidingWithEntity) {
+      removeFromParent();
+      if (isFriendly) {
+        collidedEntity?.takeDamage(damage.toDouble());
+      }
     }
 
     if (position.y > world.worldHeight + BoundingConstants.maxYCoordinateOffScreen) {

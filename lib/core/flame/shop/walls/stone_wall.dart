@@ -1,21 +1,20 @@
+import 'package:defend_your_flame/constants/translations/app_string_helper.dart';
 import 'package:defend_your_flame/constants/translations/app_strings.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/walls/wall_helper.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/walls/wall_type.dart';
 import 'package:defend_your_flame/core/flame/shop/purchasable.dart';
 import 'package:defend_your_flame/core/flame/shop/walls/wooden_wall.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
-import 'package:defend_your_flame/helpers/translation_helper.dart';
 
 class StoneWallPurchase extends Purchasable {
   StoneWallPurchase(AppStrings appStrings)
       : super(
           name: appStrings.stoneWallName,
-          description: TranslationHelper.insertNumbers(appStrings.stoneWallDescription, [
+          description: AppStringHelper.insertNumbers(appStrings.stoneWallDescription, [
             WallHelper.totalHealth(WallType.stone) - WallHelper.totalHealth(WallType.wood),
             WallHelper.defenseValue(WallType.stone) - WallHelper.defenseValue(WallType.wood),
           ]),
-          cost: 225,
-          oneOffPurchase: true,
+          cost: 300,
           dependencies: {WoodenWallPurchase},
         );
 

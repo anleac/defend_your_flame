@@ -45,6 +45,8 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
 
   Vector2 get startPosition => _startingPosition;
 
+  bool get isWalking => current == EntityState.walking;
+
   Entity({required this.entityConfig, this.scaleModifier = 1}) {
     size = entityConfig.defaultSize;
     scale = Vector2.all(entityConfig.defaultScale * scaleModifier);

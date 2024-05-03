@@ -1,4 +1,5 @@
 import 'package:defend_your_flame/core/flame/main_game.dart';
+import 'package:defend_your_flame/core/flame/shop/defenses/attack_totem.dart';
 import 'package:defend_your_flame/core/flame/shop/walls/wooden_wall.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 import 'package:defend_your_flame/core/flame/shop/purchasable.dart';
@@ -9,13 +10,14 @@ class ShopManager extends Component with HasWorldReference<MainWorld>, HasGameRe
   late final List<Purchasable> _purchasables = [
     WoodenWallPurchase(game.appStrings),
     StoneWallPurchase(game.appStrings),
+    AttackTotemPurchase(game.appStrings),
   ];
 
   List<Purchasable> get purchasables => _purchasables;
 
   void handlePurchase(Purchasable purchasable) {
     var purchaseIndex = _purchasables.indexWhere((element) => element == purchasable);
-    if (_purchasables[purchaseIndex].purchased || world.playerBase.totalGold < purchasable.cost) {
+    if (_purchasables[purchaseIndex].purchasedMaxAmount || world.playerBase.totalGold < purchasable.cost) {
       return;
     }
 

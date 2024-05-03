@@ -1,5 +1,5 @@
 import 'package:defend_your_flame/constants/translations/app_string_data.dart';
-import 'package:defend_your_flame/helpers/translation_helper.dart';
+import 'package:defend_your_flame/constants/translations/app_string_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -52,7 +52,7 @@ class AppStrings {
   }
 
   // Below this are declarations of all the strings used in the app, above is setup.
-  String roundText(int round) => TranslationHelper.insertNumber(getValue('roundText'), round);
+  String roundText(int round) => AppStringHelper.insertNumber(getValue('roundText'), round);
   String get restartGame => getValue('restartGame');
   String get gameOver => getValue('gameOver');
   String get back => getValue('back');
@@ -71,6 +71,7 @@ class AppStrings {
 
   // Shop
   String get shop => getValue('shop');
+  String get potentialPurchaseCount => getValue('potentialPurchaseCount');
   String get description => getValue('description');
   String get itemTitleLabel => getValue('itemTitleLabel');
   String get itemCostLabel => getValue('itemCostLabel');
@@ -78,6 +79,8 @@ class AppStrings {
   String get cantAfford => getValue('cantAfford');
   String get alreadyPurchased => getValue('alreadyPurchased');
   String get noItemSelected => getValue('noItemSelected');
+  String get attackTotemName => getValue('defensiveTotemName');
+  String get attackTotemDescription => getValue('defensiveTotemDescription');
 
   // Purchasables
   String get woodenWallName => getValue('woodenWallName');

@@ -5,6 +5,7 @@ import 'package:defend_your_flame/core/flame/components/entities/entity.dart';
 import 'package:defend_your_flame/core/flame/helpers/entity_spawn_helper.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world_state.dart';
+import 'package:defend_your_flame/helpers/misc_helper.dart';
 import 'package:flame/components.dart';
 
 class EntityManager extends Component with HasWorldReference<MainWorld> {
@@ -104,6 +105,17 @@ class EntityManager extends Component with HasWorldReference<MainWorld> {
 
     _entities[key]!.add(entity);
     add(entity);
+  }
+
+  Entity? randomVisibleAliveEntity() {
+    var aliveEntities =
+        children.whereType<Entity>().where((element) => element.isAlive && element.absoluteCenter.x > 10).toList();
+
+    if (aliveEntities.isEmpty) {
+      return null;
+    }
+
+    return MiscHelper.randomElement(aliveEntities);
   }
 
   void clearEntities() {

@@ -4,6 +4,8 @@ import 'package:defend_your_flame/constants/bounding_constants.dart';
 import 'package:defend_your_flame/constants/debug_constants.dart';
 import 'package:defend_your_flame/core/flame/components/entities/entity.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/fire_pit.dart';
+import 'package:defend_your_flame/core/flame/components/masonry/misc/rock_circle.dart';
+import 'package:defend_your_flame/core/flame/components/masonry/totems/attack_totem.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/walls/wall.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world_state.dart';
@@ -36,6 +38,9 @@ class PlayerBase extends PositionComponent with HasWorldReference<MainWorld>, Ha
   FutureOr<void> onLoad() {
     add(_wall);
     add(_firePit);
+
+    add(AttackTotem()..position = _firePit.position + Vector2(RockCircle.ovalWidth / 2 + 10, -52));
+    add(AttackTotem()..position = _firePit.position + Vector2(RockCircle.ovalWidth / 2 + 13, -10));
     return super.onLoad();
   }
 

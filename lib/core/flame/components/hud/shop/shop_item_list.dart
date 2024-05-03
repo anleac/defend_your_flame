@@ -47,8 +47,8 @@ class ShopItemList extends PositionComponent with ParentIsA<MainShopHud>, HasWor
     // Add a horizontal divider between each item
     for (var i = 0; i < _buttons.length; i++) {
       if (i > 0) {
-        final divider = HorizontalDivider(padding: 5)
-          ..position = _buttons[i].position
+        final divider = HorizontalDivider(padding: 15)
+          ..position = Vector2(0, _buttons[i].topLeftPosition.y - ((shopItemHeight - padding) / 2))
           ..size = Vector2(size.x, 2);
         _dividers.add(divider);
         add(divider);

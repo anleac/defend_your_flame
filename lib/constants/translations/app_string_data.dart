@@ -28,6 +28,7 @@ class AppStringData {
       'cantAfford': 'Not enough gold',
       'alreadyPurchased': 'Purchased',
       'noItemSelected': 'No item selected',
+      'potentialPurchaseCount': '${AppStrings.placeholderText}/${AppStrings.placeholderText} purchased',
 
       // Purchasables
       'woodenWallName': 'Wooden Wall',
@@ -41,6 +42,12 @@ class AppStringData {
         "+${AppStrings.placeholderText} max wall health",
         "+${AppStrings.placeholderText} wall defence",
       ], quote: "I found a wall of wood, and left it a wall\nof stone."),
+
+      'defensiveTotemName': 'Attack Totem',
+      'defensiveTotemDescription': AppStringHelper.purchasableDescription(attributes: [
+        "Automatically attacks enemies",
+        "Damage scales with the strength of\nyour flame",
+      ], quote: "A totem to protect your base."),
     },
   };
 }
