@@ -8,6 +8,8 @@ import 'package:defend_your_flame/helpers/global_vars.dart';
 import 'package:flame/components.dart';
 
 class AttackTotem extends PlayerBaseComponent {
+  static const double baseSpeed = 380;
+
   final StoneTotem _stoneTotem = StoneTotem();
   late final PurpleFlame _firePitFlame = PurpleFlame()
     ..scale = Vector2(1.4, 2.3)
@@ -35,7 +37,7 @@ class AttackTotem extends PlayerBaseComponent {
 
     if (_nextAttackCounter >= _attackCooldown) {
       _nextAttackCounter = 0;
-      _attackCooldown = GlobalVars.rand.nextDouble() * 2.5 + 1;
+      _attackCooldown = GlobalVars.rand.nextDouble() * 3 + 1.5;
 
       if (world.worldStateManager.playing) {
         var randomEnemy = world.entityManager.randomVisibleAliveEntity();
@@ -43,9 +45,10 @@ class AttackTotem extends PlayerBaseComponent {
         if (randomEnemy != null) {
           world.projectileManager.addProjectile(AttackTotemCurvingProjectile(
               initialPosition: absoluteCenter,
-              targetPosition: randomEnemy.absoluteCenter,
+              targetPosition: randomEnemy.absoluteCenterOfMainHitbox(),
               damage: 8,
-              targetXVelocity: randomEnemy.isWalking ? randomEnemy.entityConfig.walkingForwardSpeed.toDouble() : 0));
+              targetXVelocity: randomEnemy.isWalking ? randomEnemy.entityConfig.walkingForwardSpeed.toDouble() : 0,
+              horizontalPixelsPerSecond: baseSpeed + (GlobalVars.rand.nextDouble() * 100)));
         }
       }
     }

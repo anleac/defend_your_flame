@@ -61,7 +61,7 @@ class MainShopHud extends BasicHud with ParentIsA<NextRoundHud> {
     ..anchor = Anchor.center;
 
   late final ShopItemDescription _shopItemDescription = ShopItemDescription()
-    ..position = _rightBodyRect.center.toVector2() - Vector2(_padding, 0)
+    ..position = _rightBodyRect.center.toVector2()
     ..anchor = Anchor.center
     ..size = _rightBodyRect.size.toVector2();
 
