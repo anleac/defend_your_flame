@@ -36,15 +36,14 @@ class PhysicsHelper {
       required double horizontalPixelsPerSecond,
       required Vector2 gravity,
       double targetXVelocity = 0}) {
-    double relativeHorizontalSpeed = horizontalPixelsPerSecond - targetXVelocity;
-
     double distanceX = targetPosition.x - initialPosition.x;
+    double time = distanceX.abs() / horizontalPixelsPerSecond;
+
     double distanceY = targetPosition.y - initialPosition.y;
 
-    double time = distanceX.abs() / relativeHorizontalSpeed;
-
     double vy = distanceY / time - 0.5 * gravity.y * time;
+    double vx = horizontalPixelsPerSecond * (distanceX >= 0 ? 1 : -1) + targetXVelocity;
 
-    return Vector2(relativeHorizontalSpeed * (distanceX >= 0 ? 1 : -1), vy);
+    return Vector2(vx, vy);
   }
 }
