@@ -2,7 +2,8 @@ import 'package:flame/components.dart';
 
 class PhysicsConstants {
   // Represented as a percentage of the velocity lost per second
-  static const double friction = 0.95;
+  // X friction is higher as Y is generally influenced by gravity
+  static final Vector2 friction = Vector2(0.90, 0.98);
   static final Vector2 gravity = Vector2(0, 2600.0);
 
   static final Vector2 magicalGravity = gravity / 8;

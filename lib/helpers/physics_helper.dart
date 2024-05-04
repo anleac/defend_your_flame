@@ -16,7 +16,9 @@ class PhysicsHelper {
   }
 
   static Vector2 applyFriction(Vector2 velocity, double dt) {
-    return TimestepHelper.multiplyVector2(velocity, PhysicsConstants.friction, dt);
+    velocity.x = TimestepHelper.multiply(velocity.x, PhysicsConstants.friction.x, dt);
+    velocity.y = TimestepHelper.multiply(velocity.y, PhysicsConstants.friction.y, dt);
+    return velocity;
   }
 
   static bool pointIsInsideBounds({required Vector2 point, required Vector2 size, Vector2? position, Vector2? offset}) {
