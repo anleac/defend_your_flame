@@ -3,14 +3,10 @@ import 'package:defend_your_flame/constants/translations/app_strings.dart';
 class AppStringHelper {
   static const String _descriptionGap = '\n\n';
 
-  static String purchasableDescription({required List<String> attributes, String? quote}) {
+  static String purchasableDescription({required List<String> attributes}) {
     var description = '';
     for (var attribute in attributes) {
       description += '- $attribute$_descriptionGap';
-    }
-
-    if (quote != null) {
-      description += '$_descriptionGap\n"$quote"';
     }
 
     return description;

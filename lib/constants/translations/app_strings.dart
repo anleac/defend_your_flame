@@ -79,13 +79,16 @@ class AppStrings {
   String get cantAfford => getValue('cantAfford');
   String get alreadyPurchased => getValue('alreadyPurchased');
   String get noItemSelected => getValue('noItemSelected');
-  String get attackTotemName => getValue('defensiveTotemName');
-  String get attackTotemDescription => getValue('defensiveTotemDescription');
+  String get attackTotemName => getValue('attackTotemName');
+  String get attackTotemDescription => getValue('attackTotemDescription');
+  String get attackTotemQuote => getValue('attackTotemQuote');
 
   // Purchasables
   String get woodenWallName => getValue('woodenWallName');
   String get woodenWallDescription => getValue('woodenWallDescription');
+  String get woodenWallQuote => getValue('woodenWallQuote');
 
   String get stoneWallName => getValue('stoneWallName');
   String get stoneWallDescription => getValue('stoneWallDescription');
+  String get stoneWallQuote => getValue('stoneWallQuote');
 }

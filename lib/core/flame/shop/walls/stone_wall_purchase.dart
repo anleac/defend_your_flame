@@ -14,6 +14,7 @@ class StoneWallPurchase extends Purchasable {
             WallHelper.totalHealth(WallType.stone) - WallHelper.totalHealth(WallType.wood),
             WallHelper.defenseValue(WallType.stone) - WallHelper.defenseValue(WallType.wood),
           ]),
+          quote: appStrings.stoneWallQuote,
           cost: 300,
           dependencies: {WoodenWallPurchase},
         );

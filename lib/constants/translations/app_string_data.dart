@@ -35,19 +35,22 @@ class AppStringData {
       'woodenWallDescription': AppStringHelper.purchasableDescription(attributes: [
         "+${AppStrings.placeholderText} max wall health",
         "+${AppStrings.placeholderText} wall defence",
-      ], quote: "The wall just got 10 feet higher."),
+      ]),
+      'woodenWallQuote': '"The wall just got 10 feet higher."',
 
       'stoneWallName': 'Stone Wall',
       'stoneWallDescription': AppStringHelper.purchasableDescription(attributes: [
         "+${AppStrings.placeholderText} max wall health",
         "+${AppStrings.placeholderText} wall defence",
-      ], quote: "I found a wall of wood, and left it a wall\nof stone."),
+      ]),
+      'stoneWallQuote': '"I found a wall of wood, and left it a wall\nof stone."',
 
-      'defensiveTotemName': 'Attack Totem',
-      'defensiveTotemDescription': AppStringHelper.purchasableDescription(attributes: [
+      'attackTotemName': 'Attack Totem',
+      'attackTotemDescription': AppStringHelper.purchasableDescription(attributes: [
         "Automatically attacks enemies",
         "Damage scales with the strength of\nyour flame",
-      ], quote: "A totem to protect your base."),
+      ]),
+      'attackTotemQuote': '"The best defense is a good offense."',
     },
   };
 }

@@ -22,6 +22,7 @@ class TextManager {
   static TextPaint get smallSubHeaderRenderer => _smallSubHeaderRenderer;
 
   static TextPaint get basicHudRenderer => _basicHudRenderer;
+  static TextPaint get basicHudItalicRenderer => _basicHudItalicRenderer;
   static TextPaint get tinyRenderer => _tinyRenderer;
 
   static TextPaint get debugRenderer => _debugRenderer;
@@ -30,8 +31,14 @@ class TextManager {
     return TextPaint(style: TextStyle(fontSize: fontSize, fontFamily: _defaultFontFamily, color: color));
   }
 
-  static TextPaint copyWith(TextPaint paint, {Color? color}) {
-    return TextPaint(style: paint.style.copyWith(color: color));
+  static TextPaint copyWith(TextPaint paint, {Color? color, bool italic = false, bool bold = false}) {
+    return TextPaint(
+      style: paint.style.copyWith(
+        color: color,
+        fontStyle: italic ? FontStyle.italic : FontStyle.normal,
+        fontWeight: bold ? FontWeight.bold : FontWeight.normal,
+      ),
+    );
   }
 
   static final TextPaint _defaultRenderer = TextPaint(style: _defaultTextStyle);
@@ -53,8 +60,11 @@ class TextManager {
 
   static final TextPaint _smallSubHeaderRenderer = TextPaint(
       style: _defaultTextStyle.copyWith(fontSize: 16, color: ThemingConstants.defaultTextColour.withOpacity(0.92)));
+
   static final TextPaint _basicHudRenderer = TextPaint(
       style: _defaultTextStyle.copyWith(fontSize: 12, color: ThemingConstants.defaultTextColour.withOpacity(0.92)));
+
+  static final TextPaint _basicHudItalicRenderer = copyWith(_basicHudRenderer, italic: true);
 
   static final TextPaint _tinyRenderer = TextPaint(
       style: _defaultTextStyle.copyWith(fontSize: 9, color: ThemingConstants.defaultTextColour.withOpacity(0.92)));

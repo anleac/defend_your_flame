@@ -9,6 +9,7 @@ class AttackTotemPurchase extends Purchasable {
       : super(
           name: appStrings.attackTotemName,
           description: appStrings.attackTotemDescription,
+          quote: appStrings.attackTotemQuote,
           cost: 120,
           maxPurchaseCount: maxTotems,
         );
