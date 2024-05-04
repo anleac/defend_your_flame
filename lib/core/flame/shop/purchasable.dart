@@ -5,6 +5,7 @@ abstract class Purchasable {
 
   final String name;
   final String description;
+  final String quote;
   final int cost;
   final int maxPurchaseCount;
   final bool comingSoon;
@@ -18,6 +19,7 @@ abstract class Purchasable {
   Purchasable(
       {required this.name,
       required this.description,
+      required this.quote,
       required this.cost,
       this.maxPurchaseCount = 1,
       this.dependencies = const {},
@@ -36,5 +38,9 @@ abstract class Purchasable {
     return purchasables
         .where((element) => dependencies.contains(element.runtimeType))
         .every((element) => element.purchasedAnyAmount);
+  }
+
+  void reset() {
+    _purchaseCount = 0;
   }
 }
