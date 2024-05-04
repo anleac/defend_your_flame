@@ -12,6 +12,7 @@
 - Improved the web rendering layout to scale better and remove excess screen rendering of the background
    - Also aligned this now top center, opposed to center
 - Improved positioning of the purchase quote
+- Improved positioning of the health/gold indicator texts
 
 ## 0.12.0 alpha - 3rd May, 2024
 
