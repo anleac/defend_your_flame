@@ -13,6 +13,7 @@ class WoodenWallPurchase extends Purchasable {
             WallHelper.totalHealth(WallType.wood) - WallHelper.totalHealth(WallType.barricade),
             WallHelper.defenseValue(WallType.wood) - WallHelper.defenseValue(WallType.barricade),
           ]),
+          quote: appStrings.woodenWallQuote,
           cost: 160,
         );
 

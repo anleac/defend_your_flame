@@ -36,6 +36,11 @@ class ShopItemDescription extends PositionComponent
     ..position = Vector2(_itemTitle.x, size.y) - Vector2(0, padding)
     ..anchor = Anchor.bottomLeft;
 
+  late final TextComponent _quoteText = TextComponent(
+    text: '',
+    textRenderer: TextManager.basicHudItalicRenderer,
+  )..position = _purchaseCountText.position - (_itemGap * 2);
+
   late final ShopItemActionButton _itemActionButton = ShopItemActionButton()
     ..anchor = Anchor.bottomRight
     ..position = size - Vector2(padding, padding);
@@ -47,6 +52,7 @@ class ShopItemDescription extends PositionComponent
     add(_descriptionLabel);
     add(_descriptionText);
     add(_purchaseCountText);
+    add(_quoteText);
     add(_itemActionButton);
     return super.onLoad();
   }
@@ -58,6 +64,7 @@ class ShopItemDescription extends PositionComponent
     _costText.updateText(_selectedItem?.cost.toString() ?? '');
 
     _descriptionText.text = _selectedItem?.description ?? '';
+    _quoteText.text = _selectedItem?.quote ?? '';
 
     _updateUx();
   }

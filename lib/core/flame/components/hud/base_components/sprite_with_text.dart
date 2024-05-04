@@ -10,20 +10,21 @@ class SpriteWithText extends PositionComponent {
 
   final SpriteComponent sprite;
   final TextComponent text;
-  final double minimumGapBetween;
+  final double minimumWidth;
 
-  SpriteWithText({required this.sprite, required this.text, this.minimumGapBetween = 30}) {
+  SpriteWithText({required this.sprite, required this.text, this.minimumWidth = 70}) {
     _generateLabelPosition();
   }
 
-  _generateLabelPosition() {
-    // Given we are inside the component rendering, we just need to consider size and not absolute position.
-    var rightSpritePosition = Vector2(sprite.scaledSize.x, sprite.scaledSize.y / 2);
-    var leftOffsetFromZero = max(rightSpritePosition.x, minimumGapBetween) + gapBetween;
-    text.position = Vector2(leftOffsetFromZero, rightSpritePosition.y);
-    text.anchor = Anchor.centerLeft;
+  void _generateLabelPosition() {
+    var height = max(text.scaledSize.y, sprite.scaledSize.y);
 
-    size = sprite.scaledSize + Vector2(text.scaledSize.x, 0) + Vector2(leftOffsetFromZero, 0);
+    sprite.position = Vector2(0, (height - sprite.scaledSize.y) / 2);
+
+    var gap = max(gapBetween, minimumWidth - sprite.scaledSize.x - text.scaledSize.x);
+    text.position = Vector2(sprite.scaledSize.x + gap, (height - text.scaledSize.y) / 2);
+
+    size = Vector2(max(minimumWidth, sprite.scaledSize.x + gap + text.scaledSize.x), height);
   }
 
   updateLabelText(String newText) {

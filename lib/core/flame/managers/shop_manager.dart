@@ -24,4 +24,10 @@ class ShopManager extends Component with HasWorldReference<MainWorld>, HasGameRe
     _purchasables[purchaseIndex].purchase(world);
     world.playerBase.mutateGold(-purchasable.cost);
   }
+
+  void resetPurchases() {
+    for (var element in _purchasables) {
+      element.reset();
+    }
+  }
 }

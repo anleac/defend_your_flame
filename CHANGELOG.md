@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.12.1 alpha - 4th May, 2024
+
+### New Features
+- N/A
+
+### Bug Fixes
+- Reset purchases on game restart
+
+### Improvements
+- Improved the web rendering layout to scale better and remove excess screen rendering of the background
+   - Also aligned this now top center, opposed to center
+- Improved positioning of the purchase quote
+- Improved positioning of the health/gold indicator texts
+
 ## 0.12.0 alpha - 3rd May, 2024
 
 ### New Features

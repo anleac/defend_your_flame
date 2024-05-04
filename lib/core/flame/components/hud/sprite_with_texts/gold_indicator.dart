@@ -21,7 +21,6 @@ class GoldIndicator extends PositionComponent with HasWorldReference<MainWorld> 
   @override
   void onMount() {
     _setGoldText();
-    _updateSizeOfParent();
     super.onMount();
   }
 

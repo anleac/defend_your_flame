@@ -52,7 +52,7 @@ class MainShopHud extends BasicHud with ParentIsA<NextRoundHud> {
     ..anchor = Anchor.center;
 
   late final GoldIndicator _goldIndicator = GoldIndicator()
-    ..position = _headerRect.centerRight.toVector2()
+    ..position = _headerRect.centerRight.toVector2() + Vector2(-_padding, 0)
     ..anchor = Anchor.centerRight
     ..scale = Vector2.all(1.5);
 
