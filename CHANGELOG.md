@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.12.2 alpha - 4th May, 2024
+
+### New Features
+- N/A
+
+### Bug Fixes
+- Fix attack totems incorrectly calculating velocity of moving targets
+
+### Improvements
+- More small UX improvements to the shop
+- Made the attack totems attack go through the wall for now
+- Made friction for horizontally thrown targets higher
+- Made the trajectory for attack totem attacks more accurate
+- Made the speed of totem attacks much faster
+
 ## 0.12.1 alpha - 4th May, 2024
 
 ### New Features

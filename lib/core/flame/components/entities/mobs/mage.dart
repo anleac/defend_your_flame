@@ -52,7 +52,7 @@ class Mage extends FlyingEntity with DisappearOnDeath {
       isSolid: true);
 
   Mage({super.scaleModifier}) : super(flyingEntityConfig: _mageConfig) {
-    setDisappearSpeedFactor(2);
+    setDisappearSpeedFactor(3);
   }
 
   @override

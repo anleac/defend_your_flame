@@ -2,6 +2,7 @@ import 'package:defend_your_flame/constants/bounding_constants.dart';
 import 'package:defend_your_flame/constants/misc_constants.dart';
 import 'package:defend_your_flame/core/flame/components/entities/enums/entity_state.dart';
 import 'package:defend_your_flame/core/flame/components/entities/configs/entity_config.dart';
+import 'package:defend_your_flame/core/flame/components/entities/mixins/has_hitbox_positioning.dart';
 import 'package:defend_your_flame/core/flame/main_game.dart';
 import 'package:defend_your_flame/core/flame/managers/entity_manager.dart';
 import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
@@ -20,6 +21,7 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
         HasGameReference<MainGame>,
         HasVisibility,
         TapCallbacks,
+        HasHitboxPositioning,
         GestureHitboxes,
         CollisionCallbacks,
         HasWallCollision,

@@ -68,7 +68,7 @@ class CurvingMagicProjectile extends PositionComponent
   @override
   FutureOr<void> onLoad() {
     add(_trailingParticles);
-    add(CircleHitbox(radius: 3));
+    add(CircleHitbox(radius: 4));
 
     return super.onLoad();
   }
@@ -80,12 +80,12 @@ class CurvingMagicProjectile extends PositionComponent
     _velocity = PhysicsHelper.applyCustomGravity(_velocity, _gravityInUse, dt);
     position = TimestepHelper.addVector2(position, _velocity, dt);
 
-    if (isCollidingWithWall) {
+    if (!isFriendly && isCollidingWithWall) {
       removeFromParent();
       if (!isFriendly) {
         world.playerBase.takeDamage(damage, position: wallIntersectionPoints.first);
       }
-    } else if (isCollidingWithEntity) {
+    } else if (isCollidingWithEntity && isFriendly) {
       removeFromParent();
       if (isFriendly) {
         collidedEntity?.takeDamage(damage.toDouble());

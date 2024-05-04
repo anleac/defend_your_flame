@@ -21,7 +21,7 @@ class ShopItemDescription extends PositionComponent
   late final ItemCostText _costText = ItemCostText()..position = _itemTitle.position + _itemGap;
 
   late final ItemDescriptionTitle _descriptionLabel = ItemDescriptionTitle()
-    ..position = _costText.position + (_itemGap * 2)
+    ..position = _costText.position + (_itemGap * 1.5)
     ..anchor = Anchor.topLeft;
 
   late final TextComponent _descriptionText = TextComponent(

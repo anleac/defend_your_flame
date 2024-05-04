@@ -10,6 +10,7 @@ import 'package:defend_your_flame/core/flame/managers/round_manager.dart';
 import 'package:defend_your_flame/core/flame/managers/shop_manager.dart';
 import 'package:defend_your_flame/core/flame/managers/world_state_manager.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world_state.dart';
+import 'package:defend_your_flame/helpers/platform_helper.dart';
 import 'package:flame/components.dart';
 
 class MainWorld extends World with HasCollisionDetection {
@@ -44,7 +45,9 @@ class MainWorld extends World with HasCollisionDetection {
     add(_projectileManager);
     add(_effectManager);
 
-    add(CameraBorder());
+    if (!PlatformHelper.isWeb) {
+      add(CameraBorder());
+    }
 
     // Generally, we should add the HUD to the camera viewpoint to ensure it doesn't move
     // with the world. However, in this case, we have no camera movement and therefore
