@@ -28,3 +28,4 @@ Delete all merged branches:
 - Edit manipulation/extension: https://app.runwayml.com/
 - Removing objects: https://snapedit.app/
 - Pixelifying objects: https://pixelartify.com
+- Another pixelify tool: https://pixelied.com/features/pixel-art-generator

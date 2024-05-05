@@ -19,7 +19,7 @@ mixin DisappearOnDeath on Entity {
       add(OpacityEffect.by(
         -0.95,
         EffectController(
-          duration: 2 / _disappearSpeedFactor,
+          duration: 1.5 / _disappearSpeedFactor,
           curve: Curves.decelerate,
         ),
       )..onComplete = () {

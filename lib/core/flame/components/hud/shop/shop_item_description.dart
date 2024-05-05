@@ -26,12 +26,12 @@ class ShopItemDescription extends PositionComponent
 
   late final TextComponent _descriptionText = TextComponent(
     text: '',
-    textRenderer: TextManager.basicHudRenderer,
+    textRenderer: TextManager.smallSubHeaderBoldRenderer,
   )..position = _descriptionLabel.position + _itemGap;
 
   late final TextComponent _purchaseCountText = TextComponent(
     text: '',
-    textRenderer: TextManager.basicHudRenderer,
+    textRenderer: TextManager.smallSubHeaderBoldRenderer,
   )
     ..position = Vector2(_itemTitle.x, size.y) - Vector2(0, padding)
     ..anchor = Anchor.bottomLeft;

@@ -38,9 +38,10 @@ class ShopItemList extends PositionComponent with ParentIsA<MainShopHud>, HasWor
         world.shopManager.purchasables.where((p) => p.shouldBeVisible(world.shopManager.purchasables)).toList();
 
     var rollingButtonPosition = Vector2(size.x / 2, shopItemHeight / 2 + padding);
+    var gap = Vector2(0, shopItemHeight + padding);
     _buttons.addAll(visiblePurchases.map((item) {
       final button = ShopItemButton(item)..position = rollingButtonPosition;
-      rollingButtonPosition += Vector2(0, shopItemHeight + padding);
+      rollingButtonPosition += gap;
       return button;
     }).toList());
 
@@ -48,7 +49,7 @@ class ShopItemList extends PositionComponent with ParentIsA<MainShopHud>, HasWor
     for (var i = 0; i < _buttons.length; i++) {
       if (i > 0) {
         final divider = HorizontalDivider(padding: 15)
-          ..position = Vector2(0, _buttons[i].topLeftPosition.y - ((shopItemHeight - padding) / 2))
+          ..position = Vector2(0, _buttons[i].position.y) - gap / 2
           ..size = Vector2(size.x, 2);
         _dividers.add(divider);
         add(divider);
