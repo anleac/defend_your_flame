@@ -61,7 +61,6 @@ class ShopItemDescription extends PositionComponent
     _selectedItem = selectedItem;
 
     _itemTitle.updateText(_selectedItem?.name ?? '');
-    _costText.updateText(_selectedItem?.cost.toString() ?? '');
 
     _descriptionText.text = _selectedItem?.description ?? '';
     _quoteText.text = _selectedItem?.quote ?? '';
@@ -78,6 +77,7 @@ class ShopItemDescription extends PositionComponent
   }
 
   void _updateUx() {
+    _costText.updateText(_selectedItem?.currentCost.toString() ?? '');
     _updatePurchaseCountText();
     _updateActionButton();
   }
@@ -107,5 +107,7 @@ class ShopItemDescription extends PositionComponent
   }
 
   bool get _purchasePossible =>
-      _selectedItem != null && world.playerBase.totalGold >= _selectedItem!.cost && !_selectedItem!.purchasedMaxAmount;
+      _selectedItem != null &&
+      world.playerBase.totalGold >= _selectedItem!.currentCost &&
+      !_selectedItem!.purchasedMaxAmount;
 }

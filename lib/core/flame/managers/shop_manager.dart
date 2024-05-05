@@ -17,12 +17,12 @@ class ShopManager extends Component with HasWorldReference<MainWorld>, HasGameRe
 
   void handlePurchase(Purchasable purchasable) {
     var purchaseIndex = _purchasables.indexWhere((element) => element == purchasable);
-    if (_purchasables[purchaseIndex].purchasedMaxAmount || world.playerBase.totalGold < purchasable.cost) {
+    if (_purchasables[purchaseIndex].purchasedMaxAmount || world.playerBase.totalGold < purchasable.currentCost) {
       return;
     }
 
+    world.playerBase.mutateGold(-purchasable.currentCost);
     _purchasables[purchaseIndex].purchase(world);
-    world.playerBase.mutateGold(-purchasable.cost);
   }
 
   void resetPurchases() {

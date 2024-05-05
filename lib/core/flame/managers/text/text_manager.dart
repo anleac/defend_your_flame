@@ -7,9 +7,8 @@ class TextManager {
   static const double defaultLargeFontSize = defaultFontSize * 1.5;
   static const double smallHeaderFontSize = defaultFontSize * 1.2;
   static const double defaultFontSize = 18;
-  static const double defaultMediumFontSize = defaultFontSize * 0.9;
-  static const double defaultSmallFontSize = defaultFontSize * 0.8;
-  static const double defaultTinyFontSize = defaultFontSize * 0.6;
+  static const double defaultSmallFontSize = defaultFontSize * 0.85;
+  static const double defaultTinyFontSize = defaultFontSize * 0.7;
 
   static const String _defaultFontFamily = "Monocraft";
   static const String _titleFontFamily = "prstart";
@@ -75,7 +74,7 @@ class TextManager {
 
   static final TextPaint _smallSubHeaderRenderer = TextPaint(
       style: _defaultTextStyle.copyWith(
-          fontSize: defaultMediumFontSize, color: ThemingConstants.defaultTextColour.withOpacity(0.92)));
+          fontSize: defaultFontSize, color: ThemingConstants.defaultTextColour.withOpacity(0.92)));
 
   static final TextPaint _basicHudRenderer = TextPaint(
       style: _defaultTextStyle.copyWith(

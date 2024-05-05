@@ -222,7 +222,9 @@ class DraggableEntity extends Entity with DragCallbacks {
     PhysicsHelper.clampVelocity(_velocity);
     PhysicsHelper.clampVelocity(_dragVelocity);
 
-    if (current == EntityState.falling && !isCollidingWithWall) {
+    // It's possible they died in the air.
+    var applyFalling = current == EntityState.falling || current == EntityState.dying;
+    if (applyFalling && !isCollidingWithWall) {
       _velocity = PhysicsHelper.applyGravity(_velocity, dt);
       position = TimestepHelper.addVector2(position, _velocity, dt);
 

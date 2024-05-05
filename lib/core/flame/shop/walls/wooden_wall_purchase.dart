@@ -14,7 +14,7 @@ class WoodenWallPurchase extends Purchasable {
             WallHelper.defenseValue(WallType.wood) - WallHelper.defenseValue(WallType.barricade),
           ]),
           quote: appStrings.woodenWallQuote,
-          cost: 160,
+          cost: [170],
         );
 
   @override

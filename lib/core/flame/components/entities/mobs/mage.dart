@@ -90,7 +90,7 @@ class Mage extends FlyingEntity with DisappearOnDeath {
       GlobalVars.rand.nextDouble() * (skyHeight / 3) + (skyHeight / 2.5),
     );
 
-    mage.position = startPosition - Vector2(mage.scaledSize.x, mage.scaledSize.y / 2.2);
+    mage.position = startPosition - Vector2(mage.scaledSize.x, mage.scaledSize.y / 2.3);
     return mage;
   }
 }

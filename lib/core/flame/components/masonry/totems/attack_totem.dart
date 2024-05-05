@@ -44,7 +44,7 @@ class AttackTotem extends PlayerBaseComponent {
 
         if (randomEnemy != null) {
           world.projectileManager.addProjectile(AttackTotemCurvingProjectile(
-              initialPosition: absoluteCenter,
+              initialPosition: absoluteCenter - Vector2(0, scaledSize.y / 2 - 3),
               targetPosition: randomEnemy.absoluteCenterOfMainHitbox(),
               damage: 8,
               targetXVelocity: randomEnemy.isWalking ? randomEnemy.entityConfig.walkingForwardSpeed.toDouble() : 0,

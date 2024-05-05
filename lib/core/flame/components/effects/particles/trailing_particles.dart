@@ -20,7 +20,8 @@ class TrailingParticles extends PositionComponent with HasWorldReference<MainWor
   final Tween<double> radius = Tween(begin: 1, end: 2);
   final ColorTween colorTween;
 
-  double timeSinceLastEmission = 0.0;
+  // Set to a high number to trigger the first emission instantly
+  double timeSinceLastEmission = 1000;
 
   TrailingParticles({
     required this.emissionsPerSecond,

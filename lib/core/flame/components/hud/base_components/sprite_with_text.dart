@@ -19,10 +19,10 @@ class SpriteWithText extends PositionComponent {
   void _generateLabelPosition() {
     var height = max(text.scaledSize.y, sprite.scaledSize.y);
 
-    sprite.position = Vector2(0, (height - sprite.scaledSize.y) / 2);
+    sprite.position = Vector2(0, height / 2);
 
     var gap = max(gapBetween, minimumWidth - sprite.scaledSize.x - text.scaledSize.x);
-    text.position = Vector2(sprite.scaledSize.x + gap, (height - text.scaledSize.y) / 2);
+    text.position = Vector2(sprite.scaledSize.x + gap, height / 2);
 
     size = Vector2(max(minimumWidth, sprite.scaledSize.x + gap + text.scaledSize.x), height);
   }
