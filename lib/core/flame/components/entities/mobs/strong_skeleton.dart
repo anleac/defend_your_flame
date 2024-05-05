@@ -19,7 +19,7 @@ class StrongSkeleton extends DraggableEntity with DisappearOnDeath {
     dragConfig: AnimationConfig(frames: 4, stepTime: 0.16),
     dyingConfig: AnimationConfig(frames: 13, stepTime: 0.12),
     damageOnAttack: 15,
-    goldOnKill: 10,
+    goldOnKill: 8,
     walkingForwardSpeed: 19,
     totalHealth: DamageConstants.fallDamage * 2,
     dragResistance: 0.55,

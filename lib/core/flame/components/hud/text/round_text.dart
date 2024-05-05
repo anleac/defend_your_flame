@@ -8,7 +8,7 @@ class RoundText extends DefaultText with HasWorldReference<MainWorld> {
 
   String get _roundText => game.appStrings.roundText(_currentRound);
 
-  RoundText() : super(textRenderer: TextManager.smallHeaderRenderer);
+  RoundText() : super(textRenderer: TextManager.headerRenderer);
 
   @override
   void update(double dt) {

@@ -76,7 +76,6 @@ class CurvingMagicProjectile extends PositionComponent
   @override
   void update(double dt) {
     super.update(dt);
-
     _velocity = PhysicsHelper.applyCustomGravity(_velocity, _gravityInUse, dt);
     position = TimestepHelper.addVector2(position, _velocity, dt);
 

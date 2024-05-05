@@ -31,7 +31,7 @@ class Mage extends FlyingEntity with DisappearOnDeath {
     ),
     walkingForwardSpeed: 34,
     damageOnAttack: 12,
-    goldOnKill: 15,
+    goldOnKill: 12,
     totalHealth: DamageConstants.fallDamage * 4,
   );
 
@@ -52,7 +52,7 @@ class Mage extends FlyingEntity with DisappearOnDeath {
       isSolid: true);
 
   Mage({super.scaleModifier}) : super(flyingEntityConfig: _mageConfig) {
-    setDisappearSpeedFactor(3);
+    setDisappearSpeedFactor(2);
   }
 
   @override
@@ -90,7 +90,7 @@ class Mage extends FlyingEntity with DisappearOnDeath {
       GlobalVars.rand.nextDouble() * (skyHeight / 3) + (skyHeight / 2.5),
     );
 
-    mage.position = startPosition - Vector2(mage.scaledSize.x, mage.scaledSize.y / 2.2);
+    mage.position = startPosition - Vector2(mage.scaledSize.x, mage.scaledSize.y / 2.3);
     return mage;
   }
 }

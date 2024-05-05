@@ -6,7 +6,7 @@ abstract class Purchasable {
   final String name;
   final String description;
   final String quote;
-  final int cost;
+  final List<int> cost;
   final int maxPurchaseCount;
   final bool comingSoon;
 
@@ -15,6 +15,8 @@ abstract class Purchasable {
   bool get purchasedAnyAmount => _purchaseCount > 0;
   bool get purchasedMaxAmount => _purchaseCount >= maxPurchaseCount;
   int get purchaseCount => _purchaseCount;
+
+  int get currentCost => cost[_purchaseCount];
 
   Purchasable(
       {required this.name,

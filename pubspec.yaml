@@ -1,7 +1,7 @@
 name: defend_your_flame
 description: Defend your castles flame from the enemy
 publish_to: 'none'
-version: 0.12.2+1 # +1 since we haven't actually published this yet
+version: 0.13.0+1 # +1 since we haven't actually published this yet
 
 environment:
   sdk: '>=3.1.2 <4.0.0'
@@ -40,19 +40,9 @@ flutter:
     - assets/images/flames/blue/loops/
 
   fonts:
-    - family: Metropolis
-      fonts:
-      - asset: assets/fonts/Metropolis-Bold.otf
-        weight: 800
-      - asset: assets/fonts/Metropolis-Regular.otf
-      - asset: assets/fonts/Metropolis-Light.otf
-        weight: 300
-      - asset: assets/fonts/Metropolis-RegularItalic.otf
-        style: italic
-    - family: ThaleahFat
-      fonts:
-        - asset: assets/fonts/ThaleahFat.ttf
     - family: prstart
       fonts:
         - asset: assets/fonts/prstart.ttf
-
+    - family: Monocraft
+      fonts:
+        - asset: assets/fonts/Monocraft.ttf

@@ -1,7 +1,7 @@
 import 'package:defend_your_flame/constants/translations/app_strings.dart';
 
 class AppStringHelper {
-  static const String _descriptionGap = '\n\n';
+  static const String _descriptionGap = '\n';
 
   static String purchasableDescription({required List<String> attributes}) {
     var description = '';

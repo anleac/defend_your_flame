@@ -2,7 +2,8 @@ import 'package:defend_your_flame/core/flame/components/hud/base_components/labe
 import 'package:defend_your_flame/core/flame/managers/text/text_manager.dart';
 
 class ItemCostText extends LabeledText {
-  ItemCostText() : super(labelRenderer: TextManager.smallSubHeaderRenderer, textRenderer: TextManager.basicHudRenderer);
+  ItemCostText()
+      : super(labelRenderer: TextManager.smallSubHeaderBoldRenderer, textRenderer: TextManager.basicHudRenderer);
 
   @override
   void onMount() {
