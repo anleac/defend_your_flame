@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.13.0 alpha - 5th May, 2024
+
+### New Features
+- Added in ability to purchase four totems
+   - Probably will remove this in the future, as I add more upgrades
+
+### Bug Fixes
+- When an entity died in area, they now fall with gravity
+
+### Improvements
+- Completely overhauled the spawning logic
+   - Now we have a more consistent spawning of difficult of enemies
+   - Certain enemies won't appear until later in the game
+- Added cost scaling with additional purchases (currently only effects totems as they are the only ones you can buy multiple of)
+- Reduced gold output from all enemies
+
 ## 0.12.2 alpha - 4th May, 2024
 
 ### New Features
