@@ -31,7 +31,7 @@ class Mage extends FlyingEntity with DisappearOnDeath {
     ),
     walkingForwardSpeed: 34,
     damageOnAttack: 12,
-    goldOnKill: 15,
+    goldOnKill: 12,
     totalHealth: DamageConstants.fallDamage * 4,
   );
 

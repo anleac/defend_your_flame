@@ -22,6 +22,7 @@ class TextManager {
 
   static TextPaint get largeHeaderRenderer => _largeHeaderRenderer;
 
+  static TextPaint get headerRenderer => _headerRenderer;
   static TextPaint get smallHeaderRenderer => _smallHeaderRenderer;
   static TextPaint get smallHeaderHoveredRenderer => _smallHeaderHoveredRenderer;
   static TextPaint get smallHeaderDisabledRenderer => _smallHeaderDisabledRenderer;
@@ -55,6 +56,9 @@ class TextManager {
 
   static final TextPaint _largeHeaderRenderer = TextPaint(
       style: const TextStyle(fontSize: 36, fontFamily: _titleFontFamily, color: ThemingConstants.defaultTextColour));
+
+  static final TextPaint _headerRenderer = TextPaint(
+      style: _defaultTextStyle.copyWith(fontSize: defaultLargeFontSize, color: ThemingConstants.defaultTextColour));
 
   static final TextPaint _smallHeaderRenderer =
       TextPaint(style: _defaultTextStyle.copyWith(fontSize: smallHeaderFontSize));

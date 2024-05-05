@@ -27,7 +27,7 @@ class Slime extends DraggableEntity with DisappearOnDeath {
       stepTime: 0.07,
       frames: 4,
     ),
-    damageOnAttack: 3,
+    damageOnAttack: 4,
     goldOnKill: 4,
     walkingForwardSpeed: 42,
     defaultScale: 1.15,

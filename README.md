@@ -29,3 +29,4 @@ Delete all merged branches:
 - Removing objects: https://snapedit.app/
 - Pixelifying objects: https://pixelartify.com
 - Another pixelify tool: https://pixelied.com/features/pixel-art-generator
+- Splitting spritesheets: https://ezgif.com/sprite-cutter

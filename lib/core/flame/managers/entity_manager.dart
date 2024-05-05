@@ -15,16 +15,15 @@ class EntityManager extends Component with HasWorldReference<MainWorld> {
 
   bool _spawning = false;
   double _secondsToSpawnOver = 0;
-
   int _totalSpawnCountThisRound = 0;
-  int _remainingEntitiesToSpawn = 0;
+
+  List<Entity> _entitiesToSpawn = [];
 
   double _timeCounter = 0;
 
   void clearRound() {
     _spawning = false;
-    _remainingEntitiesToSpawn = 0;
-    _totalSpawnCountThisRound = 0;
+    _entitiesToSpawn.clear();
     _timeCounter = 0;
     _secondsToSpawnOver = 0;
 
@@ -44,10 +43,12 @@ class EntityManager extends Component with HasWorldReference<MainWorld> {
 
     _spawning = true;
 
-    _totalSpawnCountThisRound = EntitySpawnHelper.totalSpawnCountThisRound(currentRound);
-    _remainingEntitiesToSpawn = _totalSpawnCountThisRound;
+    var (entitiesToSpawn, secondsToSpawnOver) = EntitySpawnHelper.entitiesToSpawn(
+        worldHeight: world.worldHeight, skyHeight: world.environment.skyHeight, currentRound: currentRound);
+    _entitiesToSpawn = entitiesToSpawn;
+    _secondsToSpawnOver = secondsToSpawnOver;
 
-    _secondsToSpawnOver = EntitySpawnHelper.secondsToSpawnOver(currentRound);
+    _totalSpawnCountThisRound = _entitiesToSpawn.length;
 
     _timeCounter = 0;
   }
@@ -57,15 +58,12 @@ class EntityManager extends Component with HasWorldReference<MainWorld> {
     if (_spawning) {
       _timeCounter += dt;
 
-      if (_remainingEntitiesToSpawn > 0 && _timeCounter >= (_secondsToSpawnOver / _totalSpawnCountThisRound)) {
+      if (_entitiesToSpawn.isNotEmpty && _timeCounter >= (_secondsToSpawnOver / _totalSpawnCountThisRound)) {
         _timeCounter = 0;
-
-        _remainingEntitiesToSpawn--;
-        _addEntity(EntitySpawnHelper.spawnEntity(
-            worldHeight: world.worldHeight,
-            skyHeight: world.environment.skyHeight,
-            currentRound: world.roundManager.currentRound));
-      } else if (_remainingEntitiesToSpawn == 0) {
+        // Add the list in reverse order for performance reasons
+        _addEntity(_entitiesToSpawn.last);
+        _entitiesToSpawn.removeLast();
+      } else if (_entitiesToSpawn.isEmpty) {
         _spawning = false;
       }
     } else if (world.worldStateManager.playing) {

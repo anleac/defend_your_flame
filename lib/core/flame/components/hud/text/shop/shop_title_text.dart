@@ -2,7 +2,7 @@ import 'package:defend_your_flame/core/flame/components/hud/base_components/defa
 import 'package:defend_your_flame/core/flame/managers/text/text_manager.dart';
 
 class ShopTitleText extends DefaultText {
-  ShopTitleText() : super(textRenderer: TextManager.smallHeaderRenderer);
+  ShopTitleText() : super(textRenderer: TextManager.headerRenderer);
 
   @override
   void onMount() {
