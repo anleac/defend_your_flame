@@ -8,6 +8,7 @@ class AppStringData {
       'saveGame': 'Save Game',
       'restartGame': 'Restart Game',
       'gameOver': 'Game Over',
+      'gameOverRoundText': 'You made it to round ${AppStrings.placeholderText}',
       'back': 'Back',
       'startRound': 'Start Next Round',
       'healthIndicatorAmount': '${AppStrings.placeholderText}/${AppStrings.placeholderText}',

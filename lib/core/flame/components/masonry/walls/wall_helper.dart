@@ -37,9 +37,9 @@ class WallHelper {
       case WallType.barricade:
         return 80;
       case WallType.wood:
-        return 100;
+        return 120;
       case WallType.stone:
-        return 140;
+        return 160;
     }
   }
 

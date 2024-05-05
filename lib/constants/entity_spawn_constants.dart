@@ -1,4 +1,4 @@
 class EntitySpawnConstants {
-  static const int roundToStartSpawningStrongGroundEnemies = 4;
-  static const int roundToStartSpawningStrongFlyingEnemies = 7;
+  static const int roundToStartSpawningStrongGroundEnemies = 5;
+  static const int roundToStartSpawningStrongFlyingEnemies = 8;
 }
