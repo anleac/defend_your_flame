@@ -40,7 +40,7 @@ class Wall extends PositionComponent with HasVisibility, HasWorldReference<MainW
     _setWallStats();
   }
 
-  _setWallStats({bool resetHealth = true}) {
+  _setWallStats({bool resetWall = true}) {
     // Needed simply for rendering, not logic, but changes based on wall type.
     size = WallHelper.getWallSize(_wallType);
     scale = WallHelper.getScale(_wallType);
@@ -49,7 +49,7 @@ class Wall extends PositionComponent with HasVisibility, HasWorldReference<MainW
     _totalHealth = WallHelper.totalHealth(_wallType);
     _defenseValue = WallHelper.defenseValue(_wallType);
 
-    if (resetHealth) {
+    if (resetWall) {
       _health = _totalHealth;
     }
   }
@@ -74,8 +74,8 @@ class Wall extends PositionComponent with HasVisibility, HasWorldReference<MainW
     );
   }
 
-  void updateWallType(WallType wallType, {bool firstLoad = false, bool resetHealth = false}) {
-    if (!firstLoad && _wallType == wallType) {
+  void updateWallType(WallType wallType, {bool firstLoad = false, bool resetWall = false}) {
+    if (!firstLoad && _wallType == wallType && !resetWall) {
       return;
     }
 
@@ -86,14 +86,14 @@ class Wall extends PositionComponent with HasVisibility, HasWorldReference<MainW
       _health += newTotalHealth - _totalHealth;
     }
 
-    _setWallStats(resetHealth: resetHealth);
+    _setWallStats(resetWall: resetWall);
 
     _clearAndAddHitbox();
     _wallRenderer.renderWallType(firstLoad: firstLoad);
   }
 
   void reset() {
-    updateWallType(WallType.barricade, resetHealth: true);
+    updateWallType(WallType.barricade, resetWall: true);
 
     _hitbox?.collisionType = CollisionType.active;
     isVisible = true;

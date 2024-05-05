@@ -61,7 +61,7 @@ class DraggableEntity extends Entity with DragCallbacks {
   }
 
   void stopDraggingAndBounce() {
-    _velocity = _velocity * -0.1;
+    _velocity = _velocity * -0.05;
     stopDragging();
   }
 
@@ -116,7 +116,7 @@ class DraggableEntity extends Entity with DragCallbacks {
   }
 
   void _updateDragVelocity(Vector2 newVelocity) {
-    double influence = newVelocity == Vector2.zero() ? 0.15 : 0.22;
+    double influence = newVelocity == Vector2.zero() ? 0.15 : 0.3;
     _dragVelocity.x = influence * newVelocity.x + (1 - influence) * _dragVelocity.x;
     _dragVelocity.y = influence * newVelocity.y + (1 - influence) * _dragVelocity.y;
 

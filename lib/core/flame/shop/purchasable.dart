@@ -16,7 +16,7 @@ abstract class Purchasable {
   bool get purchasedMaxAmount => _purchaseCount >= maxPurchaseCount;
   int get purchaseCount => _purchaseCount;
 
-  int get currentCost => cost[_purchaseCount];
+  int get currentCost => _purchaseCount >= cost.length ? cost.last : cost[_purchaseCount];
 
   Purchasable(
       {required this.name,

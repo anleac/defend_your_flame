@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.13.1 alpha - 5th May, 2024
+
+### New Features
+- N/A
+
+### Bug Fixes
+- Fixed the wrong bold-ing of titles in the Shop HUD
+- Fixed wall health not being reset on game restart if you hadn't purchased any wall upgrades
+
+### Improvements
+- Improved the detection of entity collisions when drag distance is small
+- Reduced the distance entities can go off the left/right of the screen
+- Added in a "round you made it to" text on the game over screen
+- Made the spawn duration each round slightly longer
+- Made both mages and strong skeletons spawn one round later
+   - Also made both spawn slightly less into later rounds
+
 ## 0.13.0 alpha - 5th May, 2024
 
 ### New Features

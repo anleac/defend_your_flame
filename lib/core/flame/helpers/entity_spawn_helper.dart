@@ -62,6 +62,10 @@ class EntitySpawnHelper {
   }
 
   static double _tapper(double input) {
+    if (input <= 0) {
+      return 1;
+    }
+
     const double tapper = 0.6;
     // This is a tapper function that will make the spawn rate increase slower as the rounds progress
     // I tried sqrt but it was a bit too high of tappering
@@ -69,16 +73,16 @@ class EntitySpawnHelper {
   }
 
   static double _secondsToSpawnOver(int currentRound) {
-    return _tapper(currentRound * 12).ceil() + 5;
+    return _tapper(currentRound * 14).ceil() + 6;
   }
 
-  static int _basicMobsToSpawnThisRound(int currentRound) => _tapper(currentRound * 12).ceil() + 3;
+  static int _basicMobsToSpawnThisRound(int currentRound) => _tapper(currentRound * 12).ceil() + 4;
   static int _strongGroundMobsToSpawnThisRound(int currentRound) {
     if (currentRound < EntitySpawnConstants.roundToStartSpawningStrongGroundEnemies) {
       return 0;
     }
 
-    return _tapper((currentRound - EntitySpawnConstants.roundToStartSpawningStrongGroundEnemies) * 5).ceil();
+    return _tapper((currentRound - EntitySpawnConstants.roundToStartSpawningStrongGroundEnemies) * 4).ceil();
   }
 
   static int _flyingMobsToSpawnThisRound(int currentRound) {
@@ -86,7 +90,7 @@ class EntitySpawnHelper {
       return 0;
     }
 
-    return _tapper((currentRound - EntitySpawnConstants.roundToStartSpawningStrongFlyingEnemies) * 3).ceil();
+    return _tapper((currentRound - EntitySpawnConstants.roundToStartSpawningStrongFlyingEnemies) * 2).ceil();
   }
 
   static Vector2 _randomGroundSpawnPosition({required double worldHeight}) {
