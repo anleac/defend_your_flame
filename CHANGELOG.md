@@ -15,6 +15,7 @@
    - Certain enemies won't appear until later in the game
 - Added cost scaling with additional purchases (currently only effects totems as they are the only ones you can buy multiple of)
 - Reduced gold output from all enemies
+- Changed the font and a lot of UX small changes
 
 ## 0.12.2 alpha - 4th May, 2024
 
