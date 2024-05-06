@@ -7,6 +7,7 @@ import 'package:defend_your_flame/core/flame/components/hud/next_round_internal/
 import 'package:defend_your_flame/core/flame/components/hud/shop/shop_item_description.dart';
 import 'package:defend_your_flame/core/flame/components/hud/shop/shop_item_list.dart';
 import 'package:defend_your_flame/core/flame/components/hud/sprite_with_texts/gold_indicator.dart';
+import 'package:defend_your_flame/core/flame/components/hud/sprite_with_texts/health_indicator.dart';
 import 'package:defend_your_flame/core/flame/components/hud/text/shop/no_item_selected_text.dart';
 import 'package:defend_your_flame/core/flame/components/hud/text/shop/shop_title_text.dart';
 import 'package:defend_your_flame/core/flame/shop/purchasable.dart';
@@ -56,6 +57,11 @@ class MainShopHud extends BasicHud with ParentIsA<NextRoundHud> {
     ..anchor = Anchor.centerRight
     ..scale = Vector2.all(1.5);
 
+  late final HealthIndicator _healthIndicator = HealthIndicator()
+    ..position = _headerRect.centerLeft.toVector2() + Vector2(_padding, 0)
+    ..anchor = Anchor.centerLeft
+    ..scale = _goldIndicator.scale;
+
   late final NoItemSelectedText _noItemSelectedText = NoItemSelectedText()
     ..position = _rightBodyRect.center.toVector2()
     ..anchor = Anchor.center;
@@ -87,6 +93,7 @@ class MainShopHud extends BasicHud with ParentIsA<NextRoundHud> {
     add(_noItemSelectedText);
     add(_shopTitleText);
     add(_goldIndicator);
+    add(_healthIndicator);
     add(_backButton);
 
     return super.onLoad();

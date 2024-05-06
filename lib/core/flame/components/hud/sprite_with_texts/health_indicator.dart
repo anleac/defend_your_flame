@@ -8,9 +8,12 @@ import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 import 'package:flame/components.dart';
 
 class HealthIndicator extends PositionComponent with HasWorldReference<MainWorld>, HasGameReference<MainGame> {
-  late final RockHeart _rockHeart = RockHeart()..scale = Vector2.all(0.25);
+  late final RockHeart _rockHeart = RockHeart()
+    ..scale = Vector2.all(0.24)
+    ..anchor = Anchor.centerLeft;
 
-  late final TextComponent _healthText = TextComponent(textRenderer: TextManager.basicHudRenderer);
+  late final TextComponent _healthText = TextComponent(textRenderer: TextManager.basicHudRenderer)
+    ..anchor = Anchor.centerLeft;
 
   late final SpriteWithText _indicator = SpriteWithText(sprite: _rockHeart, text: _healthText);
 

@@ -7,14 +7,24 @@ class RoundText extends DefaultText with HasWorldReference<MainWorld> {
   int _currentRound = 0;
 
   String get _roundText => game.appStrings.roundText(_currentRound);
+  String get _endOfRoundText => game.appStrings.endOfRoundText(_currentRound);
 
-  RoundText() : super(textRenderer: TextManager.headerRenderer);
+  final bool betweenRoundsHud;
+
+  RoundText({required this.betweenRoundsHud})
+      : super(textRenderer: TextManager.headerRenderer, anchor: Anchor.topCenter);
+
+  @override
+  void onMount() {
+    position = Vector2(world.worldWidth / 2, 10);
+    super.onMount();
+  }
 
   @override
   void update(double dt) {
     if (world.roundManager.currentRound != _currentRound) {
       _currentRound = world.roundManager.currentRound;
-      text = _roundText;
+      text = betweenRoundsHud ? _endOfRoundText : _roundText;
     }
 
     super.update(dt);

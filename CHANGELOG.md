@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.13.2 alpha - 6th May, 2024
+
+### New Features
+- N/A
+
+### Bug Fixes
+- N/A
+
+### Improvements
+- Overhauled the between rounds menu
+   - Now includes the context of the round, health, gold, etc
+   - Includes now a random tip each round
+- Small updates to the shop HUD
+
 ## 0.13.1 alpha - 5th May, 2024
 
 ### New Features
