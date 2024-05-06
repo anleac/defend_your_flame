@@ -5,6 +5,7 @@ class AppStringData {
   static final Map<String, Map<String, String>> values = {
     'en': {
       'roundText': 'Round ${AppStrings.placeholderText}',
+      'endOfRoundText': 'End Of Round ${AppStrings.placeholderText}',
       'saveGame': 'Save Game',
       'restartGame': 'Restart Game',
       'gameOver': 'Game Over',

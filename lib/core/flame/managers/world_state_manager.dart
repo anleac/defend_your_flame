@@ -3,7 +3,8 @@ import 'package:defend_your_flame/constants/debug_constants.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world_state.dart';
 
 class WorldStateManager {
-  MainWorldState _currentState = DebugConstants.testShopLogic ? MainWorldState.betweenRounds : MainWorldState.mainMenu;
+  MainWorldState _currentState =
+      DebugConstants.testShopLogic ? MainWorldState.betweenRounds : MainWorldState.betweenRounds;
   MainWorldState get currentState => _currentState;
 
   bool get mainMenu => _currentState == MainWorldState.mainMenu;

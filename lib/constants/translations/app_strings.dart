@@ -53,6 +53,7 @@ class AppStrings {
 
   // Below this are declarations of all the strings used in the app, above is setup.
   String roundText(int round) => AppStringHelper.insertNumber(getValue('roundText'), round);
+  String endOfRoundText(int round) => AppStringHelper.insertNumber(getValue('endOfRoundText'), round);
   String get restartGame => getValue('restartGame');
   String get gameOver => getValue('gameOver');
   String get gameOverRoundText => getValue('gameOverRoundText');
