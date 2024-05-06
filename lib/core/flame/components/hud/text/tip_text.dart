@@ -37,7 +37,7 @@ class TipText extends PositionComponent with HasWorldReference<MainWorld>, HasGa
     if (_currentTipText != tip) {
       _currentTipText = tip;
       _tipText.text = tip;
-      _background.size = _tipText.size + Vector2.all(padding * 2);
+      _background.updateSize(_tipText.scaledSize + Vector2.all(padding * 2));
     }
   }
 }

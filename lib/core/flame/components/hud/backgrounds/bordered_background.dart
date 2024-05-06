@@ -24,6 +24,11 @@ class BorderedBackground extends PositionComponent with Snapshot {
     renderSnapshot = true;
   }
 
+  updateSize(Vector2 size) {
+    this.size = size;
+    takeSnapshot();
+  }
+
   @override
   void render(Canvas canvas) {
     final rect = Rect.fromLTWH(0, 0, width, height);

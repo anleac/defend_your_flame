@@ -18,7 +18,7 @@ class NextRoundMenuHud extends BasicHud with ParentIsA<NextRoundHud> {
   late final SaveGameButton _saveGameButton = SaveGameButton()
     ..position = _enterShop.position + ThemingConstants.menuButtonGap;
 
-  late final LevelHud _levelHud = LevelHud();
+  late final LevelHud _levelHud = LevelHud(betweenRoundsHud: true);
 
   late final TipText _tipText = TipText()..position = Vector2(world.worldWidth / 2, world.worldHeight - 120);
 
