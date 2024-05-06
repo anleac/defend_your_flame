@@ -1,5 +1,7 @@
+import 'package:defend_your_flame/constants/translations/app_string_constants.dart';
 import 'package:defend_your_flame/constants/translations/app_string_data.dart';
 import 'package:defend_your_flame/constants/translations/app_string_helper.dart';
+import 'package:defend_your_flame/helpers/global_vars.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -93,4 +95,6 @@ class AppStrings {
   String get stoneWallName => getValue('stoneWallName');
   String get stoneWallDescription => getValue('stoneWallDescription');
   String get stoneWallQuote => getValue('stoneWallQuote');
+
+  String getRandomTip() => getValue('gameTip${GlobalVars.rand.nextInt(AppStringConstants.amountOfTips)}');
 }

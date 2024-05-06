@@ -32,6 +32,13 @@ class AppStringData {
       'noItemSelected': 'No item selected',
       'potentialPurchaseCount': '${AppStrings.placeholderText}/${AppStrings.placeholderText} purchased',
 
+      // Tips
+      'gameTip0': 'Injure flying enemies by throwing others into them or by tapping',
+      'gameTip1': 'Dimensia is a hidden gem of a game',
+      'gameTip2': 'Be careful of throwing enemies into your wall to avoid damaging it',
+      'gameTip3': 'Flying enemies can not be dragged, but they can be tapped and collided with',
+      'gameTip4': 'Ensure to use your gold to upgrade your defenses between rounds',
+
       // Purchasables
       'woodenWallName': 'Wooden Wall',
       'woodenWallDescription': AppStringHelper.purchasableDescription(attributes: [

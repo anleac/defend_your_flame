@@ -1,12 +1,11 @@
+import 'package:defend_your_flame/constants/translations/app_string_constants.dart';
 import 'package:defend_your_flame/constants/translations/app_strings.dart';
 
 class AppStringHelper {
-  static const String _descriptionGap = '\n';
-
   static String purchasableDescription({required List<String> attributes}) {
     var description = '';
     for (var attribute in attributes) {
-      description += '- $attribute$_descriptionGap';
+      description += '- $attribute${AppStringConstants.descriptionGap}';
     }
 
     return description;
