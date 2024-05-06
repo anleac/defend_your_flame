@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.13.3 alpha - 6th May, 2024
+
+### New Features
+- N/A
+
+### Bug Fixes
+- Fix the tip border not correcting size between rounds
+- Fix the Round text not updating between rounds
+
+### Improvements
+- N/A
+
 ## 0.13.2 alpha - 6th May, 2024
 
 ### New Features
