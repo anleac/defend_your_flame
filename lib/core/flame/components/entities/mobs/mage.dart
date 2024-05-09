@@ -1,22 +1,30 @@
 import 'package:defend_your_flame/constants/damage_constants.dart';
 import 'package:defend_your_flame/core/flame/components/entities/configs/animation_config.dart';
 import 'package:defend_your_flame/core/flame/components/entities/configs/entity_config.dart';
-import 'package:defend_your_flame/core/flame/components/entities/configs/flying_entity_config.dart';
 import 'package:defend_your_flame/core/flame/components/entities/disappear_on_death.dart';
-import 'package:defend_your_flame/core/flame/components/entities/flying_entity.dart';
+import 'package:defend_your_flame/core/flame/components/entities/entity.dart';
+import 'package:defend_your_flame/core/flame/components/entities/enums/entity_state.dart';
+import 'package:defend_your_flame/core/flame/components/entities/enums/idle_time.dart';
+import 'package:defend_your_flame/core/flame/components/entities/mixins/has_draggable_collisions.dart';
+import 'package:defend_your_flame/core/flame/components/entities/mixins/has_idle_time.dart';
 import 'package:defend_your_flame/core/flame/components/projectiles/concrete_curving_projectiles/mage_curving_projectile.dart';
 import 'package:defend_your_flame/core/flame/helpers/entity_helper.dart';
 import 'package:defend_your_flame/helpers/global_vars.dart';
 import 'package:defend_your_flame/helpers/misc_helper.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flame/events.dart';
 import 'package:flutter/painting.dart';
 
-class Mage extends FlyingEntity with DisappearOnDeath {
-  static final EntityConfig _baseEntityConfig = EntityConfig(
+class Mage extends Entity with DisappearOnDeath, HasIdleTime, HasDraggableCollisions {
+  static final EntityConfig _mageConfig = EntityConfig(
     entityResourceName: 'mage',
     defaultSize: Vector2(160, 128),
     defaultScale: 1.2,
+    idleConfig: AnimationConfig(
+      stepTime: 0.1,
+      frames: 8,
+    ),
     walkingConfig: AnimationConfig(
       stepTime: 0.12,
       frames: 8,
@@ -33,15 +41,8 @@ class Mage extends FlyingEntity with DisappearOnDeath {
     damageOnAttack: 12,
     goldOnKill: 12,
     totalHealth: DamageConstants.fallDamage * 4,
-  );
-
-  static final FlyingEntityConfig _mageConfig = FlyingEntityConfig(
-    entityConfig: _baseEntityConfig,
-    idleConfig: AnimationConfig(
-      stepTime: 0.1,
-      frames: 8,
-    ),
     attackRange: () => GlobalVars.rand.nextInt(220) + 300,
+    idleTime: IdleTime.medium,
   );
 
   late final RectangleHitbox _hitbox = EntityHelper.createRectangleHitbox(
@@ -51,7 +52,7 @@ class Mage extends FlyingEntity with DisappearOnDeath {
       collisionType: CollisionType.active,
       isSolid: true);
 
-  Mage({super.scaleModifier}) : super(flyingEntityConfig: _mageConfig) {
+  Mage({super.scaleModifier}) : super(entityConfig: _mageConfig) {
     setDisappearSpeedFactor(2);
   }
 
@@ -77,7 +78,18 @@ class Mage extends FlyingEntity with DisappearOnDeath {
     world.projectileManager.addProjectile(MageCurvingProjectile(
         initialPosition: attackPosition,
         targetPosition: world.playerBase.wall.absoluteCenter,
-        damage: _baseEntityConfig.damageOnAttack));
+        damage: _mageConfig.damageOnAttack));
+  }
+
+  @override
+  void onTapDown(TapDownEvent event) {
+    // Inflict damage on tap and make them idle if they were walking.
+    takeDamage(DamageConstants.clickingDamage);
+    forceResetIdleTimer();
+
+    if (current == EntityState.walking) {
+      shiftStateFromIdle(shortDuration: true);
+    }
   }
 
   static Mage spawn({required double skyHeight}) {

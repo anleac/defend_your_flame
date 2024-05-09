@@ -1,5 +1,6 @@
 import 'package:defend_your_flame/constants/damage_constants.dart';
 import 'package:defend_your_flame/core/flame/components/entities/configs/animation_config.dart';
+import 'package:defend_your_flame/core/flame/components/entities/enums/idle_time.dart';
 import 'package:flame/components.dart';
 
 /// EntityConfig is a class that holds the information used to define
@@ -13,6 +14,7 @@ class EntityConfig {
   final Vector2? attackingSize;
   final double defaultScale;
 
+  final AnimationConfig? idleConfig;
   final AnimationConfig? dragConfig;
 
   final AnimationConfig walkingConfig;
@@ -28,6 +30,9 @@ class EntityConfig {
 
   final double dragResistance;
 
+  final double Function()? attackRange;
+  final IdleTime idleTime;
+
   EntityConfig({
     required this.entityResourceName,
     required this.defaultSize,
@@ -35,6 +40,7 @@ class EntityConfig {
     this.attackingSize,
     this.totalHealth = DamageConstants.fallDamage,
     this.dragConfig,
+    this.idleConfig,
     required this.walkingConfig,
     required this.attackingConfig,
     required this.dyingConfig,
@@ -42,5 +48,7 @@ class EntityConfig {
     required this.damageOnAttack,
     required this.goldOnKill,
     this.dragResistance = 1.0,
+    this.attackRange,
+    this.idleTime = IdleTime.none,
   });
 }

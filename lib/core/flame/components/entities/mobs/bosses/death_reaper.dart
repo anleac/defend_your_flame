@@ -1,21 +1,26 @@
 import 'package:defend_your_flame/constants/damage_constants.dart';
 import 'package:defend_your_flame/core/flame/components/entities/configs/animation_config.dart';
 import 'package:defend_your_flame/core/flame/components/entities/configs/entity_config.dart';
-import 'package:defend_your_flame/core/flame/components/entities/configs/flying_entity_config.dart';
 import 'package:defend_your_flame/core/flame/components/entities/disappear_on_death.dart';
-import 'package:defend_your_flame/core/flame/components/entities/flying_entity.dart';
-import 'package:defend_your_flame/core/flame/components/projectiles/concrete_curving_projectiles/mage_curving_projectile.dart';
+import 'package:defend_your_flame/core/flame/components/entities/entity.dart';
+import 'package:defend_your_flame/core/flame/components/entities/enums/idle_time.dart';
+import 'package:defend_your_flame/core/flame/components/entities/mixins/has_draggable_collisions.dart';
+import 'package:defend_your_flame/core/flame/components/entities/mixins/has_idle_time.dart';
 import 'package:defend_your_flame/core/flame/helpers/entity_helper.dart';
 import 'package:defend_your_flame/helpers/misc_helper.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/painting.dart';
 
-class DeathReaper extends FlyingEntity with DisappearOnDeath {
-  static final EntityConfig _baseEntityConfig = EntityConfig(
+class DeathReaper extends Entity with DisappearOnDeath, HasDraggableCollisions, HasIdleTime {
+  static final EntityConfig _deathReaperConfig = EntityConfig(
     entityResourceName: 'bosses/death_reaper',
     defaultSize: Vector2(140, 93),
     defaultScale: 1.6,
+    idleConfig: AnimationConfig(
+      stepTime: 0.26,
+      frames: 8,
+    ),
     walkingConfig: AnimationConfig(
       stepTime: 0.24,
       frames: 8,
@@ -32,15 +37,7 @@ class DeathReaper extends FlyingEntity with DisappearOnDeath {
     damageOnAttack: 20,
     goldOnKill: 30,
     totalHealth: DamageConstants.fallDamage * 10,
-  );
-
-  static final FlyingEntityConfig _deathReaperConfig = FlyingEntityConfig(
-    entityConfig: _baseEntityConfig,
-    idleConfig: AnimationConfig(
-      stepTime: 0.26,
-      frames: 8,
-    ),
-    attackRange: () => 0,
+    idleTime: IdleTime.short,
   );
 
   late final RectangleHitbox _hitbox = EntityHelper.createRectangleHitbox(
@@ -50,7 +47,7 @@ class DeathReaper extends FlyingEntity with DisappearOnDeath {
       collisionType: CollisionType.active,
       isSolid: true);
 
-  DeathReaper({super.scaleModifier}) : super(flyingEntityConfig: _deathReaperConfig) {
+  DeathReaper({super.scaleModifier}) : super(entityConfig: _deathReaperConfig) {
     setDisappearSpeedFactor(2);
   }
 
@@ -65,18 +62,6 @@ class DeathReaper extends FlyingEntity with DisappearOnDeath {
         entity: this, width: _hitbox.width, centerPosition: Vector2(_hitbox.center.x, _hitbox.topLeftPosition.y));
 
     super.render(canvas);
-  }
-
-  @override
-  void performAttack() {
-    // We want it to come from the top right of the hitbox
-    var attackPosition =
-        _hitbox.absoluteTopLeftPosition + Vector2(_hitbox.width, 0) + (Vector2(8, -22) * scaleModifier);
-
-    world.projectileManager.addProjectile(MageCurvingProjectile(
-        initialPosition: attackPosition,
-        targetPosition: world.playerBase.wall.absoluteCenter,
-        damage: _baseEntityConfig.damageOnAttack));
   }
 
   static DeathReaper spawn({required Vector2 position}) {

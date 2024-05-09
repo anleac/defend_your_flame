@@ -1,31 +1,27 @@
+import 'package:defend_your_flame/constants/damage_constants.dart';
 import 'package:defend_your_flame/core/flame/components/entities/draggable_entity.dart';
+import 'package:defend_your_flame/core/flame/components/entities/entity.dart';
 import 'package:defend_your_flame/core/flame/helpers/damage_helper.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 
-mixin HasDraggableCollisions on PositionComponent, CollisionCallbacks {
-  DraggableEntity? _draggableEntity;
-  DraggableEntity? get draggableEntity => _draggableEntity;
-
-  bool get isCollidingWithDraggableEntity => _draggableEntity != null;
-
+mixin HasDraggableCollisions on Entity, CollisionCallbacks {
   @override
   void onCollisionStart(
     Set<Vector2> intersectionPoints,
     PositionComponent other,
   ) {
     if (other is DraggableEntity && DamageHelper.hasCollisionVelocityImpact(velocity: other.currentVelocity)) {
-      _draggableEntity = other;
+      onDraggableEntityColission(other);
     }
 
     super.onCollisionStart(intersectionPoints, other);
   }
 
-  clearDraggableEntity({stopEntityDrag = false}) {
-    if (stopEntityDrag) {
-      _draggableEntity?.stopDraggingAndBounce();
-    }
+  void onDraggableEntityColission(DraggableEntity other) {
+    takeDamage(DamageConstants.collisionDamage);
+    other.takeDamage(DamageConstants.collisionDamage);
 
-    _draggableEntity = null;
+    other.stopDraggingAndBounce();
   }
 }
