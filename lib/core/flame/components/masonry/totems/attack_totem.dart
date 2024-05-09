@@ -20,6 +20,7 @@ class AttackTotem extends PlayerBaseComponent {
   double _attackCooldown = 2;
 
   AttackTotem() {
+    size = _stoneTotem.size;
     scale = Vector2.all(0.4);
   }
 
@@ -44,7 +45,7 @@ class AttackTotem extends PlayerBaseComponent {
 
         if (randomEnemy != null) {
           world.projectileManager.addProjectile(AttackTotemCurvingProjectile(
-              initialPosition: absoluteCenter - Vector2(0, scaledSize.y / 2 - 3),
+              initialPosition: absoluteCenter - Vector2(0, scaledSize.y / 2),
               targetPosition: randomEnemy.absoluteCenterOfMainHitbox(),
               damage: 8,
               targetXVelocity: randomEnemy.isWalking ? randomEnemy.entityConfig.walkingForwardSpeed.toDouble() : 0,

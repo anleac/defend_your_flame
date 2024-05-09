@@ -51,7 +51,8 @@
       // Another related issue to re-investigate in the future: https://github.com/flutter/flutter/issues/120156
 
       let config = {
-        renderer: "html",
+        // Only enable this to test the HTML mode, otherwise it will default to canvasKit
+        // renderer: "html",
       };
 
       // Download main.dart.js

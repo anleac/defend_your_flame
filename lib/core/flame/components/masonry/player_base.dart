@@ -34,10 +34,10 @@ class PlayerBase extends PositionComponent with HasWorldReference<MainWorld>, Ha
   final List<PlayerBaseComponent> _additionalComponents = [];
 
   late final List<AttackTotem> _potentialAttackTotems = [
-    AttackTotem()..position = _firePit.position + Vector2(RockCircle.ovalWidth / 2 + 10, -52),
-    AttackTotem()..position = _firePit.position + Vector2(RockCircle.ovalWidth / 2 + 13, -10),
-    AttackTotem()..position = _firePit.position - Vector2(RockCircle.ovalWidth / 2 + 22, 52),
-    AttackTotem()..position = _firePit.position - Vector2(RockCircle.ovalWidth / 2 + 16, 10),
+    AttackTotem()..position = _firePit.position + Vector2(RockCircle.ovalWidth / 2 + 4, -54),
+    AttackTotem()..position = _firePit.position + Vector2(RockCircle.ovalWidth / 2 + 7, -10),
+    AttackTotem()..position = _firePit.position - Vector2(RockCircle.ovalWidth / 2 + 27, 54),
+    AttackTotem()..position = _firePit.position - Vector2(RockCircle.ovalWidth / 2 + 24, 10),
   ];
 
   PlayerBase({required double worldWidth, required double worldHeight})
