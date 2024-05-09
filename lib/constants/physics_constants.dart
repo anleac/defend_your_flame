@@ -6,7 +6,7 @@ class PhysicsConstants {
   static final Vector2 friction = Vector2(0.90, 0.98);
   static final Vector2 gravity = Vector2(0, 2600.0);
 
-  static final Vector2 magicalGravity = gravity / 6;
+  static final Vector2 magicalGravity = gravity / 5;
   static final Vector2 strongMagicalGravity = gravity / 2;
 
   static final Vector2 maxVelocity = Vector2(2000, 3000);

@@ -2,6 +2,7 @@ import 'package:defend_your_flame/constants/bounding_constants.dart';
 import 'package:defend_your_flame/constants/misc_constants.dart';
 import 'package:defend_your_flame/core/flame/components/entities/enums/entity_state.dart';
 import 'package:defend_your_flame/core/flame/components/entities/configs/entity_config.dart';
+import 'package:defend_your_flame/core/flame/components/entities/enums/idle_time.dart';
 import 'package:defend_your_flame/core/flame/components/entities/mixins/has_hitbox_positioning.dart';
 import 'package:defend_your_flame/core/flame/main_game.dart';
 import 'package:defend_your_flame/core/flame/managers/entity_manager.dart';
@@ -35,6 +36,8 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
 
   late final List<ShapeHitbox> _hitboxes = addHitboxes();
 
+  late final double _attackOffset = entityConfig.attackRange == null ? 0 : entityConfig.attackRange!();
+
   late Vector2 _startingPosition;
 
   bool _canAttack = false;
@@ -48,6 +51,8 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
   Vector2 get startPosition => _startingPosition;
 
   bool get isWalking => current == EntityState.walking;
+
+  IdleTime get idleTime => entityConfig.idleTime;
 
   Entity({required this.entityConfig, this.scaleModifier = 1}) {
     size = entityConfig.defaultSize;
@@ -72,6 +77,15 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
 
     final dyingSprite = SpriteManager.getAnimation('mobs/${entityConfig.entityResourceName}/dying',
         stepTime: entityConfig.dyingConfig.stepTime / scale.x, frames: entityConfig.dyingConfig.frames, loop: false);
+
+    if (entityConfig.idleConfig != null) {
+      final idleSprite = SpriteManager.getAnimation('mobs/${entityConfig.entityResourceName}/idle',
+          stepTime: entityConfig.idleConfig!.stepTime / scale.x, frames: entityConfig.idleConfig!.frames, loop: true);
+
+      animations = {
+        EntityState.idle: idleSprite,
+      };
+    }
 
     animations = {
       ...?animations,
@@ -165,6 +179,13 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
       wallCollisionCalculation(dt);
     } else if (current == EntityState.walking) {
       position.x = TimestepHelper.add(position.x, entityConfig.walkingForwardSpeed * scale.x, dt);
+
+      if (_attackOffset > MiscConstants.eps) {
+        final horizontalDistanceToWall = (world.playerBase.position.x - position.x).abs();
+        if (horizontalDistanceToWall <= _attackOffset && world.worldStateManager.playing) {
+          current = EntityState.attacking;
+        }
+      }
     }
   }
 
