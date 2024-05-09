@@ -6,5 +6,5 @@
 ### Bug Fixes
 - N/A
 
-### Improvements
+### Improvements / Balances
 - N/A
