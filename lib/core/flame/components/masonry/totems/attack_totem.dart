@@ -38,7 +38,7 @@ class AttackTotem extends PlayerBaseComponent {
 
     if (_nextAttackCounter >= _attackCooldown) {
       _nextAttackCounter = 0;
-      _attackCooldown = GlobalVars.rand.nextDouble() * 3 + 1.5;
+      _attackCooldown = GlobalVars.rand.nextDouble() * 0.3 + 1.5;
 
       if (world.worldStateManager.playing) {
         var randomEnemy = world.entityManager.randomVisibleAliveEntity();

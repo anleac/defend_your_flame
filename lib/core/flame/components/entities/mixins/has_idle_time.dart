@@ -5,29 +5,45 @@ import 'package:defend_your_flame/helpers/global_vars.dart';
 
 mixin HasIdleTime on Entity {
   late double _nextIdleTimeInSeconds = _calculateNextIdleTimeInSeconds();
+  late double _timeToSpendIdleInSeconds = _calculateTimeToSpendIdleInSeconds();
+
   double _idleTimer = 0.0;
 
   double _calculateNextIdleTimeInSeconds() {
-    var baseIdleTime = GlobalVars.rand.nextDouble() * 1.5 + 1.5;
+    var baseIdleTime = GlobalVars.rand.nextDouble() * 2 + 2;
     return baseIdleTime * idleTime.timeScale;
   }
 
-  void shiftStateFromIdle({bool shortDuration = false}) {
-    if (idleTime == IdleTime.none) {
+  double _calculateTimeToSpendIdleInSeconds() {
+    var baseIdleTime = GlobalVars.rand.nextDouble() + 2;
+    return baseIdleTime / idleTime.timeScale;
+  }
+
+  toggleToIdle({bool shortDuration = false}) {
+    if (idleTime == TimeSpendIdle.none) {
+      return;
+    }
+
+    if (current == EntityState.walking) {
+      current = EntityState.idle;
+      _timeToSpendIdleInSeconds = _calculateTimeToSpendIdleInSeconds();
+    }
+
+    _idleTimer = 0.0;
+
+    if (shortDuration) {
+      _timeToSpendIdleInSeconds /= 6;
+    }
+  }
+
+  void toggleToWalking({bool shortDuration = false}) {
+    if (idleTime == TimeSpendIdle.none) {
       return;
     }
 
     if (current == EntityState.idle) {
       current = EntityState.walking;
-    } else if (current == EntityState.walking) {
-      current = EntityState.idle;
-    }
-
-    _idleTimer = 0.0;
-    _nextIdleTimeInSeconds = _calculateNextIdleTimeInSeconds();
-
-    if (shortDuration) {
-      _nextIdleTimeInSeconds /= 6;
+      _nextIdleTimeInSeconds = _calculateNextIdleTimeInSeconds();
     }
   }
 
@@ -37,11 +53,13 @@ mixin HasIdleTime on Entity {
 
   @override
   void update(double dt) {
-    if (idleTime != IdleTime.none) {
+    if (idleTime != TimeSpendIdle.none) {
       _idleTimer += dt;
 
-      if (_idleTimer >= _nextIdleTimeInSeconds) {
-        shiftStateFromIdle();
+      if (current == EntityState.walking && _idleTimer >= _nextIdleTimeInSeconds) {
+        toggleToIdle();
+      } else if (current == EntityState.idle && _idleTimer >= _timeToSpendIdleInSeconds) {
+        toggleToWalking();
       }
     }
 

@@ -1,8 +1,10 @@
 import 'dart:collection';
 import 'dart:ui';
 
+import 'package:defend_your_flame/constants/entity_spawn_constants.dart';
 import 'package:defend_your_flame/core/flame/components/entities/entity.dart';
 import 'package:defend_your_flame/core/flame/helpers/entity_spawn_helper.dart';
+import 'package:defend_your_flame/core/flame/managers/extensions/entity_manager_extension.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world_state.dart';
 import 'package:defend_your_flame/helpers/misc_helper.dart';
@@ -67,12 +69,23 @@ class EntityManager extends Component with HasWorldReference<MainWorld> {
         _spawning = false;
       }
     } else if (world.worldStateManager.playing) {
-      // We are no longer spawning, so we can check if any entities are still alive.
-      var anyEntitiesAlive = children.any((element) => element is Entity && element.isAlive);
+      int aliveCount = 0;
+      int weakAliveCount = 0;
+      bool bossAlive = false;
 
-      if (!anyEntitiesAlive) {
+      (aliveCount, weakAliveCount, bossAlive) = entitiesInGame();
+
+      if (aliveCount == 0) {
         world.projectileManager.clearAllProjectiles();
         world.worldStateManager.changeState(MainWorldState.betweenRounds);
+      } else if (bossAlive && weakAliveCount < EntitySpawnConstants.minimumToKeepAliveDuringBossFight) {
+        var amountNeededToSpawn = EntitySpawnConstants.minimumToKeepAliveDuringBossFight - weakAliveCount;
+        // TODO: Re-visit post beta if we need to stagger these s
+        var toAdd = EntitySpawnHelper.spawnExtraWeakMobsDuringBossFight(
+            worldHeight: world.worldHeight, currentRound: world.roundManager.currentRound, amount: amountNeededToSpawn);
+        for (final entity in toAdd) {
+          _addEntity(entity);
+        }
       }
     }
 

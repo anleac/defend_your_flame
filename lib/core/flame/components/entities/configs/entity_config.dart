@@ -31,7 +31,7 @@ class EntityConfig {
   final double dragResistance;
 
   final double Function()? attackRange;
-  final IdleTime idleTime;
+  final TimeSpendIdle timeSpendIdle;
 
   EntityConfig({
     required this.entityResourceName,
@@ -49,6 +49,6 @@ class EntityConfig {
     required this.goldOnKill,
     this.dragResistance = 1.0,
     this.attackRange,
-    this.idleTime = IdleTime.none,
+    this.timeSpendIdle = TimeSpendIdle.none,
   });
 }

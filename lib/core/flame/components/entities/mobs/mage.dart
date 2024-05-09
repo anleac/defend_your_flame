@@ -42,7 +42,7 @@ class Mage extends Entity with DisappearOnDeath, HasIdleTime, HasDraggableCollis
     goldOnKill: 12,
     totalHealth: DamageConstants.fallDamage * 4,
     attackRange: () => GlobalVars.rand.nextInt(220) + 300,
-    idleTime: IdleTime.medium,
+    timeSpendIdle: TimeSpendIdle.moderate,
   );
 
   late final RectangleHitbox _hitbox = EntityHelper.createRectangleHitbox(
@@ -85,10 +85,11 @@ class Mage extends Entity with DisappearOnDeath, HasIdleTime, HasDraggableCollis
   void onTapDown(TapDownEvent event) {
     // Inflict damage on tap and make them idle if they were walking.
     takeDamage(DamageConstants.clickingDamage);
+
     forceResetIdleTimer();
 
     if (current == EntityState.walking) {
-      shiftStateFromIdle(shortDuration: true);
+      toggleToIdle(shortDuration: true);
     }
   }
 

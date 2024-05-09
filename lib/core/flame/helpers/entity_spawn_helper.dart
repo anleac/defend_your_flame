@@ -27,8 +27,8 @@ class EntitySpawnHelper {
     var entities = <Entity>[];
     var secondsToSpawn = _secondsToSpawnOver(currentRound);
     var basicMobsToSpawnThisRound = _basicMobsToSpawnThisRound(currentRound);
-    var strongGroundMobsToSpawnThisRound = _strongGroundMobsToSpawnThisRound(currentRound);
-    var flyingMobsToSpawnThisRound = _flyingMobsToSpawnThisRound(currentRound);
+    var strongGroundMobsToSpawnThisRound = 0; // _strongGroundMobsToSpawnThisRound(currentRound);
+    var flyingMobsToSpawnThisRound = 0; //_flyingMobsToSpawnThisRound(currentRound);
 
     // Add in the weak mobs
     for (var i = 0; i < basicMobsToSpawnThisRound; i++) {
@@ -47,10 +47,9 @@ class EntitySpawnHelper {
       entities.add(Mage.spawn(skyHeight: skyHeight));
     }
 
-    // Add in the boss mob
-    if (false) {
-      entities.add(_spawnBossMob(worldHeight: worldHeight, currentRound: currentRound));
-      entities.add(FireBeast.spawn(position: _randomGroundSpawnPosition(worldHeight: worldHeight)));
+    // Add in the boss mobs
+    for (var bossType in EntitySpawnConstants.bossRounds[currentRound] ?? []) {
+      entities.add(_spawnBossMobs(worldHeight: worldHeight, currentRound: currentRound, bossType: bossType));
     }
 
     entities.shuffle(GlobalVars.rand);
@@ -58,9 +57,25 @@ class EntitySpawnHelper {
     return (entities, secondsToSpawn);
   }
 
-  static Entity _spawnBossMob({required double worldHeight, required int currentRound}) {
+  static List<Entity> spawnExtraWeakMobsDuringBossFight(
+      {required double worldHeight, required int currentRound, required int amount}) {
+    var entities = <Entity>[];
+    for (var i = 0; i < amount; i++) {
+      entities.add(_spawnBasicGroundMob(worldHeight: worldHeight, currentRound: currentRound));
+    }
+
+    return entities;
+  }
+
+  static Entity _spawnBossMobs({required double worldHeight, required int currentRound, required Type bossType}) {
     var startPosition = _randomGroundSpawnPosition(worldHeight: worldHeight);
-    return DeathReaper.spawn(position: startPosition);
+    if (bossType == DeathReaper) {
+      return DeathReaper.spawn(position: startPosition);
+    } else if (bossType == FireBeast) {
+      return FireBeast.spawn(position: startPosition);
+    } else {
+      throw Exception('Invalid boss type');
+    }
   }
 
   static Entity _spawnBasicGroundMob({required double worldHeight, required int currentRound}) {

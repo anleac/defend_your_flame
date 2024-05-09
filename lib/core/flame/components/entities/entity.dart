@@ -50,9 +50,11 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
 
   Vector2 get startPosition => _startingPosition;
 
+  Vector2 get trueCenter => absoluteCenterOfMainHitbox();
+
   bool get isWalking => current == EntityState.walking;
 
-  IdleTime get idleTime => entityConfig.idleTime;
+  TimeSpendIdle get idleTime => entityConfig.timeSpendIdle;
 
   Entity({required this.entityConfig, this.scaleModifier = 1}) {
     size = entityConfig.defaultSize;
@@ -204,7 +206,7 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
     if (_currentHealth <= MiscConstants.eps) {
       initiateDeath();
     } else {
-      world.effectManager.addDamageText(damage.toInt(), absoluteCenter);
+      world.effectManager.addDamageText(damage.toInt(), trueCenter);
     }
   }
 
@@ -216,7 +218,7 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
       // Apply the bounding constraints to make sure the entity is in the correct position.
       _applyBoundingConstraints(0);
       world.playerBase.mutateGold(entityConfig.goldOnKill);
-      world.effectManager.addGoldText(entityConfig.goldOnKill, absoluteCenter);
+      world.effectManager.addGoldText(entityConfig.goldOnKill, trueCenter);
 
       for (var hitbox in _hitboxes) {
         hitbox.collisionType = CollisionType.inactive;

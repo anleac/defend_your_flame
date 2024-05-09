@@ -32,9 +32,9 @@ class FireBeast extends Entity with DisappearOnDeath, HasDraggableCollisions {
       frames: 22,
     ),
     walkingForwardSpeed: 16,
-    damageOnAttack: 20,
-    goldOnKill: 30,
-    totalHealth: DamageConstants.fallDamage * 14,
+    damageOnAttack: 40,
+    goldOnKill: 50,
+    totalHealth: DamageConstants.fallDamage * 40,
   );
 
   late final RectangleHitbox _hitbox = EntityHelper.createRectangleHitbox(
