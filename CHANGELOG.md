@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.14.0 alpha - 9th May, 2024
+
+### New Features
+- N/A
+
+### Bug Fixes
+- N/A
+
+### Improvements
+- Added an MVP icon
+- Fixed the incorrect 4th totem placement
+- Improved where the totem attacks spawn from
+- Removed the totem attack when they reach the target, if they missed
+
 ## 0.13.3 alpha - 6th May, 2024
 
 ### New Features
