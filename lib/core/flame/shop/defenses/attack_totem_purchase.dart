@@ -3,14 +3,14 @@ import 'package:defend_your_flame/core/flame/shop/purchasable.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 
 class AttackTotemPurchase extends Purchasable {
-  static const int maxTotems = 4;
+  static const int maxTotems = 6;
 
   AttackTotemPurchase(AppStrings appStrings)
       : super(
           name: appStrings.attackTotemName,
           description: appStrings.attackTotemDescription,
           quote: appStrings.attackTotemQuote,
-          cost: [120, 150, 190, 240],
+          cost: [120, 150, 190, 240, 300, 360],
           maxPurchaseCount: maxTotems,
         );
 

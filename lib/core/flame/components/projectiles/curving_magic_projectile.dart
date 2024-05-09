@@ -96,10 +96,5 @@ class CurvingMagicProjectile extends PositionComponent
     if (position.y > world.worldHeight + BoundingConstants.maxYCoordinateOffScreen) {
       removeFromParent();
     }
-
-    // TODO maybe we should only apply this to ground units, otherwise attacks could disappear in air.
-    if (position.y > targetPosition.y + removalYThreshold) {
-      removeFromParent();
-    }
   }
 }

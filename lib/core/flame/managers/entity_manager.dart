@@ -121,6 +121,18 @@ class EntityManager extends Component with HasWorldReference<MainWorld> {
     add(entity);
   }
 
+  removeEntity(Entity entity) {
+    remove(entity);
+
+    var key = (entity.topLeftPosition.y + entity.scaledSize.y).toInt();
+    if (_entities.containsKey(key) && _entities[key]!.contains(entity)) {
+      _entities[key]!.remove(entity);
+      if (_entities[key]!.isEmpty) {
+        _entities.remove(key);
+      }
+    }
+  }
+
   Entity? randomVisibleAliveEntity() {
     var aliveEntities =
         children.whereType<Entity>().where((element) => element.isAlive && element.absoluteCenter.x > 10).toList();

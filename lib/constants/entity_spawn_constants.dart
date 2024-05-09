@@ -11,7 +11,7 @@ class EntitySpawnConstants {
   static const int minimumToKeepAliveDuringBossFight = 6;
 
   static const Map<int, List<Type>> bossRounds = {
-    10: [FireBeast],
+    10: [DeathReaper],
     20: [FireBeast],
     25: [DeathReaper, DeathReaper],
     30: [DeathReaper, FireBeast, DeathReaper],

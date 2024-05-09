@@ -20,19 +20,19 @@ class FireBeast extends Entity with DisappearOnDeath, HasDraggableCollisions {
       frames: 6,
     ),
     walkingConfig: AnimationConfig(
-      stepTime: 0.135,
+      stepTime: 0.129,
       frames: 12,
     ),
     attackingConfig: AnimationConfig(
-      stepTime: 0.16,
+      stepTime: 0.13,
       frames: 15,
     ),
     dyingConfig: AnimationConfig(
       stepTime: 0.12,
       frames: 22,
     ),
-    walkingForwardSpeed: 15,
-    damageOnAttack: 40,
+    walkingForwardSpeed: 14,
+    damageOnAttack: 30,
     goldOnKill: 100,
     totalHealth: DamageConstants.fallDamage * 50,
     attackRange: () => 85,

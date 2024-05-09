@@ -24,7 +24,7 @@ mixin DisappearOnDeath on Entity {
         ),
       )..onComplete = () {
           isVisible = false;
-          removeFromParent();
+          world.entityManager.removeEntity(this);
         });
     }
 

@@ -25,7 +25,7 @@ class PlayerBase extends PositionComponent with HasWorldReference<MainWorld>, Ha
   late final FirePit _firePit = FirePit()
     ..position = Vector2(Wall.wallAreaWidth + (baseWidthWithoutWall / 2) - 10, baseHeight / 2 - 10);
 
-  int _gold = DebugConstants.testShopLogic ? 5000 : 0;
+  int _gold = DebugConstants.testShopLogic ? 5000 : 10000;
 
   int get totalGold => _gold;
   bool get destroyed => _wall.health <= 0;
@@ -38,6 +38,8 @@ class PlayerBase extends PositionComponent with HasWorldReference<MainWorld>, Ha
     AttackTotem()..position = _firePit.position + Vector2(RockCircle.ovalWidth / 2 + 7, -10),
     AttackTotem()..position = _firePit.position - Vector2(RockCircle.ovalWidth / 2 + 27, 54),
     AttackTotem()..position = _firePit.position - Vector2(RockCircle.ovalWidth / 2 + 24, 10),
+    AttackTotem()..position = _firePit.position + Vector2(RockCircle.ovalWidth / 2 + 22, -74),
+    AttackTotem()..position = _firePit.position + Vector2(RockCircle.ovalWidth / 2 + 29, 10),
   ];
 
   PlayerBase({required double worldWidth, required double worldHeight})
