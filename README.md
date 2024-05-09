@@ -29,4 +29,9 @@ Delete all merged branches:
 - Removing objects: https://snapedit.app/
 - Pixelifying objects: https://pixelartify.com
 - Another pixelify tool: https://pixelied.com/features/pixel-art-generator
+
+### Useful general tools for graphic manipulation / generation
+- You can use ImageMagick to flip images locally:
+    - `mogrify -flop *.png` (this will be in place manipulation), otherwise you can use a new directory:
+    - `mkdir flipped && mogrify -path flipped -flop *.png`
 - Splitting spritesheets: https://ezgif.com/sprite-cutter

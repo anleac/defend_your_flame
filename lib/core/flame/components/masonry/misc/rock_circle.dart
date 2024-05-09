@@ -29,7 +29,8 @@ class RockCircle extends PositionComponent with Snapshot {
     super.render(canvas);
 
     const double rockScale = 0.66;
-    final int numRocks = (20 * rockPitScale).ceil();
+    final double totalScaleInfluence = (scale.x - 1) / 3 + 1;
+    final int numRocks = (20 * rockPitScale * totalScaleInfluence).ceil();
 
     List<Vector2> rockPositions = [];
     for (int i = 0; i < numRocks; i++) {

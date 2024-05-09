@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:defend_your_flame/constants/entity_spawn_constants.dart';
 import 'package:defend_your_flame/core/flame/components/entities/entity.dart';
+import 'package:defend_your_flame/core/flame/components/entities/mobs/bosses/death_reaper.dart';
 import 'package:defend_your_flame/core/flame/components/entities/mobs/mage.dart';
 import 'package:defend_your_flame/core/flame/components/entities/mobs/skeleton.dart';
 import 'package:defend_your_flame/core/flame/components/entities/mobs/slime.dart';
@@ -45,9 +46,19 @@ class EntitySpawnHelper {
       entities.add(Mage.spawn(skyHeight: skyHeight));
     }
 
+    // Add in the boss mob
+    if (currentRound == 1) {
+      entities.add(_spawnBossMob(worldHeight: worldHeight, currentRound: currentRound));
+    }
+
     entities.shuffle(GlobalVars.rand);
 
     return (entities, secondsToSpawn);
+  }
+
+  static Entity _spawnBossMob({required double worldHeight, required int currentRound}) {
+    var startPosition = _randomGroundSpawnPosition(worldHeight: worldHeight);
+    return DeathReaper.spawn(position: startPosition);
   }
 
   static Entity _spawnBasicGroundMob({required double worldHeight, required int currentRound}) {
