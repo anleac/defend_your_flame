@@ -30,6 +30,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/mobs/bosses/death_reaper/
+    - assets/images/mobs/bosses/fire_beast/
     - assets/images/mobs/skeleton/
     - assets/images/mobs/strong_skeleton/
     - assets/images/mobs/slime/
