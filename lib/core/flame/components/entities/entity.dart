@@ -36,7 +36,7 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
 
   late final List<ShapeHitbox> _hitboxes = addHitboxes();
 
-  late final double _attackOffset = entityConfig.attackRange == null ? 0 : entityConfig.attackRange!();
+  late final double _attackOffset = entityConfig.attackRange == null ? 0 : entityConfig.attackRange!() * scale.x;
 
   late Vector2 _startingPosition;
 
@@ -153,8 +153,8 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
 
   void _applyBoundingConstraints(double dt) {
     position.y = position.y.clamp(BoundingConstants.minYCoordinate, _startingPosition.y + MiscConstants.eps);
-    position.x = position.x
-        .clamp(BoundingConstants.minXCoordinateOffScreen, world.worldWidth + BoundingConstants.maxXCoordinateOffScreen);
+    position.x = position.x.clamp(BoundingConstants.minXCoordinateOffScreen - scaledSize.x,
+        world.worldWidth + BoundingConstants.maxXCoordinateOffScreen + (scaledSize.x / 2));
 
     if (!isAlive || world.worldStateManager.gameOver) {
       return;
@@ -183,7 +183,7 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
       position.x = TimestepHelper.add(position.x, entityConfig.walkingForwardSpeed * scale.x, dt);
 
       if (_attackOffset > MiscConstants.eps) {
-        final horizontalDistanceToWall = (world.playerBase.position.x - position.x).abs();
+        final horizontalDistanceToWall = (world.playerBase.position.x - trueCenter.x).abs();
         if (horizontalDistanceToWall <= _attackOffset && world.worldStateManager.playing) {
           current = EntityState.attacking;
         }

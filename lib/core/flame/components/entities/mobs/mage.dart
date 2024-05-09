@@ -35,13 +35,13 @@ class Mage extends Entity with DisappearOnDeath, HasIdleTime, HasDraggableCollis
     ),
     dyingConfig: AnimationConfig(
       stepTime: 0.07,
-      frames: 8,
+      frames: 10,
     ),
-    walkingForwardSpeed: 34,
+    walkingForwardSpeed: 31,
     damageOnAttack: 12,
-    goldOnKill: 12,
+    goldOnKill: 14,
     totalHealth: DamageConstants.fallDamage * 4,
-    attackRange: () => GlobalVars.rand.nextInt(220) + 300,
+    attackRange: () => GlobalVars.rand.nextInt(120) + 140,
     timeSpendIdle: TimeSpendIdle.moderate,
   );
 

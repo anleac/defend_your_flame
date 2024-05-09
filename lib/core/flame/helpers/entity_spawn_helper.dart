@@ -27,8 +27,20 @@ class EntitySpawnHelper {
     var entities = <Entity>[];
     var secondsToSpawn = _secondsToSpawnOver(currentRound);
     var basicMobsToSpawnThisRound = _basicMobsToSpawnThisRound(currentRound);
-    var strongGroundMobsToSpawnThisRound = 0; // _strongGroundMobsToSpawnThisRound(currentRound);
-    var flyingMobsToSpawnThisRound = 0; //_flyingMobsToSpawnThisRound(currentRound);
+    var strongGroundMobsToSpawnThisRound = _strongGroundMobsToSpawnThisRound(currentRound);
+    var flyingMobsToSpawnThisRound = _flyingMobsToSpawnThisRound(currentRound);
+    var isBossRound = EntitySpawnConstants.bossRounds.containsKey(currentRound);
+
+    if (isBossRound) {
+      // If it's a boss round, reduce the number of strong enemies, but increase the number of weaks.
+      const reductionFactor = 2.0;
+      var beforeReduction = strongGroundMobsToSpawnThisRound + flyingMobsToSpawnThisRound;
+      strongGroundMobsToSpawnThisRound = (strongGroundMobsToSpawnThisRound / reductionFactor).ceil();
+      flyingMobsToSpawnThisRound = (flyingMobsToSpawnThisRound / reductionFactor).ceil();
+      var totalReduction = strongGroundMobsToSpawnThisRound + flyingMobsToSpawnThisRound - beforeReduction;
+
+      basicMobsToSpawnThisRound += totalReduction;
+    }
 
     // Add in the weak mobs
     for (var i = 0; i < basicMobsToSpawnThisRound; i++) {
@@ -89,7 +101,7 @@ class EntitySpawnHelper {
     }
   }
 
-  static double _tapper(double input) {
+  static double _tapper(double input, {bool tapperLess = false}) {
     if (input <= 0) {
       return 1;
     }
@@ -97,11 +109,11 @@ class EntitySpawnHelper {
     const double tapper = 0.6;
     // This is a tapper function that will make the spawn rate increase slower as the rounds progress
     // I tried sqrt but it was a bit too high of tappering
-    return pow(input, tapper).toDouble();
+    return pow(input, tapperLess ? tapper * 1.1 : tapper).toDouble();
   }
 
   static double _secondsToSpawnOver(int currentRound) {
-    return _tapper(currentRound * 14).ceil() + 6;
+    return _tapper(currentRound * 12, tapperLess: true).ceil() + 6;
   }
 
   static int _basicMobsToSpawnThisRound(int currentRound) => _tapper(currentRound * 12).ceil() + 4;

@@ -38,6 +38,7 @@ class DeathReaper extends Entity with DisappearOnDeath, HasDraggableCollisions, 
     goldOnKill: 40,
     totalHealth: DamageConstants.fallDamage * 20,
     timeSpendIdle: TimeSpendIdle.minimal,
+    attackRange: () => 48,
   );
 
   late final RectangleHitbox _hitbox = EntityHelper.createRectangleHitbox(
@@ -47,9 +48,7 @@ class DeathReaper extends Entity with DisappearOnDeath, HasDraggableCollisions, 
       collisionType: CollisionType.active,
       isSolid: true);
 
-  DeathReaper({super.scaleModifier}) : super(entityConfig: _deathReaperConfig) {
-    setDisappearSpeedFactor(2);
-  }
+  DeathReaper({super.scaleModifier}) : super(entityConfig: _deathReaperConfig);
 
   @override
   List<ShapeHitbox> addHitboxes() {
@@ -68,7 +67,7 @@ class DeathReaper extends Entity with DisappearOnDeath, HasDraggableCollisions, 
     var scaleModifier = MiscHelper.randomDouble(minValue: 1.1, maxValue: 1.2);
     var deathReaper = DeathReaper(scaleModifier: scaleModifier);
 
-    deathReaper.position = position - Vector2(deathReaper.scaledSize.x / 2, deathReaper.scaledSize.y - 40);
+    deathReaper.position = position - Vector2(deathReaper.scaledSize.x / 3, deathReaper.scaledSize.y - 40);
     return deathReaper;
   }
 }

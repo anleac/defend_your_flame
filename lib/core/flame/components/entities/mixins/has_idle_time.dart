@@ -10,12 +10,12 @@ mixin HasIdleTime on Entity {
   double _idleTimer = 0.0;
 
   double _calculateNextIdleTimeInSeconds() {
-    var baseIdleTime = GlobalVars.rand.nextDouble() * 2 + 2;
+    var baseIdleTime = GlobalVars.rand.nextDouble() * 2 + 2.5;
     return baseIdleTime * idleTime.timeScale;
   }
 
   double _calculateTimeToSpendIdleInSeconds() {
-    var baseIdleTime = GlobalVars.rand.nextDouble() + 2;
+    var baseIdleTime = GlobalVars.rand.nextDouble() * 1.5 + 3;
     return baseIdleTime / idleTime.timeScale;
   }
 

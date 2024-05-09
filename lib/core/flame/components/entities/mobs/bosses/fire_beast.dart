@@ -20,7 +20,7 @@ class FireBeast extends Entity with DisappearOnDeath, HasDraggableCollisions {
       frames: 6,
     ),
     walkingConfig: AnimationConfig(
-      stepTime: 0.15,
+      stepTime: 0.135,
       frames: 12,
     ),
     attackingConfig: AnimationConfig(
@@ -31,10 +31,11 @@ class FireBeast extends Entity with DisappearOnDeath, HasDraggableCollisions {
       stepTime: 0.12,
       frames: 22,
     ),
-    walkingForwardSpeed: 16,
+    walkingForwardSpeed: 15,
     damageOnAttack: 40,
-    goldOnKill: 50,
-    totalHealth: DamageConstants.fallDamage * 40,
+    goldOnKill: 100,
+    totalHealth: DamageConstants.fallDamage * 50,
+    attackRange: () => 85,
   );
 
   late final RectangleHitbox _hitbox = EntityHelper.createRectangleHitbox(
@@ -44,9 +45,7 @@ class FireBeast extends Entity with DisappearOnDeath, HasDraggableCollisions {
       collisionType: CollisionType.active,
       isSolid: true);
 
-  FireBeast({super.scaleModifier}) : super(entityConfig: _fireBeastConfig) {
-    setDisappearSpeedFactor(2);
-  }
+  FireBeast({super.scaleModifier}) : super(entityConfig: _fireBeastConfig);
 
   @override
   List<ShapeHitbox> addHitboxes() {
@@ -56,7 +55,7 @@ class FireBeast extends Entity with DisappearOnDeath, HasDraggableCollisions {
   @override
   void render(Canvas canvas) {
     EntityHelper.drawHealthBar(canvas,
-        entity: this, width: _hitbox.width, centerPosition: Vector2(_hitbox.center.x, _hitbox.topLeftPosition.y));
+        entity: this, width: _hitbox.width, centerPosition: Vector2(_hitbox.center.x, _hitbox.topLeftPosition.y - 5));
 
     super.render(canvas);
   }

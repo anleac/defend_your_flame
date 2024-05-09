@@ -89,6 +89,9 @@ class EntityManager extends Component with HasWorldReference<MainWorld> {
       }
     }
 
+    // TODO not the best, revisit this and add a _removeEntity method that handles this
+    _entities.removeWhere((key, value) => value.isEmpty);
+
     super.update(dt);
   }
 
@@ -109,7 +112,7 @@ class EntityManager extends Component with HasWorldReference<MainWorld> {
   _addEntity(Entity entity) {
     // We want to sort by the bottom of the entity as this takes into account various anchor points and sizes.
     var key = (entity.topLeftPosition.y + entity.scaledSize.y).toInt();
-
+    // TODO this appears to not be working for strong skeleton
     if (!_entities.containsKey(key)) {
       _entities[key] = [];
     }

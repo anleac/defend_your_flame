@@ -5,9 +5,10 @@ class DamageConstants {
   // We also base the health of most entities on the fall damage.
   // This is because the basic entities should die from a fall from a certain height.
   static const double fallDamage = 10;
+  static final int fallDamageAsInt = fallDamage.toInt();
 
   static const double wallImpactDamage = 5;
-  static const double collisionDamage = 8;
+  static const double collisionDamage = 10;
 
   static const double clickingDamage = 2;
 
