@@ -3,7 +3,7 @@ import 'package:defend_your_flame/core/flame/components/entities/configs/animati
 import 'package:defend_your_flame/core/flame/components/entities/configs/entity_config.dart';
 import 'package:defend_your_flame/core/flame/components/entities/configs/flying_entity_config.dart';
 import 'package:defend_your_flame/core/flame/components/entities/disappear_on_death.dart';
-import 'package:defend_your_flame/core/flame/components/entities/non_draggable_entity.dart';
+import 'package:defend_your_flame/core/flame/components/entities/flying_entity.dart';
 import 'package:defend_your_flame/core/flame/components/projectiles/concrete_curving_projectiles/mage_curving_projectile.dart';
 import 'package:defend_your_flame/core/flame/helpers/entity_helper.dart';
 import 'package:defend_your_flame/helpers/global_vars.dart';
@@ -12,7 +12,7 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/painting.dart';
 
-class Mage extends NonDraggableEntity with DisappearOnDeath {
+class Mage extends FlyingEntity with DisappearOnDeath {
   static final EntityConfig _baseEntityConfig = EntityConfig(
     entityResourceName: 'mage',
     defaultSize: Vector2(160, 128),

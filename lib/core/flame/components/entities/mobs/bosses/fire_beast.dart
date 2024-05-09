@@ -3,7 +3,7 @@ import 'package:defend_your_flame/core/flame/components/entities/configs/animati
 import 'package:defend_your_flame/core/flame/components/entities/configs/entity_config.dart';
 import 'package:defend_your_flame/core/flame/components/entities/configs/flying_entity_config.dart';
 import 'package:defend_your_flame/core/flame/components/entities/disappear_on_death.dart';
-import 'package:defend_your_flame/core/flame/components/entities/non_draggable_entity.dart';
+import 'package:defend_your_flame/core/flame/components/entities/flying_entity.dart';
 import 'package:defend_your_flame/core/flame/components/projectiles/concrete_curving_projectiles/mage_curving_projectile.dart';
 import 'package:defend_your_flame/core/flame/helpers/entity_helper.dart';
 import 'package:defend_your_flame/helpers/misc_helper.dart';
@@ -11,7 +11,7 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/painting.dart';
 
-class FireBeast extends NonDraggableEntity with DisappearOnDeath {
+class FireBeast extends FlyingEntity with DisappearOnDeath {
   static final EntityConfig _baseEntityConfig = EntityConfig(
     entityResourceName: 'bosses/fire_beast',
     defaultSize: Vector2(288, 160),
