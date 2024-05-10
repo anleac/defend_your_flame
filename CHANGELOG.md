@@ -1,5 +1,35 @@
 # Changelog
 
+## 0.15.0 alpha - 10th May, 2024
+
+### New Features
+- Added two new bosses, death reaper and fire beast
+  - Death Reaper, first will appear at round 10
+    - Moderate speed, strong, can't be dragged
+  - Fire Beast, first will appear at round 20
+    - Slow speed, incredibly strong, can't be dragged
+- Temporarily allow for the purchase of 6 totems
+  - This allows for scaling gameplay with the new bosses, in absense of other power upgrades
+
+### Bug Fixes
+- Removed logic that was meant to smart prune missed totem attacks, this broke them attacking mages.
+
+### Improvements / Balances
+- Improved a lot of logic around center positions using hitboxes now instead
+- Added in a mage dying animation
+- Sped up the shots fired by the attack totems
+- Increased gravity effecting mages attacks
+- Balances further the scaling of entity spawning rounds
+  - On boss rounds, you will always have a stream of weak enemies to use to slam into bosses, if they're alive
+  - On boss rounds, less "strong" enemies (currently mages and strong skeletons) spawn, in favour of more weak ones
+- Made walls slightly more effective, with higher HP gain, at higher cost
+- Improved idling mechanics of mage, and idling in genereal, now they idle for longer, but after waiting for longer, too
+- Added in more tips to reference the new boss rounds
+- Slightly lengthened the spawn duration of enemies into the later rounds
+
+### Debug only
+- Updated the moon fast track to have 600 gold now to compensate for harder boss rounds
+
 ## 0.14.0 alpha - 9th May, 2024
 
 ### New Features

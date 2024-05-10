@@ -73,6 +73,6 @@ class MainWorld extends World with HasCollisionDetection {
     // Advance to round 10, give gold, and go to the shop.
     _worldStateManager.changeState(MainWorldState.betweenRounds);
     _roundManager.overrideRound(9); // It's actually 9, because clicking next round will go to 10.
-    _playerBase.mutateGold(500);
+    _playerBase.mutateGold(600);
   }
 }

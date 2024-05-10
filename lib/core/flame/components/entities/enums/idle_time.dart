@@ -1,21 +1,21 @@
-enum IdleTime {
+enum TimeSpendIdle {
   none,
-  short,
-  medium,
-  long,
+  minimal,
+  moderate,
+  often,
 }
 
-extension IdleTimeExtension on IdleTime {
+extension IdleTimeExtension on TimeSpendIdle {
   double get timeScale {
     switch (this) {
-      case IdleTime.none:
+      case TimeSpendIdle.none:
         return 0;
-      case IdleTime.short:
-        return 0.5;
-      case IdleTime.medium:
-        return 1;
-      case IdleTime.long:
+      case TimeSpendIdle.minimal:
+        return 2;
+      case TimeSpendIdle.moderate:
         return 1.5;
+      case TimeSpendIdle.often:
+        return 1;
     }
   }
 }

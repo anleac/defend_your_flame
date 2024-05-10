@@ -1,3 +1,4 @@
+import 'package:defend_your_flame/constants/entity_spawn_constants.dart';
 import 'package:defend_your_flame/constants/translations/app_string_helper.dart';
 import 'package:defend_your_flame/constants/translations/app_strings.dart';
 
@@ -32,12 +33,15 @@ class AppStringData {
       'noItemSelected': 'No item selected',
       'potentialPurchaseCount': '${AppStrings.placeholderText}/${AppStrings.placeholderText} purchased',
 
-      // Tips
+      // Tips - if you modify tips make sure the tip amount constant in app_string_constants is correct.
       'gameTip0': 'Injure flying enemies by throwing others into them or by tapping',
       'gameTip1': 'Dimensia is a hidden gem of a game',
       'gameTip2': 'Be careful of throwing enemies into your wall to avoid damaging it',
       'gameTip3': 'Flying enemies can not be dragged, but they can be tapped and collided with',
       'gameTip4': 'Ensure to use your gold to upgrade your defenses between rounds',
+      'gameTip5': 'Certain enemies are too heavy to pick up, slam other enemies into them!',
+      'gameTip6':
+          'The first boss round is at round ${EntitySpawnConstants.bossRounds.entries.first.key}, be prepared for a heavy enemy!',
 
       // Purchasables
       'woodenWallName': 'Wooden Wall',

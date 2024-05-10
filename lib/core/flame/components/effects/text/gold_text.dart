@@ -8,7 +8,7 @@ class GoldText extends FloatingText {
   static final TextRenderer _goldTextRenderer =
       TextManager.customDefaultRenderer(fontSize: 10, color: Colors.yellow.darken(0.2));
   GoldText(int gold) : super(textRenderer: _goldTextRenderer) {
-    scale = Vector2.all(1 + (gold / 20));
+    scale = Vector2.all(1 + (gold / 16));
     text = "+$gold";
   }
 }

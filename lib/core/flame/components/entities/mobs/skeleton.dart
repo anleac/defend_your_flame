@@ -26,7 +26,6 @@ class Skeleton extends DraggableEntity with DisappearOnDeath {
 
   bool _attackingState = false;
 
-  // TODO maybe add a head hitbox to make the skeleton more accurate.
   late final RectangleHitbox _hitBox =
       EntityHelper.createRectangleHitbox(size: Vector2(16, 25), position: Vector2(8, 33), anchor: Anchor.bottomCenter);
 
