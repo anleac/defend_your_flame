@@ -89,9 +89,6 @@ class EntityManager extends Component with HasWorldReference<MainWorld> {
       }
     }
 
-    // TODO not the best, revisit this and add a _removeEntity method that handles this
-    _entities.removeWhere((key, value) => value.isEmpty);
-
     super.update(dt);
   }
 
