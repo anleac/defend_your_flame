@@ -26,6 +26,9 @@
 - Improved idling mechanics of mage, and idling in genereal, now they idle for longer, but after waiting for longer, too
 - Slightly lengthened the spawn duration of enemies into the later rounds
 
+### Debug only
+- Updated the moon fast track to have 600 gold now to compensate for harder boss rounds
+
 ## 0.14.0 alpha - 9th May, 2024
 
 ### New Features
