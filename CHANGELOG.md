@@ -24,6 +24,7 @@
   - On boss rounds, less "strong" enemies (currently mages and strong skeletons) spawn, in favour of more weak ones
 - Made walls slightly more effective, with higher HP gain, at higher cost
 - Improved idling mechanics of mage, and idling in genereal, now they idle for longer, but after waiting for longer, too
+- Added in more tips to reference the new boss rounds
 - Slightly lengthened the spawn duration of enemies into the later rounds
 
 ### Debug only
