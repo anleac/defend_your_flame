@@ -1,3 +1,4 @@
+import 'package:defend_your_flame/constants/constants.dart';
 import 'package:defend_your_flame/constants/translations/app_strings.dart';
 import 'package:defend_your_flame/core/flame/game_provider.dart';
 import 'package:defend_your_flame/helpers/platform_helper.dart';
@@ -18,6 +19,7 @@ class _StateManagerState extends State<StateManager> with WidgetsBindingObserver
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        title: Constants.gameTitle,
         debugShowCheckedModeBanner: false,
         localizationsDelegates: const [
           AppStringsDelegate(),
