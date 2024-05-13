@@ -32,7 +32,7 @@ class StrongSkeleton extends DraggableEntity with DisappearOnDeath {
 
   @override
   Vector2? attackEffectPosition() {
-    return position + scaledSize / 2;
+    return trueCenter + Vector2(scaledSize.x / 2 - 3, 0);
   }
 
   @override

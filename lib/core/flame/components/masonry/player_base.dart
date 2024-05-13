@@ -66,7 +66,13 @@ class PlayerBase extends PositionComponent with HasWorldReference<MainWorld>, Ha
     _additionalComponents.clear();
   }
 
-  void mutateGold(int gold) => _gold += gold;
+  void mutateGold(int gold, {Vector2? position}) {
+    _gold += gold;
+
+    if (position != null) {
+      world.effectManager.addGoldText(gold, position);
+    }
+  }
 
   void takeDamage(int damage, {Vector2? position}) {
     _wall.takeDamage(damage, position: position);

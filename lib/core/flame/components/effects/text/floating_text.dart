@@ -3,19 +3,26 @@ import 'package:defend_your_flame/helpers/timestep/timestep_helper.dart';
 import 'package:flame/components.dart';
 
 class FloatingText extends TextComponent {
-  static const double speed = 0.5;
+  static const double speed = 30;
 
-  late Vector2 _velocity = Vector2((GlobalVars.rand.nextDouble() * speed) * (GlobalVars.rand.nextBool() ? 1 : -1),
-          -((GlobalVars.rand.nextDouble() * speed) + (1.5 * speed)).abs()) *
-      0.2;
+  late Vector2 _velocity = Vector2(
+    GlobalVars.rand.nextDouble() * 2 * speed - speed,
+    GlobalVars.rand.nextDouble() * 2 * speed - speed,
+  );
 
-  FloatingText({super.text, super.textRenderer}) : super();
+  double _timeAlive = 0;
+
+  FloatingText({super.text, super.textRenderer}) {
+    anchor = Anchor.center;
+  }
 
   @override
   void update(double dt) {
+    _timeAlive += dt;
     _velocity = TimestepHelper.multiplyVector2(_velocity, 0.95, dt);
-    position += _velocity;
-    var newScale = TimestepHelper.add(scale.x, -0.8, dt);
+    position = TimestepHelper.addVector2(position, _velocity, dt);
+
+    var newScale = TimestepHelper.add(scale.x, -0.7 - (_timeAlive * 2), dt);
     scale = Vector2.all(newScale);
 
     if (scale.x < 0.04) {

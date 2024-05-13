@@ -8,6 +8,7 @@ import 'package:flame/events.dart';
 import 'package:flutter/material.dart';
 
 class Moon extends PositionComponent with TapCallbacks, GestureHitboxes, HasWorldReference<MainWorld> {
+  static const double preRotationInDegrees = 12;
   final Paint _moonPaint = Paint()..color = Colors.white.withOpacity(0.4);
 
   final double _rotationalSpeed = MathHelper.degreesToRads(1);
@@ -20,7 +21,8 @@ class Moon extends PositionComponent with TapCallbacks, GestureHitboxes, HasWorl
 
   Moon() {
     // Pre-rotate it a tad
-    position = MathHelper.rotateAboutOrigin(_initialPosition, _rotateAround, MathHelper.degreesToRads(12));
+    position =
+        MathHelper.rotateAboutOrigin(_initialPosition, _rotateAround, MathHelper.degreesToRads(preRotationInDegrees));
   }
 
   @override
@@ -43,7 +45,7 @@ class Moon extends PositionComponent with TapCallbacks, GestureHitboxes, HasWorl
     position = MathHelper.rotateAboutOrigin(position, _rotateAround, toRotate);
 
     _totalRotated += MathHelper.radsToDegrees(toRotate);
-    if (_totalRotated > 170) {
+    if (_totalRotated > 180 - (preRotationInDegrees * 2)) {
       _totalRotated = 0;
       position = _initialPosition;
     }
@@ -55,8 +57,8 @@ class Moon extends PositionComponent with TapCallbacks, GestureHitboxes, HasWorl
   void onTapDown(TapDownEvent event) {
     super.onTapDown(event);
 
-    if (ExperimentalConstants.allowMoonClickFastTrack) {
-      world.moonClickFastTrack();
+    if (ExperimentalConstants.allowMoonMoneyCheat && world.worldStateManager.betweenRounds) {
+      world.playerBase.mutateGold(100, position: event.localPosition + position);
     }
   }
 }

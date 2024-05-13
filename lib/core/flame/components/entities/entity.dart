@@ -200,13 +200,12 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
 
   void fallingCalculation(double dt) {}
 
-  void takeDamage(double damage) {
+  void takeDamage(double damage, {Vector2? position}) {
     _currentHealth -= damage;
 
+    world.effectManager.addDamageText(damage.toInt(), position ?? trueCenter);
     if (_currentHealth <= MiscConstants.eps) {
       initiateDeath();
-    } else {
-      world.effectManager.addDamageText(damage.toInt(), trueCenter);
     }
   }
 
@@ -217,8 +216,7 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
 
       // Apply the bounding constraints to make sure the entity is in the correct position.
       _applyBoundingConstraints(0);
-      world.playerBase.mutateGold(entityConfig.goldOnKill);
-      world.effectManager.addGoldText(entityConfig.goldOnKill, trueCenter);
+      world.playerBase.mutateGold(entityConfig.goldOnKill, position: trueCenter);
 
       for (var hitbox in _hitboxes) {
         hitbox.collisionType = CollisionType.inactive;

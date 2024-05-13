@@ -6,6 +6,7 @@ import 'package:defend_your_flame/core/flame/components/hud/buttons/restart_game
 import 'package:defend_your_flame/core/flame/components/hud/text/game_over_text.dart';
 import 'package:defend_your_flame/core/flame/main_game.dart';
 import 'package:defend_your_flame/core/flame/managers/text/text_manager.dart';
+import 'package:defend_your_flame/core/flame/worlds/main_world_state.dart';
 import 'package:flame/components.dart';
 
 class GameOverHud extends BasicHud with HasGameReference<MainGame> {
@@ -40,6 +41,7 @@ class GameOverHud extends BasicHud with HasGameReference<MainGame> {
   }
 
   restartGame() {
-    world.roundManager.restartGame();
+    world.roundManager.resetGame();
+    world.worldStateManager.changeState(MainWorldState.gameSelection);
   }
 }
