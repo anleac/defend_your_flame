@@ -44,6 +44,10 @@ class AppStrings {
     return _cachedMap!;
   }
 
+  bool hasValue(String key) {
+    return localMap.containsKey(key) || AppStringData.values['en']!.containsKey(key);
+  }
+
   String getValue(String key) {
     var v = localMap[key];
     if (loc.languageCode != 'en' && (v == '' || v == null)) {
@@ -100,5 +104,22 @@ class AppStrings {
   String get stoneWallDescription => getValue('stoneWallDescription');
   String get stoneWallQuote => getValue('stoneWallQuote');
 
-  String getRandomTip() => getValue('gameTip${GlobalVars.rand.nextInt(AppStringConstants.amountOfTips)}');
+  late final List<String> _tips = [];
+  List<String> get tips {
+    if (_tips.isEmpty) {
+      int rollingFailure = 0;
+      for (var i = 0; i <= 100; i++) {
+        if (!hasValue('${AppStringConstants.gameTipPrefix}$i')) {
+          rollingFailure++;
+          if (rollingFailure > 4) break;
+          continue;
+        }
+        rollingFailure = 0;
+
+        _tips.add(getValue('${AppStringConstants.gameTipPrefix}$i'));
+      }
+    }
+
+    return _tips;
+  }
 }

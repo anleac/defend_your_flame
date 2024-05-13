@@ -58,7 +58,7 @@ class Moon extends PositionComponent with TapCallbacks, GestureHitboxes, HasWorl
     super.onTapDown(event);
 
     if (ExperimentalConstants.allowMoonMoneyCheat && world.worldStateManager.betweenRounds) {
-      world.playerBase.mutateGold(100, position: event.localPosition + position);
+      world.playerBase.mutateGold(50, position: event.localPosition + position);
     }
   }
 }

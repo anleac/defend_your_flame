@@ -27,7 +27,7 @@ class TipText extends PositionComponent with HasWorldReference<MainWorld>, HasGa
   void update(double dt) {
     if (world.roundManager.currentRound != _currentRound) {
       _currentRound = world.roundManager.currentRound;
-      _setTip(game.appStrings.getRandomTip());
+      _setTip(game.gameTipManager.getTipForRound(_currentRound));
     }
 
     super.update(dt);

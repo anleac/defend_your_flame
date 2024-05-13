@@ -1,5 +1,6 @@
 import 'package:defend_your_flame/constants/constants.dart';
 import 'package:defend_your_flame/constants/translations/app_strings.dart';
+import 'package:defend_your_flame/core/flame/managers/game_tip_manager.dart';
 import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
 import 'package:defend_your_flame/core/storage/game_data.dart';
 import 'package:flame/components.dart';
@@ -15,6 +16,8 @@ class MainGame extends FlameGame {
   // Given this game is within a fixed aspect ratio, this is a simple way to calculate the scaling factor of the games window.
   double get windowScale => windowWidth / Constants.desiredWidth;
 
+  late final GameTipManager _gameTipManager = GameTipManager(_appStrings.tips);
+
   // These are set in `setExternalDependencies`.
   // Is there a better way to do this?
   late AppStrings _appStrings;
@@ -22,6 +25,7 @@ class MainGame extends FlameGame {
 
   AppStrings get appStrings => _appStrings;
   GameData get gameData => _gameData;
+  GameTipManager get gameTipManager => _gameTipManager;
 
   MainGame({required World world, required CameraComponent camera}) : super(world: world, camera: camera);
 

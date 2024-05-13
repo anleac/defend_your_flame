@@ -18,7 +18,7 @@ class PlayerBase extends PositionComponent with HasWorldReference<MainWorld>, Ha
   static const double baseWidth = baseWidthWithoutWall + Wall.wallAreaWidth;
   static const double baseHeight = 180;
 
-  late final Rect _innerBaseRect = Rect.fromLTWH(Wall.wallAreaWidth + position.x, position.y + Wall.wallYOffset,
+  late final Rect _innerBaseRect = Rect.fromLTWH(position.x + (Wall.wallAreaWidth * 0.7), position.y + Wall.wallYOffset,
       width + BoundingConstants.maxXCoordinateOffScreen, baseHeight - (Wall.wallYOffset * 2));
 
   late final Wall _wall = Wall()..position = Vector2(0, Wall.wallYOffset);
