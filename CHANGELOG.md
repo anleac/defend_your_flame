@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.15.1 alpha - 13th May, 2024
+
+### New Features
+- N/A
+
+### Bug Fixes
+- Fixed gold starting at 10,000 - this is now correctly back at 0
+
+### Improvements / Balances
+- Overhauled the game start menu
+  - There is now an additional screen for selecting a game
+  - You can now fast track to round 10 or 15 with additional gold
+- Removed the "moon-click" fast track in favour of the new game start menu
+- Clicking the moon between rounds now gives gold, this is temporary for debugging purposes while testing in alpha
+- Improved the visual effects of damage and gold
+- Scaled the totem cost now to get progressively more expensive by 30% each time
+- Small improvements to the positioning of the wall
+- Small improvements to where damage text is positioned on mage and strong skeletons
+
 ## 0.15.0 alpha - 10th May, 2024
 
 ### New Features

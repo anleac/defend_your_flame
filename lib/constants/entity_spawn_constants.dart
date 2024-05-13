@@ -12,9 +12,10 @@ class EntitySpawnConstants {
 
   static const Map<int, List<Type>> bossRounds = {
     10: [DeathReaper],
+    15: [DeathReaper, DeathReaper],
     20: [FireBeast],
-    25: [DeathReaper, DeathReaper],
-    30: [DeathReaper, FireBeast, DeathReaper],
+    25: [DeathReaper, FireBeast, DeathReaper],
+    30: [FireBeast, FireBeast, FireBeast],
   };
 
   static const Set<Type> weakGroundMobs = {Slime, Skeleton};

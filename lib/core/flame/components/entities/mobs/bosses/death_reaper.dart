@@ -18,7 +18,7 @@ class DeathReaper extends Entity with DisappearOnDeath, HasDraggableCollisions, 
     defaultSize: Vector2(140, 93),
     defaultScale: 1.6,
     idleConfig: AnimationConfig(
-      stepTime: 0.21,
+      stepTime: 0.2,
       frames: 8,
     ),
     walkingConfig: AnimationConfig(
@@ -30,7 +30,7 @@ class DeathReaper extends Entity with DisappearOnDeath, HasDraggableCollisions, 
       frames: 10,
     ),
     dyingConfig: AnimationConfig(
-      stepTime: 0.18,
+      stepTime: 0.16,
       frames: 10,
     ),
     walkingForwardSpeed: 14,

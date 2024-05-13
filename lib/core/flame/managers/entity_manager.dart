@@ -119,7 +119,7 @@ class EntityManager extends Component with HasWorldReference<MainWorld> {
   }
 
   removeEntity(Entity entity) {
-    remove(entity);
+    entity.removeFromParent();
 
     var key = (entity.topLeftPosition.y + entity.scaledSize.y).toInt();
     if (_entities.containsKey(key) && _entities[key]!.contains(entity)) {
@@ -144,8 +144,14 @@ class EntityManager extends Component with HasWorldReference<MainWorld> {
   void clearEntities() {
     for (var entity in children) {
       if (entity is Entity) {
-        entity.removeFromParent();
+        removeEntity(entity);
       }
     }
+
+    _entities.clear();
+    _spawning = false;
+    _entitiesToSpawn.clear();
+    _timeCounter = 0;
+    _secondsToSpawnOver = 0;
   }
 }

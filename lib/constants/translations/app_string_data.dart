@@ -16,10 +16,14 @@ class AppStringData {
       'healthIndicatorAmount': '${AppStrings.placeholderText}/${AppStrings.placeholderText}',
 
       // Main menu
-      'startGame': 'Start Game',
-      'loadGame': 'Load Game',
+      'selectGame': 'Start A Game',
       'howToPlay': 'How To Play',
       'credits': 'Credits',
+
+      // Game selection
+      'startGame': 'Start Game',
+      'fastTrackTo': 'Fast Track To Round ${AppStrings.placeholderText}',
+      'loadGame': 'Load Game',
 
       // Shop
       'enterShop': "Enter Shop",

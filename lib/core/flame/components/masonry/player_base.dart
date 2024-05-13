@@ -25,7 +25,7 @@ class PlayerBase extends PositionComponent with HasWorldReference<MainWorld>, Ha
   late final FirePit _firePit = FirePit()
     ..position = Vector2(Wall.wallAreaWidth + (baseWidthWithoutWall / 2) - 10, baseHeight / 2 - 10);
 
-  int _gold = DebugConstants.testShopLogic ? 5000 : 10000;
+  int _gold = DebugConstants.testShopLogic ? 5000 : 0;
 
   int get totalGold => _gold;
   bool get destroyed => _wall.health <= 0;
@@ -66,7 +66,13 @@ class PlayerBase extends PositionComponent with HasWorldReference<MainWorld>, Ha
     _additionalComponents.clear();
   }
 
-  void mutateGold(int gold) => _gold += gold;
+  void mutateGold(int gold, {Vector2? position}) {
+    _gold += gold;
+
+    if (position != null) {
+      world.effectManager.addGoldText(gold, position);
+    }
+  }
 
   void takeDamage(int damage, {Vector2? position}) {
     _wall.takeDamage(damage, position: position);

@@ -63,10 +63,14 @@ class AppStrings {
   String get healthIndicatorText => getValue('healthIndicatorAmount');
 
   // Main menu
-  String get startGame => getValue('startGame');
-  String get loadGame => getValue('loadGame');
+  String get selectGame => getValue('selectGame');
   String get howToPlay => getValue('howToPlay');
   String get credits => getValue('credits');
+
+  // Game selection
+  String get startGame => getValue('startGame');
+  String get fastTrackTo => getValue('fastTrackTo');
+  String get loadGame => getValue('loadGame');
 
   // Between rounds
   String get startRound => getValue('startRound');
