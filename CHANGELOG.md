@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.15.2 alpha - 13th May, 2024
+
+### New Features
+- N/A
+
+### Bug Fixes
+- N/A
+
+### Improvements / Balances
+- Reduced gold per moon click to 50
+- Overhauled the tip system, now allowing for certain tips to always appear at certain rounds
+- Slightly improved the collision box of the strong skeleton
+
 ## 0.15.1 alpha - 13th May, 2024
 
 ### New Features

@@ -11,6 +11,10 @@ class AppStringHelper {
     return description;
   }
 
+  static String gameTipForRound(int round, String tip) {
+    return '$round${AppStringConstants.roundTipDelimiter}$tip';
+  }
+
   static String insertNumber(String s, int n) => insertString(s, n.toString());
 
   static String insertString(String s, String n) {

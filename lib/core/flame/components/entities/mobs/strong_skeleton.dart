@@ -26,7 +26,7 @@ class StrongSkeleton extends DraggableEntity with DisappearOnDeath {
   );
 
   late final RectangleHitbox _hitbox =
-      EntityHelper.createRectangleHitbox(size: Vector2(24, 33), position: Vector2(30, 48), anchor: Anchor.bottomCenter);
+      EntityHelper.createRectangleHitbox(size: Vector2(24, 33), position: Vector2(32, 48), anchor: Anchor.bottomCenter);
 
   StrongSkeleton({super.scaleModifier}) : super(entityConfig: _strongSkeletonConfig);
 
