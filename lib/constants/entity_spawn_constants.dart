@@ -4,10 +4,13 @@ import 'package:defend_your_flame/core/flame/components/entities/mobs/skeleton.d
 import 'package:defend_your_flame/core/flame/components/entities/mobs/slime.dart';
 
 class EntitySpawnConstants {
-  static const int roundToStartSpawningStrongGroundEnemies = 5;
-  static const int roundToStartSpawningStrongFlyingEnemies = 8;
+  static const int minimumRoundForStrongGroundEnemies = 5;
+  static const int minimumRoundForStrongFlyingEnemies = 8;
 
-  static const int roundToStartIncreasingSpeed = roundToStartSpawningStrongFlyingEnemies;
+  static const int minimumRoundForFastGroundEnemies = 12;
+  static const int minimumRoundForRockGolems = 14;
+
+  static const int roundToStartIncreasingSpeed = minimumRoundForStrongFlyingEnemies;
 
   // The minimum amount of weak enemies to ensure are alive during a boss fight.
   static const int minimumToKeepAliveDuringBossFight = 6;

@@ -5,6 +5,7 @@ import 'package:defend_your_flame/core/flame/components/entities/entity.dart';
 import 'package:defend_your_flame/core/flame/components/entities/mobs/bosses/death_reaper.dart';
 import 'package:defend_your_flame/core/flame/components/entities/mobs/bosses/fire_beast.dart';
 import 'package:defend_your_flame/core/flame/components/entities/mobs/mage.dart';
+import 'package:defend_your_flame/core/flame/components/entities/mobs/rat.dart';
 import 'package:defend_your_flame/core/flame/components/entities/mobs/rock_golem.dart';
 import 'package:defend_your_flame/core/flame/components/entities/mobs/skeleton.dart';
 import 'package:defend_your_flame/core/flame/components/entities/mobs/slime.dart';
@@ -92,9 +93,12 @@ class EntitySpawnHelper {
   static Entity _spawnBasicGroundMob({required double worldHeight, required int currentRound}) {
     var startPosition = _randomGroundSpawnPosition(worldHeight: worldHeight);
     var speedFactor = _randomWalkingSpeedFactor(currentRound: currentRound);
-
     var randomNumber = GlobalVars.rand.nextInt(100);
-    if (randomNumber < 70) {
+
+    if (currentRound >= EntitySpawnConstants.minimumRoundForFastGroundEnemies &&
+        randomNumber < _tapper(currentRound.toDouble() * 2)) {
+      return Rat.spawn(position: startPosition, speedFactor: speedFactor);
+    } else if (randomNumber < 70) {
       return Skeleton.spawn(position: startPosition, speedFactor: speedFactor);
     } else {
       return Slime.spawn(position: startPosition, speedFactor: speedFactor);
@@ -104,12 +108,13 @@ class EntitySpawnHelper {
   static Entity _spawnStrongGroundMob({required double worldHeight, required int currentRound}) {
     var startPosition = _randomGroundSpawnPosition(worldHeight: worldHeight);
     var speedFactor = _randomWalkingSpeedFactor(currentRound: currentRound);
-
     var randomNumber = GlobalVars.rand.nextInt(100);
-    if (randomNumber < 70) {
-      return StrongSkeleton.spawn(position: startPosition, speedFactor: speedFactor);
-    } else {
+
+    if (currentRound >= EntitySpawnConstants.minimumRoundForRockGolems &&
+        randomNumber < _tapper(currentRound.toDouble() * 3)) {
       return RockGolem.spawn(position: startPosition, speedFactor: speedFactor);
+    } else {
+      return StrongSkeleton.spawn(position: startPosition, speedFactor: speedFactor);
     }
   }
 
@@ -130,19 +135,19 @@ class EntitySpawnHelper {
 
   static int _basicMobsToSpawnThisRound(int currentRound) => _tapper(currentRound * 12).ceil() + 4;
   static int _strongGroundMobsToSpawnThisRound(int currentRound) {
-    if (currentRound < EntitySpawnConstants.roundToStartSpawningStrongGroundEnemies) {
+    if (currentRound < EntitySpawnConstants.minimumRoundForStrongGroundEnemies) {
       return 0;
     }
 
-    return _tapper((currentRound - EntitySpawnConstants.roundToStartSpawningStrongGroundEnemies) * 4).ceil();
+    return _tapper((currentRound - EntitySpawnConstants.minimumRoundForStrongGroundEnemies) * 4).ceil();
   }
 
   static int _flyingMobsToSpawnThisRound(int currentRound) {
-    if (currentRound < EntitySpawnConstants.roundToStartSpawningStrongFlyingEnemies) {
+    if (currentRound < EntitySpawnConstants.minimumRoundForStrongFlyingEnemies) {
       return 0;
     }
 
-    return _tapper((currentRound - EntitySpawnConstants.roundToStartSpawningStrongFlyingEnemies) * 2).ceil();
+    return _tapper((currentRound - EntitySpawnConstants.minimumRoundForStrongFlyingEnemies) * 2).ceil();
   }
 
   static Vector2 _randomGroundSpawnPosition({required double worldHeight}) {
