@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.17.0 alpha - 14th May, 2024
+
+### New Features
+- Added in another new enemy, ice wolf
+  - Ice wolf, key features:
+    - Fast speed, low health, dies on one throw
+    - Intention was to replace the rat sprite
+    - This enemy is even faster
+- New purchaseable item, "blacksmith"
+  - Costs 250
+  - Repairs up to 20% of your wall health each round
+
+### Bug Fixes
+- N/A
+
+### Improvements / Balances
+- Made all entities attack slightly slower
+
 ## 0.16.0 alpha - 14th May, 2024
 
 ### New Features
