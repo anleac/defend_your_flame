@@ -3,13 +3,13 @@ import 'dart:async';
 import 'package:defend_your_flame/constants/damage_constants.dart';
 import 'package:defend_your_flame/constants/debug_constants.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/flames/purple_flame.dart';
-import 'package:defend_your_flame/core/flame/components/masonry/player_base_component.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/totems/stone_totem.dart';
 import 'package:defend_your_flame/core/flame/components/projectiles/concrete_curving_projectiles/attack_totem_curving_projectile.dart';
+import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 import 'package:defend_your_flame/helpers/global_vars.dart';
 import 'package:flame/components.dart';
 
-class AttackTotem extends PlayerBaseComponent {
+class AttackTotem extends PositionComponent with HasWorldReference<MainWorld> {
   static const double baseSpeed = 420;
 
   final StoneTotem _stoneTotem = StoneTotem();

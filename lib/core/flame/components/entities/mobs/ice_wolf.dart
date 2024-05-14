@@ -13,7 +13,7 @@ class IceWolf extends DraggableEntity with DisappearOnDeath {
     defaultSize: Vector2(64, 48),
     defaultScale: 0.85,
     walkingConfig: AnimationConfig(frames: 8, stepTime: 0.06),
-    attackingConfig: AnimationConfig(frames: 14, stepTime: 0.12),
+    attackingConfig: AnimationConfig(frames: 14, stepTime: 0.5),
     dragConfig: AnimationConfig(frames: 6, stepTime: 0.2),
     dyingConfig: AnimationConfig(frames: 6, stepTime: 0.2),
     damageOnAttack: 5,

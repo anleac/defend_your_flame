@@ -1,5 +1,6 @@
 import 'package:defend_your_flame/core/flame/main_game.dart';
 import 'package:defend_your_flame/core/flame/shop/defenses/attack_totem_purchase.dart';
+import 'package:defend_your_flame/core/flame/shop/npcs/blacksmith_purchase.dart';
 import 'package:defend_your_flame/core/flame/shop/walls/wooden_wall_purchase.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 import 'package:defend_your_flame/core/flame/shop/purchasable.dart';
@@ -11,9 +12,13 @@ class ShopManager extends Component with HasWorldReference<MainWorld>, HasGameRe
     WoodenWallPurchase(game.appStrings),
     StoneWallPurchase(game.appStrings),
     AttackTotemPurchase(game.appStrings),
+    BlacksmithPurchase(game.appStrings),
   ];
 
   List<Purchasable> get purchasables => _purchasables;
+
+  // TODO this is super hacky but it's a quick fix to test this NPC for now, re-visit
+  bool get blacksmithPurchased => _purchasables[3].purchasedMaxAmount;
 
   void handlePurchase(Purchasable purchasable) {
     var purchaseIndex = _purchasables.indexWhere((element) => element == purchasable);

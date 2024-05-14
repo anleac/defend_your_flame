@@ -93,6 +93,9 @@ class AppStrings {
   String get attackTotemName => getValue('attackTotemName');
   String get attackTotemDescription => getValue('attackTotemDescription');
   String get attackTotemQuote => getValue('attackTotemQuote');
+  String get blacksmithName => getValue('blacksmithName');
+  String get blacksmithDescription => getValue('blacksmithDescription');
+  String get blacksmithQuote => getValue('blacksmithQuote');
 
   // Purchasables
   String get woodenWallName => getValue('woodenWallName');

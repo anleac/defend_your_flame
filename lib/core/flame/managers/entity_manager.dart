@@ -76,9 +76,13 @@ class EntityManager extends Component with HasWorldReference<MainWorld> {
 
       (aliveCount, weakAliveCount, bossAlive) = entitiesInGame();
 
-      if (aliveCount == 0) {
+      if (aliveCount == 0 && world.worldStateManager.playing) {
         world.projectileManager.clearAllProjectiles();
         world.worldStateManager.changeState(MainWorldState.betweenRounds);
+
+        if (world.shopManager.blacksmithPurchased) {
+          world.playerBase.wall.repairWallFor(world.playerBase.blacksmith.repairPercentage);
+        }
       } else if (bossAlive && weakAliveCount < EntitySpawnConstants.minimumToKeepAliveDuringBossFight) {
         var amountNeededToSpawn = EntitySpawnConstants.minimumToKeepAliveDuringBossFight - weakAliveCount;
         // TODO: Re-visit post beta if we need to stagger these s
