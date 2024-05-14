@@ -205,9 +205,10 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
   void takeDamage(double damage, {Vector2? position}) {
     _currentHealth -= damage;
 
-    world.effectManager.addDamageText(damage.toInt(), position ?? trueCenter);
     if (_currentHealth <= MiscConstants.eps) {
       initiateDeath();
+    } else {
+      world.effectManager.addDamageText(damage.toInt(), position ?? trueCenter);
     }
   }
 

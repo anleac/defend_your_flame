@@ -18,7 +18,7 @@
 - Small fix to incorrect positioning of damage text when clicking on a mage
 
 ### Improvements / Balances
-- To scale difficulty into the later game, speed of most mobs (all currently except the mage, and bosses) will increase at a rate of sqrt(currentround * 4) / 10, as a percentage, this is a minor change but should help to subtly increase difficulty
+- To scale difficulty into the later game, speed of most mobs (all currently except the mage, and bosses) will increase at a rate of sqrt(currentround * 3) / 100, as a percentage, this is a minor change but should help to subtly increase difficulty
 - Give most mobs a general variance now of speed, being +/- 5% of the default speed
 - Added two new tips in regards to the new enemies
 - Sharpened some of the ingame textures

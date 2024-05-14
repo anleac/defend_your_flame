@@ -163,7 +163,7 @@ class EntitySpawnHelper {
     }
 
     var influence =
-        _tapper((currentRound - EntitySpawnConstants.roundToStartIncreasingSpeed) * 4, tapperLess: true) / 10;
+        _tapper((currentRound - EntitySpawnConstants.roundToStartIncreasingSpeed) * 3, tapperLess: true) / 100;
     return 1 + influence;
   }
 
