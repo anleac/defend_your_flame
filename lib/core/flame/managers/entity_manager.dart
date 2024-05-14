@@ -130,9 +130,11 @@ class EntityManager extends Component with HasWorldReference<MainWorld> {
     }
   }
 
-  Entity? randomVisibleAliveEntity() {
-    var aliveEntities =
-        children.whereType<Entity>().where((element) => element.isAlive && element.absoluteCenter.x > 10).toList();
+  Entity? randomVisibleAliveEntity({bool excludeMagicImmune = true}) {
+    var aliveEntities = children
+        .whereType<Entity>()
+        .where((e) => e.isAlive && (!e.entityConfig.magicImmune || !excludeMagicImmune) && e.absoluteCenter.x > 10)
+        .toList();
 
     if (aliveEntities.isEmpty) {
       return null;
