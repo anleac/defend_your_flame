@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 
 class GoldText extends FloatingText {
   static final TextRenderer _goldTextRenderer =
-      TextManager.customDefaultRenderer(fontSize: 10, color: Colors.yellow.darken(0.15));
+      TextManager.customDefaultRenderer(fontSize: 12, color: Colors.yellow.darken(0.15));
   GoldText(int gold) : super(textRenderer: _goldTextRenderer) {
     scale = Vector2.all(_scaleGoldText(gold));
     text = "+$gold";

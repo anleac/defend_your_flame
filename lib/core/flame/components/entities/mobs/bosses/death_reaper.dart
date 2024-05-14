@@ -26,7 +26,7 @@ class DeathReaper extends Entity with DisappearOnDeath, HasDraggableCollisions, 
       frames: 8,
     ),
     attackingConfig: AnimationConfig(
-      stepTime: 0.18,
+      stepTime: 0.20,
       frames: 10,
     ),
     dyingConfig: AnimationConfig(

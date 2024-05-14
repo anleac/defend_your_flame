@@ -22,19 +22,19 @@ class Mage extends Entity with DisappearOnDeath, HasIdleTime, HasDraggableCollis
     defaultSize: Vector2(160, 128),
     defaultScale: 1.2,
     idleConfig: AnimationConfig(
-      stepTime: 0.1,
+      stepTime: 0.14,
       frames: 8,
     ),
     walkingConfig: AnimationConfig(
-      stepTime: 0.12,
+      stepTime: 0.14,
       frames: 8,
     ),
     attackingConfig: AnimationConfig(
-      stepTime: 0.14,
+      stepTime: 0.15,
       frames: 13,
     ),
     dyingConfig: AnimationConfig(
-      stepTime: 0.07,
+      stepTime: 0.08,
       frames: 10,
     ),
     baseWalkingSpeed: 31,

@@ -112,4 +112,17 @@ class Wall extends PositionComponent with HasVisibility, HasWorldReference<MainW
       _hitbox?.collisionType = CollisionType.inactive;
     }
   }
+
+  void repairWallFor(int percent) {
+    var amountToRepair = (_totalHealth * percent / 100).round();
+    var amountRepairable = _totalHealth - _health;
+    var totalToRepair = min(amountToRepair, amountRepairable);
+
+    if (totalToRepair <= 0) {
+      return;
+    }
+
+    _health += totalToRepair;
+    world.effectManager.addHealthText(totalToRepair, absoluteCenter);
+  }
 }

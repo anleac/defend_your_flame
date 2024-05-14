@@ -76,6 +76,14 @@ class AppStringData {
         "Damage scales with the strength of\nyour flame",
       ]),
       'attackTotemQuote': '"The best defense is a good offense."',
+
+      'blacksmithName': 'Blacksmith',
+      'blacksmithDescription': AppStringHelper.purchasableDescription(attributes: [
+        "Repairs ${AppStrings.placeholderText}% of your wall health per round",
+        "Repair happens at the end of the round",
+        "Does not repair more than the wall's max health",
+      ]),
+      'blacksmithQuote': '"I can fix her."',
     },
   };
 }

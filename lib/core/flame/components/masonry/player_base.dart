@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:defend_your_flame/constants/bounding_constants.dart';
 import 'package:defend_your_flame/constants/debug_constants.dart';
 import 'package:defend_your_flame/core/flame/components/entities/entity.dart';
+import 'package:defend_your_flame/core/flame/components/entities/npcs/blacksmith.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/fire_pit.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/misc/rock_circle.dart';
-import 'package:defend_your_flame/core/flame/components/masonry/player_base_component.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/totems/attack_totem.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/walls/wall.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
@@ -30,8 +30,9 @@ class PlayerBase extends PositionComponent with HasWorldReference<MainWorld>, Ha
   int get totalGold => _gold;
   bool get destroyed => _wall.health <= 0;
   Wall get wall => _wall;
+  Blacksmith get blacksmith => _blacksmith;
 
-  final List<PlayerBaseComponent> _additionalComponents = [];
+  final List<Component> _additionalComponents = [];
 
   late final List<AttackTotem> _potentialAttackTotems = [
     AttackTotem()..position = _firePit.position + Vector2(RockCircle.ovalWidth / 2 + 4, -54),
@@ -41,6 +42,10 @@ class PlayerBase extends PositionComponent with HasWorldReference<MainWorld>, Ha
     AttackTotem()..position = _firePit.position + Vector2(RockCircle.ovalWidth / 2 + 22, -74),
     AttackTotem()..position = _firePit.position + Vector2(RockCircle.ovalWidth / 2 + 29, 10),
   ];
+
+  late final Blacksmith _blacksmith = Blacksmith()
+    ..position = Vector2(Wall.wallAreaWidth - 18, _firePit.center.y + 5)
+    ..anchor = Anchor.bottomLeft;
 
   PlayerBase({required double worldWidth, required double worldHeight})
       : super(
@@ -113,7 +118,11 @@ class PlayerBase extends PositionComponent with HasWorldReference<MainWorld>, Ha
     return _innerBaseRect.contains(entity.center.toOffset());
   }
 
-  _addAdditionalBaseComponent(PlayerBaseComponent component) {
+  void purchaseBlacksmith() {
+    _addAdditionalBaseComponent(_blacksmith);
+  }
+
+  _addAdditionalBaseComponent(Component component) {
     _additionalComponents.add(component);
     add(component);
   }

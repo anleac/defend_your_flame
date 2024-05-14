@@ -23,6 +23,12 @@ class ShopItemList extends PositionComponent with ParentIsA<MainShopHud>, HasWor
     return super.onLoad();
   }
 
+  @override
+  void onMount() {
+    refresh();
+    super.onMount();
+  }
+
   void refresh() {
     for (final button in _buttons) {
       button.removeFromParent();

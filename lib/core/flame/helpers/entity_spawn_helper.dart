@@ -4,8 +4,8 @@ import 'package:defend_your_flame/constants/entity_spawn_constants.dart';
 import 'package:defend_your_flame/core/flame/components/entities/entity.dart';
 import 'package:defend_your_flame/core/flame/components/entities/mobs/bosses/death_reaper.dart';
 import 'package:defend_your_flame/core/flame/components/entities/mobs/bosses/fire_beast.dart';
+import 'package:defend_your_flame/core/flame/components/entities/mobs/ice_wolf.dart';
 import 'package:defend_your_flame/core/flame/components/entities/mobs/mage.dart';
-import 'package:defend_your_flame/core/flame/components/entities/mobs/rat.dart';
 import 'package:defend_your_flame/core/flame/components/entities/mobs/rock_golem.dart';
 import 'package:defend_your_flame/core/flame/components/entities/mobs/skeleton.dart';
 import 'package:defend_your_flame/core/flame/components/entities/mobs/slime.dart';
@@ -97,7 +97,7 @@ class EntitySpawnHelper {
 
     if (currentRound >= EntitySpawnConstants.minimumRoundForFastGroundEnemies &&
         randomNumber < _tapper(currentRound.toDouble() * 2)) {
-      return Rat.spawn(position: startPosition, speedFactor: speedFactor);
+      return IceWolf.spawn(position: startPosition, speedFactor: speedFactor);
     } else if (randomNumber < 70) {
       return Skeleton.spawn(position: startPosition, speedFactor: speedFactor);
     } else {
@@ -162,8 +162,7 @@ class EntitySpawnHelper {
       return 1;
     }
 
-    var influence =
-        _tapper((currentRound - EntitySpawnConstants.roundToStartIncreasingSpeed) * 3, tapperLess: true) / 100;
+    var influence = _tapper((currentRound - EntitySpawnConstants.roundToStartIncreasingSpeed) * 3) / 100;
     return 1 + influence;
   }
 
