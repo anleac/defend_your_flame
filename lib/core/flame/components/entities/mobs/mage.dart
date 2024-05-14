@@ -84,7 +84,7 @@ class Mage extends Entity with DisappearOnDeath, HasIdleTime, HasDraggableCollis
   @override
   void onTapDown(TapDownEvent event) {
     // Inflict damage on tap and make them idle if they were walking.
-    takeDamage(DamageConstants.clickingDamage, position: event.localPosition + topLeftPosition);
+    takeDamage(DamageConstants.clickingDamage, position: (event.localPosition * scale.x) + topLeftPosition);
 
     forceResetIdleTimer();
 

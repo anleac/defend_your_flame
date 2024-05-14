@@ -15,7 +15,7 @@
     - Starts spawning currently at wave 12
 
 ### Bug Fixes
-- N/A
+- Small fix to incorrect positioning of damage text when clicking on a mage
 
 ### Improvements / Balances
 - To scale difficulty into the later game, speed of most mobs (all currently except the mage, and bosses) will increase at a rate of sqrt(currentround * 4) / 10, as a percentage, this is a minor change but should help to subtly increase difficulty
