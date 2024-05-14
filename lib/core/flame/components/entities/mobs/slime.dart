@@ -16,7 +16,7 @@ class Slime extends DraggableEntity with DisappearOnDeath {
       frames: 4,
     ),
     attackingConfig: AnimationConfig(
-      stepTime: 0.12,
+      stepTime: 0.13,
       frames: 5,
     ),
     dragConfig: AnimationConfig(

@@ -17,7 +17,7 @@ class RockGolem extends DraggableEntity with DisappearOnDeath, HasIdleTime {
     defaultSize: Vector2(90, 64),
     defaultScale: 1.4,
     walkingConfig: AnimationConfig(frames: 10, stepTime: 0.15),
-    attackingConfig: AnimationConfig(frames: 11, stepTime: 0.13),
+    attackingConfig: AnimationConfig(frames: 11, stepTime: 0.14),
     dragConfig: AnimationConfig(frames: 8, stepTime: 0.16),
     idleConfig: AnimationConfig(frames: 8, stepTime: 0.15),
     dyingConfig: AnimationConfig(frames: 13, stepTime: 0.14),

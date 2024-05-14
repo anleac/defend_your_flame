@@ -30,7 +30,7 @@ class Mage extends Entity with DisappearOnDeath, HasIdleTime, HasDraggableCollis
       frames: 8,
     ),
     attackingConfig: AnimationConfig(
-      stepTime: 0.14,
+      stepTime: 0.15,
       frames: 13,
     ),
     dyingConfig: AnimationConfig(
