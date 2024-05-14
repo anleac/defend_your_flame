@@ -1,6 +1,7 @@
 import 'package:defend_your_flame/constants/damage_constants.dart';
 import 'package:defend_your_flame/core/flame/components/entities/entity.dart';
 import 'package:defend_your_flame/core/flame/components/entities/enums/entity_state.dart';
+import 'package:defend_your_flame/core/flame/components/entities/mobs/rock_golem.dart';
 import 'package:defend_your_flame/core/flame/helpers/damage_helper.dart';
 import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
 import 'package:defend_your_flame/helpers/physics_helper.dart';
@@ -28,7 +29,7 @@ class DraggableEntity extends Entity with DragCallbacks {
   bool get _contactingGround => startPosition.y - position.y < _dragEps;
   Vector2 get currentVelocity => _beingDragged ? _dragVelocity : _velocity;
 
-  DraggableEntity({required super.entityConfig, super.scaleModifier});
+  DraggableEntity({required super.entityConfig, super.scaleModifier, super.modifiedWalkingSpeed});
 
   @override
   bool containsLocalPoint(Vector2 point) {

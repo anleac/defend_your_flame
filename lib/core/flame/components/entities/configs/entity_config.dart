@@ -21,7 +21,7 @@ class EntityConfig {
   final AnimationConfig attackingConfig;
   final AnimationConfig dyingConfig;
 
-  final int walkingForwardSpeed;
+  final double baseWalkingSpeed;
 
   final double totalHealth;
 
@@ -33,22 +33,24 @@ class EntityConfig {
   final double Function()? attackRange;
   final TimeSpendIdle timeSpendIdle;
 
-  EntityConfig({
-    required this.entityResourceName,
-    required this.defaultSize,
-    this.defaultScale = 1.0,
-    this.attackingSize,
-    this.totalHealth = DamageConstants.fallDamage,
-    this.dragConfig,
-    this.idleConfig,
-    required this.walkingConfig,
-    required this.attackingConfig,
-    required this.dyingConfig,
-    required this.walkingForwardSpeed,
-    required this.damageOnAttack,
-    required this.goldOnKill,
-    this.dragResistance = 1.0,
-    this.attackRange,
-    this.timeSpendIdle = TimeSpendIdle.none,
-  });
+  final bool magicImmune;
+
+  EntityConfig(
+      {required this.entityResourceName,
+      required this.defaultSize,
+      this.defaultScale = 1.0,
+      this.attackingSize,
+      this.totalHealth = DamageConstants.fallDamage,
+      this.dragConfig,
+      this.idleConfig,
+      required this.walkingConfig,
+      required this.attackingConfig,
+      required this.dyingConfig,
+      required this.baseWalkingSpeed,
+      required this.damageOnAttack,
+      required this.goldOnKill,
+      this.dragResistance = 1.0,
+      this.attackRange,
+      this.timeSpendIdle = TimeSpendIdle.none,
+      this.magicImmune = false});
 }

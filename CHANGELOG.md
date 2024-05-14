@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.16.0 alpha - 14th May, 2024
+
+### New Features
+- Added two new enemies
+  - Rock golem, key features:
+    - Strong, takes four throws to kill
+    - Immune to magical attacks, totems attacks won't be able to hit them
+    - Starts spawning currently at wave 14
+    - Heavy, and therefore hard to drag
+  - Rat, key features:
+    - Very fast, this will be the fastest current enemy in the game so far
+    - Standard health, therefore die on one throw
+    - Starts spawning currently at wave 12
+
+### Bug Fixes
+- Small fix to incorrect positioning of damage text when clicking on a mage
+
+### Improvements / Balances
+- To scale difficulty into the later game, speed of most mobs (all currently except the mage, and bosses) will increase at a rate of sqrt(currentround * 3) / 100, as a percentage, this is a minor change but should help to subtly increase difficulty
+- Give most mobs a general variance now of speed, being +/- 5% of the default speed
+- Added two new tips in regards to the new enemies
+- Sharpened some of the ingame textures
+- The attacks from the attack totem fire 5% faster now
+
 ## 0.15.2 alpha - 13th May, 2024
 
 ### New Features

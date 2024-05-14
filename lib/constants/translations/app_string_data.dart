@@ -49,6 +49,11 @@ class AppStringData {
       '${AppStringConstants.gameTipPrefix}6': AppStringHelper.gameTipForRound(
           EntitySpawnConstants.bossRounds.entries.first.key,
           'The first boss round is up next, be prepared for a heavy enemy!'),
+      '${AppStringConstants.gameTipPrefix}7': AppStringHelper.gameTipForRound(
+          EntitySpawnConstants.minimumRoundForFastGroundEnemies, 'Some enemies run faster than others, be vigilant'),
+      '${AppStringConstants.gameTipPrefix}8': AppStringHelper.gameTipForRound(
+          EntitySpawnConstants.minimumRoundForRockGolems,
+          'Rock Golems are making their way towards you, they are immune to magical attacks'),
 
       // Purchasables
       'woodenWallName': 'Wooden Wall',
