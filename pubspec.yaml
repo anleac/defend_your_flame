@@ -33,6 +33,7 @@ flutter:
     - assets/images/mobs/bosses/fire_beast/
     - assets/images/mobs/skeleton/
     - assets/images/mobs/strong_skeleton/
+    - assets/images/mobs/rock_golem/
     - assets/images/mobs/slime/
     - assets/images/mobs/mage/
     - assets/images/environment/

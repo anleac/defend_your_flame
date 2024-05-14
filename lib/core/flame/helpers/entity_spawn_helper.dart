@@ -5,6 +5,7 @@ import 'package:defend_your_flame/core/flame/components/entities/entity.dart';
 import 'package:defend_your_flame/core/flame/components/entities/mobs/bosses/death_reaper.dart';
 import 'package:defend_your_flame/core/flame/components/entities/mobs/bosses/fire_beast.dart';
 import 'package:defend_your_flame/core/flame/components/entities/mobs/mage.dart';
+import 'package:defend_your_flame/core/flame/components/entities/mobs/rock_golem.dart';
 import 'package:defend_your_flame/core/flame/components/entities/mobs/skeleton.dart';
 import 'package:defend_your_flame/core/flame/components/entities/mobs/slime.dart';
 import 'package:defend_your_flame/core/flame/components/entities/mobs/strong_skeleton.dart';
@@ -49,9 +50,7 @@ class EntitySpawnHelper {
 
     // Add in the strong mobs, we currently only have strong skeleton
     for (var i = 0; i < strongGroundMobsToSpawnThisRound; i++) {
-      entities.add(StrongSkeleton.spawn(
-          position: _randomGroundSpawnPosition(worldHeight: worldHeight),
-          speedFactor: _randomWalkingSpeedFactor(currentRound: currentRound)));
+      entities.add(_spawnStrongGroundMob(worldHeight: worldHeight, currentRound: currentRound));
     }
 
     // Add in the flying mobs, we currently only have the mage for flying
@@ -99,6 +98,18 @@ class EntitySpawnHelper {
       return Skeleton.spawn(position: startPosition, speedFactor: speedFactor);
     } else {
       return Slime.spawn(position: startPosition, speedFactor: speedFactor);
+    }
+  }
+
+  static Entity _spawnStrongGroundMob({required double worldHeight, required int currentRound}) {
+    var startPosition = _randomGroundSpawnPosition(worldHeight: worldHeight);
+    var speedFactor = _randomWalkingSpeedFactor(currentRound: currentRound);
+
+    var randomNumber = GlobalVars.rand.nextInt(100);
+    if (randomNumber < 70) {
+      return StrongSkeleton.spawn(position: startPosition, speedFactor: speedFactor);
+    } else {
+      return RockGolem.spawn(position: startPosition, speedFactor: speedFactor);
     }
   }
 
