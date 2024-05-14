@@ -17,6 +17,7 @@
 
 ### Improvements / Balances
 - Made all entities attack slightly slower
+- Small UX tweaks, made most effect text larger
 
 ## 0.16.0 alpha - 14th May, 2024
 
