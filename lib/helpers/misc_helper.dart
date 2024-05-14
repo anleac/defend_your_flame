@@ -7,8 +7,8 @@ class MiscHelper {
   }
 
   /// Returns a random element from a given list
-  static T randomElement<T>(List<T> list) {
-    return list[GlobalVars.rand.nextInt(list.length)];
+  static T randomElement<T>(Iterable<T> list) {
+    return list.elementAt(GlobalVars.rand.nextInt(list.length));
   }
 
   static randomChance({required int chance}) {

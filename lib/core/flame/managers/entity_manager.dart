@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:defend_your_flame/constants/entity_spawn_constants.dart';
 import 'package:defend_your_flame/core/flame/components/entities/entity.dart';
+import 'package:defend_your_flame/core/flame/components/entities/enums/entity_state.dart';
 import 'package:defend_your_flame/core/flame/helpers/entity_spawn_helper.dart';
 import 'package:defend_your_flame/core/flame/managers/extensions/entity_manager_extension.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
@@ -131,10 +132,11 @@ class EntityManager extends Component with HasWorldReference<MainWorld> {
   }
 
   Entity? randomVisibleAliveEntity({bool excludeMagicImmune = true}) {
-    var aliveEntities = children
-        .whereType<Entity>()
-        .where((e) => e.isAlive && (!e.entityConfig.magicImmune || !excludeMagicImmune) && e.absoluteCenter.x > 10)
-        .toList();
+    var aliveEntities = children.whereType<Entity>().where((e) =>
+        e.isAlive &&
+        (!e.entityConfig.magicImmune || !excludeMagicImmune) &&
+        e.absoluteCenter.x > 10 &&
+        e.current != EntityState.dragged);
 
     if (aliveEntities.isEmpty) {
       return null;
