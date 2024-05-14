@@ -86,7 +86,7 @@ class CurvingMagicProjectile extends PositionComponent
       if (!isFriendly) {
         world.playerBase.takeDamage(damage, position: wallIntersectionPoints.first);
       }
-    } else if (isCollidingWithEntity && isFriendly) {
+    } else if (isCollidingWithEntity && isFriendly && !collidedEntity!.entityConfig.magicImmune) {
       removeFromParent();
       if (isFriendly) {
         collidedEntity?.takeDamage(damage.toDouble());

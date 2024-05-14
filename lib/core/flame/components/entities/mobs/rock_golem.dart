@@ -28,6 +28,7 @@ class RockGolem extends DraggableEntity with DisappearOnDeath, HasIdleTime, HasD
     totalHealth: DamageConstants.fallDamage * 4,
     dragResistance: 0.52,
     timeSpendIdle: TimeSpendIdle.minimal,
+    magicImmune: true,
   );
 
   late final RectangleHitbox _hitbox =
