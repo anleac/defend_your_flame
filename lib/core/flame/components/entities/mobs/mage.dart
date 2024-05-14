@@ -37,7 +37,7 @@ class Mage extends Entity with DisappearOnDeath, HasIdleTime, HasDraggableCollis
       stepTime: 0.07,
       frames: 10,
     ),
-    walkingForwardSpeed: 31,
+    baseWalkingSpeed: 31,
     damageOnAttack: 12,
     goldOnKill: 14,
     totalHealth: DamageConstants.fallDamage * 4,

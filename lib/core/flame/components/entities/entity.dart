@@ -29,36 +29,35 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
         WallAsSolid {
   static const double offscreenTimeoutInSeconds = 3;
 
+  late final List<ShapeHitbox> _hitboxes = addHitboxes();
+  late final double _attackOffset = entityConfig.attackRange == null ? 0 : entityConfig.attackRange!() * scale.x;
+  late final double _defaultWalkingSpeed;
+
   final EntityConfig entityConfig;
   final double scaleModifier;
 
   late double _currentHealth = entityConfig.totalHealth;
-
-  late final List<ShapeHitbox> _hitboxes = addHitboxes();
-
-  late final double _attackOffset = entityConfig.attackRange == null ? 0 : entityConfig.attackRange!() * scale.x;
-
   late Vector2 _startingPosition;
 
   bool _canAttack = false;
   double _offscreenTimerInMilliseconds = 0;
 
-  bool get isAlive => _currentHealth > MiscConstants.eps;
-
   double get currentHealth => _currentHealth;
   double get totalHealth => entityConfig.totalHealth;
+  double get walkingSpeed => _defaultWalkingSpeed;
 
   Vector2 get startPosition => _startingPosition;
-
   Vector2 get trueCenter => absoluteCenterOfMainHitbox();
 
   bool get isWalking => current == EntityState.walking;
+  bool get isAlive => _currentHealth > MiscConstants.eps;
 
   TimeSpendIdle get idleTime => entityConfig.timeSpendIdle;
 
-  Entity({required this.entityConfig, this.scaleModifier = 1}) {
+  Entity({required this.entityConfig, this.scaleModifier = 1, double? modifiedWalkingSpeed}) {
     size = entityConfig.defaultSize;
     scale = Vector2.all(entityConfig.defaultScale * scaleModifier);
+    _defaultWalkingSpeed = modifiedWalkingSpeed ?? entityConfig.baseWalkingSpeed;
   }
 
   @override
@@ -69,8 +68,11 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
 
   @override
   Future<void> onLoad() async {
+    var speedDifference = _defaultWalkingSpeed / entityConfig.baseWalkingSpeed;
     final walkingSprite = SpriteManager.getAnimation('mobs/${entityConfig.entityResourceName}/walk',
-        stepTime: entityConfig.walkingConfig.stepTime / scale.x, frames: entityConfig.walkingConfig.frames, loop: true);
+        stepTime: entityConfig.walkingConfig.stepTime / scale.x / speedDifference,
+        frames: entityConfig.walkingConfig.frames,
+        loop: true);
 
     final attackingSprite = SpriteManager.getAnimation('mobs/${entityConfig.entityResourceName}/attack',
         stepTime: entityConfig.attackingConfig.stepTime / scale.x,
@@ -180,7 +182,7 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
     if (isCollidingWithWall) {
       wallCollisionCalculation(dt);
     } else if (current == EntityState.walking) {
-      position.x = TimestepHelper.add(position.x, entityConfig.walkingForwardSpeed * scale.x, dt);
+      position.x = TimestepHelper.add(position.x, entityConfig.baseWalkingSpeed * scale.x, dt);
 
       if (_attackOffset > MiscConstants.eps) {
         final horizontalDistanceToWall = (world.playerBase.position.x - trueCenter.x).abs();

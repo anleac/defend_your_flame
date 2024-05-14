@@ -29,11 +29,11 @@ class Slime extends DraggableEntity with DisappearOnDeath {
     ),
     damageOnAttack: 3,
     goldOnKill: 3,
-    walkingForwardSpeed: 42,
+    baseWalkingSpeed: 42,
     defaultScale: 1.15,
   );
 
-  Slime({super.scaleModifier}) : super(entityConfig: _slimeConfig);
+  Slime({super.scaleModifier, super.modifiedWalkingSpeed}) : super(entityConfig: _slimeConfig);
 
   @override
   Vector2? attackEffectPosition() {
@@ -47,9 +47,10 @@ class Slime extends DraggableEntity with DisappearOnDeath {
     ];
   }
 
-  static Slime spawn({required position}) {
+  static Slime spawn({required Vector2 position, required double speedFactor}) {
     final scaleModifier = MiscHelper.randomDouble(minValue: 1, maxValue: 1.2);
-    final slime = Slime(scaleModifier: scaleModifier);
+    final slime =
+        Slime(scaleModifier: scaleModifier, modifiedWalkingSpeed: _slimeConfig.baseWalkingSpeed * speedFactor);
     slime.position = position - Vector2(slime.scaledSize.x, -slime.scaledSize.y / 2);
     return slime;
   }

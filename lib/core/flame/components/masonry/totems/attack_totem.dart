@@ -54,7 +54,7 @@ class AttackTotem extends PlayerBaseComponent {
               initialPosition: absoluteCenter - Vector2(0, scaledSize.y / 2),
               targetPosition: randomEnemy.absoluteCenterOfMainHitbox(),
               damage: DamageConstants.fallDamageAsInt,
-              targetXVelocity: randomEnemy.isWalking ? randomEnemy.entityConfig.walkingForwardSpeed.toDouble() : 0,
+              targetXVelocity: randomEnemy.isWalking ? randomEnemy.entityConfig.baseWalkingSpeed.toDouble() : 0,
               horizontalPixelsPerSecond: baseSpeed + (GlobalVars.rand.nextDouble() * 120)));
         }
       }

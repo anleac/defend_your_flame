@@ -47,15 +47,15 @@ class EntitySpawnHelper {
       entities.add(_spawnBasicGroundMob(worldHeight: worldHeight, currentRound: currentRound));
     }
 
-    // Add in the strong mobs
+    // Add in the strong mobs, we currently only have strong skeleton
     for (var i = 0; i < strongGroundMobsToSpawnThisRound; i++) {
-      // Currently we only have the strong skeleton for the ground
-      entities.add(StrongSkeleton.spawn(position: _randomGroundSpawnPosition(worldHeight: worldHeight)));
+      entities.add(StrongSkeleton.spawn(
+          position: _randomGroundSpawnPosition(worldHeight: worldHeight),
+          speedFactor: _randomWalkingSpeedFactor(currentRound: currentRound)));
     }
 
-    // Add in the flying mobs
+    // Add in the flying mobs, we currently only have the mage for flying
     for (var i = 0; i < flyingMobsToSpawnThisRound; i++) {
-      // Currently we only have the mage for flying
       entities.add(Mage.spawn(skyHeight: skyHeight));
     }
 
@@ -92,12 +92,13 @@ class EntitySpawnHelper {
 
   static Entity _spawnBasicGroundMob({required double worldHeight, required int currentRound}) {
     var startPosition = _randomGroundSpawnPosition(worldHeight: worldHeight);
+    var speedFactor = _randomWalkingSpeedFactor(currentRound: currentRound);
 
     var randomNumber = GlobalVars.rand.nextInt(100);
     if (randomNumber < 70) {
-      return Skeleton.spawn(position: startPosition);
+      return Skeleton.spawn(position: startPosition, speedFactor: speedFactor);
     } else {
-      return Slime.spawn(position: startPosition);
+      return Slime.spawn(position: startPosition, speedFactor: speedFactor);
     }
   }
 
@@ -138,5 +139,23 @@ class EntitySpawnHelper {
       GlobalVars.rand.nextDouble() * -25 - 40,
       worldHeight - GlobalVars.rand.nextDouble() * 120 - 80,
     );
+  }
+
+  static double _increasedWalkSpeedFactor({required int currentRound}) {
+    if (currentRound <= EntitySpawnConstants.roundToStartIncreasingSpeed) {
+      return 1;
+    }
+
+    var influence =
+        _tapper((currentRound - EntitySpawnConstants.roundToStartIncreasingSpeed) * 4, tapperLess: true) / 10;
+    return 1 + influence;
+  }
+
+  static double _randomWalkingSpeedFactor({required int currentRound, bool scaleWithRound = true}) {
+    const double speedVariance = 5;
+    var roundFactor = scaleWithRound ? _increasedWalkSpeedFactor(currentRound: currentRound) : 1;
+    var varianceFactor = (GlobalVars.rand.nextDouble() * (speedVariance * 2) - speedVariance) / 100.0;
+
+    return (1 + varianceFactor) * roundFactor;
   }
 }

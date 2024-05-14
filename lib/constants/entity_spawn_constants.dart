@@ -7,6 +7,8 @@ class EntitySpawnConstants {
   static const int roundToStartSpawningStrongGroundEnemies = 5;
   static const int roundToStartSpawningStrongFlyingEnemies = 8;
 
+  static const int roundToStartIncreasingSpeed = roundToStartSpawningStrongFlyingEnemies;
+
   // The minimum amount of weak enemies to ensure are alive during a boss fight.
   static const int minimumToKeepAliveDuringBossFight = 6;
 

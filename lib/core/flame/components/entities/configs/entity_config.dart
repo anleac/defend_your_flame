@@ -21,7 +21,7 @@ class EntityConfig {
   final AnimationConfig attackingConfig;
   final AnimationConfig dyingConfig;
 
-  final int walkingForwardSpeed;
+  final double baseWalkingSpeed;
 
   final double totalHealth;
 
@@ -44,7 +44,7 @@ class EntityConfig {
     required this.walkingConfig,
     required this.attackingConfig,
     required this.dyingConfig,
-    required this.walkingForwardSpeed,
+    required this.baseWalkingSpeed,
     required this.damageOnAttack,
     required this.goldOnKill,
     this.dragResistance = 1.0,

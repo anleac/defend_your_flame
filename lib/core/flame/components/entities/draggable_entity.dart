@@ -28,7 +28,7 @@ class DraggableEntity extends Entity with DragCallbacks {
   bool get _contactingGround => startPosition.y - position.y < _dragEps;
   Vector2 get currentVelocity => _beingDragged ? _dragVelocity : _velocity;
 
-  DraggableEntity({required super.entityConfig, super.scaleModifier});
+  DraggableEntity({required super.entityConfig, super.scaleModifier, super.modifiedWalkingSpeed});
 
   @override
   bool containsLocalPoint(Vector2 point) {
