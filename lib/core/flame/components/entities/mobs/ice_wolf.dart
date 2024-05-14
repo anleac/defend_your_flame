@@ -17,12 +17,12 @@ class IceWolf extends DraggableEntity with DisappearOnDeath {
     dragConfig: AnimationConfig(frames: 6, stepTime: 0.2),
     dyingConfig: AnimationConfig(frames: 6, stepTime: 0.2),
     damageOnAttack: 5,
-    goldOnKill: 5,
+    goldOnKill: 10,
     baseWalkingSpeed: 96,
   );
 
   late final RectangleHitbox _hitBox =
-      EntityHelper.createRectangleHitbox(size: Vector2(48, 24), position: Vector2(32, 48), anchor: Anchor.bottomCenter);
+      EntityHelper.createRectangleHitbox(size: Vector2(50, 24), position: Vector2(32, 47), anchor: Anchor.bottomCenter);
 
   IceWolf({super.scaleModifier, super.modifiedWalkingSpeed}) : super(entityConfig: _iceWolf) {
     setDisappearSpeedFactor(1.5);
