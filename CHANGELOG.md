@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.17.1 - 14th May, 2024
+
+### New Features
+- N/A
+
+### Bug Fixes
+- Fixed ice wolf attack being incredibly slow
+
+### Improvements / Balances
+- N/A
+
 ## 0.17.0 alpha - 14th May, 2024
 
 ### New Features
