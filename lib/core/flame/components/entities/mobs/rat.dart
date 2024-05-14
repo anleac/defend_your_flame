@@ -12,7 +12,7 @@ class Rat extends DraggableEntity with DisappearOnDeath {
     entityResourceName: 'rat',
     defaultSize: Vector2(32, 32),
     defaultScale: 2,
-    walkingConfig: AnimationConfig(frames: 6, stepTime: 0.24),
+    walkingConfig: AnimationConfig(frames: 6, stepTime: 0.21),
     attackingConfig: AnimationConfig(frames: 6, stepTime: 0.2),
     dragConfig: AnimationConfig(frames: 6, stepTime: 0.2),
     dyingConfig: AnimationConfig(frames: 6, stepTime: 0.2),

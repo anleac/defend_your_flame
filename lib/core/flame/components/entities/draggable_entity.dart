@@ -1,6 +1,7 @@
 import 'package:defend_your_flame/constants/damage_constants.dart';
 import 'package:defend_your_flame/core/flame/components/entities/entity.dart';
 import 'package:defend_your_flame/core/flame/components/entities/enums/entity_state.dart';
+import 'package:defend_your_flame/core/flame/components/entities/mobs/rock_golem.dart';
 import 'package:defend_your_flame/core/flame/helpers/damage_helper.dart';
 import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
 import 'package:defend_your_flame/helpers/physics_helper.dart';

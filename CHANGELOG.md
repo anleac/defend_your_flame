@@ -22,6 +22,7 @@
 - Give most mobs a general variance now of speed, being +/- 5% of the default speed
 - Added two new tips in regards to the new enemies
 - Sharpened some of the ingame textures
+- The attacks from the attack totem fire 5% faster now
 
 ## 0.15.2 alpha - 13th May, 2024
 

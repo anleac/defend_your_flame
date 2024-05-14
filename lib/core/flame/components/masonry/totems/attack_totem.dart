@@ -10,7 +10,7 @@ import 'package:defend_your_flame/helpers/global_vars.dart';
 import 'package:flame/components.dart';
 
 class AttackTotem extends PlayerBaseComponent {
-  static const double baseSpeed = 400;
+  static const double baseSpeed = 420;
 
   final StoneTotem _stoneTotem = StoneTotem();
   late final PurpleFlame _firePitFlame = PurpleFlame()
@@ -54,7 +54,7 @@ class AttackTotem extends PlayerBaseComponent {
               initialPosition: absoluteCenter - Vector2(0, scaledSize.y / 2),
               targetPosition: randomEnemy.absoluteCenterOfMainHitbox(),
               damage: DamageConstants.fallDamageAsInt,
-              targetXVelocity: randomEnemy.isWalking ? randomEnemy.entityConfig.baseWalkingSpeed.toDouble() : 0,
+              targetXVelocity: randomEnemy.isWalking ? randomEnemy.walkingSpeed : 0,
               horizontalPixelsPerSecond: baseSpeed + (GlobalVars.rand.nextDouble() * 120)));
         }
       }

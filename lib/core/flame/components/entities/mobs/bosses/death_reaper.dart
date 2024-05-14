@@ -16,7 +16,7 @@ class DeathReaper extends Entity with DisappearOnDeath, HasDraggableCollisions, 
   static final EntityConfig _deathReaperConfig = EntityConfig(
     entityResourceName: 'bosses/death_reaper',
     defaultSize: Vector2(140, 93),
-    defaultScale: 1.6,
+    defaultScale: 1.65,
     idleConfig: AnimationConfig(
       stepTime: 0.2,
       frames: 8,
