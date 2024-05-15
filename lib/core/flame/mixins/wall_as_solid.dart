@@ -1,4 +1,5 @@
 import 'package:defend_your_flame/core/flame/components/entities/entity.dart';
+import 'package:defend_your_flame/helpers/misc_helper.dart';
 import 'package:defend_your_flame/helpers/timestep/timestep_helper.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
@@ -16,11 +17,11 @@ mixin WallAsSolid on Entity {
     super.onMount();
 
     var wallBoxes = world.playerBase.wall.solidBoxes;
-
+    var targetArea = absoluteBottomOfMainHitbox();
     // TODO: This is a very naive way to assign the wall id
     var closestWallBox = wallBoxes.reduce((a, b) {
-      var aDistance = a.bottomCenter.dy - trueCenter.y;
-      var bDistance = b.bottomCenter.dy - trueCenter.y;
+      var aDistance = a.bottomCenter.dy - targetArea.y;
+      var bDistance = b.bottomCenter.dy - targetArea.y;
       return aDistance * aDistance < bDistance * bDistance ? a : b;
     });
 
@@ -31,9 +32,8 @@ mixin WallAsSolid on Entity {
     var mainHitbox = hitboxes.first;
     var newPosition = TimestepHelper.addVector2(position, velocity, dt);
 
-    if (mainHitbox is! RectangleHitbox ||
-        newPosition.x < world.playerBase.wall.absoluteTopLeftPosition.x - 15 ||
-        !world.worldStateManager.playing) {
+    if (mainHitbox is! RectangleHitbox || (trueCenter.x < world.worldWidth / 2) || !world.worldStateManager.playing) {
+      _onTopOfWall = false;
       return (newPosition, velocity);
     }
 
@@ -41,27 +41,29 @@ mixin WallAsSolid on Entity {
     var newHitbox = mainHitbox.toAbsoluteRect().translate(scaledVelocity.x, scaledVelocity.y);
 
     // Check if the new hitbox would intersect with the wall hitbox
-    if (wallBox.overlaps(newHitbox)) {
-      if (velocity.y > 0 && newHitbox.bottom > wallBox.top) {
+    if (newHitbox.overlaps(wallBox)) {
+      if (velocity.y > 0 && MiscHelper.doubleGreaterThanOrEquals(newHitbox.bottom, wallBox.top)) {
         velocity.y = 0;
         _onTopOfWall = true;
       } else {
         _onTopOfWall = false;
       }
 
-      if (velocity.y < 0 && newHitbox.top < wallBox.bottom) {
+      if (velocity.y < 0 && MiscHelper.doubleGreaterThanOrEquals(wallBox.bottom, newHitbox.top)) {
         velocity.y = 0;
       }
 
-      if (velocity.x > 0 && newHitbox.right > wallBox.left) {
+      if (velocity.x < 0 && MiscHelper.doubleGreaterThanOrEquals(wallBox.right, newHitbox.left)) {
         velocity.x = 0;
       }
 
-      if (velocity.x < 0 && newHitbox.left < wallBox.right) {
+      if (velocity.x > 0 && MiscHelper.doubleGreaterThanOrEquals(newHitbox.right, wallBox.left)) {
         velocity.x = 0;
       }
 
       newPosition = TimestepHelper.addVector2(position, velocity, dt);
+    } else {
+      _onTopOfWall = false;
     }
 
     return (newPosition, velocity);
