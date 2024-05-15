@@ -3,14 +3,14 @@ import 'package:defend_your_flame/core/flame/components/entities/entity.dart';
 import 'package:defend_your_flame/core/flame/components/entities/enums/entity_state.dart';
 import 'package:defend_your_flame/core/flame/helpers/damage_helper.dart';
 import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
-import 'package:defend_your_flame/core/flame/mixins/wall_as_solid_v2.dart';
+import 'package:defend_your_flame/core/flame/mixins/wall_as_solid.dart';
 import 'package:defend_your_flame/helpers/physics_helper.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/rendering.dart';
 import 'package:flutter/material.dart';
 
-class DraggableEntity extends Entity with DragCallbacks, WallAsSolidV2 {
+class DraggableEntity extends Entity with DragCallbacks, WallAsSolid {
   static const double dragTimeoutInSeconds = 3.5;
   static const double _dragEps = 1;
 
