@@ -8,7 +8,6 @@ import 'package:defend_your_flame/core/flame/main_game.dart';
 import 'package:defend_your_flame/core/flame/managers/entity_manager.dart';
 import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
 import 'package:defend_your_flame/core/flame/mixins/has_wall_collision.dart';
-import 'package:defend_your_flame/core/flame/mixins/wall_as_solid.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 import 'package:defend_your_flame/helpers/timestep/timestep_helper.dart';
 import 'package:flame/collisions.dart';
@@ -25,8 +24,7 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
         HasHitboxPositioning,
         GestureHitboxes,
         CollisionCallbacks,
-        HasWallCollision,
-        WallAsSolid {
+        HasWallCollision {
   static const double offscreenTimeoutInSeconds = 3;
 
   late final List<ShapeHitbox> _hitboxes = addHitboxes();
@@ -182,7 +180,9 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
   void _logicCalculation(double dt) {
     if (isCollidingWithWall) {
       wallCollisionCalculation(dt);
-    } else if (current == EntityState.walking) {
+    }
+
+    if (current == EntityState.walking) {
       position.x = TimestepHelper.add(position.x, entityConfig.baseWalkingSpeed * scale.x, dt);
 
       if (_attackOffset > MiscConstants.eps) {

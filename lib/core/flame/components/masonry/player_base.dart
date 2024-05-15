@@ -102,7 +102,7 @@ class PlayerBase extends PositionComponent with HasWorldReference<MainWorld>, Ha
   void render(Canvas canvas) {
     super.render(canvas);
 
-    if (DebugConstants.drawEntityCollisionBoxes) {
+    if (DebugConstants.drawBaseArea) {
       // This is used for debugging
       var relativeRect = _innerBaseRect.translate(-position.x, -position.y);
       canvas.drawRect(relativeRect, DebugConstants.debugPaint);

@@ -31,42 +31,8 @@
 
   <title>defend_your_flame</title>
   <link rel="manifest" href="manifest.json">
-
-  <script>
-    // The value below is injected by flutter build, do not touch.
-    const serviceWorkerVersion = null;
-  </script>
-  <!-- This script adds the flutter initialization JS code -->
-  <script src="flutter.js" defer></script>
 </head>
 <body>
-  <script>
-    window.addEventListener('load', function(ev) {
-      // Disable clipping for performance
-      CanvasRenderingContext2D.prototype.clip = function () { };
-
-      // If we're in FireFox, there are known performance issues with CanvasKit rendering.
-      // Therefore if we're in FireFox, ensure to use the HTML renderer.
-      // See: https://github.com/flutter/flutter/issues/129733
-      // Another related issue to re-investigate in the future: https://github.com/flutter/flutter/issues/120156
-
-      let config = {
-        // Only enable this to test the HTML mode, otherwise it will default to canvasKit
-        // renderer: "html",
-      };
-
-      // Download main.dart.js
-      _flutter.loader.loadEntrypoint({
-        serviceWorker: {
-          serviceWorkerVersion: serviceWorkerVersion,
-        },
-        onEntrypointLoaded: function(engineInitializer) {
-          engineInitializer.initializeEngine(config).then(function(appRunner) {
-            appRunner.runApp();
-          });
-        }
-      });
-    });
-  </script>
+  <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>

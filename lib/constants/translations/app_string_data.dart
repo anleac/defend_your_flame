@@ -68,7 +68,7 @@ class AppStringData {
         "+${AppStrings.placeholderText} max wall health",
         "+${AppStrings.placeholderText} wall defence",
       ]),
-      'stoneWallQuote': '"I found a wall of wood, and left it a wall\nof stone."',
+      'stoneWallQuote': '"I found a wall of wood, and left it a wall of\nstone."',
 
       'attackTotemName': 'Attack Totem',
       'attackTotemDescription': AppStringHelper.purchasableDescription(attributes: [

@@ -9,11 +9,22 @@ class DebugConstants {
   static const int fakeFps = 30;
 
   static const bool drawEntityCollisionBoxes = false && Constants.debugBuild;
+  static const bool drawWallCollisionBoxes = false && Constants.debugBuild;
+  static const bool drawWallBoundaryBoxes = false && Constants.debugBuild;
+  static const bool drawBaseArea = false && Constants.debugBuild;
 
   static final Paint transparentPaint = Paint()..color = const Color.fromARGB(100, 255, 80, 80);
 
+  static final Paint faintDebugPaint = Paint()
+    ..color = Colors.red.withAlpha(90)
+    ..style = PaintingStyle.fill;
+
   static final Paint debugPaint = Paint()
-    ..color = Colors.red.withAlpha(150)
+    ..color = Colors.red.withAlpha(120)
+    ..style = PaintingStyle.fill;
+
+  static final Paint darkDebugPaint = Paint()
+    ..color = Colors.black.withAlpha(180)
     ..style = PaintingStyle.fill;
 
   // Setting this to true gives you max gold and sets the shop immediately avaliable.

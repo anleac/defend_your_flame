@@ -5,8 +5,8 @@ class TimestepConstants {
   static const double desiredTimestep = 1.0 / desiredFps;
 
   // How many frames we want to catch up on if we fall behind at the most.
-  // Arbitrary set it to a half a second worth of ticks.
-  static const int maxFrameCatchup = 30;
+  // Arbitrary set it to a second worth of ticks.
+  static const int maxFrameCatchup = 60;
 
   static const TimestepVariant variant = TimestepVariant.math;
 

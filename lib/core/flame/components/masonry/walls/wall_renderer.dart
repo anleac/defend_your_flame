@@ -4,7 +4,6 @@ import 'package:defend_your_flame/core/flame/components/masonry/walls/wall_helpe
 import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
 import 'package:flame/components.dart';
 import 'package:flame/image_composition.dart';
-import 'package:flutter/material.dart';
 
 class WallRenderer extends PositionComponent with ParentIsA<Wall>, Snapshot {
   double _verticalRange = 0;
@@ -19,8 +18,11 @@ class WallRenderer extends PositionComponent with ParentIsA<Wall>, Snapshot {
   late Sprite _wallSprite;
 
   final List<Vector2> _wallCornerPoints = [];
+  final List<Rect> _localSolidBoxes = [];
+  final List<Rect> _absoluteSolidBoxes = [];
 
   List<Vector2> get wallCornerPoints => _wallCornerPoints;
+  List<Rect> get solidBoxes => _absoluteSolidBoxes;
 
   double get _verticalDiffPerRender => WallHelper.getVerticalRendersPerDiff(parent.wallType);
 
@@ -50,24 +52,41 @@ class WallRenderer extends PositionComponent with ParentIsA<Wall>, Snapshot {
       Vector2(size.x + _xOffset + _horizontalRange, _verticalRange),
       Vector2(_horizontalRange + _xOffset, _verticalRange),
     ]);
+
+    _localSolidBoxes.clear();
+
+    double runningX = 0;
+    double runninyY = 0;
+    for (int i = 0; i < _verticalRenders; i++) {
+      _localSolidBoxes.add(
+        Rect.fromPoints(
+          Offset(runningX + _xOffset, runninyY - size.y),
+          Offset(runningX + _xOffset + size.x, runninyY),
+        ),
+      );
+
+      runningX += _horizontalDiffPerRender;
+      runninyY += _verticalDiffPerRender;
+    }
+
+    _absoluteSolidBoxes.clear();
+    _absoluteSolidBoxes.addAll(_localSolidBoxes.map((box) {
+      // We need to scale it, and add the parent's position.
+      return Rect.fromLTWH(
+        box.left * parent.scale.x + parent.absoluteTopLeftPosition.x,
+        box.top * parent.scale.y + parent.absoluteTopLeftPosition.y,
+        box.width * parent.scale.x,
+        box.height * parent.scale.y,
+      );
+    }));
   }
 
   @override
   void render(Canvas canvas) {
     super.render(canvas);
 
-    double runningX = 0;
-    double runninyY = 0;
-    for (int i = 0; i < _verticalRenders; i++) {
-      _wallSprite.render(
-        canvas,
-        position: Vector2(runningX + _xOffset, runninyY - size.y),
-        size: size,
-        overridePaint: Paint()..color = Colors.white.withOpacity(1 - ((_verticalRenders - i) / 90.0)),
-      );
-
-      runningX += _horizontalDiffPerRender;
-      runninyY += _verticalDiffPerRender;
+    for (var solidBox in _localSolidBoxes) {
+      _wallSprite.render(canvas, position: solidBox.topLeft.toVector2(), size: solidBox.size.toVector2());
     }
   }
 

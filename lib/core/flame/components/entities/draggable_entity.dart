@@ -3,14 +3,14 @@ import 'package:defend_your_flame/core/flame/components/entities/entity.dart';
 import 'package:defend_your_flame/core/flame/components/entities/enums/entity_state.dart';
 import 'package:defend_your_flame/core/flame/helpers/damage_helper.dart';
 import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
+import 'package:defend_your_flame/core/flame/mixins/wall_as_solid_v2.dart';
 import 'package:defend_your_flame/helpers/physics_helper.dart';
-import 'package:defend_your_flame/helpers/timestep/timestep_helper.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/rendering.dart';
 import 'package:flutter/material.dart';
 
-class DraggableEntity extends Entity with DragCallbacks {
+class DraggableEntity extends Entity with DragCallbacks, WallAsSolidV2 {
   static const double dragTimeoutInSeconds = 3.5;
   static const double _dragEps = 1;
 
@@ -55,6 +55,11 @@ class DraggableEntity extends Entity with DragCallbacks {
   void update(double dt) {
     _dragCalculation(dt);
     _checkDragStuckLogic(dt);
+
+    if (current == EntityState.falling && onTopOfWall) {
+      stopDragging();
+      current = EntityState.attacking;
+    }
 
     super.update(dt);
     _lastPosition = position.clone();
@@ -128,14 +133,18 @@ class DraggableEntity extends Entity with DragCallbacks {
     super.onDragUpdate(event);
     _stuckTimerInMilliseconds = 0;
 
-    if (!_beingDragged || isCollidingWithWall) {
+    if (!_beingDragged) {
       return;
     }
 
     var dragDistance = (event.canvasDelta / game.windowScale) * entityConfig.dragResistance;
-    position += dragDistance;
 
-    _totalDragDistance += dragDistance.length;
+    Vector2 newPosition;
+    (newPosition, _) = addVelocitySafely(position, dragDistance, 1);
+
+    var trueDragDistance = newPosition - position;
+    position = newPosition;
+    _totalDragDistance += trueDragDistance.length;
   }
 
   @override
@@ -201,13 +210,11 @@ class DraggableEntity extends Entity with DragCallbacks {
       if (DamageHelper.hasDragVelocityImpact(velocity: _velocity, considerHorizontal: true)) {
         world.playerBase.takeDamage(DamageConstants.wallImpactDamage.toInt(), position: wallIntersectionPoints.first);
         dragDamage();
-      } else {
-        stopDragging();
       }
     }
 
     if (current == EntityState.falling && _contactingGround) {
-      current = EntityState.walking;
+      hitGround();
     }
 
     super.wallCollisionCalculation(dt);
@@ -224,9 +231,13 @@ class DraggableEntity extends Entity with DragCallbacks {
 
     // It's possible they died in the air.
     var applyFalling = current == EntityState.falling || current == EntityState.dying;
-    if (applyFalling && !isCollidingWithWall) {
+    if (applyFalling) {
       _velocity = PhysicsHelper.applyGravity(_velocity, dt);
-      position = TimestepHelper.addVector2(position, _velocity, dt);
+      Vector2 newPosition, newVelocity;
+      (newPosition, newVelocity) = addVelocitySafely(position, _velocity, dt);
+
+      position = newPosition;
+      _velocity = newVelocity;
 
       if (_contactingGround) {
         hitGround();

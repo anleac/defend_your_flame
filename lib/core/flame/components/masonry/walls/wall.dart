@@ -9,6 +9,7 @@ import 'package:defend_your_flame/core/flame/components/masonry/walls/wall_type.
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flutter/painting.dart';
 
 class Wall extends PositionComponent with HasVisibility, HasWorldReference<MainWorld> {
   // The offset from the bottom of the wall to the bottom of the base
@@ -27,7 +28,7 @@ class Wall extends PositionComponent with HasVisibility, HasWorldReference<MainW
   late int _health;
   late int _defenseValue;
 
-  PolygonHitbox? _hitbox;
+  PolygonHitbox? _boundingBox;
 
   WallType get wallType => _wallType;
   int get health => _health < 0 ? 0 : _health;
@@ -35,6 +36,8 @@ class Wall extends PositionComponent with HasVisibility, HasWorldReference<MainW
   int get defenseValue => _defenseValue;
 
   Vector2 get wallCenter => center;
+  List<Vector2> get wallCornerPoints => _wallRenderer.wallCornerPoints;
+  List<Rect> get solidBoxes => _wallRenderer.solidBoxes;
 
   Wall() {
     _setWallStats();
@@ -63,14 +66,13 @@ class Wall extends PositionComponent with HasVisibility, HasWorldReference<MainW
   }
 
   _clearAndAddHitbox() {
-    _hitbox?.removeFromParent();
+    _boundingBox?.removeFromParent();
     _wallRenderer.updateWallRenderValues();
 
-    // TODO post-beta release check performance of isSolid.
     add(
-      _hitbox = PolygonHitbox(_wallRenderer.wallCornerPoints, isSolid: true)
-        ..renderShape = DebugConstants.drawEntityCollisionBoxes
-        ..paint = DebugConstants.transparentPaint,
+      _boundingBox = PolygonHitbox(_wallRenderer.wallCornerPoints)
+        ..renderShape = DebugConstants.drawWallBoundaryBoxes
+        ..paint = DebugConstants.faintDebugPaint,
     );
   }
 
@@ -95,7 +97,7 @@ class Wall extends PositionComponent with HasVisibility, HasWorldReference<MainW
   void reset() {
     updateWallType(WallType.barricade, resetWall: true);
 
-    _hitbox?.collisionType = CollisionType.active;
+    _boundingBox?.collisionType = CollisionType.active;
     isVisible = true;
   }
 
@@ -109,7 +111,7 @@ class Wall extends PositionComponent with HasVisibility, HasWorldReference<MainW
     }
 
     if (_health <= MiscConstants.eps) {
-      _hitbox?.collisionType = CollisionType.inactive;
+      _boundingBox?.collisionType = CollisionType.inactive;
     }
   }
 
