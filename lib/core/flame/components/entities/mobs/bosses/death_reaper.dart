@@ -38,7 +38,7 @@ class DeathReaper extends Entity with DisappearOnDeath, HasDraggableCollisions, 
     goldOnKill: 40,
     totalHealth: DamageConstants.fallDamage * 20,
     timeSpendIdle: TimeSpendIdle.minimal,
-    attackRange: () => 48,
+    attackRange: () => 46,
   );
 
   late final RectangleHitbox _hitbox = EntityHelper.createRectangleHitbox(

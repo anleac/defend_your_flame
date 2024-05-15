@@ -44,7 +44,7 @@ class PlayerBase extends PositionComponent with HasWorldReference<MainWorld>, Ha
   ];
 
   late final Blacksmith _blacksmith = Blacksmith()
-    ..position = Vector2(Wall.wallAreaWidth - 18, _firePit.center.y + 5)
+    ..position = Vector2(Wall.wallAreaWidth - 20, _firePit.center.y + 5)
     ..anchor = Anchor.bottomLeft;
 
   PlayerBase({required double worldWidth, required double worldHeight})
@@ -102,7 +102,7 @@ class PlayerBase extends PositionComponent with HasWorldReference<MainWorld>, Ha
   void render(Canvas canvas) {
     super.render(canvas);
 
-    if (DebugConstants.drawEntityCollisionBoxes) {
+    if (DebugConstants.drawBaseArea) {
       // This is used for debugging
       var relativeRect = _innerBaseRect.translate(-position.x, -position.y);
       canvas.drawRect(relativeRect, DebugConstants.debugPaint);

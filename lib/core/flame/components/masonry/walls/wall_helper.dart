@@ -9,7 +9,7 @@ class WallHelper {
       case WallType.wood:
         return Vector2(0.35, 0.29);
       case WallType.stone:
-        return Vector2(0.4, 0.34);
+        return Vector2(0.38, 0.33);
     }
   }
 
@@ -28,7 +28,7 @@ class WallHelper {
       case WallType.wood:
         return Vector2(156, 398);
       case WallType.stone:
-        return Vector2(156, 398);
+        return Vector2(178, 398);
     }
   }
 

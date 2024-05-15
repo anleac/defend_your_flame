@@ -18,4 +18,12 @@ class MiscHelper {
   static bool doubleEquals(double a, double b) {
     return (a - b).abs() < MiscConstants.eps;
   }
+
+  static bool doubleGreaterThanOrEquals(double a, double b) {
+    return a > b || doubleEquals(a, b);
+  }
+
+  static bool doubleLessThanOrEquals(double a, double b) {
+    return a < b || doubleEquals(a, b);
+  }
 }

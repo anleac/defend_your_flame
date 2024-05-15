@@ -19,4 +19,12 @@ mixin HasHitboxPositioning on PositionComponent {
 
     return absoluteCenter;
   }
+
+  Vector2 absoluteBottomOfMainHitbox() {
+    if (hitboxes.isNotEmpty) {
+      return hitboxes.first.absoluteCenter;
+    }
+
+    return absoluteCenter;
+  }
 }
