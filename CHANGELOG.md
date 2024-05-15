@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.17.2 - 15th May, 2024
+
+### New Features
+- Overhauled collision logic with the walls
+  - They can no longer be dragged into them at all, and can also land on top
+  - If they land on top, they will start to attack
+
+### Bug Fixes
+- N/A
+
+### Improvements / Balances
+- Small scale fixes
+
 ## 0.17.1 - 14th May, 2024
 
 ### New Features
