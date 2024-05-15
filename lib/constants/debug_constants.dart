@@ -10,7 +10,7 @@ class DebugConstants {
 
   static const bool drawEntityCollisionBoxes = false && Constants.debugBuild;
   static const bool drawWallCollisionBoxes = false && Constants.debugBuild;
-  static const bool drawWallBoundaryBoxes = false && Constants.debugBuild;
+  static const bool drawWallBoundaryBox = false && Constants.debugBuild;
   static const bool drawBaseArea = false && Constants.debugBuild;
 
   static final Paint transparentPaint = Paint()..color = const Color.fromARGB(100, 255, 80, 80);

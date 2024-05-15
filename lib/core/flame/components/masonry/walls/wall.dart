@@ -71,7 +71,7 @@ class Wall extends PositionComponent with HasVisibility, HasWorldReference<MainW
 
     add(
       _boundingBox = PolygonHitbox(_wallRenderer.wallCornerPoints)
-        ..renderShape = DebugConstants.drawWallBoundaryBoxes
+        ..renderShape = DebugConstants.drawWallBoundaryBox
         ..paint = DebugConstants.faintDebugPaint,
     );
   }
