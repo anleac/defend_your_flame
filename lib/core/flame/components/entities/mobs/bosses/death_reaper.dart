@@ -32,7 +32,7 @@ class DeathReaper extends Entity with HasDraggableCollisions, HasIdleTime {
       stepTime: 0.16,
       frames: 10,
     ),
-    baseWalkingSpeed: 14,
+    baseWalkingSpeed: 13,
     damageOnAttack: 20,
     goldOnKill: 40,
     totalHealth: DamageConstants.fallDamage * 20,

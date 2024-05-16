@@ -11,7 +11,7 @@ import 'package:flame/rendering.dart';
 import 'package:flutter/material.dart';
 
 class DraggableEntity extends Entity with DragCallbacks, WallAsSolid {
-  static const double dragTimeoutInSeconds = 3.5;
+  static const double dragTimeoutInSeconds = 3;
   static const double _dragEps = 1;
 
   static final PaintDecorator _dragTintDecorator = PaintDecorator.tint(const Color.fromARGB(80, 255, 45, 45));
@@ -24,6 +24,7 @@ class DraggableEntity extends Entity with DragCallbacks, WallAsSolid {
 
   double _stuckTimerInMilliseconds = 0;
   double _totalDragDistance = 0;
+  double _draggingOnGroundDistance = 0;
 
   bool get _contactingGround => startPosition.y - position.y < _dragEps;
   Vector2 get currentVelocity => _beingDragged ? _dragVelocity : _velocity;
@@ -87,7 +88,7 @@ class DraggableEntity extends Entity with DragCallbacks, WallAsSolid {
     if (_contactingGround && beenDraggedFarEnough) {
       if (DamageHelper.hasDragVelocityImpact(velocity: _dragVelocity, considerHorizontal: false)) {
         dragDamage();
-      } else {
+      } else if (beenDraggedOnGroundFarEnough) {
         stopDragging();
       }
     }
@@ -97,6 +98,7 @@ class DraggableEntity extends Entity with DragCallbacks, WallAsSolid {
     _updateDragVelocity(dragVelocity);
   }
 
+  bool get beenDraggedOnGroundFarEnough => _draggingOnGroundDistance > 300;
   bool get beenDraggedFarEnough => _totalDragDistance > 150;
 
   @override
@@ -121,7 +123,7 @@ class DraggableEntity extends Entity with DragCallbacks, WallAsSolid {
   }
 
   void _updateDragVelocity(Vector2 newVelocity) {
-    double influence = newVelocity == Vector2.zero() ? 0.15 : 0.35;
+    double influence = newVelocity == Vector2.zero() ? 0.15 : 0.4;
     _dragVelocity.x = influence * newVelocity.x + (1 - influence) * _dragVelocity.x;
     _dragVelocity.y = influence * newVelocity.y + (1 - influence) * _dragVelocity.y;
 
@@ -145,6 +147,10 @@ class DraggableEntity extends Entity with DragCallbacks, WallAsSolid {
     var trueDragDistance = newPosition - position;
     position = newPosition;
     _totalDragDistance += trueDragDistance.length;
+
+    if (_contactingGround) {
+      _draggingOnGroundDistance += trueDragDistance.length;
+    }
   }
 
   @override
@@ -172,6 +178,7 @@ class DraggableEntity extends Entity with DragCallbacks, WallAsSolid {
 
     _beingDragged = true;
     _totalDragDistance = 0;
+    _draggingOnGroundDistance = 0;
     _clearVelocities();
     _stuckTimerInMilliseconds = 0;
     current = EntityState.dragged;

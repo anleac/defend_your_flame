@@ -130,10 +130,10 @@ class EntitySpawnHelper {
   }
 
   static double _secondsToSpawnOver(int currentRound) {
-    return _tapper(currentRound * 12, tapperLess: true).ceil() + 6;
+    return _tapper(currentRound * 12, tapperLess: true).ceil() + 7;
   }
 
-  static int _basicMobsToSpawnThisRound(int currentRound) => _tapper(currentRound * 12).ceil() + 4;
+  static int _basicMobsToSpawnThisRound(int currentRound) => _tapper(currentRound * 12).ceil() + 3;
   static int _strongGroundMobsToSpawnThisRound(int currentRound) {
     if (currentRound < EntitySpawnConstants.minimumRoundForStrongGroundEnemies) {
       return 0;
