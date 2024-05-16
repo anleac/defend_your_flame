@@ -205,19 +205,11 @@ class DraggableEntity extends Entity with DragCallbacks, WallAsSolid {
   }
 
   @override
-  void wallCollisionCalculation(double dt) {
-    if (_beingDragged) {
-      if (DamageHelper.hasDragVelocityImpact(velocity: _velocity, considerHorizontal: true)) {
-        world.playerBase.takeDamage(DamageConstants.wallImpactDamage.toInt(), position: wallIntersectionPoints.first);
-        dragDamage();
-      }
+  void wallCollision(double dt) {
+    if (DamageHelper.hasCollisionVelocityImpact(velocity: _velocity)) {
+      world.playerBase.takeDamage(DamageConstants.wallImpactDamage.toInt(), position: trueCenter);
+      dragDamage();
     }
-
-    if (current == EntityState.falling && _contactingGround) {
-      hitGround();
-    }
-
-    super.wallCollisionCalculation(dt);
   }
 
   @override

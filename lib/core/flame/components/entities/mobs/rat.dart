@@ -1,5 +1,4 @@
 import 'package:defend_your_flame/core/flame/components/entities/configs/animation_config.dart';
-import 'package:defend_your_flame/core/flame/components/entities/disappear_on_death.dart';
 import 'package:defend_your_flame/core/flame/components/entities/draggable_entity.dart';
 import 'package:defend_your_flame/core/flame/components/entities/configs/entity_config.dart';
 import 'package:defend_your_flame/core/flame/helpers/entity_helper.dart';
@@ -7,7 +6,7 @@ import 'package:defend_your_flame/helpers/misc_helper.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 
-class Rat extends DraggableEntity with DisappearOnDeath {
+class Rat extends DraggableEntity {
   static final EntityConfig _ratConfig = EntityConfig(
     entityResourceName: 'rat',
     defaultSize: Vector2(32, 32),

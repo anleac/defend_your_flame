@@ -2,7 +2,7 @@ import 'package:defend_your_flame/core/flame/components/masonry/walls/wall.dart'
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 
-mixin HasWallCollision on PositionComponent, CollisionCallbacks {
+mixin HasWallCollisionDetection on PositionComponent, CollisionCallbacks {
   bool _isCollidingWithWall = false;
 
   Set<Vector2> _wallIntersectionPoints = {};

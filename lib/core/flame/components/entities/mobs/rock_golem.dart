@@ -1,6 +1,5 @@
 import 'package:defend_your_flame/constants/damage_constants.dart';
 import 'package:defend_your_flame/core/flame/components/entities/configs/animation_config.dart';
-import 'package:defend_your_flame/core/flame/components/entities/disappear_on_death.dart';
 import 'package:defend_your_flame/core/flame/components/entities/draggable_entity.dart';
 import 'package:defend_your_flame/core/flame/components/entities/configs/entity_config.dart';
 import 'package:defend_your_flame/core/flame/components/entities/enums/idle_time.dart';
@@ -11,7 +10,7 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/rendering.dart';
 
-class RockGolem extends DraggableEntity with DisappearOnDeath, HasIdleTime {
+class RockGolem extends DraggableEntity with HasIdleTime {
   static final EntityConfig _rockGolemConfig = EntityConfig(
     entityResourceName: 'rock_golem',
     defaultSize: Vector2(90, 64),

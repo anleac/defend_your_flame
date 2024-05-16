@@ -13,10 +13,10 @@ class GameSelectionHud extends BasicHud {
   late final StartGameButton _startGame = StartGameButton()
     ..position = Vector2(world.worldWidth / 2, world.worldHeight / 3);
 
-  late final FastTrackToButton _fastTrackToTen = FastTrackToButton(round: 10, gold: 400)
+  late final FastTrackToButton _fastTrackToTen = FastTrackToButton(round: 10, gold: 460)
     ..position = _startGame.position + ThemingConstants.menuButtonGap;
 
-  late final FastTrackToButton _fastTrackToFifteen = FastTrackToButton(round: 15, gold: 800)
+  late final FastTrackToButton _fastTrackToFifteen = FastTrackToButton(round: 15, gold: 900)
     ..position = _fastTrackToTen.position + ThemingConstants.menuButtonGap;
 
   late final LoadGameButton _loadGame = LoadGameButton()

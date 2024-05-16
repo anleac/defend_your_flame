@@ -1,30 +1,16 @@
 import 'package:defend_your_flame/constants/bounding_constants.dart';
 import 'package:defend_your_flame/constants/misc_constants.dart';
+import 'package:defend_your_flame/core/flame/components/entities/base_entity.dart';
 import 'package:defend_your_flame/core/flame/components/entities/enums/entity_state.dart';
 import 'package:defend_your_flame/core/flame/components/entities/configs/entity_config.dart';
 import 'package:defend_your_flame/core/flame/components/entities/enums/idle_time.dart';
-import 'package:defend_your_flame/core/flame/components/entities/mixins/has_hitbox_positioning.dart';
-import 'package:defend_your_flame/core/flame/main_game.dart';
-import 'package:defend_your_flame/core/flame/managers/entity_manager.dart';
+import 'package:defend_your_flame/core/flame/components/entities/mixins/disappear_on_death.dart';
 import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
-import 'package:defend_your_flame/core/flame/mixins/has_wall_collision.dart';
-import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 import 'package:defend_your_flame/helpers/timestep/timestep_helper.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:flame/events.dart';
 
-class Entity extends SpriteAnimationGroupComponent<EntityState>
-    with
-        ParentIsA<EntityManager>,
-        HasWorldReference<MainWorld>,
-        HasGameReference<MainGame>,
-        HasVisibility,
-        TapCallbacks,
-        HasHitboxPositioning,
-        GestureHitboxes,
-        CollisionCallbacks,
-        HasWallCollision {
+class Entity extends BaseEntity with DisappearOnDeath {
   static const double offscreenTimeoutInSeconds = 3;
 
   late final List<ShapeHitbox> _hitboxes = addHitboxes();
@@ -35,7 +21,6 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
   final double scaleModifier;
 
   late double _currentHealth = entityConfig.totalHealth;
-  late Vector2 _startingPosition;
 
   bool _canAttack = false;
   double _offscreenTimerInMilliseconds = 0;
@@ -43,9 +28,6 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
   double get currentHealth => _currentHealth;
   double get totalHealth => entityConfig.totalHealth;
   double get walkingSpeed => _defaultWalkingSpeed;
-
-  Vector2 get startPosition => _startingPosition;
-  Vector2 get trueCenter => absoluteCenterOfMainHitbox();
 
   bool get isWalking => current == EntityState.walking;
   bool get isAlive => _currentHealth > MiscConstants.eps;
@@ -56,12 +38,6 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
     size = entityConfig.defaultSize;
     scale = Vector2.all(entityConfig.defaultScale * scaleModifier);
     _defaultWalkingSpeed = modifiedWalkingSpeed ?? entityConfig.baseWalkingSpeed;
-  }
-
-  @override
-  void onMount() {
-    super.onMount();
-    _startingPosition = position.clone();
   }
 
   @override
@@ -153,7 +129,7 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
   }
 
   void _applyBoundingConstraints(double dt) {
-    position.y = position.y.clamp(BoundingConstants.minYCoordinate, _startingPosition.y + MiscConstants.eps);
+    position.y = position.y.clamp(BoundingConstants.minYCoordinate, startPosition.y + MiscConstants.eps);
     position.x = position.x.clamp(BoundingConstants.minXCoordinateOffScreen - scaledSize.x,
         world.worldWidth + BoundingConstants.maxXCoordinateOffScreen + (scaledSize.x / 2));
 
@@ -179,7 +155,9 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
 
   void _logicCalculation(double dt) {
     if (isCollidingWithWall) {
-      wallCollisionCalculation(dt);
+      if (current == EntityState.walking) {
+        current = EntityState.attacking;
+      }
     }
 
     if (current == EntityState.walking) {
@@ -194,12 +172,7 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
     }
   }
 
-  // This should only ever be called when the entity is colliding with a wall.
-  void wallCollisionCalculation(double dt) {
-    if (current == EntityState.walking) {
-      current = EntityState.attacking;
-    }
-  }
+  void wallCollision(double dt) {}
 
   void fallingCalculation(double dt) {}
 
@@ -231,7 +204,7 @@ class Entity extends SpriteAnimationGroupComponent<EntityState>
   void teleportToStart() {
     // If they're dead, theres no real point to do this.
     if (isAlive) {
-      position = _startingPosition;
+      position = startPosition;
       current = EntityState.walking;
     }
   }

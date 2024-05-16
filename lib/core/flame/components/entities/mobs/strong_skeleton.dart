@@ -1,6 +1,5 @@
 import 'package:defend_your_flame/constants/damage_constants.dart';
 import 'package:defend_your_flame/core/flame/components/entities/configs/animation_config.dart';
-import 'package:defend_your_flame/core/flame/components/entities/disappear_on_death.dart';
 import 'package:defend_your_flame/core/flame/components/entities/draggable_entity.dart';
 import 'package:defend_your_flame/core/flame/components/entities/configs/entity_config.dart';
 import 'package:defend_your_flame/core/flame/helpers/entity_helper.dart';
@@ -9,7 +8,7 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/rendering.dart';
 
-class StrongSkeleton extends DraggableEntity with DisappearOnDeath {
+class StrongSkeleton extends DraggableEntity {
   static final EntityConfig _strongSkeletonConfig = EntityConfig(
     entityResourceName: 'strong_skeleton',
     defaultSize: Vector2(64, 64),
