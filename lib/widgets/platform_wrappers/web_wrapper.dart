@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:defend_your_flame/constants/constants.dart';
 import 'package:defend_your_flame/constants/platform_constants.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +10,7 @@ class WebWrapper extends StatefulWidget {
   static const double maxWebWidth = Constants.desiredWidth * webMaxDimensionFactor;
   static const double maxWebHeight = Constants.desiredHeight * webMaxDimensionFactor;
 
-  static const double borderPadding = 25;
+  static const double topPadding = 40;
 
   final Widget child;
 
@@ -21,6 +23,10 @@ class WebWrapper extends StatefulWidget {
 class WebWrapperState extends State<WebWrapper> {
   @override
   Widget build(BuildContext context) {
+    var windowSize = MediaQuery.of(context).size;
+    var trueTopPadding =
+        max(min(WebWrapper.topPadding, (windowSize.height - WebWrapper.maxWebHeight) / 2), 0).toDouble();
+
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -32,7 +38,7 @@ class WebWrapperState extends State<WebWrapper> {
                 maxHeight: WebWrapper.maxWebHeight,
               ),
               child: Container(
-                padding: const EdgeInsets.all(WebWrapper.borderPadding),
+                padding: EdgeInsets.only(top: trueTopPadding),
                 child: AspectRatio(
                   aspectRatio: Constants.desiredAspectRatio,
                   child: Container(

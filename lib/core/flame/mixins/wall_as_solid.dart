@@ -1,4 +1,5 @@
 import 'package:defend_your_flame/core/flame/components/entities/entity.dart';
+import 'package:defend_your_flame/core/flame/components/entities/enums/entity_state.dart';
 import 'package:defend_your_flame/helpers/misc_helper.dart';
 import 'package:defend_your_flame/helpers/timestep/timestep_helper.dart';
 import 'package:flame/collisions.dart';
@@ -28,9 +29,23 @@ mixin WallAsSolid on Entity {
     assignedWallId = world.playerBase.wall.solidBoxes.indexOf(closestWallBox);
   }
 
+  @override
+  void update(double dt) {
+    if (world.worldStateManager.gameOver && _onTopOfWall) {
+      _onTopOfWall = false;
+
+      if (current == EntityState.attacking || current == EntityState.walking) {
+        current = EntityState.falling;
+      }
+    }
+
+    super.update(dt);
+  }
+
   (Vector2 position, Vector2 velocity) addVelocitySafely(Vector2 position, Vector2 velocity, double dt) {
     var mainHitbox = hitboxes.first;
     var newPosition = TimestepHelper.addVector2(position, velocity, dt);
+    var tmpVelocity = velocity.clone();
 
     if (mainHitbox is! RectangleHitbox || (trueCenter.x < world.worldWidth / 2) || !world.worldStateManager.playing) {
       _onTopOfWall = false;
@@ -42,30 +57,32 @@ mixin WallAsSolid on Entity {
 
     // Check if the new hitbox would intersect with the wall hitbox
     if (newHitbox.overlaps(wallBox)) {
-      if (velocity.y > 0 && MiscHelper.doubleGreaterThanOrEquals(newHitbox.bottom, wallBox.top)) {
-        velocity.y = 0;
+      if (tmpVelocity.y > 0 && MiscHelper.doubleGreaterThanOrEquals(newHitbox.bottom, wallBox.top)) {
+        tmpVelocity.y = 0;
         _onTopOfWall = true;
       } else {
         _onTopOfWall = false;
       }
 
-      if (velocity.y < 0 && MiscHelper.doubleGreaterThanOrEquals(wallBox.bottom, newHitbox.top)) {
-        velocity.y = 0;
+      if (tmpVelocity.y < 0 && MiscHelper.doubleGreaterThanOrEquals(wallBox.bottom, newHitbox.top)) {
+        tmpVelocity.y = 0;
       }
 
-      if (velocity.x < 0 && MiscHelper.doubleGreaterThanOrEquals(wallBox.right, newHitbox.left)) {
-        velocity.x = 0;
+      if (tmpVelocity.x < 0 && MiscHelper.doubleGreaterThanOrEquals(wallBox.right, newHitbox.left)) {
+        tmpVelocity.x = 0;
       }
 
-      if (velocity.x > 0 && MiscHelper.doubleGreaterThanOrEquals(newHitbox.right, wallBox.left)) {
-        velocity.x = 0;
+      if (tmpVelocity.x > 0 && MiscHelper.doubleGreaterThanOrEquals(newHitbox.right, wallBox.left)) {
+        tmpVelocity.x = 0;
       }
 
-      newPosition = TimestepHelper.addVector2(position, velocity, dt);
+      wallCollision(dt);
+
+      newPosition = TimestepHelper.addVector2(position, tmpVelocity, dt);
     } else {
       _onTopOfWall = false;
     }
 
-    return (newPosition, velocity);
+    return (newPosition, tmpVelocity);
   }
 }

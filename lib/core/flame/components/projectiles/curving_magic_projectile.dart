@@ -10,7 +10,7 @@ import 'package:defend_your_flame/constants/bounding_constants.dart';
 import 'package:defend_your_flame/constants/physics_constants.dart';
 import 'package:defend_your_flame/core/flame/components/effects/particles/trailing_particles.dart';
 import 'package:defend_your_flame/core/flame/components/entities/mixins/has_entity_collisions.dart';
-import 'package:defend_your_flame/core/flame/mixins/has_wall_collision.dart';
+import 'package:defend_your_flame/core/flame/mixins/has_wall_collision_detection.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 import 'package:defend_your_flame/helpers/physics_helper.dart';
 import 'package:defend_your_flame/helpers/timestep/timestep_helper.dart';
@@ -19,7 +19,7 @@ import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 
 class CurvingMagicProjectile extends PositionComponent
-    with CollisionCallbacks, HasWallCollision, HasEntityCollisions, HasWorldReference<MainWorld> {
+    with CollisionCallbacks, HasWallCollisionDetection, HasEntityCollisions, HasWorldReference<MainWorld> {
   static const double removalYThreshold = 15;
 
   final Vector2 initialPosition;

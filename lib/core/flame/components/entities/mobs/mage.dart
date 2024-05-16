@@ -1,7 +1,6 @@
 import 'package:defend_your_flame/constants/damage_constants.dart';
 import 'package:defend_your_flame/core/flame/components/entities/configs/animation_config.dart';
 import 'package:defend_your_flame/core/flame/components/entities/configs/entity_config.dart';
-import 'package:defend_your_flame/core/flame/components/entities/disappear_on_death.dart';
 import 'package:defend_your_flame/core/flame/components/entities/entity.dart';
 import 'package:defend_your_flame/core/flame/components/entities/enums/entity_state.dart';
 import 'package:defend_your_flame/core/flame/components/entities/enums/idle_time.dart';
@@ -16,7 +15,7 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flutter/painting.dart';
 
-class Mage extends Entity with DisappearOnDeath, HasIdleTime, HasDraggableCollisions {
+class Mage extends Entity with HasIdleTime, HasDraggableCollisions {
   static final EntityConfig _mageConfig = EntityConfig(
     entityResourceName: 'mage',
     defaultSize: Vector2(160, 128),

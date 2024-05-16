@@ -1,7 +1,10 @@
+import 'package:defend_your_flame/core/flame/shop/purchaseable_type.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 
-abstract class Purchasable {
-  final Set<Type> dependencies;
+abstract class Purchaseable {
+  final Set<PurchaseableType> dependencies;
+
+  final PurchaseableType type;
 
   final String name;
   final String description;
@@ -18,8 +21,9 @@ abstract class Purchasable {
 
   int get currentCost => _purchaseCount >= cost.length ? cost.last : cost[_purchaseCount];
 
-  Purchasable(
-      {required this.name,
+  Purchaseable(
+      {required this.type,
+      required this.name,
       required this.description,
       required this.quote,
       required this.cost,
@@ -31,15 +35,12 @@ abstract class Purchasable {
     _purchaseCount++;
   }
 
-  // TODO post-beta release: re-consider this logic, feels hacky and also not the most efficient.
-  bool shouldBeVisible(List<Purchasable> purchasables) {
+  bool shouldBeVisible(Set<PurchaseableType> purchased) {
     if (dependencies.isEmpty) {
       return true;
     }
 
-    return purchasables
-        .where((element) => dependencies.contains(element.runtimeType))
-        .every((element) => element.purchasedAnyAmount);
+    return dependencies.every((element) => purchased.contains(element));
   }
 
   void reset() {

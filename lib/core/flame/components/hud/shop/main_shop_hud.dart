@@ -10,7 +10,7 @@ import 'package:defend_your_flame/core/flame/components/hud/sprite_with_texts/go
 import 'package:defend_your_flame/core/flame/components/hud/sprite_with_texts/health_indicator.dart';
 import 'package:defend_your_flame/core/flame/components/hud/text/shop/no_item_selected_text.dart';
 import 'package:defend_your_flame/core/flame/components/hud/text/shop/shop_title_text.dart';
-import 'package:defend_your_flame/core/flame/shop/purchasable.dart';
+import 'package:defend_your_flame/core/flame/shop/purchaseable.dart';
 import 'package:flame/components.dart';
 import 'package:flame/image_composition.dart';
 
@@ -108,7 +108,7 @@ class MainShopHud extends BasicHud with ParentIsA<NextRoundHud> {
     parent.changeState(NextRoundHudState.menu);
   }
 
-  void showItemDescription(Purchasable purchasable) {
+  void showItemDescription(Purchaseable purchasable) {
     _noItemSelectedText.isVisible = false;
     add(_shopItemDescription);
 

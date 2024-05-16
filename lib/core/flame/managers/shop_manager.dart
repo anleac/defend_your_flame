@@ -1,37 +1,43 @@
 import 'package:defend_your_flame/core/flame/main_game.dart';
 import 'package:defend_your_flame/core/flame/shop/defenses/attack_totem_purchase.dart';
 import 'package:defend_your_flame/core/flame/shop/npcs/blacksmith_purchase.dart';
+import 'package:defend_your_flame/core/flame/shop/purchaseable_type.dart';
 import 'package:defend_your_flame/core/flame/shop/walls/wooden_wall_purchase.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
-import 'package:defend_your_flame/core/flame/shop/purchasable.dart';
+import 'package:defend_your_flame/core/flame/shop/purchaseable.dart';
 import 'package:defend_your_flame/core/flame/shop/walls/stone_wall_purchase.dart';
 import 'package:flame/components.dart';
 
 class ShopManager extends Component with HasWorldReference<MainWorld>, HasGameReference<MainGame> {
-  late final List<Purchasable> _purchasables = [
-    WoodenWallPurchase(game.appStrings),
-    StoneWallPurchase(game.appStrings),
-    AttackTotemPurchase(game.appStrings),
-    BlacksmithPurchase(game.appStrings),
-  ];
+  late final Map<PurchaseableType, Purchaseable> _purchasables = {
+    PurchaseableType.woodenWall: WoodenWallPurchase(game.appStrings),
+    PurchaseableType.stoneWall: StoneWallPurchase(game.appStrings),
+    PurchaseableType.attackTotem: AttackTotemPurchase(game.appStrings),
+    PurchaseableType.blacksmith: BlacksmithPurchase(game.appStrings),
+  };
 
-  List<Purchasable> get purchasables => _purchasables;
+  Set<PurchaseableType> _purchased = {};
 
-  // TODO this is super hacky but it's a quick fix to test this NPC for now, re-visit
-  bool get blacksmithPurchased => _purchasables[3].purchasedMaxAmount;
+  Iterable<Purchaseable> get purchasables => _purchasables.values;
+  Set<PurchaseableType> get purchased => _purchased;
 
-  void handlePurchase(Purchasable purchasable) {
-    var purchaseIndex = _purchasables.indexWhere((element) => element == purchasable);
-    if (_purchasables[purchaseIndex].purchasedMaxAmount || world.playerBase.totalGold < purchasable.currentCost) {
+  bool get blacksmithPurchased => _purchasables[PurchaseableType.blacksmith]!.purchasedMaxAmount;
+
+  void handlePurchase(PurchaseableType type) {
+    var purchase = _purchasables[type]!;
+    if (purchase.purchasedMaxAmount || world.playerBase.totalGold < purchase.currentCost) {
       return;
     }
 
-    world.playerBase.mutateGold(-purchasable.currentCost);
-    _purchasables[purchaseIndex].purchase(world);
+    world.playerBase.mutateGold(-purchase.currentCost);
+    purchase.purchase(world);
+    _purchased.add(type);
   }
 
   void resetPurchases() {
-    for (var element in _purchasables) {
+    _purchased.clear();
+
+    for (var element in _purchasables.values) {
       element.reset();
     }
   }

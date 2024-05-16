@@ -2,11 +2,11 @@ import 'package:defend_your_flame/core/flame/components/hud/base_components/text
 import 'package:defend_your_flame/core/flame/components/hud/shop/main_shop_hud.dart';
 import 'package:defend_your_flame/core/flame/components/hud/shop/shop_item_list.dart';
 import 'package:defend_your_flame/core/flame/managers/text/shop_text_manager.dart';
-import 'package:defend_your_flame/core/flame/shop/purchasable.dart';
+import 'package:defend_your_flame/core/flame/shop/purchaseable.dart';
 import 'package:flame/components.dart';
 
 class ShopItemButton extends TextButton with ParentIsA<ShopItemList>, HasAncestor<MainShopHud> {
-  final Purchasable purchasable;
+  final Purchaseable purchasable;
 
   ShopItemButton(this.purchasable)
       : super(

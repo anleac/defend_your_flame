@@ -1,12 +1,14 @@
 import 'package:defend_your_flame/constants/translations/app_string_helper.dart';
 import 'package:defend_your_flame/constants/translations/app_strings.dart';
 import 'package:defend_your_flame/core/flame/components/entities/npcs/blacksmith.dart';
-import 'package:defend_your_flame/core/flame/shop/purchasable.dart';
+import 'package:defend_your_flame/core/flame/shop/purchaseable.dart';
+import 'package:defend_your_flame/core/flame/shop/purchaseable_type.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 
-class BlacksmithPurchase extends Purchasable {
+class BlacksmithPurchase extends Purchaseable {
   BlacksmithPurchase(AppStrings appStrings)
       : super(
+          type: PurchaseableType.blacksmith,
           name: appStrings.blacksmithName,
           description:
               AppStringHelper.insertNumber(appStrings.blacksmithDescription, Blacksmith.percentageOfWallHealthToRepair),

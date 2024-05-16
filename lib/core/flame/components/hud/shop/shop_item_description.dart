@@ -7,14 +7,14 @@ import 'package:defend_your_flame/core/flame/components/hud/text/shop/item_title
 import 'package:defend_your_flame/core/flame/main_game.dart';
 import 'package:defend_your_flame/core/flame/managers/text/text_manager.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
-import 'package:defend_your_flame/core/flame/shop/purchasable.dart';
+import 'package:defend_your_flame/core/flame/shop/purchaseable.dart';
 import 'package:flame/components.dart';
 
 class ShopItemDescription extends PositionComponent
     with ParentIsA<MainShopHud>, HasWorldReference<MainWorld>, HasGameReference<MainGame> {
   static const double padding = 20;
   static final Vector2 _itemGap = Vector2(0, 35);
-  Purchasable? _selectedItem;
+  Purchaseable? _selectedItem;
 
   late final ItemTitle _itemTitle = ItemTitle()..position = Vector2(padding, padding);
 
@@ -57,7 +57,7 @@ class ShopItemDescription extends PositionComponent
     return super.onLoad();
   }
 
-  void itemSelected(Purchasable? selectedItem) {
+  void itemSelected(Purchaseable? selectedItem) {
     _selectedItem = selectedItem;
 
     _itemTitle.updateText(_selectedItem?.name ?? '');
@@ -69,8 +69,8 @@ class ShopItemDescription extends PositionComponent
   }
 
   void tryToBuy() {
-    if (_purchasePossible) {
-      world.shopManager.handlePurchase(_selectedItem!);
+    if (_purchasePossible && _selectedItem != null) {
+      world.shopManager.handlePurchase(_selectedItem!.type);
       _updateUx();
       parent.refreshShopList();
     }

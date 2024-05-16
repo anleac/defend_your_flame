@@ -1,10 +1,11 @@
 import 'dart:math';
 
 import 'package:defend_your_flame/constants/translations/app_strings.dart';
-import 'package:defend_your_flame/core/flame/shop/purchasable.dart';
+import 'package:defend_your_flame/core/flame/shop/purchaseable.dart';
+import 'package:defend_your_flame/core/flame/shop/purchaseable_type.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 
-class AttackTotemPurchase extends Purchasable {
+class AttackTotemPurchase extends Purchaseable {
   static const int maxTotems = 6;
   static const double totemCostProgression = 1.25;
   static const int initialCost = 120;
@@ -14,6 +15,7 @@ class AttackTotemPurchase extends Purchasable {
 
   AttackTotemPurchase(AppStrings appStrings)
       : super(
+          type: PurchaseableType.attackTotem,
           name: appStrings.attackTotemName,
           description: appStrings.attackTotemDescription,
           quote: appStrings.attackTotemQuote,

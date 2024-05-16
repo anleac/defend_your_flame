@@ -2,13 +2,14 @@ import 'package:defend_your_flame/constants/translations/app_string_helper.dart'
 import 'package:defend_your_flame/constants/translations/app_strings.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/walls/wall_helper.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/walls/wall_type.dart';
-import 'package:defend_your_flame/core/flame/shop/purchasable.dart';
-import 'package:defend_your_flame/core/flame/shop/walls/wooden_wall_purchase.dart';
+import 'package:defend_your_flame/core/flame/shop/purchaseable.dart';
+import 'package:defend_your_flame/core/flame/shop/purchaseable_type.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 
-class StoneWallPurchase extends Purchasable {
+class StoneWallPurchase extends Purchaseable {
   StoneWallPurchase(AppStrings appStrings)
       : super(
+          type: PurchaseableType.stoneWall,
           name: appStrings.stoneWallName,
           description: AppStringHelper.insertNumbers(appStrings.stoneWallDescription, [
             WallHelper.totalHealth(WallType.stone) - WallHelper.totalHealth(WallType.wood),
@@ -16,7 +17,7 @@ class StoneWallPurchase extends Purchasable {
           ]),
           quote: appStrings.stoneWallQuote,
           cost: [320],
-          dependencies: {WoodenWallPurchase},
+          dependencies: {PurchaseableType.woodenWall},
         );
 
   @override

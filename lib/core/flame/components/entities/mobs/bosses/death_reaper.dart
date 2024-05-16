@@ -1,7 +1,6 @@
 import 'package:defend_your_flame/constants/damage_constants.dart';
 import 'package:defend_your_flame/core/flame/components/entities/configs/animation_config.dart';
 import 'package:defend_your_flame/core/flame/components/entities/configs/entity_config.dart';
-import 'package:defend_your_flame/core/flame/components/entities/disappear_on_death.dart';
 import 'package:defend_your_flame/core/flame/components/entities/entity.dart';
 import 'package:defend_your_flame/core/flame/components/entities/enums/idle_time.dart';
 import 'package:defend_your_flame/core/flame/components/entities/mixins/has_draggable_collisions.dart';
@@ -12,7 +11,7 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/painting.dart';
 
-class DeathReaper extends Entity with DisappearOnDeath, HasDraggableCollisions, HasIdleTime {
+class DeathReaper extends Entity with HasDraggableCollisions, HasIdleTime {
   static final EntityConfig _deathReaperConfig = EntityConfig(
     entityResourceName: 'bosses/death_reaper',
     defaultSize: Vector2(140, 93),
