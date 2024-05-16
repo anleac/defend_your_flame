@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.17.3 - 16th May, 2024
+
+### New Features
+- N/A
+
+### Bug Fixes
+- N/A
+
+### Improvements / Balances
+- Shifted the collision detection damage for the wall to be the segment of the wall the entity corresponds with, rather than the entire bounding polygon
+- Adjusted gravity (increased by approx 10%), and increased air friction by 10% also
+- Slowed down slightly the first boss
+- Entities that are attacking the wall on top now fall after it's destroyed
+
 ## 0.17.2 - 15th May, 2024
 
 ### New Features
