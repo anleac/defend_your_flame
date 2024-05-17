@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.18.0 - 17th May, 2024
+
+### New Features
+- N/A
+
+### Bug Fixes
+- Dragging gets stopped if killed mid-drag
+- Fixed weird velocity bug when only dragging for a short duration that would cause a sharp reverse velocity
+- Fixed the bosses not showing their damage when attacking the wall
+
+### Improvements / Balances
+- Updated the totems to have a chance to miss the ice wolf (deemed a fast enemy)
+- Updated the grass texture
+- Updated entities to do different collision damage
+  - Slimes do 80% of damage
+  - Strong skeletons do 150% of damage
+  - Rock golems do 200% of damage
+- Made attack totems slightly weaker, they now attack ~15% slower on average
+
 ## 0.17.4 - 17th May, 2024
 
 ### New Features
