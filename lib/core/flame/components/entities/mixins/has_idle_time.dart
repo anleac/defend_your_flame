@@ -61,6 +61,11 @@ mixin HasIdleTime on Entity {
       } else if (current == EntityState.idle && _idleTimer >= _timeToSpendIdleInSeconds) {
         toggleToWalking();
       }
+
+      // If they were picked up and dropped, we should reset this.
+      if (current == EntityState.falling) {
+        forceResetIdleTimer();
+      }
     }
 
     super.update(dt);
