@@ -40,7 +40,7 @@ class AttackTotem extends PositionComponent with HasWorldReference<MainWorld> {
 
     if (_nextAttackCounter >= _attackCooldown) {
       _nextAttackCounter = 0;
-      _attackCooldown = GlobalVars.rand.nextDouble() * 3 + 1.5;
+      _attackCooldown = GlobalVars.rand.nextDouble() * 3 + 2;
 
       if (DebugConstants.superPoweredTotems) {
         _attackCooldown /= 4;
@@ -54,7 +54,8 @@ class AttackTotem extends PositionComponent with HasWorldReference<MainWorld> {
               initialPosition: absoluteCenter - Vector2(0, scaledSize.y / 2),
               targetPosition: randomEnemy.absoluteCenterOfMainHitbox(),
               damage: DamageConstants.fallDamageAsInt,
-              targetXVelocity: randomEnemy.isWalking ? randomEnemy.walkingSpeed : 0,
+              targetXVelocity: // If they're a "fast enemy", make it difficult for totems to hit them
+                  randomEnemy.isWalking && !randomEnemy.entityConfig.fastEntity ? randomEnemy.walkingSpeed : 0,
               horizontalPixelsPerSecond: baseSpeed + (GlobalVars.rand.nextDouble() * 120)));
         }
       }

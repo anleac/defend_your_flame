@@ -86,6 +86,10 @@ class TextButton extends TextComponent
 
   @override
   void onHoverExit() {
+    if (!_hovered) {
+      return;
+    }
+
     super.textRenderer = defaultTextRenderer;
     _hovered = false;
     super.onHoverExit();

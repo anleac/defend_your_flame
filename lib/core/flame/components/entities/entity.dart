@@ -92,7 +92,7 @@ class Entity extends BaseEntity
   }
 
   // Intended to be overridden by subclasses
-  Vector2? attackEffectPosition() => null;
+  Vector2? attackEffectPosition() => trueCenter + Vector2(scaledSize.x / 2, 0);
   List<ShapeHitbox> addHitboxes() => [];
 
   @override

@@ -24,6 +24,7 @@ Delete all merged branches:
 - Image generation
     - Generic free tool: https://bing.com/create
     - Fremium tool that appears to be higher quality: https://app.leonardo.ai
+    - Free tool: https://beta.pixelvibe.com/ (aimed at pixel art, but fairly limited in types)
 - Removing backgrounds: https://www.remove.bg/upload
 - Edit manipulation/extension: https://app.runwayml.com/
 - Removing objects: https://snapedit.app/

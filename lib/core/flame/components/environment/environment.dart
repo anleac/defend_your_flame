@@ -6,12 +6,12 @@ import 'package:flame/components.dart';
 
 class Environment extends PositionComponent with HasWorldReference<MainWorld> {
   late final BackgroundScenery _backgroundScenery = BackgroundScenery()
-    ..position = Vector2(0, world.worldHeight)
+    ..position = Vector2(0, world.worldHeight + 30)
     ..anchor = Anchor.bottomLeft
-    ..opacity = 0.35;
+    ..opacity = 0.4;
 
   late final Ground _ground = Ground()
-    ..position = Vector2(0, world.worldHeight + 20)
+    ..position = Vector2(0, world.worldHeight)
     ..anchor = Anchor.bottomLeft;
 
   // The height of the sky, where the ground starts.

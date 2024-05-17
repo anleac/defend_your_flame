@@ -32,13 +32,6 @@ mixin HasMouseDrag on TapCallbacks, DragCallbacks, HasGameReference<MainGame> {
     resetCursor();
   }
 
-  @override
-  @mustCallSuper
-  void onTapCancel(TapCancelEvent event) {
-    super.onTapCancel(event);
-    resetCursor();
-  }
-
   void setCursor() {
     game.mouseCursor = SystemMouseCursors.grabbing;
   }

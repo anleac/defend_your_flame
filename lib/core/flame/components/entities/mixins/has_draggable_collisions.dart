@@ -19,7 +19,7 @@ mixin HasDraggableCollisions on Entity, CollisionCallbacks {
   }
 
   void onDraggableEntityColission(DraggableEntity other) {
-    takeDamage(DamageConstants.collisionDamage);
+    takeDamage(DamageConstants.collisionDamage * other.entityConfig.collisionDamageFactor);
     other.takeDamage(DamageConstants.collisionDamage);
 
     other.stopDraggingAndBounce();

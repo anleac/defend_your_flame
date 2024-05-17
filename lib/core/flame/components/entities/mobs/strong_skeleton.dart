@@ -22,6 +22,7 @@ class StrongSkeleton extends DraggableEntity {
     baseWalkingSpeed: 19,
     totalHealth: DamageConstants.fallDamage * 2,
     dragResistance: 0.6,
+    collisionDamageFactor: 1.5,
   );
 
   late final RectangleHitbox _hitbox =

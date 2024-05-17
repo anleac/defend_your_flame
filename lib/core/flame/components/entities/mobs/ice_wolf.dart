@@ -18,6 +18,7 @@ class IceWolf extends DraggableEntity {
     damageOnAttack: 5,
     goldOnKill: 10,
     baseWalkingSpeed: 96,
+    fastEntity: true,
   );
 
   late final RectangleHitbox _hitBox =
@@ -25,11 +26,6 @@ class IceWolf extends DraggableEntity {
 
   IceWolf({super.scaleModifier, super.modifiedWalkingSpeed}) : super(entityConfig: _iceWolf) {
     setDisappearSpeedFactor(1.5);
-  }
-
-  @override
-  Vector2? attackEffectPosition() {
-    return position + Vector2(scaledSize.x, scaledSize.y / 2);
   }
 
   @override
