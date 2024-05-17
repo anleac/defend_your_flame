@@ -20,7 +20,6 @@
 - Made rock golems approximately 5% larger
 - Renamed the blacksmith to "Henry The Elder" as per feedback from a friend
 
-
 ## 0.18.0 - 17th May, 2024
 
 ### New Features
