@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.18.1 - 17th May, 2024
+
+### New Features
+- N/A
+
+### Bug Fixes
+- Fixed health text showing "-" instead of "+"
+- Killing entities on the game over screen no longer shows "+" gold text
+- Fixed the drag state (red tint) not resetting in some cases
+
+### Improvements / Balances
+- Small improvements to the spawning logic
+ - Duration of round spawning scales a bit less into later rounds (as in, lower duration)
+ - Slightly higher number of weak entities into later rounds
+ - Changed the boss fight at round 25 to have only one death reaper instead of 2, along with the firebeast
+- Made the fire beast slightly slower
+- Made entity idle timer "reset" after being thrown, so they don't suddenly idle again after landing
+- Made rock golems approximately 5% larger
+- Renamed the blacksmith to "Henry The Elder" as per feedback from a friend
+
+
 ## 0.18.0 - 17th May, 2024
 
 ### New Features
