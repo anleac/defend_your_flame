@@ -18,6 +18,7 @@ class IceWolf extends DraggableEntity {
     damageOnAttack: 5,
     goldOnKill: 10,
     baseWalkingSpeed: 96,
+    fastEntity: true,
   );
 
   late final RectangleHitbox _hitBox =

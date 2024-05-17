@@ -85,6 +85,11 @@ class DraggableEntity extends Entity with DragCallbacks, HoverCallbacks, WallAsS
       return;
     }
 
+    if (!isAlive) {
+      stopDragging();
+      return;
+    }
+
     if (_contactingGround && beenDraggedFarEnough) {
       if (DamageHelper.hasDragVelocityImpact(velocity: _dragVelocity, considerHorizontal: false)) {
         dragDamage();

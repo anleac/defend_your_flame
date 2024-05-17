@@ -30,10 +30,13 @@ class EntityConfig {
 
   final double dragResistance;
 
+  final double collisionDamageFactor;
+
   final double Function()? attackRange;
   final TimeSpendIdle timeSpendIdle;
 
   final bool magicImmune;
+  final bool fastEntity;
 
   EntityConfig(
       {required this.entityResourceName,
@@ -50,7 +53,9 @@ class EntityConfig {
       required this.damageOnAttack,
       required this.goldOnKill,
       this.dragResistance = 1.0,
+      this.collisionDamageFactor = 1.0,
       this.attackRange,
       this.timeSpendIdle = TimeSpendIdle.none,
-      this.magicImmune = false});
+      this.magicImmune = false,
+      this.fastEntity = false});
 }

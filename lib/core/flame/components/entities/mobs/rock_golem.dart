@@ -27,6 +27,7 @@ class RockGolem extends DraggableEntity with HasIdleTime {
     dragResistance: 0.52,
     timeSpendIdle: TimeSpendIdle.minimal,
     magicImmune: true,
+    collisionDamageFactor: 2,
   );
 
   late final RectangleHitbox _hitbox =

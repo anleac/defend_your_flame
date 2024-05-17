@@ -6,6 +6,7 @@ import 'package:defend_your_flame/constants/entity_spawn_constants.dart';
 import 'package:defend_your_flame/core/flame/components/entities/draggable_entity.dart';
 import 'package:defend_your_flame/core/flame/components/entities/entity.dart';
 import 'package:defend_your_flame/core/flame/components/entities/enums/entity_state.dart';
+import 'package:defend_your_flame/core/flame/components/entities/mobs/strong_skeleton.dart';
 import 'package:defend_your_flame/core/flame/helpers/entity_spawn_helper.dart';
 import 'package:defend_your_flame/core/flame/managers/extensions/entity_manager_extension.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
@@ -124,8 +125,8 @@ class EntityManager extends Component with HasWorldReference<MainWorld> {
   // Wrappers so we can track based on the position of the entity, to render them in the correct order
   _addEntity(Entity entity) {
     // We want to sort by the bottom of the entity as this takes into account various anchor points and sizes.
-    var key = (entity.topLeftPosition.y + entity.scaledSize.y).toInt();
-    // TODO this appears to not be working for strong skeleton
+    var key = _entityKey(entity);
+
     if (!_entities.containsKey(key)) {
       _entities[key] = [];
     }
@@ -137,13 +138,17 @@ class EntityManager extends Component with HasWorldReference<MainWorld> {
   removeEntity(Entity entity) {
     entity.removeFromParent();
 
-    var key = (entity.topLeftPosition.y + entity.scaledSize.y).toInt();
+    var key = _entityKey(entity);
     if (_entities.containsKey(key) && _entities[key]!.contains(entity)) {
       _entities[key]!.remove(entity);
       if (_entities[key]!.isEmpty) {
         _entities.remove(key);
       }
     }
+  }
+
+  int _entityKey(Entity entity) {
+    return (entity.topLeftPosition.y + entity.scaledSize.y).toInt();
   }
 
   Entity? randomVisibleAliveEntity({bool excludeMagicImmune = true}) {

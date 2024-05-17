@@ -8,29 +8,29 @@ import 'package:flame/components.dart';
 
 class Slime extends DraggableEntity {
   static final EntityConfig _slimeConfig = EntityConfig(
-    entityResourceName: 'slime',
-    defaultSize: Vector2(34, 27),
-    walkingConfig: AnimationConfig(
-      stepTime: 0.12,
-      frames: 4,
-    ),
-    attackingConfig: AnimationConfig(
-      stepTime: 0.13,
-      frames: 5,
-    ),
-    dragConfig: AnimationConfig(
-      stepTime: 0.1,
-      frames: 4,
-    ),
-    dyingConfig: AnimationConfig(
-      stepTime: 0.07,
-      frames: 4,
-    ),
-    damageOnAttack: 3,
-    goldOnKill: 3,
-    baseWalkingSpeed: 42,
-    defaultScale: 1.15,
-  );
+      entityResourceName: 'slime',
+      defaultSize: Vector2(34, 27),
+      walkingConfig: AnimationConfig(
+        stepTime: 0.12,
+        frames: 4,
+      ),
+      attackingConfig: AnimationConfig(
+        stepTime: 0.13,
+        frames: 5,
+      ),
+      dragConfig: AnimationConfig(
+        stepTime: 0.1,
+        frames: 4,
+      ),
+      dyingConfig: AnimationConfig(
+        stepTime: 0.07,
+        frames: 4,
+      ),
+      damageOnAttack: 3,
+      goldOnKill: 3,
+      baseWalkingSpeed: 42,
+      defaultScale: 1.15,
+      collisionDamageFactor: 0.8);
 
   Slime({super.scaleModifier, super.modifiedWalkingSpeed}) : super(entityConfig: _slimeConfig);
 
