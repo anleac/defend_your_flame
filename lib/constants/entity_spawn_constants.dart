@@ -19,8 +19,8 @@ class EntitySpawnConstants {
     10: [DeathReaper],
     15: [DeathReaper, DeathReaper],
     20: [FireBeast],
-    25: [DeathReaper, FireBeast, DeathReaper],
-    30: [FireBeast, FireBeast, FireBeast],
+    25: [DeathReaper, FireBeast],
+    30: [FireBeast, FireBeast],
   };
 
   static const Set<Type> weakGroundMobs = {Slime, Skeleton};

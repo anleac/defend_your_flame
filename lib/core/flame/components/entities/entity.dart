@@ -204,7 +204,10 @@ class Entity extends BaseEntity
 
       // Apply the bounding constraints to make sure the entity is in the correct position.
       _applyBoundingConstraints(0);
-      world.playerBase.mutateGold(entityConfig.goldOnKill, position: trueCenter);
+
+      if (!world.worldStateManager.gameOver) {
+        world.playerBase.mutateGold(entityConfig.goldOnKill, position: trueCenter);
+      }
 
       for (var hitbox in _hitboxes) {
         hitbox.collisionType = CollisionType.inactive;

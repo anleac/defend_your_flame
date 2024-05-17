@@ -112,6 +112,12 @@ class DraggableEntity extends Entity with DragCallbacks, HoverCallbacks, WallAsS
     _attemptToBeginDragging();
   }
 
+  @override
+  void onTapCancel(TapCancelEvent event) {
+    stopDragging();
+    super.onTapCancel(event);
+  }
+
   // A limitation within Flame draggable callback is that it won't register a start of drag on click, but instead, on drag.
   // This is a workaround to make sure that the drag starts on click.
   @override

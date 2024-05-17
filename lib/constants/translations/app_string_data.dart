@@ -77,7 +77,7 @@ class AppStringData {
       ]),
       'attackTotemQuote': '"The best defense is a good offense."',
 
-      'blacksmithName': 'Blacksmith',
+      'blacksmithName': 'Henry The Elder',
       'blacksmithDescription': AppStringHelper.purchasableDescription(attributes: [
         "Repairs ${AppStrings.placeholderText}% of your wall health per round",
         "Repair happens at the end of the round",

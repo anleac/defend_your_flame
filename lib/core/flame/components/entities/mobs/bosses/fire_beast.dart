@@ -19,7 +19,7 @@ class FireBeast extends Entity with HasDraggableCollisions {
       frames: 6,
     ),
     walkingConfig: AnimationConfig(
-      stepTime: 0.129,
+      stepTime: 0.12,
       frames: 12,
     ),
     attackingConfig: AnimationConfig(
@@ -30,7 +30,7 @@ class FireBeast extends Entity with HasDraggableCollisions {
       stepTime: 0.12,
       frames: 22,
     ),
-    baseWalkingSpeed: 14,
+    baseWalkingSpeed: 13,
     damageOnAttack: 30,
     goldOnKill: 100,
     totalHealth: DamageConstants.fallDamage * 50,

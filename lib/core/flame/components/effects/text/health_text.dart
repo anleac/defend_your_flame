@@ -10,10 +10,10 @@ class HealthText extends FloatingText {
   static final TextRenderer _damageTextRenderer = TextManager.customDefaultRenderer(fontSize: 13, color: Colors.green);
   HealthText(int health) : super(textRenderer: _damageTextRenderer) {
     scale = Vector2.all(_scaleHealthText(health));
-    text = "-$health";
+    text = "+$health";
   }
 
   double _scaleHealthText(int health) {
-    return 1 + (sqrt(health) / 4);
+    return 1 + (sqrt(health) / 3);
   }
 }

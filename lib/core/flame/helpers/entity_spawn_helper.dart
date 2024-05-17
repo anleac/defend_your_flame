@@ -94,11 +94,11 @@ class EntitySpawnHelper {
     var startPosition = _randomGroundSpawnPosition(worldHeight: worldHeight);
     var speedFactor = _randomWalkingSpeedFactor(currentRound: currentRound);
     var randomNumber = GlobalVars.rand.nextInt(100);
+    var wolfLuck = _tapper(currentRound.toDouble() * 2, tapperLess: true);
 
-    if (currentRound >= EntitySpawnConstants.minimumRoundForFastGroundEnemies &&
-        randomNumber < _tapper(currentRound.toDouble() * 2)) {
+    if (currentRound >= EntitySpawnConstants.minimumRoundForFastGroundEnemies && randomNumber < wolfLuck) {
       return IceWolf.spawn(position: startPosition, speedFactor: speedFactor);
-    } else if (randomNumber < 70) {
+    } else if (randomNumber < 70 + wolfLuck) {
       return Skeleton.spawn(position: startPosition, speedFactor: speedFactor);
     } else {
       return Slime.spawn(position: startPosition, speedFactor: speedFactor);
@@ -111,7 +111,7 @@ class EntitySpawnHelper {
     var randomNumber = GlobalVars.rand.nextInt(100);
 
     if (currentRound >= EntitySpawnConstants.minimumRoundForRockGolems &&
-        randomNumber < _tapper(currentRound.toDouble() * 3)) {
+        randomNumber < _tapper(currentRound.toDouble() * 3, tapperLess: true)) {
       return RockGolem.spawn(position: startPosition, speedFactor: speedFactor);
     } else {
       return StrongSkeleton.spawn(position: startPosition, speedFactor: speedFactor);
@@ -130,10 +130,10 @@ class EntitySpawnHelper {
   }
 
   static double _secondsToSpawnOver(int currentRound) {
-    return _tapper(currentRound * 12, tapperLess: true).ceil() + 7;
+    return _tapper(currentRound * 10, tapperLess: true).ceil() + 7;
   }
 
-  static int _basicMobsToSpawnThisRound(int currentRound) => _tapper(currentRound * 12).ceil() + 3;
+  static int _basicMobsToSpawnThisRound(int currentRound) => _tapper(currentRound * 12, tapperLess: true).ceil() + 2;
   static int _strongGroundMobsToSpawnThisRound(int currentRound) {
     if (currentRound < EntitySpawnConstants.minimumRoundForStrongGroundEnemies) {
       return 0;

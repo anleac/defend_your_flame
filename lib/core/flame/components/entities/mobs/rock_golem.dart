@@ -14,7 +14,7 @@ class RockGolem extends DraggableEntity with HasIdleTime {
   static final EntityConfig _rockGolemConfig = EntityConfig(
     entityResourceName: 'rock_golem',
     defaultSize: Vector2(90, 64),
-    defaultScale: 1.45,
+    defaultScale: 1.5,
     walkingConfig: AnimationConfig(frames: 10, stepTime: 0.16),
     attackingConfig: AnimationConfig(frames: 11, stepTime: 0.14),
     dragConfig: AnimationConfig(frames: 8, stepTime: 0.16),
