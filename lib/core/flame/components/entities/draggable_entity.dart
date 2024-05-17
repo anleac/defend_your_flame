@@ -7,6 +7,7 @@ import 'package:defend_your_flame/core/flame/mixins/has_mouse_drag.dart';
 import 'package:defend_your_flame/core/flame/mixins/has_mouse_hover.dart';
 import 'package:defend_your_flame/core/flame/mixins/wall_as_solid.dart';
 import 'package:defend_your_flame/helpers/physics_helper.dart';
+import 'package:defend_your_flame/helpers/timestep/timestep_helper.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/rendering.dart';
@@ -93,7 +94,7 @@ class DraggableEntity extends Entity with DragCallbacks, HoverCallbacks, WallAsS
     }
 
     var dragChange = position - _lastPosition;
-    var dragVelocity = dragChange / dt;
+    var dragVelocity = TimestepHelper.scaleToSecond(dragChange, dt);
     _updateDragVelocity(dragVelocity);
   }
 
@@ -163,12 +164,6 @@ class DraggableEntity extends Entity with DragCallbacks, HoverCallbacks, WallAsS
   void onTapUp(TapUpEvent event) {
     stopDragging();
     super.onTapUp(event);
-  }
-
-  @override
-  void onTapCancel(TapCancelEvent event) {
-    stopDragging();
-    super.onTapCancel(event);
   }
 
   @override

@@ -12,4 +12,6 @@ class TimestepConstants {
 
   static bool get isPowVariant => variant == TimestepVariant.math;
   static bool get isLoopVariant => variant == TimestepVariant.loop;
+
+  static double minimumTimestep = 1.0 / 240; // Assume 240 fps is the maximum we functionally support.
 }
