@@ -15,5 +15,6 @@ class GoBackButton extends DefaultButton {
   @override
   void onPressed() {
     backFunction();
+    super.onPressed();
   }
 }

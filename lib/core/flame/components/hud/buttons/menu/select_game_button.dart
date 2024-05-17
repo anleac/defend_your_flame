@@ -14,5 +14,6 @@ class SelectGameButton extends DefaultButton with ParentIsA<MainMenuHud> {
   @override
   void onPressed() {
     parent.goToGameSelection();
+    super.onPressed();
   }
 }

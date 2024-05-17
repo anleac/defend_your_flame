@@ -14,5 +14,6 @@ class RestartGameButton extends DefaultButton with ParentIsA<GameOverHud> {
   @override
   void onPressed() {
     parent.restartGame();
+    super.onPressed();
   }
 }

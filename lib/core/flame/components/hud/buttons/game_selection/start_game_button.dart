@@ -14,5 +14,6 @@ class StartGameButton extends DefaultButton with ParentIsA<GameSelectionHud> {
   @override
   void onPressed() {
     parent.startGame();
+    super.onPressed();
   }
 }

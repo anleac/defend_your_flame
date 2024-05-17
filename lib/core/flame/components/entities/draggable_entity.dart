@@ -3,6 +3,8 @@ import 'package:defend_your_flame/core/flame/components/entities/entity.dart';
 import 'package:defend_your_flame/core/flame/components/entities/enums/entity_state.dart';
 import 'package:defend_your_flame/core/flame/helpers/damage_helper.dart';
 import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
+import 'package:defend_your_flame/core/flame/mixins/has_mouse_drag.dart';
+import 'package:defend_your_flame/core/flame/mixins/has_mouse_hover.dart';
 import 'package:defend_your_flame/core/flame/mixins/wall_as_solid.dart';
 import 'package:defend_your_flame/helpers/physics_helper.dart';
 import 'package:flame/components.dart';
@@ -10,7 +12,7 @@ import 'package:flame/events.dart';
 import 'package:flame/rendering.dart';
 import 'package:flutter/material.dart';
 
-class DraggableEntity extends Entity with DragCallbacks, WallAsSolid {
+class DraggableEntity extends Entity with DragCallbacks, HoverCallbacks, WallAsSolid, HasMouseHover, HasMouseDrag {
   static const double dragTimeoutInSeconds = 3;
   static const double _dragEps = 1;
 
@@ -29,11 +31,8 @@ class DraggableEntity extends Entity with DragCallbacks, WallAsSolid {
   bool get _contactingGround => startPosition.y - position.y < _dragEps;
   Vector2 get currentVelocity => _beingDragged ? _dragVelocity : _velocity;
 
-  DraggableEntity({required super.entityConfig, super.scaleModifier, super.modifiedWalkingSpeed});
-
-  @override
-  bool containsLocalPoint(Vector2 point) {
-    return isVisible && super.containsLocalPoint(point);
+  DraggableEntity({required super.entityConfig, super.scaleModifier, super.modifiedWalkingSpeed}) {
+    setHoverCursor(SystemMouseCursors.grab);
   }
 
   @override
@@ -112,6 +111,7 @@ class DraggableEntity extends Entity with DragCallbacks, WallAsSolid {
   @override
   void onTapDown(TapDownEvent event) {
     _attemptToBeginDragging();
+    super.onTapDown(event);
   }
 
   _attemptToBeginDragging() {
@@ -160,10 +160,16 @@ class DraggableEntity extends Entity with DragCallbacks, WallAsSolid {
   }
 
   @override
-  void onTapUp(TapUpEvent event) => stopDragging();
+  void onTapUp(TapUpEvent event) {
+    stopDragging();
+    super.onTapUp(event);
+  }
 
   @override
-  void onTapCancel(TapCancelEvent event) => stopDragging();
+  void onTapCancel(TapCancelEvent event) {
+    stopDragging();
+    super.onTapCancel(event);
+  }
 
   @override
   void onDragCancel(DragCancelEvent event) {

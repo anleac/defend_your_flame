@@ -14,5 +14,6 @@ class LoadGameButton extends DefaultButton with ParentIsA<GameSelectionHud> {
   @override
   void onPressed() {
     // TODO - load a game!
+    super.onPressed();
   }
 }
