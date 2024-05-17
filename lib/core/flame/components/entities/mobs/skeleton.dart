@@ -34,11 +34,6 @@ class Skeleton extends DraggableEntity {
   }
 
   @override
-  Vector2? attackEffectPosition() {
-    return position + Vector2(scaledSize.x - 15, -scaledSize.y / 2);
-  }
-
-  @override
   List<ShapeHitbox> addHitboxes() {
     return [_hitBox];
   }

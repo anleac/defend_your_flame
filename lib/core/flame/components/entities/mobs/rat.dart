@@ -28,11 +28,6 @@ class Rat extends DraggableEntity {
   }
 
   @override
-  Vector2? attackEffectPosition() {
-    return position + Vector2(scaledSize.x, -scaledSize.y / 2);
-  }
-
-  @override
   List<ShapeHitbox> addHitboxes() {
     return [_hitBox];
   }

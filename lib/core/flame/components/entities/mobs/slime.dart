@@ -35,11 +35,6 @@ class Slime extends DraggableEntity {
   Slime({super.scaleModifier, super.modifiedWalkingSpeed}) : super(entityConfig: _slimeConfig);
 
   @override
-  Vector2? attackEffectPosition() {
-    return position + Vector2(scaledSize.x, scaledSize.y / 2);
-  }
-
-  @override
   List<ShapeHitbox> addHitboxes() {
     return [
       EntityHelper.createRectangleHitbox(size: Vector2(25, 16), position: Vector2(17, 27), anchor: Anchor.bottomCenter)

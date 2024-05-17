@@ -55,6 +55,11 @@ class DeathReaper extends Entity with HasDraggableCollisions, HasIdleTime {
   }
 
   @override
+  Vector2? attackEffectPosition() {
+    return trueCenter + Vector2(scaledSize.x / 2, 0);
+  }
+
+  @override
   void render(Canvas canvas) {
     EntityHelper.drawHealthBar(canvas,
         entity: this, width: _hitbox.width, centerPosition: Vector2(_hitbox.center.x, _hitbox.topLeftPosition.y));
