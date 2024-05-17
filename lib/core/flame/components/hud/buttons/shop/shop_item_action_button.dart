@@ -21,6 +21,7 @@ class ShopItemActionButton extends DefaultButton with ParentIsA<ShopItemDescript
   @override
   void onPressed() {
     parent.tryToBuy();
+    super.onPressed();
   }
 
   void updateAction(ShopItemActionButtonState actionState) {

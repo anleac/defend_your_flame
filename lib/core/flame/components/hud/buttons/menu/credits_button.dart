@@ -14,5 +14,6 @@ class CreditsButton extends DefaultButton with ParentIsA<MainMenuHud> {
   @override
   void onPressed() {
     // TODO - load credits
+    super.onPressed();
   }
 }

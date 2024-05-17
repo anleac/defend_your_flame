@@ -8,6 +8,7 @@ import 'package:defend_your_flame/core/flame/components/entities/mixins/has_drag
 import 'package:defend_your_flame/core/flame/components/entities/mixins/has_idle_time.dart';
 import 'package:defend_your_flame/core/flame/components/projectiles/concrete_curving_projectiles/mage_curving_projectile.dart';
 import 'package:defend_your_flame/core/flame/helpers/entity_helper.dart';
+import 'package:defend_your_flame/core/flame/mixins/has_mouse_hover.dart';
 import 'package:defend_your_flame/helpers/global_vars.dart';
 import 'package:defend_your_flame/helpers/misc_helper.dart';
 import 'package:flame/collisions.dart';
@@ -15,7 +16,7 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flutter/painting.dart';
 
-class Mage extends Entity with HasIdleTime, HasDraggableCollisions {
+class Mage extends Entity with HasIdleTime, HasDraggableCollisions, HoverCallbacks, HasMouseHover {
   static final EntityConfig _mageConfig = EntityConfig(
     entityResourceName: 'mage',
     defaultSize: Vector2(160, 128),

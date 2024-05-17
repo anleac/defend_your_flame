@@ -14,5 +14,6 @@ class EnterShopButton extends DefaultButton with ParentIsA<NextRoundMenuHud>, Ha
   @override
   void onPressed() {
     ancestor.changeState(NextRoundHudState.shop);
+    super.onPressed();
   }
 }

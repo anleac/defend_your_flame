@@ -14,5 +14,6 @@ class NextRoundButton extends DefaultButton with ParentIsA<NextRoundMenuHud> {
   @override
   void onPressed() {
     parent.startNextRound();
+    super.onPressed();
   }
 }

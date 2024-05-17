@@ -14,5 +14,6 @@ class SaveGameButton extends DefaultButton with ParentIsA<NextRoundMenuHud> {
   @override
   void onPressed() {
     // TODO - save a game!
+    super.onPressed();
   }
 }

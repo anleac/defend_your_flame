@@ -18,5 +18,6 @@ class FastTrackToButton extends DefaultButton with ParentIsA<GameSelectionHud> {
   @override
   void onPressed() {
     parent.startGame(gold: gold, round: round);
+    super.onPressed();
   }
 }

@@ -14,5 +14,6 @@ class HowToPlayButton extends DefaultButton with ParentIsA<MainMenuHud> {
   @override
   void onPressed() {
     // TODO - load the screen
+    super.onPressed();
   }
 }

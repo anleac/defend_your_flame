@@ -5,12 +5,22 @@ import 'package:defend_your_flame/core/flame/components/entities/enums/entity_st
 import 'package:defend_your_flame/core/flame/components/entities/configs/entity_config.dart';
 import 'package:defend_your_flame/core/flame/components/entities/enums/idle_time.dart';
 import 'package:defend_your_flame/core/flame/components/entities/mixins/disappear_on_death.dart';
+import 'package:defend_your_flame/core/flame/components/entities/mixins/has_hitbox_positioning.dart';
 import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
+import 'package:defend_your_flame/core/flame/mixins/has_wall_collision_detection.dart';
 import 'package:defend_your_flame/helpers/timestep/timestep_helper.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flame/events.dart';
 
-class Entity extends BaseEntity with DisappearOnDeath {
+class Entity extends BaseEntity
+    with
+        DisappearOnDeath,
+        TapCallbacks,
+        HasHitboxPositioning,
+        GestureHitboxes,
+        CollisionCallbacks,
+        HasWallCollisionDetection {
   static const double offscreenTimeoutInSeconds = 3;
 
   late final List<ShapeHitbox> _hitboxes = addHitboxes();
@@ -33,6 +43,7 @@ class Entity extends BaseEntity with DisappearOnDeath {
   bool get isAlive => _currentHealth > MiscConstants.eps;
 
   TimeSpendIdle get idleTime => entityConfig.timeSpendIdle;
+  Vector2 get trueCenter => absoluteCenterOfMainHitbox();
 
   Entity({required this.entityConfig, this.scaleModifier = 1, double? modifiedWalkingSpeed}) {
     size = entityConfig.defaultSize;

@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.17.4 - 17th May, 2024
+
+### New Features
+- Updated the mouse cursor to be responsive to what you're currently hovering over and the related action
+
+### Bug Fixes
+- N/A
+
+### Improvements / Balances
+- N/A
+
 ## 0.17.3 - 16th May, 2024
 
 ### New Features

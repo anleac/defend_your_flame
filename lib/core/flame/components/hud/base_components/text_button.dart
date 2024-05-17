@@ -1,4 +1,6 @@
 import 'package:defend_your_flame/constants/theming_constants.dart';
+import 'package:defend_your_flame/core/flame/main_game.dart';
+import 'package:defend_your_flame/core/flame/mixins/has_mouse_hover.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/palette.dart';
@@ -7,7 +9,8 @@ import 'package:flutter/material.dart';
 
 // Flame doesn't currently expose a hover callback, so we can't implement it natively.
 // We can implement it ourselves, but it's not a priority right now.
-class TextButton extends TextComponent with TapCallbacks, HasVisibility, HoverCallbacks {
+class TextButton extends TextComponent
+    with TapCallbacks, HasVisibility, HoverCallbacks, HasGameReference<MainGame>, HasMouseHover {
   static final _underlinePaint = Paint()
     ..color = Colors.white
     ..strokeWidth = 2
@@ -69,22 +72,23 @@ class TextButton extends TextComponent with TapCallbacks, HasVisibility, HoverCa
   }
 
   // This method is meant to be overridden by the user in the child classes.
-  void onPressed() {}
+  @mustCallSuper
+  void onPressed() {
+    resetCursor();
+  }
 
   @override
   void onHoverEnter() {
     super.textRenderer = hoveredTextRenderer;
     _hovered = true;
+    super.onHoverEnter();
   }
 
   @override
   void onHoverExit() {
-    if (!_hovered) {
-      return;
-    }
-
     super.textRenderer = defaultTextRenderer;
     _hovered = false;
+    super.onHoverExit();
   }
 
   @override
