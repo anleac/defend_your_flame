@@ -1,6 +1,6 @@
 import 'package:defend_your_flame/constants/translations/app_string_helper.dart';
 import 'package:defend_your_flame/core/flame/components/hud/buttons/shop/shop_item_action_button.dart';
-import 'package:defend_your_flame/core/flame/components/hud/shop/main_shop_hud.dart';
+import 'package:defend_your_flame/core/flame/components/hud/shop_old/main_shop_hud.dart';
 import 'package:defend_your_flame/core/flame/components/hud/text/shop/item_cost_text.dart';
 import 'package:defend_your_flame/core/flame/components/hud/text/shop/item_description_title.dart';
 import 'package:defend_your_flame/core/flame/components/hud/text/shop/item_title.dart';
