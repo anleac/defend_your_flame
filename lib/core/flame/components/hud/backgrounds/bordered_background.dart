@@ -8,18 +8,20 @@ class BorderedBackground extends PositionComponent with Snapshot {
     ..color = ThemingConstants.borderColour
     ..style = PaintingStyle.stroke;
 
-  static final Paint _fillPaint = Paint()
-    ..color = Colors.black.withOpacity(0.5)
+  late final Paint _fillPaint = Paint()
+    ..color = Colors.black.withOpacity(opacity)
     ..style = PaintingStyle.fill;
 
   final double borderThickness;
   final double borderRadius;
   final bool hasFill;
+  final double opacity;
 
   BorderedBackground({
     this.borderThickness = 5,
     this.borderRadius = 10,
     this.hasFill = true,
+    this.opacity = 0.5,
   }) {
     renderSnapshot = true;
   }

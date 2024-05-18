@@ -1,19 +1,20 @@
 import 'dart:async';
 
+import 'package:defend_your_flame/constants/debug_constants.dart';
 import 'package:defend_your_flame/core/flame/components/hud/base_components/basic_hud.dart';
 import 'package:defend_your_flame/core/flame/components/hud/next_round_internal/next_round_hud_state.dart';
 import 'package:defend_your_flame/core/flame/components/hud/next_round_internal/next_round_menu_hud.dart';
 import 'package:defend_your_flame/core/flame/components/hud/shop/main_shop_hud.dart';
 
 class NextRoundHud extends BasicHud {
-  NextRoundHudState _state = NextRoundHudState.menu;
+  NextRoundHudState _state = DebugConstants.testShopLogic ? NextRoundHudState.shop : NextRoundHudState.menu;
 
   late final NextRoundMenuHud _menu = NextRoundMenuHud();
   late final MainShopHud _shop = MainShopHud();
 
   @override
   FutureOr<void> onLoad() {
-    add(_menu);
+    add(DebugConstants.testShopLogic ? _shop : _menu);
     return super.onLoad();
   }
 
@@ -25,7 +26,7 @@ class NextRoundHud extends BasicHud {
       }
     }
 
-    changeState(NextRoundHudState.menu);
+    changeState(DebugConstants.testShopLogic ? NextRoundHudState.shop : NextRoundHudState.menu);
 
     super.reset();
   }

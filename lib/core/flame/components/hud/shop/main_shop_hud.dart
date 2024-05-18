@@ -4,17 +4,22 @@ import 'package:defend_your_flame/core/flame/components/hud/buttons/go_back_butt
 import 'package:defend_your_flame/core/flame/components/hud/components/default_hud_background.dart';
 import 'package:defend_your_flame/core/flame/components/hud/next_round_hud.dart';
 import 'package:defend_your_flame/core/flame/components/hud/next_round_internal/next_round_hud_state.dart';
+import 'package:defend_your_flame/core/flame/components/hud/shop/purchase_item_board.dart';
+import 'package:defend_your_flame/core/flame/components/hud/shop/shop_item_description.dart';
 import 'package:defend_your_flame/core/flame/components/hud/sprite_with_texts/gold_indicator.dart';
 import 'package:defend_your_flame/core/flame/components/hud/sprite_with_texts/health_indicator.dart';
 import 'package:defend_your_flame/core/flame/components/hud/text/shop/shop_title_text.dart';
+import 'package:defend_your_flame/core/flame/shop/purchaseable.dart';
 import 'package:flame/components.dart';
 import 'package:flame/image_composition.dart';
 
 class MainShopHud extends BasicHud with ParentIsA<NextRoundHud> {
   static const double padding = 30;
-  static const double bodyHorizontalPadding = 10;
-  static const double headerHeight = 60;
-  static const double footerHeight = 40;
+  static const double bodyHorizontalPadding = 20;
+  static const double headerHeight = 66;
+  static const double footerHeight = 50;
+
+  static const double clippingBoardPadding = 6;
 
   late final DefaultHudBackground _background = DefaultHudBackground(world: world);
 
@@ -28,8 +33,7 @@ class MainShopHud extends BasicHud with ParentIsA<NextRoundHud> {
   late final Rect _bodyRect = Rect.fromLTWH(_offset.x + bodyHorizontalPadding, headerHeight + _offset.y,
       _background.size.x - (bodyHorizontalPadding * 2), _background.size.y - (headerHeight + footerHeight));
 
-  late final Rect _footerRect =
-      Rect.fromLTWH(_offset.x, _background.size.y - footerHeight + _offset.y, _background.size.x, footerHeight);
+  late final Rect _footerRect = Rect.fromLTWH(_offset.x, _bodyRect.bottom, _background.size.x, footerHeight);
 
   late final ShopTitleText _shopTitleText = ShopTitleText()
     ..position = _headerRect.center.toVector2()
@@ -45,10 +49,25 @@ class MainShopHud extends BasicHud with ParentIsA<NextRoundHud> {
     ..anchor = Anchor.centerLeft
     ..scale = _goldIndicator.scale;
 
-  late final BorderedBackground _descriptionBackground = BorderedBackground(hasFill: false)
+  late final BorderedBackground _bodyBackground = BorderedBackground(hasFill: false)
     ..position = _bodyRect.center.toVector2()
     ..anchor = Anchor.center
     ..size = _bodyRect.size.toVector2();
+
+  late final PurchaseItemBoard _purchaseItemBoard = PurchaseItemBoard(world.shopManager.purchasables)
+    ..size = _bodyRect.size.toVector2()
+    ..anchor = Anchor.topLeft;
+
+  late final ClipComponent _clippedPurchaseItemBoard = ClipComponent.rectangle(
+    position: _bodyRect.topLeft.toVector2() + Vector2.all(clippingBoardPadding),
+    size: _purchaseItemBoard.size - Vector2.all(clippingBoardPadding * 2),
+    children: [_purchaseItemBoard],
+  );
+
+  late final ShopItemDescription _shopItemDescription = ShopItemDescription()
+    ..position = _bodyRect.centerRight.toVector2() - Vector2(padding / 2, 0)
+    ..size = Vector2(_bodyRect.size.width / 1.56, _bodyRect.size.height) - Vector2.all(padding)
+    ..anchor = Anchor.centerRight;
 
   late final GoBackButton _backButton = GoBackButton(backFunction: onBackButtonPressed)
     ..position = _footerRect.center.toVector2()
@@ -57,16 +76,27 @@ class MainShopHud extends BasicHud with ParentIsA<NextRoundHud> {
   @override
   Future<void> onLoad() async {
     add(_background);
-    add(_descriptionBackground);
+    add(_bodyBackground);
     add(_shopTitleText);
     add(_goldIndicator);
     add(_healthIndicator);
     add(_backButton);
+
+    add(_clippedPurchaseItemBoard);
 
     return super.onLoad();
   }
 
   void onBackButtonPressed() {
     parent.changeState(NextRoundHudState.menu);
+  }
+
+  void showDescription(Purchaseable purchaseable) {
+    if (_shopItemDescription.isMounted && _shopItemDescription.selectedItemType == purchaseable.type) {
+      return;
+    }
+
+    _shopItemDescription.itemSelected(purchaseable);
+    add(_shopItemDescription);
   }
 }

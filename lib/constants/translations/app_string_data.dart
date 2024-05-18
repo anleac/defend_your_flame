@@ -33,6 +33,7 @@ class AppStringData {
       'itemCostLabel': 'Cost:',
       'itemTitleLabel': 'Item:',
       'buy': 'Purchase',
+      'close': 'X',
       'cantAfford': 'Not enough gold',
       'alreadyPurchased': 'Purchased',
       'noItemSelected': 'No item selected',

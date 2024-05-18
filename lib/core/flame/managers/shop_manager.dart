@@ -22,6 +22,8 @@ class ShopManager extends Component with HasWorldReference<MainWorld>, HasGameRe
   Set<PurchaseableType> get purchasedMap => _purchasedMap;
 
   bool isPurchased(PurchaseableType type) => _purchasedMap.contains(type);
+  bool dependenciesPurchased(PurchaseableType type) =>
+      _purchasables[type]!.dependencies.isEmpty || _purchasables[type]!.dependencies.every(isPurchased);
 
   void performEffectIfPurchased(PurchaseableType type) {
     if (isPurchased(type)) {
