@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 
 // Draws an opaque black background with a grey rounded border around it.
 class BorderedBackground extends PositionComponent with Snapshot {
-  static final Paint _borderPaint = Paint()
-    ..color = ThemingConstants.borderColour
+  late Paint _borderPaint = Paint()
+    ..color = borderColor
+    ..strokeWidth = borderThickness
     ..style = PaintingStyle.stroke;
 
   late final Paint _fillPaint = Paint()
@@ -17,17 +18,32 @@ class BorderedBackground extends PositionComponent with Snapshot {
   final bool hasFill;
   final double opacity;
 
+  Color borderColor;
+
   BorderedBackground({
-    this.borderThickness = 5,
+    this.borderThickness = 0.0,
     this.borderRadius = 10,
     this.hasFill = true,
     this.opacity = 0.5,
+    this.borderColor = ThemingConstants.borderColour,
   }) {
     renderSnapshot = true;
   }
 
   updateSize(Vector2 size) {
     this.size = size;
+    takeSnapshot();
+  }
+
+  overrideBorderColour(Color colour) {
+    if (borderColor == colour) return;
+
+    borderColor = colour;
+    _borderPaint = Paint()
+      ..color = borderColor
+      ..strokeWidth = borderThickness
+      ..style = PaintingStyle.stroke;
+
     takeSnapshot();
   }
 

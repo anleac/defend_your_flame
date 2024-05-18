@@ -2,7 +2,7 @@ import 'package:defend_your_flame/constants/translations/app_string_helper.dart'
 import 'package:defend_your_flame/core/flame/components/hud/backgrounds/bordered_background.dart';
 import 'package:defend_your_flame/core/flame/components/hud/buttons/shop/shop_item_action_button.dart';
 import 'package:defend_your_flame/core/flame/components/hud/buttons/shop/shop_item_close_button.dart';
-import 'package:defend_your_flame/core/flame/components/hud/shop/purchase_state.dart';
+import 'package:defend_your_flame/core/flame/components/hud/mixins/has_purchase_status.dart';
 import 'package:defend_your_flame/core/flame/components/hud/text/shop/item_cost_text.dart';
 import 'package:defend_your_flame/core/flame/components/hud/text/shop/item_description_title.dart';
 import 'package:defend_your_flame/core/flame/components/hud/text/shop/item_title.dart';
@@ -15,7 +15,7 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 
 class ShopItemDescription extends PositionComponent
-    with HasWorldReference<MainWorld>, HasGameReference<MainGame>, DragCallbacks {
+    with HasWorldReference<MainWorld>, HasGameReference<MainGame>, DragCallbacks, HasPurchaseStatus {
   static const double padding = 20;
   static final Vector2 _itemGap = Vector2(0, 35);
   Purchaseable? _selectedItem;
@@ -48,7 +48,7 @@ class ShopItemDescription extends PositionComponent
   late final TextComponent _quoteText = TextComponent(
     text: '',
     textRenderer: TextManager.basicHudItalicRenderer,
-  )..position = _purchaseCountText.position - (_itemGap * 2);
+  )..position = _purchaseCountText.position - (_itemGap * 3);
 
   late final ShopItemActionButton _itemActionButton = ShopItemActionButton()
     ..anchor = Anchor.bottomRight
@@ -81,6 +81,8 @@ class ShopItemDescription extends PositionComponent
 
     _descriptionText.text = _selectedItem?.description ?? '';
     _quoteText.text = _selectedItem?.quote ?? '';
+
+    initPurchaseState(selectedItem);
   }
 
   @override
@@ -90,7 +92,7 @@ class ShopItemDescription extends PositionComponent
   }
 
   void tryToBuy() {
-    if (_purchasePossible && _selectedItem != null) {
+    if (_selectedItem != null && canPurchase) {
       world.shopManager.handlePurchase(_selectedItem!.type);
       _updateUx();
     }
@@ -99,7 +101,7 @@ class ShopItemDescription extends PositionComponent
   void _updateUx() {
     _costText.updateText(_selectedItem?.currentCost.toString() ?? '');
     _updatePurchaseCountText();
-    _updateActionButton();
+    _itemActionButton.updateAction(purchaseState);
   }
 
   void _updatePurchaseCountText() {
@@ -112,26 +114,4 @@ class ShopItemDescription extends PositionComponent
             game.appStrings.potentialPurchaseCount, [_selectedItem!.purchaseCount, _selectedItem!.maxPurchaseCount])
         : '';
   }
-
-  void _updateActionButton() {
-    if (_selectedItem == null) {
-      return;
-    }
-
-    if (_selectedItem!.purchasedMaxAmount) {
-      _itemActionButton.updateAction(PurchaseState.purchased);
-    } else if (_dependenciesMissing) {
-      _itemActionButton.updateAction(PurchaseState.missingDependencies);
-    } else {
-      _itemActionButton.updateAction(_purchasePossible ? PurchaseState.canPurchase : PurchaseState.cantAfford);
-    }
-  }
-
-  bool get _dependenciesMissing =>
-      _selectedItem != null && !world.shopManager.dependenciesPurchased(_selectedItem!.type);
-
-  bool get _purchasePossible =>
-      _selectedItem != null &&
-      world.playerBase.totalGold >= _selectedItem!.currentCost &&
-      !_selectedItem!.purchasedMaxAmount;
 }

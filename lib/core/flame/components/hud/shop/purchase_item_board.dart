@@ -70,7 +70,7 @@ class PurchaseItemBoard extends PositionComponent
     var dragXOffScreen = max(currentPosition.x - size.x, 0).toDouble();
     var dragYOffScreen = max(currentPosition.y - size.y, 0).toDouble();
 
-    var dragBuffer = (independentPurchaseGap + dependentPurchaseGap - Vector2.all(padding)) / 2;
+    var dragBuffer = (Vector2.all(verticalItemPadding) - Vector2.all(padding)) / 3;
 
     _maximumClamp = Vector2(dragXOffScreen, dragYOffScreen) + dragBuffer;
     _minimumClamp = -dragBuffer;

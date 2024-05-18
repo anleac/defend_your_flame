@@ -35,6 +35,7 @@ class AppStringData {
       'buy': 'Purchase',
       'close': 'X',
       'cantAfford': 'Not enough gold',
+      'missingDependencies': 'Missing dependencies',
       'alreadyPurchased': 'Purchased',
       'noItemSelected': 'No item selected',
       'potentialPurchaseCount': '${AppStrings.placeholderText}/${AppStrings.placeholderText} purchased',

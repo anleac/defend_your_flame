@@ -39,7 +39,7 @@ class ShopItemActionButton extends DefaultButton with ParentIsA<ShopItemDescript
         textRenderer = ShopTextManager.alreadyPurchasedRenderer;
         break;
       case PurchaseState.missingDependencies:
-        text = game.appStrings.cantAfford; // TODO update this
+        text = game.appStrings.missingDependencies;
         textRenderer = ShopTextManager.cantAffordRenderer;
         break;
     }

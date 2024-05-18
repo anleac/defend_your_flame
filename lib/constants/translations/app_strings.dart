@@ -89,6 +89,7 @@ class AppStrings {
   String get buy => getValue('buy');
   String get close => getValue('close');
   String get cantAfford => getValue('cantAfford');
+  String get missingDependencies => getValue('missingDependencies');
   String get alreadyPurchased => getValue('alreadyPurchased');
   String get noItemSelected => getValue('noItemSelected');
   String get attackTotemName => getValue('attackTotemName');

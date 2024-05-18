@@ -21,7 +21,7 @@ class ShopManager extends Component with HasWorldReference<MainWorld>, HasGameRe
   Iterable<Purchaseable> get purchasables => _purchasables.values;
   Set<PurchaseableType> get purchasedMap => _purchasedMap;
 
-  bool isPurchased(PurchaseableType type) => _purchasedMap.contains(type);
+  bool isPurchased(PurchaseableType type) => _purchasedMap.contains(type) && _purchasables[type]!.purchasedMaxAmount;
   bool dependenciesPurchased(PurchaseableType type) =>
       _purchasables[type]!.dependencies.isEmpty || _purchasables[type]!.dependencies.every(isPurchased);
 
