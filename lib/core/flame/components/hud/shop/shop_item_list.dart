@@ -41,7 +41,7 @@ class ShopItemList extends PositionComponent with ParentIsA<MainShopHud>, HasWor
     _dividers.clear();
 
     var visiblePurchases =
-        world.shopManager.purchasables.where((p) => p.shouldBeVisible(world.shopManager.purchased)).toList();
+        world.shopManager.purchasables.where((p) => p.shouldBeVisible(world.shopManager.purchasedMap)).toList();
 
     var rollingButtonPosition = Vector2(size.x / 2, shopItemHeight / 2 + padding);
     var gap = Vector2(0, shopItemHeight + padding);

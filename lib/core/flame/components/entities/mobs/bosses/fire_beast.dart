@@ -34,13 +34,13 @@ class FireBeast extends Entity with HasDraggableCollisions {
     damageOnAttack: 30,
     goldOnKill: 100,
     totalHealth: DamageConstants.fallDamage * 50,
-    attackRange: () => 85,
+    attackRange: () => 75,
   );
 
   late final RectangleHitbox _hitbox = EntityHelper.createRectangleHitbox(
-      size: Vector2(80, 80),
+      size: Vector2(65, 72),
       anchor: Anchor.topCenter,
-      position: Vector2(145, 80),
+      position: Vector2(145, 88),
       collisionType: CollisionType.active,
       isSolid: true);
 
@@ -59,7 +59,9 @@ class FireBeast extends Entity with HasDraggableCollisions {
   @override
   void render(Canvas canvas) {
     EntityHelper.drawHealthBar(canvas,
-        entity: this, width: _hitbox.width, centerPosition: Vector2(_hitbox.center.x, _hitbox.topLeftPosition.y - 5));
+        entity: this,
+        width: _hitbox.width + 5,
+        centerPosition: Vector2(_hitbox.center.x, _hitbox.topLeftPosition.y - 10));
 
     super.render(canvas);
   }

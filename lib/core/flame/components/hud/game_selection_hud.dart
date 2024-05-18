@@ -11,7 +11,7 @@ import 'package:flame/components.dart';
 
 class GameSelectionHud extends BasicHud {
   late final StartGameButton _startGame = StartGameButton()
-    ..position = Vector2(world.worldWidth / 2, world.worldHeight / 3);
+    ..position = Vector2(world.worldWidth / 2, world.worldHeight / 4);
 
   late final FastTrackToButton _fastTrackToTen = FastTrackToButton(round: 10, gold: 480)
     ..position = _startGame.position + ThemingConstants.menuButtonGap;
@@ -19,8 +19,11 @@ class GameSelectionHud extends BasicHud {
   late final FastTrackToButton _fastTrackToFifteen = FastTrackToButton(round: 15, gold: 1000)
     ..position = _fastTrackToTen.position + ThemingConstants.menuButtonGap;
 
-  late final LoadGameButton _loadGame = LoadGameButton()
+  late final FastTrackToButton _fastTrackToTwenty = FastTrackToButton(round: 20, gold: 1800)
     ..position = _fastTrackToFifteen.position + ThemingConstants.menuButtonGap;
+
+  late final LoadGameButton _loadGame = LoadGameButton()
+    ..position = _fastTrackToTwenty.position + ThemingConstants.menuButtonGap;
 
   late final GoBackButton _goBackButton = GoBackButton(backFunction: () {
     world.worldStateManager.changeState(MainWorldState.mainMenu);
@@ -32,6 +35,7 @@ class GameSelectionHud extends BasicHud {
     add(_startGame);
     add(_fastTrackToTen);
     add(_fastTrackToFifteen);
+    add(_fastTrackToTwenty);
     add(_loadGame);
     add(_goBackButton);
 

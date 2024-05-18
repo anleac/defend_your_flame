@@ -82,6 +82,9 @@ class Mage extends Entity with HasIdleTime, HasDraggableCollisions, HoverCallbac
   }
 
   @override
+  double get positioningKeyMagicNumber => 18 * scale.y;
+
+  @override
   void onTapDown(TapDownEvent event) {
     // Inflict damage on tap and make them idle if they were walking.
     takeDamage(DamageConstants.clickingDamage, position: (event.localPosition * scale.x) + topLeftPosition);

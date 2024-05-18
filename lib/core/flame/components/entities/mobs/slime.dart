@@ -34,11 +34,12 @@ class Slime extends DraggableEntity {
 
   Slime({super.scaleModifier, super.modifiedWalkingSpeed}) : super(entityConfig: _slimeConfig);
 
+  final RectangleHitbox _hitBox =
+      EntityHelper.createRectangleHitbox(size: Vector2(25, 16), position: Vector2(17, 27), anchor: Anchor.bottomCenter);
+
   @override
   List<ShapeHitbox> addHitboxes() {
-    return [
-      EntityHelper.createRectangleHitbox(size: Vector2(25, 16), position: Vector2(17, 27), anchor: Anchor.bottomCenter)
-    ];
+    return [_hitBox];
   }
 
   static Slime spawn({required Vector2 position, required double speedFactor}) {

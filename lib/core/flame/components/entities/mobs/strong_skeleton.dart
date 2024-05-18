@@ -36,6 +36,9 @@ class StrongSkeleton extends DraggableEntity {
   }
 
   @override
+  double get positioningKeyMagicNumber => 16 * scale.y;
+
+  @override
   List<ShapeHitbox> addHitboxes() {
     return [_hitbox];
   }

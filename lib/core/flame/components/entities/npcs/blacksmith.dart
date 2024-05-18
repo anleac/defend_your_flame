@@ -12,12 +12,12 @@ class Blacksmith extends SpriteAnimationComponent with HasWorldReference<MainWor
     scale = Vector2.all(1.4);
   }
 
-  int get repairPercentage => percentageOfWallHealthToRepair;
-
   @override
   Future<void> onLoad() async {
     animation = SpriteManager.getAnimation('npcs/blacksmith/work', frames: 10, stepTime: 0.11);
   }
 
-  void repairWall() {}
+  void performEffect(MainWorld world) {
+    world.playerBase.wall.repairWallFor(percentageOfWallHealthToRepair);
+  }
 }
