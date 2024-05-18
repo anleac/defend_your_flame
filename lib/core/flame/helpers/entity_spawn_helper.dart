@@ -98,7 +98,7 @@ class EntitySpawnHelper {
 
     if (currentRound >= EntitySpawnConstants.minimumRoundForFastGroundEnemies && randomNumber < wolfLuck) {
       return IceWolf.spawn(position: startPosition, speedFactor: speedFactor);
-    } else if (randomNumber < 70 + wolfLuck) {
+    } else if (randomNumber < 70 + (wolfLuck / 2)) {
       return Skeleton.spawn(position: startPosition, speedFactor: speedFactor);
     } else {
       return Slime.spawn(position: startPosition, speedFactor: speedFactor);

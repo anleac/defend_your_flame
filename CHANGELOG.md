@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.18.2 - 18th May, 2024
+
+### New Features
+- N/A
+
+### Bug Fixes
+- Fixed the strong skeleton sometimes having a weird render overlay when being behind others
+
+### Improvements / Balances
+- Made slimes slightly more common in later rounds
+- Improved the collision box and healthbar positioning of the firebeast
+- Added a fast track to round 20
+
 ## 0.18.1 - 17th May, 2024
 
 ### New Features

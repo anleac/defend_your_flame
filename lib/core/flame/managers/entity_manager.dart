@@ -6,9 +6,9 @@ import 'package:defend_your_flame/constants/entity_spawn_constants.dart';
 import 'package:defend_your_flame/core/flame/components/entities/draggable_entity.dart';
 import 'package:defend_your_flame/core/flame/components/entities/entity.dart';
 import 'package:defend_your_flame/core/flame/components/entities/enums/entity_state.dart';
-import 'package:defend_your_flame/core/flame/components/entities/mobs/strong_skeleton.dart';
 import 'package:defend_your_flame/core/flame/helpers/entity_spawn_helper.dart';
 import 'package:defend_your_flame/core/flame/managers/extensions/entity_manager_extension.dart';
+import 'package:defend_your_flame/core/flame/shop/purchaseable_type.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world_state.dart';
 import 'package:defend_your_flame/helpers/misc_helper.dart';
@@ -83,10 +83,7 @@ class EntityManager extends Component with HasWorldReference<MainWorld> {
       if (aliveCount == 0 && world.worldStateManager.playing) {
         world.projectileManager.clearAllProjectiles();
         world.worldStateManager.changeState(MainWorldState.betweenRounds);
-
-        if (world.shopManager.blacksmithPurchased) {
-          world.playerBase.wall.repairWallFor(world.playerBase.blacksmith.repairPercentage);
-        }
+        world.shopManager.performEffectIfPurchased(PurchaseableType.blacksmith);
       } else if (bossAlive && weakAliveCount < EntitySpawnConstants.minimumToKeepAliveDuringBossFight) {
         var amountNeededToSpawn = EntitySpawnConstants.minimumToKeepAliveDuringBossFight - weakAliveCount;
         // TODO: Re-visit post beta if we need to stagger these s
@@ -148,7 +145,7 @@ class EntityManager extends Component with HasWorldReference<MainWorld> {
   }
 
   int _entityKey(Entity entity) {
-    return (entity.topLeftPosition.y + entity.scaledSize.y).toInt();
+    return (entity.topLeftPosition.y + entity.scaledSize.y - entity.positioningKeyMagicNumber).toInt();
   }
 
   Entity? randomVisibleAliveEntity({bool excludeMagicImmune = true}) {

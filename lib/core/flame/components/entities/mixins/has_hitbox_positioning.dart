@@ -22,7 +22,7 @@ mixin HasHitboxPositioning on PositionComponent {
 
   Vector2 absoluteBottomOfMainHitbox() {
     if (hitboxes.isNotEmpty) {
-      return hitboxes.first.absoluteCenter;
+      return hitboxes.first.absoluteCenter + Vector2(0, hitboxes.first.size.y / 2);
     }
 
     return absoluteCenter;

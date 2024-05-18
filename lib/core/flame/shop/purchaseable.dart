@@ -35,6 +35,8 @@ abstract class Purchaseable {
     _purchaseCount++;
   }
 
+  void performEffect(MainWorld world) {}
+
   bool shouldBeVisible(Set<PurchaseableType> purchased) {
     if (dependencies.isEmpty) {
       return true;

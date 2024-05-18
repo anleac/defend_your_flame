@@ -16,12 +16,18 @@ class ShopManager extends Component with HasWorldReference<MainWorld>, HasGameRe
     PurchaseableType.blacksmith: BlacksmithPurchase(game.appStrings),
   };
 
-  Set<PurchaseableType> _purchased = {};
+  final Set<PurchaseableType> _purchasedMap = {};
 
   Iterable<Purchaseable> get purchasables => _purchasables.values;
-  Set<PurchaseableType> get purchased => _purchased;
+  Set<PurchaseableType> get purchasedMap => _purchasedMap;
 
-  bool get blacksmithPurchased => _purchasables[PurchaseableType.blacksmith]!.purchasedMaxAmount;
+  bool isPurchased(PurchaseableType type) => _purchasedMap.contains(type);
+
+  void performEffectIfPurchased(PurchaseableType type) {
+    if (isPurchased(type)) {
+      _purchasables[type]!.performEffect(world);
+    }
+  }
 
   void handlePurchase(PurchaseableType type) {
     var purchase = _purchasables[type]!;
@@ -31,11 +37,11 @@ class ShopManager extends Component with HasWorldReference<MainWorld>, HasGameRe
 
     world.playerBase.mutateGold(-purchase.currentCost);
     purchase.purchase(world);
-    _purchased.add(type);
+    _purchasedMap.add(type);
   }
 
   void resetPurchases() {
-    _purchased.clear();
+    _purchasedMap.clear();
 
     for (var element in _purchasables.values) {
       element.reset();
