@@ -1,14 +1,13 @@
 import 'dart:async';
 
 import 'package:defend_your_flame/core/flame/components/hud/base_components/default_button.dart';
+import 'package:defend_your_flame/core/flame/components/hud/shop/purchase_state.dart';
 import 'package:defend_your_flame/core/flame/components/hud/shop/shop_item_description.dart';
-import 'package:defend_your_flame/core/flame/managers/text/shop_text_manager.dart';
 import 'package:flame/components.dart';
-
-enum ShopItemActionButtonState { canPurchase, cantAfford, alreadyPurchased }
+import 'package:flame/rendering.dart';
 
 class ShopItemActionButton extends DefaultButton with ParentIsA<ShopItemDescription> {
-  ShopItemActionButtonState _actionState = ShopItemActionButtonState.canPurchase;
+  PurchaseState _actionState = PurchaseState.canPurchase;
 
   ShopItemActionButton() : super();
 
@@ -24,23 +23,26 @@ class ShopItemActionButton extends DefaultButton with ParentIsA<ShopItemDescript
     super.onPressed();
   }
 
-  void updateAction(ShopItemActionButtonState actionState) {
+  void updateAction(PurchaseState actionState) {
     _actionState = actionState;
     switch (_actionState) {
-      case ShopItemActionButtonState.canPurchase:
+      case PurchaseState.canPurchase:
         text = game.appStrings.buy;
-        textRenderer = ShopTextManager.canPurchaseRenderer;
         break;
-      case ShopItemActionButtonState.cantAfford:
+      case PurchaseState.cantAfford:
         text = game.appStrings.cantAfford;
-        textRenderer = ShopTextManager.cantAffordRenderer;
         break;
-      case ShopItemActionButtonState.alreadyPurchased:
+      case PurchaseState.purchased:
         text = game.appStrings.alreadyPurchased;
-        textRenderer = ShopTextManager.alreadyPurchasedRenderer;
+        break;
+      case PurchaseState.missingDependencies:
+        text = game.appStrings.missingDependencies;
         break;
     }
 
-    super.toggleClickable(_actionState == ShopItemActionButtonState.canPurchase);
+    decorator.removeLast();
+    decorator.addLast(PaintDecorator.tint(actionState.lightenedColor));
+
+    super.toggleClickable(_actionState == PurchaseState.canPurchase);
   }
 }

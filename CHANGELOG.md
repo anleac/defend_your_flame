@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.19.0 - 19th May, 2024
+
+### New Features
+- N/A
+
+### Bug Fixes
+- N/A
+
+### Improvements / Balances
+- New shop UI
+  - Now has a draggable upgrade tree, this will be more useful in the future when more upgrades are added
+  - Now shows all upgrades, even if they're not available, with a new state "missing dependencies"
+- Small reduction in horizontal parallax with the wall
+
 ## 0.18.2 - 18th May, 2024
 
 ### New Features

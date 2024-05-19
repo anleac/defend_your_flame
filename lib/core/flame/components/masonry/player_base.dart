@@ -23,7 +23,7 @@ class PlayerBase extends PositionComponent with HasWorldReference<MainWorld>, Ha
 
   late final Wall _wall = Wall()..position = Vector2(0, Wall.wallYOffset);
   late final FirePit _firePit = FirePit()
-    ..position = Vector2(Wall.wallAreaWidth + (baseWidthWithoutWall / 2) - 10, baseHeight / 2 - 10);
+    ..position = Vector2(Wall.wallAreaWidth + (baseWidthWithoutWall / 2) - 10, baseHeight / 2 - 15);
 
   int _gold = DebugConstants.testShopLogic ? 5000 : 0;
 

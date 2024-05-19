@@ -37,14 +37,6 @@ abstract class Purchaseable {
 
   void performEffect(MainWorld world) {}
 
-  bool shouldBeVisible(Set<PurchaseableType> purchased) {
-    if (dependencies.isEmpty) {
-      return true;
-    }
-
-    return dependencies.every((element) => purchased.contains(element));
-  }
-
   void reset() {
     _purchaseCount = 0;
   }

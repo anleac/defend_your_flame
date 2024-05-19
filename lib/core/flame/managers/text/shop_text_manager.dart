@@ -3,7 +3,7 @@ import 'package:defend_your_flame/core/flame/managers/text/text_manager.dart';
 import 'package:flame/text.dart';
 
 class ShopTextManager {
-  static final TextPaint _canPurchaseRenderer = TextManager.smallHeaderRenderer;
+  static final TextPaint _canPurchaseRenderer = TextManager.smallSubHeaderRenderer;
   static final TextPaint _cantAffordRenderer =
       TextManager.copyWith(_canPurchaseRenderer, color: ThemingConstants.cantAffordColour);
   static final TextPaint _alreadyPurchasedRenderer =
