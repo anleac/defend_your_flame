@@ -26,7 +26,9 @@ class PlayerBase extends PositionComponent with HasWorldReference<MainWorld>, Ha
     ..position = Vector2(Wall.wallAreaWidth + (baseWidthWithoutWall / 2) - 10, baseHeight / 2 - 15);
 
   int _gold = DebugConstants.testShopLogic ? 5000 : 0;
+  int _flameLevel = 0;
 
+  int get flameLevel => _flameLevel;
   int get totalGold => _gold;
   bool get destroyed => _wall.health <= 0;
   Wall get wall => _wall;
@@ -61,6 +63,7 @@ class PlayerBase extends PositionComponent with HasWorldReference<MainWorld>, Ha
 
   void reset() {
     _gold = 0;
+    _flameLevel = 0;
     _wall.reset();
     isVisible = true;
 

@@ -125,6 +125,7 @@ class Entity extends BaseEntity
       if (world.worldStateManager.gameOver) {
         current = EntityState.walking;
       } else {
+        // TODO - This is a bit of a hack, as all entities have different attack animations. Fix this before beta.
         if (_canAttack && animationTicker?.currentIndex == (entityConfig.attackingConfig.frames / 2).ceil()) {
           _canAttack = false;
           performAttack();
