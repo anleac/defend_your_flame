@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:defend_your_flame/core/flame/components/hud/shop/purchase_state.dart';
 import 'package:defend_your_flame/core/flame/shop/purchaseable.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
@@ -20,24 +22,40 @@ mixin HasPurchaseStatus on Component, HasWorldReference<MainWorld> {
   bool get canPurchase => _purchaseState == PurchaseState.canPurchase;
 
   @override
+  FutureOr<void> onLoad() {
+    onStateChange(_purchaseState);
+    return super.onLoad();
+  }
+
+  @override
   void update(double dt) {
     super.update(dt);
 
     var isPurchased = world.shopManager.isPurchased(_purchaseable.type);
     if (isPurchased) {
-      _purchaseState = PurchaseState.purchased;
+      _updateState(PurchaseState.purchased);
       return;
     }
 
     if (!world.shopManager.dependenciesPurchased(_purchaseable.type)) {
-      _purchaseState = PurchaseState.missingDependencies;
+      _updateState(PurchaseState.missingDependencies);
       return;
     }
 
     if (world.playerBase.totalGold >= _purchaseable.currentCost) {
-      _purchaseState = PurchaseState.canPurchase;
+      _updateState(PurchaseState.canPurchase);
     } else {
-      _purchaseState = PurchaseState.cantAfford;
+      _updateState(PurchaseState.cantAfford);
+    }
+  }
+
+  // Intended to be overriden
+  void onStateChange(PurchaseState updatedState) {}
+
+  void _updateState(PurchaseState state) {
+    if (_purchaseState != state) {
+      _purchaseState = state;
+      onStateChange(state);
     }
   }
 }

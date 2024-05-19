@@ -1,20 +1,21 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:defend_your_flame/core/flame/components/hud/components/line_between.dart';
+import 'package:defend_your_flame/core/flame/components/hud/components/dependency_line.dart';
 import 'package:defend_your_flame/core/flame/components/hud/shop/purchase_item.dart';
 import 'package:defend_your_flame/core/flame/main_game.dart';
 import 'package:defend_your_flame/core/flame/mixins/has_mouse_drag.dart';
 import 'package:defend_your_flame/core/flame/shop/purchaseable.dart';
 import 'package:defend_your_flame/core/flame/shop/purchaseable_type.dart';
+import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 
 class PurchaseItemBoard extends PositionComponent
-    with TapCallbacks, DragCallbacks, HasGameReference<MainGame>, HasMouseDrag {
+    with TapCallbacks, DragCallbacks, HasGameReference<MainGame>, HasWorldReference<MainWorld>, HasMouseDrag {
   static const double padding = 30;
-  static const double verticalItemPadding = PurchaseItem.rectangleWidthAndHeight * 1.5;
-  static const double horizontalItemPadding = verticalItemPadding * 1.2;
+  static const double verticalItemPadding = PurchaseItem.rectangleHeight * 1.5;
+  static const double horizontalItemPadding = PurchaseItem.rectangleWidth * 1.2;
 
   late final Vector2 _maximumClamp;
   late final Vector2 _minimumClamp;
@@ -27,9 +28,15 @@ class PurchaseItemBoard extends PositionComponent
   PurchaseItemBoard(this.purchaseables);
 
   @override
+  void onMount() {
+    position = Vector2.zero();
+    super.onMount();
+  }
+
+  @override
   FutureOr<void> onLoad() {
     Vector2 currentPosition = Vector2.all(padding);
-    Vector2 halfHorizontal = Vector2(PurchaseItem.rectangleWidthAndHeight / 2, 0);
+    Vector2 halfHorizontal = Vector2(PurchaseItem.rectangleWidth / 2, 0);
 
     // We need to build a dependency graph using topological sort, and then also have some ordering by name
     // such that the topological sort is deterministic.
@@ -57,9 +64,12 @@ class PurchaseItemBoard extends PositionComponent
           // This naively (for now) assumes only one dependecy, we can revisit.
           var previousPosition = purchasePositions[purchaseable.dependencies.first]!;
           item.position = previousPosition + dependentPurchaseGap;
-          var lineOffset = Vector2.all(PurchaseItem.rectangleWidthAndHeight) / 2;
-          add(LineBetween(
-              start: previousPosition + halfHorizontal + lineOffset, end: item.position - halfHorizontal + lineOffset));
+          var lineOffset = Vector2(PurchaseItem.rectangleWidth, PurchaseItem.rectangleHeight) / 2;
+
+          add(DependencyLine(
+              start: previousPosition + halfHorizontal + lineOffset,
+              end: item.position - halfHorizontal + lineOffset,
+              dependency: purchaseable));
         }
 
         purchasePositions[purchaseable.type] = item.position;

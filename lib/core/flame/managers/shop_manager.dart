@@ -25,6 +25,8 @@ class ShopManager extends Component with HasWorldReference<MainWorld>, HasGameRe
   bool dependenciesPurchased(PurchaseableType type) =>
       _purchasables[type]!.dependencies.isEmpty || _purchasables[type]!.dependencies.every(isPurchased);
 
+  Purchaseable getPurchaseable(PurchaseableType type) => _purchasables[type]!;
+
   void performEffectIfPurchased(PurchaseableType type) {
     if (isPurchased(type)) {
       _purchasables[type]!.performEffect(world);

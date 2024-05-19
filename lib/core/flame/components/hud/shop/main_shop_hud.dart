@@ -88,6 +88,10 @@ class MainShopHud extends BasicHud with ParentIsA<NextRoundHud> {
   }
 
   void onBackButtonPressed() {
+    if (_shopItemDescription.isMounted) {
+      _shopItemDescription.removeFromParent();
+    }
+
     parent.changeState(NextRoundHudState.menu);
   }
 

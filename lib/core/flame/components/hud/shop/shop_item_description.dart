@@ -20,7 +20,7 @@ class ShopItemDescription extends PositionComponent
   static final Vector2 _itemGap = Vector2(0, 35);
   Purchaseable? _selectedItem;
 
-  late final BorderedBackground _bodyBackground = BorderedBackground(hasFill: true, opacity: 0.25)
+  late final BorderedBackground _bodyBackground = BorderedBackground(hasFill: true, opacity: 0.9)
     ..position = Vector2.zero()
     ..anchor = Anchor.topLeft
     ..size = size;

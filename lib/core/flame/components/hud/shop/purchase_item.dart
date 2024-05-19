@@ -11,6 +11,7 @@ import 'package:defend_your_flame/core/flame/shop/purchaseable.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
+import 'package:flame/rendering.dart';
 
 class PurchaseItem extends PositionComponent
     with
@@ -21,18 +22,19 @@ class PurchaseItem extends PositionComponent
         HasAncestor<MainShopHud>,
         HasWorldReference<MainWorld>,
         HasPurchaseStatus {
-  static const double rectangleWidthAndHeight = 65;
+  static const double rectangleHeight = 46;
+  static const double rectangleWidth = 210;
 
   late final BorderedBackground _borderedBackground = BorderedBackground(borderRadius: 8, borderThickness: 2.5)
     ..size = size;
-  late final DefaultText _title = DefaultText(text: purchaseable.name.substring(0, 1), anchor: Anchor.topCenter)
+  late final DefaultText _title = DefaultText(text: purchaseable.name, anchor: Anchor.topCenter)
     ..position = size / 2
     ..anchor = Anchor.center;
 
   final Purchaseable purchaseable;
 
   PurchaseItem(this.purchaseable) {
-    size = Vector2.all(rectangleWidthAndHeight);
+    size = Vector2(rectangleWidth, rectangleHeight);
     initPurchaseState(purchaseable);
   }
 
@@ -44,10 +46,11 @@ class PurchaseItem extends PositionComponent
   }
 
   @override
-  void update(double dt) {
-    // TODO revisit post beta, this isn't the most efficient usage of a snapshot
-    _borderedBackground.overrideBorderColour(purchaseState.color.withOpacity(0.7));
-    super.update(dt);
+  void onStateChange(PurchaseState updatedState) {
+    _borderedBackground.overrideBorderColour(updatedState.opaqueColor);
+    _title.decorator.removeLast();
+    _title.decorator.addLast(PaintDecorator.tint(updatedState.opaqueColor));
+    super.onStateChange(updatedState);
   }
 
   @override

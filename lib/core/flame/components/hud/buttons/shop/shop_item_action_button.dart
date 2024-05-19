@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:defend_your_flame/core/flame/components/hud/base_components/default_button.dart';
 import 'package:defend_your_flame/core/flame/components/hud/shop/purchase_state.dart';
 import 'package:defend_your_flame/core/flame/components/hud/shop/shop_item_description.dart';
-import 'package:defend_your_flame/core/flame/managers/text/shop_text_manager.dart';
 import 'package:flame/components.dart';
+import 'package:flame/rendering.dart';
 
 class ShopItemActionButton extends DefaultButton with ParentIsA<ShopItemDescription> {
   PurchaseState _actionState = PurchaseState.canPurchase;
@@ -28,21 +28,20 @@ class ShopItemActionButton extends DefaultButton with ParentIsA<ShopItemDescript
     switch (_actionState) {
       case PurchaseState.canPurchase:
         text = game.appStrings.buy;
-        textRenderer = ShopTextManager.canPurchaseRenderer;
         break;
       case PurchaseState.cantAfford:
         text = game.appStrings.cantAfford;
-        textRenderer = ShopTextManager.cantAffordRenderer;
         break;
       case PurchaseState.purchased:
         text = game.appStrings.alreadyPurchased;
-        textRenderer = ShopTextManager.alreadyPurchasedRenderer;
         break;
       case PurchaseState.missingDependencies:
         text = game.appStrings.missingDependencies;
-        textRenderer = ShopTextManager.cantAffordRenderer;
         break;
     }
+
+    decorator.removeLast();
+    decorator.addLast(PaintDecorator.tint(actionState.lightenedColor));
 
     super.toggleClickable(_actionState == PurchaseState.canPurchase);
   }

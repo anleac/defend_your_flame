@@ -1,3 +1,4 @@
+import 'package:flame/palette.dart';
 import 'package:flutter/material.dart';
 
 enum PurchaseState {
@@ -19,5 +20,13 @@ extension PurchaseStateExtension on PurchaseState {
       case PurchaseState.missingDependencies:
         return Colors.yellow;
     }
+  }
+
+  Color get opaqueColor {
+    return color.withOpacity(0.7);
+  }
+
+  Color get lightenedColor {
+    return color.brighten(0.3);
   }
 }
