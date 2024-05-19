@@ -39,7 +39,7 @@ class FlameIndicator extends PositionComponent with HasWorldReference<MainWorld>
   }
 
   _setFlameText() {
-    var flameLevel = world.playerBase.flameLevel.toString();
+    var flameLevel = world.playerBase.flameMana.toString();
     _indicator.updateLabelText(flameLevel);
     _updateSizeOfParent();
   }

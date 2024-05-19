@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:defend_your_flame/constants/entity_spawn_constants.dart';
 import 'package:defend_your_flame/core/flame/components/entities/entity.dart';
 import 'package:defend_your_flame/core/flame/components/entities/mobs/bosses/death_reaper.dart';
@@ -11,6 +9,7 @@ import 'package:defend_your_flame/core/flame/components/entities/mobs/skeleton.d
 import 'package:defend_your_flame/core/flame/components/entities/mobs/slime.dart';
 import 'package:defend_your_flame/core/flame/components/entities/mobs/strong_skeleton.dart';
 import 'package:defend_your_flame/helpers/global_vars.dart';
+import 'package:defend_your_flame/helpers/misc_helper.dart';
 import 'package:flame/components.dart';
 
 class EntitySpawnHelper {
@@ -24,10 +23,9 @@ class EntitySpawnHelper {
   // Each round will need to have a certain amount of each category to keep the difficulty somewhat consistent on each play thru.
   // Though within each group, we can have a random amount of each type of mob. (Perhaps we can revisit this later if this goes poorly for consistent difficulty)
 
-  static (List<Entity> toSpawn, double secondsToSpawnOver) entitiesToSpawn(
+  static List<Entity> entitiesToSpawn(
       {required double worldHeight, required double skyHeight, required int currentRound}) {
     var entities = <Entity>[];
-    var secondsToSpawn = _secondsToSpawnOver(currentRound);
     var basicMobsToSpawnThisRound = _basicMobsToSpawnThisRound(currentRound);
     var strongGroundMobsToSpawnThisRound = _strongGroundMobsToSpawnThisRound(currentRound);
     var flyingMobsToSpawnThisRound = _flyingMobsToSpawnThisRound(currentRound);
@@ -66,7 +64,7 @@ class EntitySpawnHelper {
 
     entities.shuffle(GlobalVars.rand);
 
-    return (entities, secondsToSpawn);
+    return entities;
   }
 
   static List<Entity> spawnExtraWeakMobsDuringBossFight(
@@ -94,7 +92,7 @@ class EntitySpawnHelper {
     var startPosition = _randomGroundSpawnPosition(worldHeight: worldHeight);
     var speedFactor = _randomWalkingSpeedFactor(currentRound: currentRound);
     var randomNumber = GlobalVars.rand.nextInt(100);
-    var wolfLuck = _tapper(currentRound.toDouble() * 2, tapperLess: true);
+    var wolfLuck = MiscHelper.tapper(currentRound.toDouble() * 2, tapperLess: true);
 
     if (currentRound >= EntitySpawnConstants.minimumRoundForFastGroundEnemies && randomNumber < wolfLuck) {
       return IceWolf.spawn(position: startPosition, speedFactor: speedFactor);
@@ -111,35 +109,21 @@ class EntitySpawnHelper {
     var randomNumber = GlobalVars.rand.nextInt(100);
 
     if (currentRound >= EntitySpawnConstants.minimumRoundForRockGolems &&
-        randomNumber < _tapper(currentRound.toDouble() * 3, tapperLess: true)) {
+        randomNumber < MiscHelper.tapper(currentRound.toDouble() * 3, tapperLess: true)) {
       return RockGolem.spawn(position: startPosition, speedFactor: speedFactor);
     } else {
       return StrongSkeleton.spawn(position: startPosition, speedFactor: speedFactor);
     }
   }
 
-  static double _tapper(double input, {bool tapperLess = false}) {
-    if (input <= 0) {
-      return 1;
-    }
-
-    const double tapper = 0.6;
-    // This is a tapper function that will make the spawn rate increase slower as the rounds progress
-    // I tried sqrt but it was a bit too high of tappering
-    return pow(input, tapperLess ? tapper * 1.1 : tapper).toDouble();
-  }
-
-  static double _secondsToSpawnOver(int currentRound) {
-    return _tapper(currentRound * 10, tapperLess: true).ceil() + 7;
-  }
-
-  static int _basicMobsToSpawnThisRound(int currentRound) => _tapper(currentRound * 12, tapperLess: true).ceil() + 2;
+  static int _basicMobsToSpawnThisRound(int currentRound) =>
+      MiscHelper.tapper(currentRound * 12, tapperLess: true).ceil() + 2;
   static int _strongGroundMobsToSpawnThisRound(int currentRound) {
     if (currentRound < EntitySpawnConstants.minimumRoundForStrongGroundEnemies) {
       return 0;
     }
 
-    return _tapper((currentRound - EntitySpawnConstants.minimumRoundForStrongGroundEnemies) * 4).ceil();
+    return MiscHelper.tapper((currentRound - EntitySpawnConstants.minimumRoundForStrongGroundEnemies) * 4).ceil();
   }
 
   static int _flyingMobsToSpawnThisRound(int currentRound) {
@@ -147,7 +131,7 @@ class EntitySpawnHelper {
       return 0;
     }
 
-    return _tapper((currentRound - EntitySpawnConstants.minimumRoundForStrongFlyingEnemies) * 2).ceil();
+    return MiscHelper.tapper((currentRound - EntitySpawnConstants.minimumRoundForStrongFlyingEnemies) * 2).ceil();
   }
 
   static Vector2 _randomGroundSpawnPosition({required double worldHeight}) {
@@ -162,7 +146,7 @@ class EntitySpawnHelper {
       return 1;
     }
 
-    var influence = _tapper((currentRound - EntitySpawnConstants.roundToStartIncreasingSpeed) * 3) / 100;
+    var influence = MiscHelper.tapper((currentRound - EntitySpawnConstants.roundToStartIncreasingSpeed) * 3) / 100;
     return 1 + influence;
   }
 

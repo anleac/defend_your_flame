@@ -7,12 +7,14 @@ class FloatingText extends TextComponent {
 
   late Vector2 _velocity = Vector2(
     GlobalVars.rand.nextDouble() * 2 * speed - speed,
-    GlobalVars.rand.nextDouble() * 2 * speed - speed,
+    upOnly ? GlobalVars.rand.nextDouble() * speed * -2.5 : GlobalVars.rand.nextDouble() * 2 * speed - speed,
   );
+
+  final bool upOnly;
 
   double _timeAlive = 0;
 
-  FloatingText({super.text, super.textRenderer}) {
+  FloatingText({super.text, super.textRenderer, this.upOnly = false}) {
     anchor = Anchor.center;
   }
 

@@ -9,7 +9,6 @@ class RoundManager extends Component with HasWorldReference<MainWorld> {
   void startNextRound() {
     _currentRound++;
     world.worldStateManager.changeState(MainWorldState.playing);
-    world.entityManager.startSpawningRound();
   }
 
   void resetGame() {

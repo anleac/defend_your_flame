@@ -8,6 +8,7 @@ import 'package:defend_your_flame/core/flame/components/entities/entity.dart';
 import 'package:defend_your_flame/core/flame/components/entities/enums/entity_state.dart';
 import 'package:defend_your_flame/core/flame/helpers/entity_spawn_helper.dart';
 import 'package:defend_your_flame/core/flame/managers/extensions/entity_manager_extension.dart';
+import 'package:defend_your_flame/core/flame/mixins/has_world_state_manager.dart';
 import 'package:defend_your_flame/core/flame/shop/purchaseable_type.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world_state.dart';
@@ -15,7 +16,7 @@ import 'package:defend_your_flame/helpers/misc_helper.dart';
 import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
 
-class EntityManager extends Component with HasWorldReference<MainWorld> {
+class EntityManager extends Component with HasWorldReference<MainWorld>, HasWorldStateManager {
   // Used to keep a weak reference to the entities, based on their Y position, so we can render them in the correct order.
   // Using this datastructure as it supports O(log n) for insertion and deletion, and O(n) for iteration.
   final SplayTreeMap<int, List<Entity>> _entities = SplayTreeMap();
@@ -43,17 +44,15 @@ class EntityManager extends Component with HasWorldReference<MainWorld> {
     }
   }
 
-  void startSpawningRound() {
+  @override
+  void onRoundStart(int currentRound, double approximateSecondsOfRound) {
     clearRound();
-
-    var currentRound = world.roundManager.currentRound;
 
     _spawning = true;
 
-    var (entitiesToSpawn, secondsToSpawnOver) = EntitySpawnHelper.entitiesToSpawn(
+    _entitiesToSpawn = EntitySpawnHelper.entitiesToSpawn(
         worldHeight: world.worldHeight, skyHeight: world.environment.skyHeight, currentRound: currentRound);
-    _entitiesToSpawn = entitiesToSpawn;
-    _secondsToSpawnOver = secondsToSpawnOver;
+    _secondsToSpawnOver = approximateSecondsOfRound;
 
     _totalSpawnCountThisRound = _entitiesToSpawn.length;
 
@@ -73,20 +72,20 @@ class EntityManager extends Component with HasWorldReference<MainWorld> {
       } else if (_entitiesToSpawn.isEmpty) {
         _spawning = false;
       }
-    } else if (world.worldStateManager.playing) {
+    } else if (isPlaying) {
       int aliveCount = 0;
       int weakAliveCount = 0;
       bool bossAlive = false;
 
       (aliveCount, weakAliveCount, bossAlive) = entitiesInGame();
 
-      if (aliveCount == 0 && world.worldStateManager.playing) {
+      if (aliveCount == 0 && isPlaying) {
         world.projectileManager.clearAllProjectiles();
         world.worldStateManager.changeState(MainWorldState.betweenRounds);
         world.shopManager.performEffectIfPurchased(PurchaseableType.blacksmith);
       } else if (bossAlive && weakAliveCount < EntitySpawnConstants.minimumToKeepAliveDuringBossFight) {
         var amountNeededToSpawn = EntitySpawnConstants.minimumToKeepAliveDuringBossFight - weakAliveCount;
-        // TODO: Re-visit post beta if we need to stagger these s
+        // TODO: Re-visit post beta if we need to stagger these spawns
         var toAdd = EntitySpawnHelper.spawnExtraWeakMobsDuringBossFight(
             worldHeight: world.worldHeight, currentRound: world.roundManager.currentRound, amount: amountNeededToSpawn);
         for (final entity in toAdd) {
