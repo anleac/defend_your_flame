@@ -51,8 +51,16 @@ class FirePit extends PositionComponent with ParentIsA<PlayerBase>, HasWorldRefe
   @override
   void onRoundStart(int currentRound, double approximateSecondsOfRound) {
     _flameToGiveThisRound = 15;
-    _timerTicker = _flameToGiveThisRound / approximateSecondsOfRound;
+    _timerTicker = _flameToGiveThisRound / approximateSecondsOfRound * 1.5;
     _timer = 0;
     _totalFlameGiven = 0;
+  }
+
+  @override
+  void onRoundEnd() {
+    var remainingFlameToGive = _flameToGiveThisRound - _totalFlameGiven;
+    if (remainingFlameToGive == 0) return;
+
+    world.playerBase.addFlameMana(remainingFlameToGive.toInt(), _firePitFlame.absoluteCenter);
   }
 }
