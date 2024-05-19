@@ -7,8 +7,8 @@ import 'package:flame/text.dart';
 import 'package:flutter/material.dart';
 
 class HealthText extends FloatingText {
-  static final TextRenderer _damageTextRenderer = TextManager.customDefaultRenderer(fontSize: 13, color: Colors.green);
-  HealthText(int health) : super(textRenderer: _damageTextRenderer) {
+  static final TextRenderer _healthTextRenderer = TextManager.customDefaultRenderer(fontSize: 13, color: Colors.green);
+  HealthText(int health) : super(textRenderer: _healthTextRenderer) {
     scale = Vector2.all(_scaleHealthText(health));
     text = "+$health";
   }

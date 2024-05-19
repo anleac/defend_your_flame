@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:defend_your_flame/core/flame/components/hud/base_components/basic_hud.dart';
+import 'package:defend_your_flame/core/flame/components/hud/sprite_with_texts/flame_indicator.dart';
 import 'package:defend_your_flame/core/flame/components/hud/sprite_with_texts/gold_indicator.dart';
 import 'package:defend_your_flame/core/flame/components/hud/sprite_with_texts/health_indicator.dart';
 import 'package:defend_your_flame/core/flame/components/hud/text/round_text.dart';
@@ -37,6 +38,11 @@ class LevelHud extends BasicHud {
     ..anchor = Anchor.topRight
     ..scale = _healthIndicator.scale;
 
+  late final FlameIndicator _flameIndicator = FlameIndicator()
+    ..position = _goldIndicator.position + (_topRightTextGap * _goldIndicator.scale.y)
+    ..anchor = Anchor.topRight
+    ..scale = _goldIndicator.scale;
+
   final bool betweenRoundsHud;
 
   LevelHud({this.betweenRoundsHud = false});
@@ -48,6 +54,7 @@ class LevelHud extends BasicHud {
     add(_roundText);
     add(_healthIndicator);
     add(_goldIndicator);
+    add(_flameIndicator);
 
     return super.onLoad();
   }

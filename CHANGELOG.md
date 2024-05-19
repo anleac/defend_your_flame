@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.20.0 - 19th May, 2024
+
+### New Features
+- Added concept of flame magic that generates each round
+  - This is a new resource that can with future upgrades
+  - It is generated each round, and can be increased by purchasing upgrades (to come)
+
+### Bug Fixes
+- N/A
+
+### Improvements / Balances
+- Small update to how we calculate positioning of the health and gold text
+
 ## 0.19.0 - 19th May, 2024
 
 ### New Features
