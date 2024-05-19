@@ -11,8 +11,8 @@ class FirePit extends PositionComponent with ParentIsA<PlayerBase>, HasWorldRefe
 
   double get _rockPitScaleFactor => ((_scaleFactor - 1) / 2) + 1;
 
-  double _flameToGiveThisRound = 0;
-  double _totalFlameGiven = 0;
+  int _flameToGiveThisRound = 0;
+  int _totalFlameGiven = 0;
   double _timer = 0;
   double _timerTicker = 0;
 
@@ -50,7 +50,7 @@ class FirePit extends PositionComponent with ParentIsA<PlayerBase>, HasWorldRefe
 
   @override
   void onRoundStart(int currentRound, double approximateSecondsOfRound) {
-    _flameToGiveThisRound = 15;
+    _flameToGiveThisRound = 10 + currentRound;
     _timerTicker = _flameToGiveThisRound / approximateSecondsOfRound * 1.5;
     _timer = 0;
     _totalFlameGiven = 0;
@@ -61,6 +61,6 @@ class FirePit extends PositionComponent with ParentIsA<PlayerBase>, HasWorldRefe
     var remainingFlameToGive = _flameToGiveThisRound - _totalFlameGiven;
     if (remainingFlameToGive == 0) return;
 
-    world.playerBase.addFlameMana(remainingFlameToGive.toInt(), _firePitFlame.absoluteCenter);
+    world.playerBase.addFlameMana(remainingFlameToGive, _firePitFlame.absoluteCenter);
   }
 }
