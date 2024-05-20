@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.20.1 - 20th May, 2024
+
+### New Features
+- N/A
+
+### Bug Fixes
+- N/A
+
+### Improvements / Balances
+- Improved the shop UX, removed redundant information
+- Changed the blacksmith behaviour:
+  - Now repairs the wall over the duration of the round
+  - Mimics similar behaviour to how the Flame grants mana over the round
+- Tiny UX changes to the size of the icons of health and gold
+
 ## 0.20.0 - 19th May, 2024
 
 ### New Features

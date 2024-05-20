@@ -1,3 +1,4 @@
+import 'package:defend_your_flame/constants/theming_constants.dart';
 import 'package:defend_your_flame/constants/translations/app_string_helper.dart';
 import 'package:defend_your_flame/core/flame/components/hud/backgrounds/bordered_background.dart';
 import 'package:defend_your_flame/core/flame/components/hud/buttons/shop/shop_item_action_button.dart';
@@ -5,7 +6,6 @@ import 'package:defend_your_flame/core/flame/components/hud/buttons/shop/shop_it
 import 'package:defend_your_flame/core/flame/components/hud/mixins/has_purchase_status.dart';
 import 'package:defend_your_flame/core/flame/components/hud/text/shop/item_cost_text.dart';
 import 'package:defend_your_flame/core/flame/components/hud/text/shop/item_description_title.dart';
-import 'package:defend_your_flame/core/flame/components/hud/text/shop/item_title.dart';
 import 'package:defend_your_flame/core/flame/main_game.dart';
 import 'package:defend_your_flame/core/flame/managers/text/text_manager.dart';
 import 'package:defend_your_flame/core/flame/shop/purchaseable_type.dart';
@@ -13,19 +13,24 @@ import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 import 'package:defend_your_flame/core/flame/shop/purchaseable.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
+import 'package:flame/extensions.dart';
 
 class ShopItemDescription extends PositionComponent
-    with HasWorldReference<MainWorld>, HasGameReference<MainGame>, DragCallbacks, HasPurchaseStatus {
+    with HasWorldReference<MainWorld>, HasGameReference<MainGame>, DragCallbacks, TapCallbacks, HasPurchaseStatus {
   static const double padding = 20;
   static final Vector2 _itemGap = Vector2(0, 35);
   Purchaseable? _selectedItem;
 
-  late final BorderedBackground _bodyBackground = BorderedBackground(hasFill: true, opacity: 0.85)
-    ..position = Vector2.zero()
-    ..anchor = Anchor.topLeft
-    ..size = size;
+  late final BorderedBackground _bodyBackground =
+      BorderedBackground(hasFill: true, fillColor: ThemingConstants.borderColour.darken(0.6), opacity: 0.9)
+        ..position = Vector2.zero()
+        ..anchor = Anchor.topLeft
+        ..size = size;
 
-  late final ItemTitle _itemTitle = ItemTitle()..position = Vector2(padding, padding);
+  late final TextComponent _itemTitle = TextComponent(
+    text: '',
+    textRenderer: TextManager.smallSubHeaderBoldRenderer,
+  )..position = Vector2(padding, padding);
 
   late final ItemCostText _costText = ItemCostText()..position = _itemTitle.position + _itemGap;
 
@@ -52,6 +57,7 @@ class ShopItemDescription extends PositionComponent
 
   late final ShopItemActionButton _itemActionButton = ShopItemActionButton()
     ..anchor = Anchor.bottomRight
+    ..scale = Vector2.all(0.8)
     ..position = size - Vector2(padding, padding);
 
   late final ShopItemCloseButton _closeButton = ShopItemCloseButton()
@@ -77,7 +83,7 @@ class ShopItemDescription extends PositionComponent
   void itemSelected(Purchaseable selectedItem) {
     _selectedItem = selectedItem;
 
-    _itemTitle.updateText(_selectedItem?.name ?? '');
+    _itemTitle.text = (_selectedItem?.name ?? '');
 
     _descriptionText.text = _selectedItem?.description ?? '';
     _quoteText.text = _selectedItem?.quote ?? '';

@@ -9,7 +9,6 @@ import 'package:defend_your_flame/core/flame/components/entities/enums/entity_st
 import 'package:defend_your_flame/core/flame/helpers/entity_spawn_helper.dart';
 import 'package:defend_your_flame/core/flame/managers/extensions/entity_manager_extension.dart';
 import 'package:defend_your_flame/core/flame/mixins/has_world_state_manager.dart';
-import 'package:defend_your_flame/core/flame/shop/purchaseable_type.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world_state.dart';
 import 'package:defend_your_flame/helpers/misc_helper.dart';
@@ -45,14 +44,14 @@ class EntityManager extends Component with HasWorldReference<MainWorld>, HasWorl
   }
 
   @override
-  void onRoundStart(int currentRound, double approximateSecondsOfRound) {
+  void onRoundStart(int currentRound, double spawnDuration, double approximateTotalDuration) {
     clearRound();
 
     _spawning = true;
 
     _entitiesToSpawn = EntitySpawnHelper.entitiesToSpawn(
         worldHeight: world.worldHeight, skyHeight: world.environment.skyHeight, currentRound: currentRound);
-    _secondsToSpawnOver = approximateSecondsOfRound;
+    _secondsToSpawnOver = spawnDuration;
 
     _totalSpawnCountThisRound = _entitiesToSpawn.length;
 
@@ -82,7 +81,6 @@ class EntityManager extends Component with HasWorldReference<MainWorld>, HasWorl
       if (aliveCount == 0 && isPlaying) {
         world.projectileManager.clearAllProjectiles();
         world.worldStateManager.changeState(MainWorldState.betweenRounds);
-        world.shopManager.performEffectIfPurchased(PurchaseableType.blacksmith);
       } else if (bossAlive && weakAliveCount < EntitySpawnConstants.minimumToKeepAliveDuringBossFight) {
         var amountNeededToSpawn = EntitySpawnConstants.minimumToKeepAliveDuringBossFight - weakAliveCount;
         // TODO: Re-visit post beta if we need to stagger these spawns

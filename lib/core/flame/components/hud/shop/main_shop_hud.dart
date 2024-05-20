@@ -66,7 +66,7 @@ class MainShopHud extends BasicHud with ParentIsA<NextRoundHud> {
 
   late final ShopItemDescription _shopItemDescription = ShopItemDescription()
     ..position = _bodyRect.centerRight.toVector2() - Vector2(padding / 2, 0)
-    ..size = Vector2(_bodyRect.size.width / 1.56, _bodyRect.size.height) - Vector2.all(padding)
+    ..size = Vector2(_bodyRect.size.width / 1.9, _bodyRect.size.height) - Vector2.all(padding)
     ..anchor = Anchor.centerRight;
 
   late final GoBackButton _backButton = GoBackButton(backFunction: onBackButtonPressed)

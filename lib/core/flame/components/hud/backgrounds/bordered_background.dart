@@ -10,7 +10,7 @@ class BorderedBackground extends PositionComponent with Snapshot {
     ..style = PaintingStyle.stroke;
 
   late final Paint _fillPaint = Paint()
-    ..color = Colors.black.withOpacity(opacity)
+    ..color = fillColor.withOpacity(opacity)
     ..style = PaintingStyle.fill;
 
   final double borderThickness;
@@ -19,6 +19,7 @@ class BorderedBackground extends PositionComponent with Snapshot {
   final double opacity;
 
   Color borderColor;
+  Color fillColor;
 
   BorderedBackground({
     this.borderThickness = 0.0,
@@ -26,6 +27,7 @@ class BorderedBackground extends PositionComponent with Snapshot {
     this.hasFill = true,
     this.opacity = 0.5,
     this.borderColor = ThemingConstants.borderColour,
+    this.fillColor = Colors.black,
   }) {
     renderSnapshot = true;
   }

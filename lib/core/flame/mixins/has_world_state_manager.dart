@@ -23,14 +23,17 @@ mixin HasWorldStateManager on Component, HasWorldReference<MainWorld> {
   void onWorldStateChange(MainWorldState state, MainWorldState previousState) {
     if (state == MainWorldState.playing) {
       int currentRound = world.roundManager.currentRound;
-      double approximateSecondsOfRound = RoundHelper.approximateSecondsOfRound(currentRound);
-      onRoundStart(currentRound, approximateSecondsOfRound);
+      late double approximateSecondsOfRound;
+      late double spawnDuration;
+      (spawnDuration, approximateSecondsOfRound) = RoundHelper.roundDuration(currentRound);
+
+      onRoundStart(currentRound, spawnDuration, approximateSecondsOfRound);
     } else if (state == MainWorldState.betweenRounds && previousState == MainWorldState.playing) {
       onRoundEnd();
     }
   }
 
-  void onRoundStart(int currentRound, double approximateSecondsOfRound);
+  void onRoundStart(int currentRound, double spawnDuration, double approximateTotalDuration) {}
 
   void onRoundEnd() {}
 }
