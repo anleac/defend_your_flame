@@ -14,7 +14,7 @@ class FlameIndicator extends PositionComponent with HasWorldReference<MainWorld>
   late final TextComponent _flameText = TextComponent(textRenderer: TextManager.basicHudRenderer)
     ..anchor = Anchor.centerLeft;
 
-  late final SpriteWithText _indicator = SpriteWithText(sprite: _flame, text: _flameText, leftOffset: 6);
+  late final SpriteWithText _indicator = SpriteWithText(sprite: _flame, text: _flameText, leftOffset: 6, topOffset: -3);
 
   @override
   FutureOr<void> onLoad() {

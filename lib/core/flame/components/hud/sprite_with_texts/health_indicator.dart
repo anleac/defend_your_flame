@@ -9,7 +9,7 @@ import 'package:flame/components.dart';
 
 class HealthIndicator extends PositionComponent with HasWorldReference<MainWorld>, HasGameReference<MainGame> {
   late final RockHeart _rockHeart = RockHeart()
-    ..scale = Vector2.all(0.24)
+    ..scale = Vector2.all(0.22)
     ..anchor = Anchor.center;
 
   late final TextComponent _healthText = TextComponent(textRenderer: TextManager.basicHudRenderer)

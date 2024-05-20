@@ -8,7 +8,7 @@ import 'package:flame/components.dart';
 
 class GoldIndicator extends PositionComponent with HasWorldReference<MainWorld> {
   late final GoldPile _goldPile = GoldPile()
-    ..scale = Vector2.all(0.24)
+    ..scale = Vector2.all(0.21)
     ..anchor = Anchor.center;
 
   late final TextComponent _goldText = TextComponent(textRenderer: TextManager.basicHudRenderer)

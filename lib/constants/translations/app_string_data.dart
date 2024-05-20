@@ -29,7 +29,7 @@ class AppStringData {
       // Shop
       'enterShop': "Enter Shop",
       'shop': 'Shop',
-      'description': 'Description',
+      'description': 'Summary',
       'itemCostLabel': 'Cost:',
       'itemTitleLabel': 'Item:',
       'buy': 'Purchase',
@@ -70,7 +70,7 @@ class AppStringData {
         "+${AppStrings.placeholderText} max wall health",
         "+${AppStrings.placeholderText} wall defence",
       ]),
-      'stoneWallQuote': '"I found a wall of wood, and left it a wall of\nstone."',
+      'stoneWallQuote': '"I found a wall of wood, and left it a\nwall of stone."',
 
       'attackTotemName': 'Attack Totem',
       'attackTotemDescription': AppStringHelper.purchasableDescription(attributes: [
@@ -81,11 +81,11 @@ class AppStringData {
 
       'blacksmithName': 'Henry The Elder',
       'blacksmithDescription': AppStringHelper.purchasableDescription(attributes: [
-        "Repairs ${AppStrings.placeholderText}% of your wall health per round",
-        "Repair happens at the end of the round",
-        "Does not repair more than the wall's max health",
+        "Repairs ${AppStrings.placeholderText}% of your wall health each\nround",
+        "Repair happens during the round",
+        "Does not repair more than the wall's\nmax health",
       ]),
-      'blacksmithQuote': '"I can fix her."',
+      'blacksmithQuote': '\n"I can fix her."',
     },
   };
 }

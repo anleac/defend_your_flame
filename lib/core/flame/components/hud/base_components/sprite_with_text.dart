@@ -12,15 +12,17 @@ class SpriteWithText extends PositionComponent {
   final TextComponent text;
   final double minimumWidth;
   final double leftOffset;
+  final double topOffset;
 
-  SpriteWithText({required this.sprite, required this.text, this.minimumWidth = 72, this.leftOffset = 0}) {
+  SpriteWithText(
+      {required this.sprite, required this.text, this.minimumWidth = 72, this.leftOffset = 0, this.topOffset = 0}) {
     _generateLabelPosition();
   }
 
   void _generateLabelPosition() {
     var height = max(text.scaledSize.y, sprite.scaledSize.y);
 
-    sprite.position = Vector2(leftOffset + sprite.scaledSize.x / 2, height / 2);
+    sprite.position = Vector2(leftOffset + sprite.scaledSize.x / 2, topOffset + height / 2);
 
     var gap = max(gapBetween, minimumWidth - sprite.scaledSize.x - text.scaledSize.x);
     text.position = Vector2(sprite.scaledSize.x + gap, height / 2);

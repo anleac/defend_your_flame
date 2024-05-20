@@ -105,8 +105,8 @@ class TextButton extends TextComponent
   }
 
   void _drawUnderline(Canvas canvas) {
-    final lineStart = Offset(-10, scaledSize.y / 2 + 15);
-    final lineEnd = Offset(scaledSize.x + 8, scaledSize.y / 2 + 15);
+    final lineStart = Offset(-10, size.y / 2 + 15);
+    final lineEnd = Offset(size.x + 8, size.y / 2 + 15);
     canvas.drawLine(lineStart, lineEnd, _hovered ? _hoveredUnderlinePaint : _underlinePaint);
   }
 }

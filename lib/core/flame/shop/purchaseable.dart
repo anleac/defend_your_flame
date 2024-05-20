@@ -35,8 +35,6 @@ abstract class Purchaseable {
     _purchaseCount++;
   }
 
-  void performEffect(MainWorld world) {}
-
   void reset() {
     _purchaseCount = 0;
   }

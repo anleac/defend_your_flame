@@ -27,12 +27,6 @@ class ShopManager extends Component with HasWorldReference<MainWorld>, HasGameRe
 
   Purchaseable getPurchaseable(PurchaseableType type) => _purchasables[type]!;
 
-  void performEffectIfPurchased(PurchaseableType type) {
-    if (isPurchased(type)) {
-      _purchasables[type]!.performEffect(world);
-    }
-  }
-
   void handlePurchase(PurchaseableType type) {
     var purchase = _purchasables[type]!;
     if (purchase.purchasedMaxAmount || world.playerBase.totalGold < purchase.currentCost) {
