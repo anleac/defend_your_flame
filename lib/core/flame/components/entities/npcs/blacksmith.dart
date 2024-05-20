@@ -32,8 +32,6 @@ class Blacksmith extends SpriteAnimationComponent
     super.onRoundEnd();
   }
 
-  void performEffect(MainWorld world) {}
-
   @override
   void emitValue(int valueToGive) {
     world.playerBase.wall.repairWallFor(valueToGive);
