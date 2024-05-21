@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:defend_your_flame/constants/debug_constants.dart';
 import 'package:defend_your_flame/constants/misc_constants.dart';
+import 'package:defend_your_flame/constants/theming_constants.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/player_base.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/walls/wall_helper.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/walls/wall_renderer.dart';
@@ -72,7 +73,7 @@ class Wall extends PositionComponent with HasVisibility, HasWorldReference<MainW
     add(
       _boundingBox = PolygonHitbox(_wallRenderer.wallCornerPoints)
         ..renderShape = DebugConstants.drawWallBoundaryBox
-        ..paint = DebugConstants.faintDebugPaint,
+        ..paint = ThemingConstants.faintDebugPaint,
     );
   }
 

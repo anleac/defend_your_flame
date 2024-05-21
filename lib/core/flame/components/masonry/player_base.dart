@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:defend_your_flame/constants/bounding_constants.dart';
 import 'package:defend_your_flame/constants/debug_constants.dart';
+import 'package:defend_your_flame/constants/theming_constants.dart';
 import 'package:defend_your_flame/core/flame/components/entities/entity.dart';
 import 'package:defend_your_flame/core/flame/components/entities/npcs/blacksmith.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/fire_pit.dart';
@@ -108,7 +109,7 @@ class PlayerBase extends PositionComponent with HasWorldReference<MainWorld>, Ha
     if (DebugConstants.drawBaseArea) {
       // This is used for debugging
       var relativeRect = _innerBaseRect.translate(-position.x, -position.y);
-      canvas.drawRect(relativeRect, DebugConstants.debugPaint);
+      canvas.drawRect(relativeRect, ThemingConstants.debugPaint);
     }
   }
 

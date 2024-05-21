@@ -2,7 +2,7 @@ import 'package:defend_your_flame/core/flame/components/hud/base_components/defa
 import 'package:defend_your_flame/core/flame/components/hud/game_selection_hud.dart';
 import 'package:flame/components.dart';
 
-class StartGameButton extends DefaultButton with ParentIsA<GameSelectionHud> {
+class StartGameButton extends DefaultButton with HasAncestor<GameSelectionHud> {
   StartGameButton() : super();
 
   @override
@@ -13,7 +13,7 @@ class StartGameButton extends DefaultButton with ParentIsA<GameSelectionHud> {
 
   @override
   void onPressed() {
-    parent.startGame();
+    ancestor.startGame();
     super.onPressed();
   }
 }

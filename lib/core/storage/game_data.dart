@@ -1,3 +1,4 @@
+import 'package:defend_your_flame/constants/debug_constants.dart';
 import 'package:defend_your_flame/core/storage/basic_obsfucation.dart';
 import 'package:defend_your_flame/core/storage/saves/game_save.dart';
 import 'package:flutter/widgets.dart';
@@ -11,6 +12,7 @@ class GameData extends Model with BasicObsfucation {
   static const int saveStatesAllowed = 2;
   static const String gameSavePrefix = 'golden_eye_n64_';
   static const String gameSaveAuto = '${gameSavePrefix}auto';
+  static const int autoSaveIndex = -1;
 
   late final List<String> saveKeys =
       List.generate(saveStatesAllowed, (index) => '$gameSavePrefix$index') + [gameSaveAuto];
@@ -25,11 +27,22 @@ class GameData extends Model with BasicObsfucation {
 
   _initSaves() {
     _saves = {for (var key in saveKeys) key: _readValue(key)};
+
+    if (DebugConstants.fakeSaveData) {
+      _saves[gameSaveAuto] = GameSave(
+        saveSlot: autoSaveIndex,
+        currentRound: 3,
+        currentWallHealth: 80,
+        currentGold: 300,
+        currentFlameMana: 100,
+        saveDate: DateTime.now().add(const Duration(days: -3)),
+      ).toJsonString();
+    }
   }
 
-  String loadSave(String key) => _saves[key]!;
+  String? loadSave(String key) => _saves[key];
   void saveSave(GameSave save, String key) {
-    var saveString = save.toJson().toString();
+    var saveString = save.toJsonString();
     _saves[key] = saveString;
     _setValue(key, saveString);
   }

@@ -5,8 +5,8 @@ import 'package:flame/components.dart';
 class DefaultHudBackground extends PositionComponent with HasWorldReference<MainWorld> {
   late final BorderedBackground _background = BorderedBackground()..size = super.size;
 
-  DefaultHudBackground({required MainWorld world}) {
-    super.size = Vector2(world.worldWidth / 1.2, world.worldHeight / 1.2);
+  DefaultHudBackground({required MainWorld world, double sizeFactor = 1}) {
+    super.size = Vector2(world.worldWidth / (1.2 / sizeFactor), world.worldHeight / (1.2 / sizeFactor));
     super.position = Vector2(world.worldWidth / 2, world.worldHeight / 2);
     super.anchor = Anchor.center;
   }

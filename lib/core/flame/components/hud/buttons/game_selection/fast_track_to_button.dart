@@ -3,7 +3,7 @@ import 'package:defend_your_flame/core/flame/components/hud/base_components/defa
 import 'package:defend_your_flame/core/flame/components/hud/game_selection_hud.dart';
 import 'package:flame/components.dart';
 
-class FastTrackToButton extends DefaultButton with ParentIsA<GameSelectionHud> {
+class FastTrackToButton extends DefaultButton with HasAncestor<GameSelectionHud> {
   final int round;
   final int gold;
 
@@ -17,7 +17,7 @@ class FastTrackToButton extends DefaultButton with ParentIsA<GameSelectionHud> {
 
   @override
   void onPressed() {
-    parent.startGame(gold: gold, round: round);
+    ancestor.startGame(gold: gold, round: round);
     super.onPressed();
   }
 }

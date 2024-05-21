@@ -7,6 +7,7 @@ part of 'game_save.dart';
 // **************************************************************************
 
 GameSave _$GameSaveFromJson(Map<String, dynamic> json) => GameSave(
+      saveSlot: (json['saveSlot'] as num).toInt(),
       currentRound: (json['currentRound'] as num).toInt(),
       currentWallHealth: (json['currentWallHealth'] as num).toInt(),
       currentGold: (json['currentGold'] as num).toInt(),
@@ -15,6 +16,7 @@ GameSave _$GameSaveFromJson(Map<String, dynamic> json) => GameSave(
     );
 
 Map<String, dynamic> _$GameSaveToJson(GameSave instance) => <String, dynamic>{
+      'saveSlot': instance.saveSlot,
       'currentRound': instance.currentRound,
       'currentWallHealth': instance.currentWallHealth,
       'currentGold': instance.currentGold,
