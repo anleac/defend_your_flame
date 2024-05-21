@@ -22,6 +22,10 @@ I'm tracking the current work [here](https://github.com/users/anleac/projects/9/
 Delete all merged branches:
 > git branch --merged | grep -Ev "(^\*|master|main|dev)" | xargs git branch -d
 
+### Builders
+- `dart run build_runner build` for json
+- `dart run flutter_launcher_icons` for icons
+
 ### Useful AI tools for graphic generation.
 - Image generation
     - Generic free tool: https://bing.com/create
