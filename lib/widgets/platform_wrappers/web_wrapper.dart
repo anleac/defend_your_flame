@@ -62,7 +62,7 @@ class WebWrapperState extends State<WebWrapper> {
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text("If you're noticing poor performance, try this link:"),
+          const Text("If you're noticing poor performance, try the"),
           TextButton(
             onPressed: () => launchUrl(Uri.parse(PlatformConstants.webHtmlUrl)),
             child: const Text('HTML version'),
@@ -74,7 +74,7 @@ class WebWrapperState extends State<WebWrapper> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text("Try the higher graphic version:"),
+        const Text("Graphics may not render correctly in the HTML version. Try the"),
         TextButton(
           onPressed: () {
             var baseUrl = Uri.base.toString();
