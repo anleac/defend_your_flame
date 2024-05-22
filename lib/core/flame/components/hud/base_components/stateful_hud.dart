@@ -46,4 +46,8 @@ abstract class StatefulHud<T> extends BasicHud {
     hudToShow.reset();
     add(hudToShow);
   }
+
+  restoreDefaultHudState() {
+    changeState(_initialState);
+  }
 }

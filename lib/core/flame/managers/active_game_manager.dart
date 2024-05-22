@@ -4,6 +4,8 @@ import 'package:defend_your_flame/core/storage/saves/game_save.dart';
 import 'package:flame/components.dart';
 
 class ActiveGameManager extends Component with HasWorldReference<MainWorld>, HasGameReference<MainGame> {
+  bool get hasAutoSave => game.gameData.hasAutoSave;
+
   void resetGame() {
     world.playerBase.reset();
     world.entityManager.clearEntities();

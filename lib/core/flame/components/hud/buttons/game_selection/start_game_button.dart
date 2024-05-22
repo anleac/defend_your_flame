@@ -13,7 +13,7 @@ class StartGameButton extends DefaultButton with HasAncestor<GameSelectionHud> {
 
   @override
   void onPressed() {
-    ancestor.startGame();
+    ancestor.attemptStartGame();
     super.onPressed();
   }
 }

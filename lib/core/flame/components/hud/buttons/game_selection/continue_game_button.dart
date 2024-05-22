@@ -23,7 +23,7 @@ class ContinueGameButton extends DefaultButton with HasAncestor<GameSelectionHud
   void onPressed() {
     if (game.gameData.hasAutoSave) {
       var gameData = game.gameData.autoSave;
-      ancestor.startGame(save: gameData);
+      ancestor.attemptStartGame(save: gameData);
     }
     super.onPressed();
   }

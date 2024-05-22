@@ -75,6 +75,11 @@ class AppStrings {
   String get fastTrackTo => getValue('fastTrackTo');
   String get loadGame => getValue('loadGame');
   String get continueGame => getValue('continueGame');
+  String get overwriteConfirmation => getValue('overwriteConfirmation');
+  String get continueText => getValue('continueText');
+  String get round => getValue('round');
+  String get gold => getValue('gold');
+  String get flameMana => getValue('flameMana');
 
   // Between rounds
   String get startRound => getValue('startRound');

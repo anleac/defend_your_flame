@@ -27,6 +27,11 @@ class AppStringData {
       'fastTrackTo': 'Fast Track To Round ${AppStrings.placeholderText}',
       'continueGame': 'Continue Game',
       'loadGame': 'Load Game',
+      'overwriteConfirmation': 'Are you sure you want to overwrite your current save?',
+      'continueText': 'Continue',
+      'round': 'Round',
+      'gold': 'Gold',
+      'flameMana': 'Flame Mana',
 
       // Shop
       'enterShop': "Enter Shop",

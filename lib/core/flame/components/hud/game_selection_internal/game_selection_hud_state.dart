@@ -1,1 +1,1 @@
-enum GameSelectionHudState { menu, loadGame }
+enum GameSelectionHudState { menu, saveOverwriteConfirmation }

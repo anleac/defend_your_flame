@@ -17,7 +17,7 @@ class FastTrackToButton extends DefaultButton with HasAncestor<GameSelectionHud>
 
   @override
   void onPressed() {
-    ancestor.startGame(gold: gold, round: round);
+    ancestor.attemptStartGame(gold: gold, round: round);
     super.onPressed();
   }
 }
