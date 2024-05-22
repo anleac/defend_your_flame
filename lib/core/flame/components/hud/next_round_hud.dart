@@ -14,4 +14,10 @@ class NextRoundHud extends StatefulHud<NextRoundHudState> {
       NextRoundHudState.shop: _shop,
     });
   }
+
+  @override
+  void onMount() {
+    world.activeGameManager.performAutoSave();
+    super.onMount();
+  }
 }
