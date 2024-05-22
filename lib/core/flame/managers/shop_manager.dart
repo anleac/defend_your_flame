@@ -16,10 +16,12 @@ class ShopManager extends Component with HasWorldReference<MainWorld>, HasGameRe
     PurchaseableType.blacksmith: BlacksmithPurchase(game.appStrings),
   };
 
+  final List<PurchaseableType> _purchaseOrder = [];
   final Set<PurchaseableType> _purchasedMap = {};
 
   Iterable<Purchaseable> get purchasables => _purchasables.values;
   Set<PurchaseableType> get purchasedMap => _purchasedMap;
+  List<PurchaseableType> get purchaseOrder => _purchaseOrder;
 
   bool isPurchased(PurchaseableType type) => _purchasedMap.contains(type) && _purchasables[type]!.purchasedMaxAmount;
   bool dependenciesPurchased(PurchaseableType type) =>
@@ -27,19 +29,24 @@ class ShopManager extends Component with HasWorldReference<MainWorld>, HasGameRe
 
   Purchaseable getPurchaseable(PurchaseableType type) => _purchasables[type]!;
 
-  void handlePurchase(PurchaseableType type) {
+  void handlePurchase(PurchaseableType type, {bool restoringSave = false}) {
     var purchase = _purchasables[type]!;
-    if (purchase.purchasedMaxAmount || world.playerBase.totalGold < purchase.currentCost) {
+    if (!restoringSave && (purchase.purchasedMaxAmount || world.playerBase.totalGold < purchase.currentCost)) {
       return;
     }
 
-    world.playerBase.mutateGold(-purchase.currentCost);
+    if (!restoringSave) {
+      world.playerBase.mutateGold(-purchase.currentCost);
+    }
+
     purchase.purchase(world);
     _purchasedMap.add(type);
+    _purchaseOrder.add(type);
   }
 
   void resetPurchases() {
     _purchasedMap.clear();
+    _purchaseOrder.clear();
 
     for (var element in _purchasables.values) {
       element.reset();

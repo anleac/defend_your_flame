@@ -15,4 +15,20 @@ class ThemingConstants {
   static const Color defaultTextColour = Colors.white;
   static const Color purchasedItemColour = Color(0xFF00FF00);
   static const Color cantAffordColour = Color.fromARGB(255, 255, 50, 50);
+
+  static const Color disabledTint = Color.fromARGB(100, 61, 61, 61);
+
+  static final Paint transparentPaint = Paint()..color = const Color.fromARGB(100, 255, 80, 80);
+
+  static final Paint faintDebugPaint = Paint()
+    ..color = Colors.red.withAlpha(90)
+    ..style = PaintingStyle.fill;
+
+  static final Paint debugPaint = Paint()
+    ..color = Colors.red.withAlpha(120)
+    ..style = PaintingStyle.fill;
+
+  static final Paint darkDebugPaint = Paint()
+    ..color = Colors.black.withAlpha(180)
+    ..style = PaintingStyle.fill;
 }

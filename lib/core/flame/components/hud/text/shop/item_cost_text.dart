@@ -1,10 +1,6 @@
-import 'package:defend_your_flame/core/flame/components/hud/base_components/labeled_text.dart';
-import 'package:defend_your_flame/core/flame/managers/text/text_manager.dart';
+import 'package:defend_your_flame/core/flame/components/hud/base_components/default_labeled_text.dart';
 
-class ItemCostText extends LabeledText {
-  ItemCostText()
-      : super(labelRenderer: TextManager.smallSubHeaderBoldRenderer, textRenderer: TextManager.basicHudRenderer);
-
+class ItemCostText extends DefaultLabeledText {
   @override
   void onMount() {
     setLabel(game.appStrings.itemCostLabel);

@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:defend_your_flame/constants/debug_constants.dart';
 import 'package:defend_your_flame/constants/entity_spawn_constants.dart';
+import 'package:defend_your_flame/constants/theming_constants.dart';
 import 'package:defend_your_flame/core/flame/components/entities/draggable_entity.dart';
 import 'package:defend_your_flame/core/flame/components/entities/entity.dart';
 import 'package:defend_your_flame/core/flame/components/entities/enums/entity_state.dart';
@@ -108,7 +109,7 @@ class EntityManager extends Component with HasWorldReference<MainWorld>, HasWorl
     if (DebugConstants.drawWallCollisionBoxes) {
       for (var entity in children) {
         if (entity is DraggableEntity && entity.current == EntityState.dragged) {
-          canvas.drawRect(entity.wallBox, DebugConstants.darkDebugPaint);
+          canvas.drawRect(entity.wallBox, ThemingConstants.darkDebugPaint);
         }
       }
     }

@@ -1,52 +1,45 @@
-import 'dart:async';
-
-import 'package:defend_your_flame/constants/theming_constants.dart';
-import 'package:defend_your_flame/core/flame/components/hud/base_components/basic_hud.dart';
-import 'package:defend_your_flame/core/flame/components/hud/buttons/game_selection/fast_track_to_button.dart';
-import 'package:defend_your_flame/core/flame/components/hud/buttons/game_selection/start_game_button.dart';
-import 'package:defend_your_flame/core/flame/components/hud/buttons/go_back_button.dart';
-import 'package:defend_your_flame/core/flame/components/hud/buttons/game_selection/load_game_button.dart';
+import 'package:defend_your_flame/core/flame/components/hud/base_components/stateful_hud.dart';
+import 'package:defend_your_flame/core/flame/components/hud/game_selection_internal/game_selection_hud_state.dart';
+import 'package:defend_your_flame/core/flame/components/hud/game_selection_internal/game_selection_menu_hud.dart';
+import 'package:defend_your_flame/core/flame/components/hud/game_selection_internal/save_overwrite_hud.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world_state.dart';
-import 'package:flame/components.dart';
+import 'package:defend_your_flame/core/storage/saves/game_save.dart';
 
-class GameSelectionHud extends BasicHud {
-  late final StartGameButton _startGame = StartGameButton()
-    ..position = Vector2(world.worldWidth / 2, world.worldHeight / 4);
+class GameSelectionHud extends StatefulHud<GameSelectionHudState> {
+  int? _gold;
+  int? _round;
 
-  late final FastTrackToButton _fastTrackToTen = FastTrackToButton(round: 10, gold: 480)
-    ..position = _startGame.position + ThemingConstants.menuButtonGap;
-
-  late final FastTrackToButton _fastTrackToFifteen = FastTrackToButton(round: 15, gold: 1000)
-    ..position = _fastTrackToTen.position + ThemingConstants.menuButtonGap;
-
-  late final FastTrackToButton _fastTrackToTwenty = FastTrackToButton(round: 20, gold: 1800)
-    ..position = _fastTrackToFifteen.position + ThemingConstants.menuButtonGap;
-
-  late final LoadGameButton _loadGame = LoadGameButton()
-    ..position = _fastTrackToTwenty.position + ThemingConstants.menuButtonGap;
-
-  late final GoBackButton _goBackButton = GoBackButton(backFunction: () {
-    world.worldStateManager.changeState(MainWorldState.mainMenu);
-  })
-    ..position = _loadGame.position + ThemingConstants.menuButtonGap;
-
-  @override
-  FutureOr<void> onLoad() {
-    add(_startGame);
-    add(_fastTrackToTen);
-    add(_fastTrackToFifteen);
-    add(_fastTrackToTwenty);
-    add(_loadGame);
-    add(_goBackButton);
-
-    return super.onLoad();
+  GameSelectionHud() {
+    init(GameSelectionHudState.menu, {
+      GameSelectionHudState.menu: GameSelectionMenuHud(),
+      GameSelectionHudState.saveOverwriteConfirmation: SaveOverwriteHud(),
+    });
   }
 
-  void startGame({int? round, int? gold}) {
-    if (round != null && gold != null) {
-      world.playerBase.mutateGold(gold);
-      world.roundManager.overrideRound(round - 1);
+  void attemptStartGame({GameSave? save, int? gold, int? round}) {
+    if (save != null) {
+      world.activeGameManager.loadGame(save);
+      world.worldStateManager.changeState(MainWorldState.betweenRounds);
+    } else {
+      _gold = gold;
+      _round = round;
 
+      if (world.activeGameManager.hasAutoSave) {
+        changeState(GameSelectionHudState.saveOverwriteConfirmation);
+      } else {
+        forceStartNewGame();
+      }
+    }
+  }
+
+  void forceStartNewGame() {
+    restoreDefaultHudState();
+    world.activeGameManager.resetGame();
+    world.activeGameManager.clearAutoSave();
+    if (_gold != null && _round != null) {
+      // Used in the fast track buttons
+      world.playerBase.mutateGold(_gold!);
+      world.roundManager.overrideRound(_round! - 1);
       world.worldStateManager.changeState(MainWorldState.betweenRounds);
     } else {
       world.roundManager.startNextRound();

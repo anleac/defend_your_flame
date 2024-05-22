@@ -28,6 +28,7 @@ class GameOverHud extends BasicHud with HasGameReference<MainGame> {
   @override
   void onMount() {
     _roundText.text = AppStringHelper.insertNumber(game.appStrings.gameOverRoundText, world.roundManager.currentRound);
+    world.activeGameManager.clearAutoSave();
     super.onMount();
   }
 
@@ -41,7 +42,7 @@ class GameOverHud extends BasicHud with HasGameReference<MainGame> {
   }
 
   restartGame() {
-    world.roundManager.resetGame();
+    world.activeGameManager.resetGame();
     world.worldStateManager.changeState(MainWorldState.gameSelection);
   }
 }

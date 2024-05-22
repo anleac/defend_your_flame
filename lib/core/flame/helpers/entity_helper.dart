@@ -1,4 +1,5 @@
 import 'package:defend_your_flame/constants/debug_constants.dart';
+import 'package:defend_your_flame/constants/theming_constants.dart';
 import 'package:defend_your_flame/core/flame/components/entities/entity.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
@@ -19,7 +20,7 @@ class EntityHelper {
 
     if (DebugConstants.drawEntityCollisionBoxes) {
       hitbox.renderShape = true;
-      hitbox.paint = DebugConstants.transparentPaint;
+      hitbox.paint = ThemingConstants.transparentPaint;
     }
 
     return hitbox;
@@ -41,7 +42,7 @@ class EntityHelper {
 
     if (DebugConstants.drawEntityCollisionBoxes) {
       hitbox.renderShape = true;
-      hitbox.paint = DebugConstants.transparentPaint;
+      hitbox.paint = ThemingConstants.transparentPaint;
     }
 
     return hitbox;

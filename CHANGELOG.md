@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.21.0 - 22nd May, 2024
+
+### New Features
+- Added a save state feature
+  - Automatically saves after each round
+  - Only currently supports one save slot
+  - Can be loaded from the main menu
+  - Starting a new game will clear the current save
+
+### Bug Fixes
+- N/A
+
+### Improvements / Balances
+- N/A
+
 ## 0.20.1 - 20th May, 2024
 
 ### New Features

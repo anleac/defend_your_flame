@@ -2,10 +2,11 @@ import 'package:defend_your_flame/constants/theming_constants.dart';
 import 'package:defend_your_flame/core/flame/components/hud/base_components/basic_hud.dart';
 import 'package:defend_your_flame/core/flame/components/hud/buttons/between_rounds/enter_shop_button.dart';
 import 'package:defend_your_flame/core/flame/components/hud/buttons/between_rounds/next_round_button.dart';
-import 'package:defend_your_flame/core/flame/components/hud/buttons/between_rounds/save_game_button.dart';
+import 'package:defend_your_flame/core/flame/components/hud/buttons/between_rounds/save_and_quit_button.dart';
 import 'package:defend_your_flame/core/flame/components/hud/level_hud.dart';
 import 'package:defend_your_flame/core/flame/components/hud/next_round_hud.dart';
 import 'package:defend_your_flame/core/flame/components/hud/text/tip_text.dart';
+import 'package:defend_your_flame/core/flame/worlds/main_world_state.dart';
 import 'package:flame/components.dart';
 
 class NextRoundMenuHud extends BasicHud with ParentIsA<NextRoundHud> {
@@ -15,7 +16,7 @@ class NextRoundMenuHud extends BasicHud with ParentIsA<NextRoundHud> {
   late final EnterShopButton _enterShop = EnterShopButton()
     ..position = _nextRound.position + ThemingConstants.menuButtonGap;
 
-  late final SaveGameButton _saveGameButton = SaveGameButton()
+  late final SaveAndQuitButton _saveAndQuitButton = SaveAndQuitButton()
     ..position = _enterShop.position + ThemingConstants.menuButtonGap;
 
   late final LevelHud _levelHud = LevelHud(betweenRoundsHud: true);
@@ -26,7 +27,7 @@ class NextRoundMenuHud extends BasicHud with ParentIsA<NextRoundHud> {
   Future<void> onLoad() async {
     add(_nextRound);
     add(_enterShop);
-    add(_saveGameButton);
+    add(_saveAndQuitButton);
     add(_levelHud);
     add(_tipText);
 
@@ -35,5 +36,11 @@ class NextRoundMenuHud extends BasicHud with ParentIsA<NextRoundHud> {
 
   void startNextRound() {
     world.roundManager.startNextRound();
+  }
+
+  void saveAndQuit() {
+    world.activeGameManager.performAutoSave();
+    world.activeGameManager.resetGame();
+    world.worldStateManager.changeState(MainWorldState.mainMenu);
   }
 }

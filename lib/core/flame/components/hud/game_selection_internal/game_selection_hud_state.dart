@@ -1,0 +1,1 @@
+enum GameSelectionHudState { menu, saveOverwriteConfirmation }
