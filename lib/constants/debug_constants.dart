@@ -17,5 +17,5 @@ class DebugConstants {
 
   static const bool superPoweredTotems = false && Constants.debugBuild;
 
-  static const bool fakeSaveData = true && Constants.debugBuild;
+  static const bool fakeSaveData = false && Constants.debugBuild;
 }

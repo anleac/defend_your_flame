@@ -1,16 +1,15 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:defend_your_flame/constants/theming_constants.dart';
 import 'package:defend_your_flame/core/flame/components/hud/backgrounds/bordered_background.dart';
 import 'package:defend_your_flame/core/flame/components/hud/base_components/default_text.dart';
+import 'package:defend_your_flame/core/flame/components/hud/helpers/hud_theming_helper.dart';
 import 'package:defend_your_flame/core/flame/components/hud/save_load/load_game_hud.dart';
 import 'package:defend_your_flame/core/flame/main_game.dart';
 import 'package:defend_your_flame/core/flame/mixins/has_mouse_hover.dart';
 import 'package:defend_your_flame/core/storage/saves/game_save.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
-import 'package:flame/rendering.dart';
 
 class GameSaveSelector extends PositionComponent
     with HoverCallbacks, TapCallbacks, HasGameReference<MainGame>, HasMouseHover, ParentIsA<LoadGameHud> {
@@ -25,12 +24,12 @@ class GameSaveSelector extends PositionComponent
 
   late GameSave? gameSave;
   final String gameSaveKey;
-  final double height;
+  final double selectorHeight;
 
   bool get hasSave => gameSave != null;
 
-  GameSaveSelector(this.gameSaveKey, this.height) {
-    size = Vector2(rectangleWidth, height);
+  GameSaveSelector(this.gameSaveKey, this.selectorHeight) {
+    size = Vector2(rectangleWidth, selectorHeight);
   }
 
   @override
@@ -60,7 +59,7 @@ class GameSaveSelector extends PositionComponent
     decorator.removeLast();
     if (!hasSave) {
       // TODO maybe we can migrate all disabled buttons to use this instead.
-      decorator.addLast(PaintDecorator.tint(ThemingConstants.disabledTint));
+      decorator.addLast(HudThemingHelper.disabledDecorator);
     }
   }
 

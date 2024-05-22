@@ -11,6 +11,7 @@ import 'package:defend_your_flame/core/flame/components/masonry/totems/attack_to
 import 'package:defend_your_flame/core/flame/components/masonry/walls/wall.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world_state.dart';
+import 'package:defend_your_flame/core/storage/saves/game_save.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 
@@ -134,5 +135,11 @@ class PlayerBase extends PositionComponent with HasWorldReference<MainWorld>, Ha
   void addFlameMana(int flameMana, Vector2 position) {
     _flameMana += flameMana;
     world.effectManager.addFlameText(flameMana, position);
+  }
+
+  void loadFromSave(GameSave save) {
+    _gold = save.currentGold;
+    _flameMana = save.currentFlameMana;
+    _wall.overrideHealth(save.currentWallHealth);
   }
 }

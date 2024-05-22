@@ -9,6 +9,7 @@ class AppStringData {
       'roundText': 'Round ${AppStrings.placeholderText}',
       'endOfRoundText': 'End Of Round ${AppStrings.placeholderText}',
       'saveGame': 'Save Game',
+      'saveAndQuit': 'Save & Quit',
       'restartGame': 'Restart Game',
       'gameOver': 'Game Over',
       'gameOverRoundText': 'You made it to round ${AppStrings.placeholderText}',
@@ -17,13 +18,14 @@ class AppStringData {
       'healthIndicatorAmount': '${AppStrings.placeholderText}/${AppStrings.placeholderText}',
 
       // Main menu
-      'selectGame': 'Start A Game',
+      'selectGame': 'Play A Game',
       'howToPlay': 'How To Play',
       'credits': 'Credits',
 
       // Game selection
-      'startGame': 'Start Game',
+      'startGame': 'Start New Game',
       'fastTrackTo': 'Fast Track To Round ${AppStrings.placeholderText}',
+      'continueGame': 'Continue Game',
       'loadGame': 'Load Game',
 
       // Shop

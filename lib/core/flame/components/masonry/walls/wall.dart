@@ -128,4 +128,8 @@ class Wall extends PositionComponent with HasVisibility, HasWorldReference<MainW
     _health += totalToRepair;
     world.effectManager.addHealthText(totalToRepair, absoluteCenter);
   }
+
+  void overrideHealth(int newHealth) {
+    _health = min(newHealth, _totalHealth);
+  }
 }

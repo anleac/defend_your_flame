@@ -4,7 +4,7 @@ import 'package:defend_your_flame/core/flame/components/hud/game_selection_inter
 import 'package:flame/components.dart';
 
 class LoadGameButton extends DefaultButton with HasAncestor<GameSelectionHud> {
-  LoadGameButton() : super();
+  LoadGameButton() : super(comingSoon: true);
 
   @override
   void onMount() {

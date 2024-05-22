@@ -74,10 +74,12 @@ class AppStrings {
   String get startGame => getValue('startGame');
   String get fastTrackTo => getValue('fastTrackTo');
   String get loadGame => getValue('loadGame');
+  String get continueGame => getValue('continueGame');
 
   // Between rounds
   String get startRound => getValue('startRound');
   String get saveGame => getValue('saveGame');
+  String get saveAndQuit => getValue('saveAndQuit');
   String get enterShop => getValue('enterShop');
 
   // Shop

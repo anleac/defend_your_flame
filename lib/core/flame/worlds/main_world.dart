@@ -2,6 +2,7 @@ import 'package:defend_your_flame/constants/constants.dart';
 import 'package:defend_your_flame/core/flame/components/debug/camera_border.dart';
 import 'package:defend_your_flame/core/flame/components/environment/environment.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/player_base.dart';
+import 'package:defend_your_flame/core/flame/managers/active_game_manager.dart';
 import 'package:defend_your_flame/core/flame/managers/effect_manager.dart';
 import 'package:defend_your_flame/core/flame/managers/entity_manager.dart';
 import 'package:defend_your_flame/core/flame/managers/hud_manager.dart';
@@ -22,6 +23,7 @@ class MainWorld extends World with HasCollisionDetection {
   final EffectManager _effectManager = EffectManager();
   final WorldStateManager _worldStateManager = WorldStateManager();
   final ShopManager _shopManager = ShopManager();
+  final ActiveGameManager _activeGameManager = ActiveGameManager();
 
   Environment get environment => _environment;
 
@@ -32,6 +34,7 @@ class MainWorld extends World with HasCollisionDetection {
   RoundManager get roundManager => _roundManager;
   WorldStateManager get worldStateManager => _worldStateManager;
   ShopManager get shopManager => _shopManager;
+  ActiveGameManager get activeGameManager => _activeGameManager;
 
   double get worldHeight => Constants.desiredHeight;
   double get worldWidth => Constants.desiredWidth;
@@ -61,5 +64,6 @@ class MainWorld extends World with HasCollisionDetection {
   _addNonVisualComponents() {
     add(_roundManager);
     add(_shopManager);
+    add(_activeGameManager);
   }
 }

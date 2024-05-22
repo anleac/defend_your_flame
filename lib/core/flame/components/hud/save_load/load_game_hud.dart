@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:defend_your_flame/core/flame/components/hud/backgrounds/bordered_background.dart';
 import 'package:defend_your_flame/core/flame/components/hud/base_components/basic_hud.dart';
 import 'package:defend_your_flame/core/flame/components/hud/buttons/go_back_button.dart';
 import 'package:defend_your_flame/core/flame/components/hud/components/default_hud_background.dart';
@@ -9,7 +8,6 @@ import 'package:defend_your_flame/core/flame/components/hud/game_selection_inter
 import 'package:defend_your_flame/core/flame/components/hud/save_load/game_save_selector.dart';
 import 'package:defend_your_flame/core/flame/components/hud/text/save_load/game_save_description.dart';
 import 'package:defend_your_flame/core/flame/components/hud/text/save_load/load_game_title_text.dart';
-import 'package:defend_your_flame/core/flame/helpers/hud_helper.dart';
 import 'package:defend_your_flame/core/flame/main_game.dart';
 import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
@@ -19,35 +17,29 @@ class LoadGameHud extends BasicHud with ParentIsA<GameSelectionHud>, HasGameRefe
 
   late final DefaultHudBackground _background = DefaultHudBackground(world: world, sizeFactor: 0.9);
 
-  late final Rect _headerRect = HudHelper.createHeaderRectFrom(_background);
-  late final Rect _bodyRect = HudHelper.createBodyRectFrom(_background);
-  late final Rect _footerRect = HudHelper.createFooterRectFrom(_background);
-
-  late final BorderedBackground _bodyBackground = HudHelper.borderedBackgroundFor(_bodyRect);
-
   late final LoadGameTitleText _loadGameTitleText = LoadGameTitleText()
-    ..position = _headerRect.center.toVector2()
+    ..position = _background.headerRect.center.toVector2()
     ..anchor = Anchor.center;
 
   late final GameSaveDescription _gameSaveDescription = GameSaveDescription()
-    ..position = _bodyRect.center.toVector2()
-    ..size = Vector2(_bodyRect.size.width / 2 - padding, _bodyRect.size.height - padding * 2)
+    ..position = _background.bodyRect.center.toVector2()
+    ..size = Vector2(_background.bodyRect.size.width / 2 - padding, _background.bodyRect.size.height - padding * 2)
     ..anchor = Anchor.centerLeft;
 
   late final GoBackButton _backButton = GoBackButton(backFunction: () => onBackButtonPressed())
-    ..position = _footerRect.center.toVector2()
+    ..position = _background.footerRect.center.toVector2()
     ..anchor = Anchor.center;
 
   @override
   FutureOr<void> onLoad() {
     add(_background);
     add(_loadGameTitleText);
-    add(_bodyBackground);
     add(_backButton);
 
-    var selectorHeight = ((_bodyRect.height - padding * 2) - (padding * (game.gameData.saveKeys.length - 1))) /
-        game.gameData.saveKeys.length;
-    var rollingPosition = _bodyRect.topLeft.toVector2() + Vector2.all(padding);
+    var selectorHeight =
+        ((_background.bodyRect.height - padding * 2) - (padding * (game.gameData.saveKeys.length - 1))) /
+            game.gameData.saveKeys.length;
+    var rollingPosition = _background.bodyRect.topLeft.toVector2() + Vector2.all(padding);
     for (final saveKey in game.gameData.saveKeys) {
       final saveSelector = GameSaveSelector(saveKey, selectorHeight)
         ..position = rollingPosition

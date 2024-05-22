@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:defend_your_flame/constants/theming_constants.dart';
 import 'package:defend_your_flame/core/flame/components/hud/backgrounds/bordered_background.dart';
-import 'package:defend_your_flame/core/flame/components/hud/base_components/default_button.dart';
 import 'package:defend_your_flame/core/flame/components/hud/base_components/default_labeled_text.dart';
 import 'package:defend_your_flame/core/flame/components/hud/buttons/save_load/load_saved_game_button.dart';
 import 'package:defend_your_flame/core/flame/components/hud/game_selection_hud.dart';
