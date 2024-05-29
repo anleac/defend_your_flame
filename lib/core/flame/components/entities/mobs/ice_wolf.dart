@@ -17,7 +17,7 @@ class IceWolf extends DraggableEntity {
     dyingConfig: AnimationConfig(frames: 6, stepTime: 0.2),
     damageOnAttack: 5,
     goldOnKill: 10,
-    baseWalkingSpeed: 96,
+    baseWalkingSpeed: 104,
     fastEntity: true,
   );
 

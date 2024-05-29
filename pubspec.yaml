@@ -1,7 +1,7 @@
 name: defend_your_flame
 description: Defend your flame from the enemy
 publish_to: 'none'
-version: 0.21.0+1 # +1 since we haven't actually published this yet
+version: 0.22.0+1 # +1 since we haven't actually published this yet
 
 environment:
   sdk: '>=3.1.2 <4.0.0'
@@ -12,7 +12,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   
-  flame: ^1.17.0
+  flame: ^1.18.0
   scoped_model: ^2.0.0
   shared_preferences: ^2.2.3
   cupertino_icons: ^1.0.8
