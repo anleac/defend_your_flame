@@ -10,6 +10,7 @@
 
 ### Improvements / Balances
 - Small improvement to how large the rock pit grows
+- Fix flame not scaling correctly with the new upgrades
 
 ## 0.22.0 - 31st May, 2024
 
