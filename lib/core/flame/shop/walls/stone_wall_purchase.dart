@@ -3,6 +3,7 @@ import 'package:defend_your_flame/constants/translations/app_strings.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/walls/wall_helper.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/walls/wall_type.dart';
 import 'package:defend_your_flame/core/flame/shop/purchaseable.dart';
+import 'package:defend_your_flame/core/flame/shop/purchaseable_category.dart';
 import 'package:defend_your_flame/core/flame/shop/purchaseable_type.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 
@@ -10,6 +11,7 @@ class StoneWallPurchase extends Purchaseable {
   StoneWallPurchase(AppStrings appStrings)
       : super(
           type: PurchaseableType.stoneWall,
+          category: PurchaseableCategory.walls,
           name: appStrings.stoneWallName,
           description: AppStringHelper.insertNumbers(appStrings.stoneWallDescription, [
             WallHelper.totalHealth(WallType.stone) - WallHelper.totalHealth(WallType.wood),

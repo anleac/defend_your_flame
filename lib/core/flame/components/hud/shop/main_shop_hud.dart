@@ -3,7 +3,7 @@ import 'package:defend_your_flame/core/flame/components/hud/buttons/go_back_butt
 import 'package:defend_your_flame/core/flame/components/hud/components/default_hud_background.dart';
 import 'package:defend_your_flame/core/flame/components/hud/next_round_hud.dart';
 import 'package:defend_your_flame/core/flame/components/hud/next_round_internal/next_round_hud_state.dart';
-import 'package:defend_your_flame/core/flame/components/hud/shop/purchase_item_board.dart';
+import 'package:defend_your_flame/core/flame/components/hud/shop/board/purchase_item_board_selector.dart';
 import 'package:defend_your_flame/core/flame/components/hud/shop/shop_item_description.dart';
 import 'package:defend_your_flame/core/flame/components/hud/sprite_with_texts/gold_indicator.dart';
 import 'package:defend_your_flame/core/flame/components/hud/sprite_with_texts/health_indicator.dart';
@@ -33,14 +33,14 @@ class MainShopHud extends BasicHud with ParentIsA<NextRoundHud> {
     ..anchor = Anchor.centerLeft
     ..scale = _goldIndicator.scale;
 
-  late final PurchaseItemBoard _purchaseItemBoard = PurchaseItemBoard(world.shopManager.purchasables)
+  late final PurchaseItemBoardSelector _purchaseTabs = PurchaseItemBoardSelector()
     ..size = _background.bodyRect.size.toVector2()
     ..anchor = Anchor.topLeft;
 
   late final ClipComponent _clippedPurchaseItemBoard = ClipComponent.rectangle(
     position: _background.bodyRect.topLeft.toVector2() + Vector2.all(clippingBoardPadding),
-    size: _purchaseItemBoard.size - Vector2.all(clippingBoardPadding * 2),
-    children: [_purchaseItemBoard],
+    size: _purchaseTabs.size - Vector2.all(clippingBoardPadding * 2),
+    children: [_purchaseTabs],
   );
 
   late final ShopItemDescription _shopItemDescription = ShopItemDescription()
@@ -49,7 +49,7 @@ class MainShopHud extends BasicHud with ParentIsA<NextRoundHud> {
     ..anchor = Anchor.centerRight;
 
   late final GoBackButton _backButton = GoBackButton(backFunction: onBackButtonPressed)
-    ..position = _background.footerRect.center.toVector2()
+    ..position = _background.footerRect.center.toVector2() - Vector2(0, 5)
     ..anchor = Anchor.center;
 
   @override
@@ -66,9 +66,7 @@ class MainShopHud extends BasicHud with ParentIsA<NextRoundHud> {
   }
 
   void onBackButtonPressed() {
-    if (_shopItemDescription.isMounted) {
-      _shopItemDescription.removeFromParent();
-    }
+    closeDescriptionIfNeeded();
 
     parent.changeState(NextRoundHudState.menu);
   }
@@ -80,5 +78,11 @@ class MainShopHud extends BasicHud with ParentIsA<NextRoundHud> {
 
     _shopItemDescription.itemSelected(purchaseable);
     add(_shopItemDescription);
+  }
+
+  void closeDescriptionIfNeeded() {
+    if (_shopItemDescription.isMounted) {
+      _shopItemDescription.removeFromParent();
+    }
   }
 }

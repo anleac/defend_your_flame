@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:defend_your_flame/core/flame/components/hud/components/dependency_line.dart';
-import 'package:defend_your_flame/core/flame/components/hud/shop/purchase_item.dart';
+import 'package:defend_your_flame/core/flame/components/hud/shop/board/purchase_item.dart';
 import 'package:defend_your_flame/core/flame/main_game.dart';
 import 'package:defend_your_flame/core/flame/mixins/has_mouse_drag.dart';
 import 'package:defend_your_flame/core/flame/shop/purchaseable.dart';
@@ -24,12 +24,13 @@ class PurchaseItemBoard extends PositionComponent
   final Vector2 dependentPurchaseGap = Vector2(horizontalItemPadding, 0);
 
   final Iterable<Purchaseable> purchaseables;
+  final Vector2 initialPosition;
 
-  PurchaseItemBoard(this.purchaseables);
+  PurchaseItemBoard(this.purchaseables, this.initialPosition);
 
   @override
   void onMount() {
-    position = Vector2.zero();
+    position = initialPosition;
     super.onMount();
   }
 
@@ -82,8 +83,8 @@ class PurchaseItemBoard extends PositionComponent
 
     var dragBuffer = (Vector2.all(verticalItemPadding) - Vector2.all(padding)) / 3;
 
-    _maximumClamp = Vector2(dragXOffScreen, dragYOffScreen) + dragBuffer;
-    _minimumClamp = -dragBuffer;
+    _maximumClamp = initialPosition + Vector2(dragXOffScreen, dragYOffScreen) + dragBuffer;
+    _minimumClamp = initialPosition - dragBuffer;
 
     return super.onLoad();
   }

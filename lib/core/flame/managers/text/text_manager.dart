@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class TextManager {
   static const double defaultLargeFontSize = defaultFontSize * 1.5;
   static const double smallHeaderFontSize = defaultFontSize * 1.2;
-  static const double defaultFontSize = 18;
+  static const double defaultFontSize = 19;
   static const double defaultSmallFontSize = defaultFontSize * 0.85;
   static const double defaultTinyFontSize = defaultFontSize * 0.7;
 
@@ -23,8 +23,6 @@ class TextManager {
 
   static TextPaint get headerRenderer => _headerRenderer;
   static TextPaint get smallHeaderRenderer => _smallHeaderRenderer;
-  static TextPaint get smallHeaderHoveredRenderer => _smallHeaderHoveredRenderer;
-  static TextPaint get smallHeaderDisabledRenderer => _smallHeaderDisabledRenderer;
 
   static TextPaint get smallSubHeaderRenderer => _smallSubHeaderRenderer;
   static TextPaint get smallSubHeaderBoldRenderer => copyWith(_smallSubHeaderRenderer, bold: true);
@@ -61,16 +59,6 @@ class TextManager {
 
   static final TextPaint _smallHeaderRenderer =
       TextPaint(style: _defaultTextStyle.copyWith(fontSize: smallHeaderFontSize));
-
-  static final TextPaint _smallHeaderHoveredRenderer = TextPaint(
-      style: _defaultTextStyle.copyWith(
-          fontSize: smallHeaderFontSize,
-          color: ThemingConstants.defaultTextColour.darken(ThemingConstants.hoveredDarken)));
-
-  static final TextPaint _smallHeaderDisabledRenderer = TextPaint(
-      style: _defaultTextStyle.copyWith(
-          fontSize: smallHeaderFontSize,
-          color: ThemingConstants.defaultTextColour.darken(ThemingConstants.disabledDarken)));
 
   static final TextPaint _smallSubHeaderRenderer = TextPaint(
       style: _defaultTextStyle.copyWith(

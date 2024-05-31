@@ -4,7 +4,7 @@ import 'package:defend_your_flame/core/flame/components/hud/backgrounds/bordered
 import 'package:defend_your_flame/core/flame/components/hud/base_components/default_text.dart';
 import 'package:defend_your_flame/core/flame/components/hud/mixins/has_purchase_status.dart';
 import 'package:defend_your_flame/core/flame/components/hud/shop/main_shop_hud.dart';
-import 'package:defend_your_flame/core/flame/components/hud/shop/purchase_state.dart';
+import 'package:defend_your_flame/core/flame/components/hud/shop/board/purchase_state.dart';
 import 'package:defend_your_flame/core/flame/main_game.dart';
 import 'package:defend_your_flame/core/flame/mixins/has_mouse_hover.dart';
 import 'package:defend_your_flame/core/flame/shop/purchaseable.dart';
@@ -23,7 +23,7 @@ class PurchaseItem extends PositionComponent
         HasWorldReference<MainWorld>,
         HasPurchaseStatus {
   static const double rectangleHeight = 46;
-  static const double rectangleWidth = 210;
+  static const double rectangleWidth = 220;
 
   late final BorderedBackground _borderedBackground = BorderedBackground(borderRadius: 8, borderThickness: 2.5)
     ..size = size;

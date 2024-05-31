@@ -1,3 +1,4 @@
+import 'package:defend_your_flame/core/flame/shop/purchaseable_category.dart';
 import 'package:defend_your_flame/core/flame/shop/purchaseable_type.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 
@@ -5,6 +6,7 @@ abstract class Purchaseable {
   final Set<PurchaseableType> dependencies;
 
   final PurchaseableType type;
+  final PurchaseableCategory category;
 
   final String name;
   final String description;
@@ -23,6 +25,7 @@ abstract class Purchaseable {
 
   Purchaseable(
       {required this.type,
+      required this.category,
       required this.name,
       required this.description,
       required this.quote,

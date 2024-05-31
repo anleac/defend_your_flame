@@ -17,6 +17,7 @@ class ThemingConstants {
   static const Color cantAffordColour = Color.fromARGB(255, 255, 50, 50);
 
   static const Color disabledTint = Color.fromARGB(100, 61, 61, 61);
+  static const Color hoveredTint = Color.fromARGB(175, 181, 181, 181);
 
   static final Paint transparentPaint = Paint()..color = const Color.fromARGB(100, 255, 80, 80);
 

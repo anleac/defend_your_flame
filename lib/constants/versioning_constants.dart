@@ -11,7 +11,7 @@ class VersioningConstants {
   static const _minorVersion = 22;
   static const _patchVersion = 0;
 
-  static const _releaseVersion = ReleaseVersion.beta;
+  static const _releaseVersion = ReleaseVersion.alpha;
 
   static String _getVersion() {
     var releaseSuffix = _releaseVersion != ReleaseVersion.release ? _releaseVersion.toString().split('.').last : '';

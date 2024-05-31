@@ -1,4 +1,5 @@
 import 'package:defend_your_flame/constants/theming_constants.dart';
+import 'package:defend_your_flame/core/flame/components/hud/helpers/hud_theming_helper.dart';
 import 'package:defend_your_flame/core/flame/main_game.dart';
 import 'package:defend_your_flame/core/flame/mixins/has_mouse_hover.dart';
 import 'package:flame/components.dart';
@@ -20,20 +21,18 @@ class TextButton extends TextComponent
     ..color = _underlinePaint.color.darken(ThemingConstants.hoveredDarken);
 
   final TextRenderer defaultTextRenderer;
-  final TextRenderer hoveredTextRenderer;
-  final TextRenderer disabledRenderer;
 
   final bool comingSoon;
   final bool underlined;
+
   bool _hovered = false;
   bool _canClick = true;
+  bool _isSelected = false;
 
   TextButton({
     String text = '',
     Anchor anchor = Anchor.center,
     required this.defaultTextRenderer,
-    required this.hoveredTextRenderer,
-    required this.disabledRenderer,
     this.underlined = true,
     this.comingSoon = false,
   }) : super(
@@ -45,8 +44,22 @@ class TextButton extends TextComponent
   void toggleClickable(bool canClick) {
     _canClick = canClick;
 
-    if (!canClick) {
+    if (!canClick && _hovered) {
+      _removeEffect();
       _hovered = false;
+    }
+  }
+
+  void setSelected(bool selected) {
+    if (_isSelected == selected) {
+      return;
+    }
+
+    _isSelected = selected;
+
+    decorator.removeLast();
+    if (selected) {
+      decorator.addLast(HudThemingHelper.hoveredDecorator);
     }
   }
 
@@ -58,7 +71,7 @@ class TextButton extends TextComponent
   @override
   void onMount() {
     if (comingSoon) {
-      textRenderer = disabledRenderer;
+      decorator.addLast(HudThemingHelper.disabledDecorator);
       text = '$text ${ThemingConstants.comingSoonIndicator}';
     }
 
@@ -79,18 +92,19 @@ class TextButton extends TextComponent
 
   @override
   void onHoverEnter() {
-    super.textRenderer = hoveredTextRenderer;
+    _addHoverEffect();
     _hovered = true;
     super.onHoverEnter();
   }
 
   @override
   void onHoverExit() {
+    _removeEffect();
+
     if (!_hovered) {
       return;
     }
 
-    super.textRenderer = defaultTextRenderer;
     _hovered = false;
     super.onHoverExit();
   }
@@ -99,14 +113,31 @@ class TextButton extends TextComponent
   void render(Canvas canvas) {
     super.render(canvas);
 
-    if (underlined && !comingSoon && _canClick) {
+    if ((underlined && !comingSoon && _canClick) || _isSelected) {
       _drawUnderline(canvas);
     }
   }
 
+  void _addHoverEffect() {
+    if (_isSelected) {
+      return;
+    }
+
+    decorator.addLast(HudThemingHelper.hoveredDecorator);
+  }
+
+  void _removeEffect() {
+    if (_isSelected) {
+      return;
+    }
+
+    decorator.removeLast();
+  }
+
   void _drawUnderline(Canvas canvas) {
-    final lineStart = Offset(-10, size.y / 2 + 15);
-    final lineEnd = Offset(size.x + 8, size.y / 2 + 15);
+    final verticalOffset = size.y / 2 + 20;
+    final lineStart = Offset(-10, verticalOffset);
+    final lineEnd = Offset(size.x + 8, verticalOffset);
     canvas.drawLine(lineStart, lineEnd, _hovered ? _hoveredUnderlinePaint : _underlinePaint);
   }
 }
