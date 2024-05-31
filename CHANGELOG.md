@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.22.0 - 31st May, 2024
+
+### New Features
+- Added three new upgrades for the flame, and the first decision chain between more mana or stronger totems.
+
+### Bug Fixes
+- N/A
+
+### Improvements / Balances
+- Overhauled the shop menu again to split into categories
+  - Now split into tabs, currently there are: Walls, Defenses, NPCs, Flame, and Spells (to come)
+
 ## 0.21.0 - 22nd May, 2024
 
 ### New Features
