@@ -38,6 +38,9 @@ class ShopItemActionButton extends DefaultButton with ParentIsA<ShopItemDescript
       case PurchaseState.missingDependencies:
         text = game.appStrings.missingDependencies;
         break;
+      case PurchaseState.conflictingPurchase:
+        text = game.appStrings.conflictingPurchase;
+        break;
     }
 
     decorator.removeLast();

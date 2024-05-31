@@ -43,6 +43,7 @@ class AppStringData {
       'close': 'X',
       'cantAfford': 'Not enough gold',
       'missingDependencies': 'Missing dependencies',
+      'conflictingPurchase': 'Conflicting purchase',
       'alreadyPurchased': 'Purchased',
       'noItemSelected': 'No item selected',
       'potentialPurchaseCount': '${AppStrings.placeholderText}/${AppStrings.placeholderText} purchased',
@@ -93,6 +94,27 @@ class AppStringData {
         "Does not repair more than the wall's\nmax health",
       ]),
       'blacksmithQuote': '\n"I can fix her."',
+
+      'strongFlameName': 'Larger Pit',
+      'strongFlameDescription': AppStringHelper.purchasableDescription(attributes: [
+        "Increased room to burn leads to",
+        "+${AppStrings.placeholderText}% more flame mana per round",
+        "+${AppStrings.placeholderText}% totem power",
+      ]),
+      'strongFlameQuote': '"With great power comes great\nresponsibility."',
+
+      'manaProducingFlameName': 'Increased Mana',
+      'manaProducingFlameDescription': AppStringHelper.purchasableDescription(attributes: [
+        "+${AppStrings.placeholderText}% more flame mana per round",
+      ]),
+      'manaProducingFlameQuote': '"Channel the energy of Element 115."',
+
+      'totemEnhancingFlameName': 'Totem Power',
+      'totemEnhancingFlameDescription': AppStringHelper.purchasableDescription(attributes: [
+        "Share the power with totems nearby",
+        "+${AppStrings.placeholderText}% totem power",
+      ]),
+      'totemEnhancingFlameQuote': '"Sharing is caring."',
     },
   };
 }

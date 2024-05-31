@@ -1,11 +1,13 @@
 enum PurchaseableCategory {
   walls,
-  npcs,
   defenses,
+  flame,
+  npcs,
   spells,
 }
 
 extension PurchaseableCategoryExtension on PurchaseableCategory {
+  // TODO(release) move this to translations file?
   String get name {
     switch (this) {
       case PurchaseableCategory.walls:
@@ -14,6 +16,8 @@ extension PurchaseableCategoryExtension on PurchaseableCategory {
         return 'NPCs';
       case PurchaseableCategory.defenses:
         return 'Defenses';
+      case PurchaseableCategory.flame:
+        return 'Flame';
       case PurchaseableCategory.spells:
         return 'Spells';
     }

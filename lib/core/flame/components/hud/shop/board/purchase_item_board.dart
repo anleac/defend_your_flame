@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:collection';
 import 'dart:math';
 
 import 'package:defend_your_flame/core/flame/components/hud/components/dependency_line.dart';
@@ -43,39 +44,61 @@ class PurchaseItemBoard extends PositionComponent
     // such that the topological sort is deterministic.
     // Flashbacks to ACM ICPC days, it's just a bit annoying because the dependencies are nested inside.
     // This is fairly naive, as it builds the "graph" somewhat in real time, the efficiency is somewhat bad, it goes up to O(n^2).
-    // Let's revisit, but honestly, we will probably only ever have < 20 upgrades at most.
-    Map<PurchaseableType, Vector2> purchasePositions = {};
+    // We can inefficiently build out a tree, given we know we should only ever have <20 upgrades PER board, at most, if not less.
+    // We can revisit if we ever hit perf issues, but I honestly highly doubt it.
+    // Don't always need to golden plate =) Remember how bad the Terraria code was and that game was epic (as much as it pains me to say).
 
-    while (purchasePositions.length < purchaseables.length) {
-      for (Purchaseable purchaseable in purchaseables) {
-        if (purchasePositions.containsKey(purchaseable.type)) {
-          continue;
-        }
+    // An adjacency list of dependencies, we can use this to build a tree.
+    Map<PurchaseableType, List<PurchaseableType>> purchaseMapTree = {};
+    Set<PurchaseableType> nodesWithoutDependencies = {};
+    Map<PurchaseableType, Purchaseable> purchaseMap = {};
 
-        if (purchaseable.dependencies.any((d) => !purchasePositions.containsKey(d))) {
-          continue;
-        }
-
-        // We have two choices, we are either an isolated node, or we are a dependent node and have to chain to the right
-        var item = PurchaseItem(purchaseable);
-        if (purchaseable.dependencies.isEmpty) {
-          item.position = currentPosition;
-          currentPosition += independentPurchaseGap;
-        } else {
-          // This naively (for now) assumes only one dependecy, we can revisit.
-          var previousPosition = purchasePositions[purchaseable.dependencies.first]!;
-          item.position = previousPosition + dependentPurchaseGap;
-          var lineOffset = Vector2(PurchaseItem.rectangleWidth, PurchaseItem.rectangleHeight) / 2;
-
-          add(DependencyLine(
-              start: previousPosition + halfHorizontal + lineOffset,
-              end: item.position - halfHorizontal + lineOffset,
-              dependency: purchaseable));
-        }
-
-        purchasePositions[purchaseable.type] = item.position;
-        add(item);
+    // Prepopulate the data
+    for (Purchaseable purchaseable in purchaseables) {
+      purchaseMap[purchaseable.type] = purchaseable;
+      if (purchaseable.dependencies.isEmpty) {
+        nodesWithoutDependencies.add(purchaseable.type);
       }
+
+      purchaseMapTree[purchaseable.type] = [];
+    }
+
+    for (var purchaseable in purchaseables) {
+      // Generate the connection tree
+      for (var dependency in purchaseable.dependencies) {
+        purchaseMapTree[dependency]!.add(purchaseable.type);
+      }
+    }
+
+    var lineOffset = Vector2(PurchaseItem.rectangleWidth, PurchaseItem.rectangleHeight) / 2;
+
+    // Now do a BFS based on the nodes without dependencies, since it's a tree, we shouldn't in theory need to keep
+    // a visited tracker because we can't have cycles.
+    for (var purchaseableType in nodesWithoutDependencies) {
+      Queue<(PurchaseableType type, Vector2 position)> queue = Queue();
+      queue.add((purchaseableType, currentPosition));
+
+      while (queue.isNotEmpty) {
+        var (currentType, internalPosition) = queue.removeFirst();
+
+        var chains = purchaseMapTree[currentType]!;
+        final minYOffset = -(chains.length - 1) * independentPurchaseGap.y / 2;
+        final yOffsetPerChain = independentPurchaseGap.y;
+
+        for (int i = 0; i < chains.length; i++) {
+          var chainedPosition = internalPosition + Vector2(dependentPurchaseGap.x, minYOffset + i * yOffsetPerChain);
+          add(DependencyLine(
+              start: internalPosition + halfHorizontal + lineOffset,
+              end: chainedPosition - halfHorizontal + lineOffset,
+              dependency: purchaseMap[chains[i]]!));
+
+          queue.add((chains[i], chainedPosition));
+        }
+
+        add(PurchaseItem(purchaseMap[currentType]!)..position = internalPosition);
+      }
+
+      currentPosition += independentPurchaseGap;
     }
 
     var dragXOffScreen = max(currentPosition.x - size.x, 0).toDouble();

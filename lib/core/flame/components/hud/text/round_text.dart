@@ -16,7 +16,7 @@ class RoundText extends DefaultText with HasWorldReference<MainWorld> {
 
   @override
   void onMount() {
-    position = Vector2(world.worldWidth / 2, 10);
+    position = Vector2(world.worldWidth / 2, 15);
     super.onMount();
   }
 

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:defend_your_flame/constants/damage_constants.dart';
 import 'package:defend_your_flame/constants/debug_constants.dart';
+import 'package:defend_your_flame/core/flame/components/masonry/flame_type.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/flames/purple_flame.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/totems/stone_totem.dart';
 import 'package:defend_your_flame/core/flame/components/projectiles/concrete_curving_projectiles/attack_totem_curving_projectile.dart';
@@ -53,7 +54,7 @@ class AttackTotem extends PositionComponent with HasWorldReference<MainWorld> {
           world.projectileManager.addProjectile(AttackTotemCurvingProjectile(
               initialPosition: absoluteCenter - Vector2(0, scaledSize.y / 2),
               targetPosition: randomEnemy.absoluteCenterOfMainHitbox(),
-              damage: DamageConstants.fallDamageAsInt,
+              damage: (DamageConstants.fallDamage * world.playerBase.firePit.flameType.totemIncrease).toInt(),
               targetXVelocity: // If they're a "fast enemy", make it difficult for totems to hit them
                   randomEnemy.isWalking && !randomEnemy.entityConfig.fastEntity ? randomEnemy.walkingSpeed : 0,
               horizontalPixelsPerSecond: baseSpeed + (GlobalVars.rand.nextDouble() * 120)));

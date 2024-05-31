@@ -4,6 +4,8 @@ import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 
 abstract class Purchaseable {
   final Set<PurchaseableType> dependencies;
+  // Put here what the other choices are at the same depth, so we know to mark this unavailable if they are purchased
+  final Set<PurchaseableType> conflictingPurchases;
 
   final PurchaseableType type;
   final PurchaseableCategory category;
@@ -32,6 +34,7 @@ abstract class Purchaseable {
       required this.cost,
       this.maxPurchaseCount = 1,
       this.dependencies = const {},
+      this.conflictingPurchases = const {},
       this.comingSoon = false});
 
   void purchase(MainWorld world) {

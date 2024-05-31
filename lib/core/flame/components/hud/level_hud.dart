@@ -10,8 +10,8 @@ import 'package:defend_your_flame/core/flame/managers/text/text_manager.dart';
 import 'package:flame/components.dart';
 
 class LevelHud extends BasicHud {
-  static const double padding = 15;
-  static final Vector2 _hudScale = Vector2.all(1.2);
+  static final double padding = 13 * _hudScale.y;
+  static final Vector2 _hudScale = Vector2.all(1.25);
 
   static final Vector2 _topLeftTextGap = Vector2(0, 30);
   static final Vector2 _topRightTextGap = Vector2(0, 30);
@@ -31,17 +31,17 @@ class LevelHud extends BasicHud {
   late final HealthIndicator _healthIndicator = HealthIndicator()
     ..position = Vector2(world.worldWidth - 15, padding)
     ..anchor = Anchor.topRight
-    ..scale = Vector2.all(1.2);
+    ..scale = _hudScale;
 
   late final GoldIndicator _goldIndicator = GoldIndicator()
     ..position = _healthIndicator.position + (_topRightTextGap * _healthIndicator.scale.y)
     ..anchor = Anchor.topRight
-    ..scale = _healthIndicator.scale;
+    ..scale = _hudScale;
 
   late final FlameIndicator _flameIndicator = FlameIndicator()
     ..position = _goldIndicator.position + (_topRightTextGap * _goldIndicator.scale.y)
     ..anchor = Anchor.topRight
-    ..scale = _goldIndicator.scale;
+    ..scale = _hudScale;
 
   final bool betweenRoundsHud;
 

@@ -39,7 +39,9 @@ class PurchaseItemBoardSelector extends PositionComponent
 
       var purchasables = world.shopManager.getPurchaseablesByCategory(tabType);
       var verticalOffset = tab.height + tabPadding * 2;
-      var board = PurchaseItemBoard(purchasables, Vector2(0, verticalOffset))..size = size - Vector2(0, verticalOffset);
+      // TODO fix this drag mechanic
+      var board = PurchaseItemBoard(purchasables, Vector2(0, verticalOffset * 1.5))
+        ..size = size - Vector2(0, verticalOffset * 2);
       _boards.putIfAbsent(tabType, () => board);
     }
 

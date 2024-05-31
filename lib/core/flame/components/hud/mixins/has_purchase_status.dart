@@ -37,6 +37,12 @@ mixin HasPurchaseStatus on Component, HasWorldReference<MainWorld> {
       return;
     }
 
+    if (_purchaseable.conflictingPurchases.isNotEmpty &&
+        _purchaseable.conflictingPurchases.any(world.shopManager.isPurchased)) {
+      _updateState(PurchaseState.conflictingPurchase);
+      return;
+    }
+
     if (!world.shopManager.dependenciesPurchased(_purchaseable.type)) {
       _updateState(PurchaseState.missingDependencies);
       return;
