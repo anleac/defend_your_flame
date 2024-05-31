@@ -13,7 +13,7 @@ class ContinueGameButton extends DefaultButton with HasAncestor<GameSelectionHud
 
     decorator.removeLast();
     if (!game.gameData.hasAutoSave) {
-      decorator.addLast(HudThemingHelper.disabledDecorator);
+      decorator.replaceLast(HudThemingHelper.disabledDecorator);
     }
 
     super.onMount();

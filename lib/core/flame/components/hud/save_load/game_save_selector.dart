@@ -59,7 +59,7 @@ class GameSaveSelector extends PositionComponent
     decorator.removeLast();
     if (!hasSave) {
       // TODO maybe we can migrate all disabled buttons to use this instead.
-      decorator.addLast(HudThemingHelper.disabledDecorator);
+      decorator.replaceLast(HudThemingHelper.disabledDecorator);
     }
   }
 

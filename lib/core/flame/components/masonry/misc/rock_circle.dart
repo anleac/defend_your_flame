@@ -11,8 +11,8 @@ class RockCircle extends PositionComponent with Snapshot {
   // We are excluding the 6th rock for now.
   static const int rockTypes = 5;
   static const double rockPitScale = 1;
-  static const double ovalWidth = 70 * rockPitScale;
-  static const double ovalHeight = 27 * rockPitScale;
+  static const double ovalWidth = 73 * rockPitScale;
+  static const double ovalHeight = 28 * rockPitScale;
 
   static final Vector2 rockSize = Vector2(24, 24);
 
@@ -28,9 +28,9 @@ class RockCircle extends PositionComponent with Snapshot {
   void render(Canvas canvas) {
     super.render(canvas);
 
-    const double rockScale = 0.66;
-    final double totalScaleInfluence = (scale.x - 1) / 3 + 1;
-    final int numRocks = (20 * rockPitScale * totalScaleInfluence).ceil();
+    final double rockScale = 0.66 - ((scale.x - 1) / 3);
+    final double totalScaleInfluence = (scale.x - 1) / 4 + 1.2;
+    final int numRocks = (18 * rockPitScale * totalScaleInfluence).ceil();
 
     List<Vector2> rockPositions = [];
     for (int i = 0; i < numRocks; i++) {

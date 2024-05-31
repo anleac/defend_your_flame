@@ -59,7 +59,7 @@ class TextButton extends TextComponent
 
     decorator.removeLast();
     if (selected) {
-      decorator.addLast(HudThemingHelper.hoveredDecorator);
+      decorator.replaceLast(HudThemingHelper.hoveredDecorator);
     }
   }
 
@@ -71,7 +71,7 @@ class TextButton extends TextComponent
   @override
   void onMount() {
     if (comingSoon) {
-      decorator.addLast(HudThemingHelper.disabledDecorator);
+      decorator.replaceLast(HudThemingHelper.disabledDecorator);
       text = '$text ${ThemingConstants.comingSoonIndicator}';
     }
 
@@ -123,7 +123,7 @@ class TextButton extends TextComponent
       return;
     }
 
-    decorator.addLast(HudThemingHelper.hoveredDecorator);
+    decorator.replaceLast(HudThemingHelper.hoveredDecorator);
   }
 
   void _removeEffect() {

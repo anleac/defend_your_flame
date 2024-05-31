@@ -43,8 +43,7 @@ class ShopItemActionButton extends DefaultButton with ParentIsA<ShopItemDescript
         break;
     }
 
-    decorator.removeLast();
-    decorator.addLast(PaintDecorator.tint(actionState.lightenedColor));
+    decorator.replaceLast(PaintDecorator.tint(actionState.lightenedColor));
 
     super.toggleClickable(_actionState == PurchaseState.canPurchase);
   }
