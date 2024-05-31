@@ -1,5 +1,5 @@
 import 'package:defend_your_flame/core/flame/components/hud/mixins/has_purchase_status.dart';
-import 'package:defend_your_flame/core/flame/components/hud/shop/purchase_state.dart';
+import 'package:defend_your_flame/core/flame/components/hud/shop/board/purchase_state.dart';
 import 'package:defend_your_flame/core/flame/shop/purchaseable.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 import 'package:flame/components.dart';

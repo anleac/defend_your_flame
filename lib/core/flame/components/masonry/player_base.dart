@@ -34,6 +34,7 @@ class PlayerBase extends PositionComponent with HasWorldReference<MainWorld>, Ha
   int get totalGold => _gold;
   bool get destroyed => _wall.health <= 0;
   Wall get wall => _wall;
+  FirePit get firePit => _firePit;
   Blacksmith get blacksmith => _blacksmith;
 
   final List<Component> _additionalComponents = [];
@@ -67,6 +68,7 @@ class PlayerBase extends PositionComponent with HasWorldReference<MainWorld>, Ha
     _gold = 0;
     _flameMana = 0;
     _wall.reset();
+    _firePit.reset();
     isVisible = true;
 
     for (var component in _additionalComponents) {

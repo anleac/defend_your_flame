@@ -97,14 +97,9 @@ class AppStrings {
   String get close => getValue('close');
   String get cantAfford => getValue('cantAfford');
   String get missingDependencies => getValue('missingDependencies');
+  String get conflictingPurchase => getValue('conflictingPurchase');
   String get alreadyPurchased => getValue('alreadyPurchased');
   String get noItemSelected => getValue('noItemSelected');
-  String get attackTotemName => getValue('attackTotemName');
-  String get attackTotemDescription => getValue('attackTotemDescription');
-  String get attackTotemQuote => getValue('attackTotemQuote');
-  String get blacksmithName => getValue('blacksmithName');
-  String get blacksmithDescription => getValue('blacksmithDescription');
-  String get blacksmithQuote => getValue('blacksmithQuote');
 
   // Purchasables
   String get woodenWallName => getValue('woodenWallName');
@@ -114,6 +109,26 @@ class AppStrings {
   String get stoneWallName => getValue('stoneWallName');
   String get stoneWallDescription => getValue('stoneWallDescription');
   String get stoneWallQuote => getValue('stoneWallQuote');
+
+  String get attackTotemName => getValue('attackTotemName');
+  String get attackTotemDescription => getValue('attackTotemDescription');
+  String get attackTotemQuote => getValue('attackTotemQuote');
+
+  String get blacksmithName => getValue('blacksmithName');
+  String get blacksmithDescription => getValue('blacksmithDescription');
+  String get blacksmithQuote => getValue('blacksmithQuote');
+
+  String get strongFlameName => getValue('strongFlameName');
+  String get strongFlameDescription => getValue('strongFlameDescription');
+  String get strongFlameQuote => getValue('strongFlameQuote');
+
+  String get manaProducingFlameName => getValue('manaProducingFlameName');
+  String get manaProducingFlameDescription => getValue('manaProducingFlameDescription');
+  String get manaProducingFlameQuote => getValue('manaProducingFlameQuote');
+
+  String get totemEnhancingFlameName => getValue('totemEnhancingFlameName');
+  String get totemEnhancingFlameDescription => getValue('totemEnhancingFlameDescription');
+  String get totemEnhancingFlameQuote => getValue('totemEnhancingFlameQuote');
 
   late final List<String> _tips = [];
   List<String> get tips {

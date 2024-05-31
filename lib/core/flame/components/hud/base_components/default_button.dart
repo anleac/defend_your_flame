@@ -6,8 +6,6 @@ class DefaultButton extends TextButton {
   DefaultButton({super.text, super.underlined, super.comingSoon})
       : super(
           defaultTextRenderer: TextManager.smallHeaderRenderer,
-          hoveredTextRenderer: TextManager.smallHeaderHoveredRenderer,
-          disabledRenderer: TextManager.smallHeaderDisabledRenderer,
           anchor: Anchor.center,
         );
 }

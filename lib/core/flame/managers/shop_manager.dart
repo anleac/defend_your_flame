@@ -1,6 +1,10 @@
 import 'package:defend_your_flame/core/flame/main_game.dart';
 import 'package:defend_your_flame/core/flame/shop/defenses/attack_totem_purchase.dart';
+import 'package:defend_your_flame/core/flame/shop/flame/mana_producing_flame.dart';
+import 'package:defend_your_flame/core/flame/shop/flame/strong_flame_purchase.dart';
+import 'package:defend_your_flame/core/flame/shop/flame/totem_enhancing_flame.dart';
 import 'package:defend_your_flame/core/flame/shop/npcs/blacksmith_purchase.dart';
+import 'package:defend_your_flame/core/flame/shop/purchaseable_category.dart';
 import 'package:defend_your_flame/core/flame/shop/purchaseable_type.dart';
 import 'package:defend_your_flame/core/flame/shop/walls/wooden_wall_purchase.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
@@ -9,28 +13,54 @@ import 'package:defend_your_flame/core/flame/shop/walls/stone_wall_purchase.dart
 import 'package:flame/components.dart';
 
 class ShopManager extends Component with HasWorldReference<MainWorld>, HasGameReference<MainGame> {
-  late final Map<PurchaseableType, Purchaseable> _purchasables = {
-    PurchaseableType.woodenWall: WoodenWallPurchase(game.appStrings),
-    PurchaseableType.stoneWall: StoneWallPurchase(game.appStrings),
-    PurchaseableType.attackTotem: AttackTotemPurchase(game.appStrings),
-    PurchaseableType.blacksmith: BlacksmithPurchase(game.appStrings),
-  };
+  late final List<Purchaseable> _allPurchaseables = [
+    // Walls
+    WoodenWallPurchase(game.appStrings),
+    StoneWallPurchase(game.appStrings),
+
+    // Defenses
+    AttackTotemPurchase(game.appStrings),
+
+    // NPCs
+    BlacksmithPurchase(game.appStrings),
+
+    // Flames
+    StrongFlamePurchase(game.appStrings),
+    ManaProducingFlame(game.appStrings),
+    TotemEnhancingFlame(game.appStrings),
+  ];
+
+  late final Map<PurchaseableType, Purchaseable> _purchasablesByType =
+      Map.fromEntries(_allPurchaseables.map((purchaseable) => MapEntry(purchaseable.type, purchaseable)));
+
+  late final Map<PurchaseableCategory, Iterable<PurchaseableType>> _purchaseablesByCategory = Map.fromEntries(
+    PurchaseableCategory.values.map((category) => MapEntry(
+          category,
+          _allPurchaseables
+              .where((purchaseable) => purchaseable.category == category)
+              .map((purchaseable) => purchaseable.type),
+        )),
+  );
 
   final List<PurchaseableType> _purchaseOrder = [];
   final Set<PurchaseableType> _purchasedMap = {};
 
-  Iterable<Purchaseable> get purchasables => _purchasables.values;
+  Iterable<Purchaseable> get purchasables => _allPurchaseables;
   Set<PurchaseableType> get purchasedMap => _purchasedMap;
   List<PurchaseableType> get purchaseOrder => _purchaseOrder;
 
-  bool isPurchased(PurchaseableType type) => _purchasedMap.contains(type) && _purchasables[type]!.purchasedMaxAmount;
+  bool isPurchased(PurchaseableType type) =>
+      _purchasedMap.contains(type) && _purchasablesByType[type]!.purchasedMaxAmount;
   bool dependenciesPurchased(PurchaseableType type) =>
-      _purchasables[type]!.dependencies.isEmpty || _purchasables[type]!.dependencies.every(isPurchased);
+      _purchasablesByType[type]!.dependencies.isEmpty || _purchasablesByType[type]!.dependencies.every(isPurchased);
 
-  Purchaseable getPurchaseable(PurchaseableType type) => _purchasables[type]!;
+  Iterable<Purchaseable> getPurchaseablesByCategory(PurchaseableCategory category) =>
+      _purchaseablesByCategory[category]!.map((type) => _purchasablesByType[type]!);
+
+  Purchaseable getPurchaseable(PurchaseableType type) => _purchasablesByType[type]!;
 
   void handlePurchase(PurchaseableType type, {bool restoringSave = false}) {
-    var purchase = _purchasables[type]!;
+    var purchase = _purchasablesByType[type]!;
     if (!restoringSave && (purchase.purchasedMaxAmount || world.playerBase.totalGold < purchase.currentCost)) {
       return;
     }
@@ -48,7 +78,7 @@ class ShopManager extends Component with HasWorldReference<MainWorld>, HasGameRe
     _purchasedMap.clear();
     _purchaseOrder.clear();
 
-    for (var element in _purchasables.values) {
+    for (var element in _purchasablesByType.values) {
       element.reset();
     }
   }

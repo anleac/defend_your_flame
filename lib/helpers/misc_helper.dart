@@ -29,6 +29,10 @@ class MiscHelper {
     return a < b || doubleEquals(a, b);
   }
 
+  static int doubleDifferenceToPercentage(double a, double b) {
+    return ((a - b) / b * 100).toInt();
+  }
+
   static double tapper(double input, {bool tapperLess = false}) {
     if (input <= 0) {
       return 1;

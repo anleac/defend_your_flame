@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:defend_your_flame/core/flame/components/hud/shop/purchase_state.dart';
+import 'package:defend_your_flame/core/flame/components/hud/shop/board/purchase_state.dart';
 import 'package:defend_your_flame/core/flame/shop/purchaseable.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
 import 'package:flame/components.dart';
@@ -34,6 +34,12 @@ mixin HasPurchaseStatus on Component, HasWorldReference<MainWorld> {
     var isPurchased = world.shopManager.isPurchased(_purchaseable.type);
     if (isPurchased) {
       _updateState(PurchaseState.purchased);
+      return;
+    }
+
+    if (_purchaseable.conflictingPurchases.isNotEmpty &&
+        _purchaseable.conflictingPurchases.any(world.shopManager.isPurchased)) {
+      _updateState(PurchaseState.conflictingPurchase);
       return;
     }
 

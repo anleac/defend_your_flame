@@ -6,6 +6,7 @@ enum PurchaseState {
   cantAfford,
   canPurchase,
   missingDependencies,
+  conflictingPurchase,
 }
 
 extension PurchaseStateExtension on PurchaseState {
@@ -19,6 +20,8 @@ extension PurchaseStateExtension on PurchaseState {
         return Colors.white;
       case PurchaseState.missingDependencies:
         return Colors.yellow;
+      case PurchaseState.conflictingPurchase:
+        return Colors.grey.darken(0.5);
     }
   }
 
