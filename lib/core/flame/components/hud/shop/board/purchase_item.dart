@@ -48,8 +48,7 @@ class PurchaseItem extends PositionComponent
   @override
   void onStateChange(PurchaseState updatedState) {
     _borderedBackground.overrideBorderColour(updatedState.opaqueColor);
-    _title.decorator.removeLast();
-    _title.decorator.addLast(PaintDecorator.tint(updatedState.opaqueColor));
+    _title.decorator.replaceLast(PaintDecorator.tint(updatedState.opaqueColor));
     super.onStateChange(updatedState);
   }
 

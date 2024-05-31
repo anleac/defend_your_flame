@@ -195,7 +195,7 @@ class DraggableEntity extends Entity with DragCallbacks, HoverCallbacks, WallAsS
     _stuckTimerInMilliseconds = 0;
     current = EntityState.dragged;
 
-    decorator.addLast(_dragTintDecorator);
+    decorator.replaceLast(_dragTintDecorator);
   }
 
   void dragDamage() {
