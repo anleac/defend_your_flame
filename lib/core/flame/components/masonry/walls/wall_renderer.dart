@@ -1,6 +1,6 @@
 import 'package:defend_your_flame/constants/parallax_constants.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/walls/wall.dart';
-import 'package:defend_your_flame/core/flame/components/masonry/walls/wall_helper.dart';
+import 'package:defend_your_flame/core/flame/components/masonry/walls/wall_type.dart';
 import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
 import 'package:flame/components.dart';
 import 'package:flame/image_composition.dart';
@@ -24,7 +24,7 @@ class WallRenderer extends PositionComponent with ParentIsA<Wall>, Snapshot {
   List<Vector2> get wallCornerPoints => _wallCornerPoints;
   List<Rect> get solidBoxes => _absoluteSolidBoxes;
 
-  double get _verticalDiffPerRender => WallHelper.getVerticalRendersPerDiff(parent.wallType);
+  double get _verticalDiffPerRender => parent.wallType.verticalRendersPerDiff;
 
   WallRenderer({required this.verticalRange}) {
     renderSnapshot = true;

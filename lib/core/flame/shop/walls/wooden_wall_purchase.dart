@@ -1,6 +1,5 @@
 import 'package:defend_your_flame/constants/translations/app_string_helper.dart';
 import 'package:defend_your_flame/constants/translations/app_strings.dart';
-import 'package:defend_your_flame/core/flame/components/masonry/walls/wall_helper.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/walls/wall_type.dart';
 import 'package:defend_your_flame/core/flame/shop/purchaseable.dart';
 import 'package:defend_your_flame/core/flame/shop/purchaseable_category.dart';
@@ -14,8 +13,8 @@ class WoodenWallPurchase extends Purchaseable {
           category: PurchaseableCategory.walls,
           name: appStrings.woodenWallName,
           description: AppStringHelper.insertNumbers(appStrings.woodenWallDescription, [
-            WallHelper.totalHealth(WallType.wood) - WallHelper.totalHealth(WallType.barricade),
-            WallHelper.defenseValue(WallType.wood) - WallHelper.defenseValue(WallType.barricade),
+            WallType.wood.totalHealth - WallType.barricade.totalHealth,
+            WallType.wood.defenseValue - WallType.barricade.defenseValue,
           ]),
           quote: appStrings.woodenWallQuote,
           cost: [170],
