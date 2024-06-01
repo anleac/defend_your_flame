@@ -15,8 +15,7 @@ GameSave _$GameSaveFromJson(Map<String, dynamic> json) => GameSave(
       currentFlameMana: (json['currentFlameMana'] as num).toInt(),
       saveDate: DateTime.parse(json['saveDate'] as String),
       purchaseOrder: (json['purchaseOrder'] as List<dynamic>)
-          .map((e) => $enumDecode(_$PurchaseableTypeEnumMap, e))
-          .toList(),
+          .map((e) => $enumDecode(_$PurchaseableTypeEnumMap, e)),
     );
 
 Map<String, dynamic> _$GameSaveToJson(GameSave instance) => <String, dynamic>{
@@ -37,4 +36,7 @@ const _$PurchaseableTypeEnumMap = {
   PurchaseableType.stoneWall: 'stoneWall',
   PurchaseableType.attackTotem: 'attackTotem',
   PurchaseableType.blacksmith: 'blacksmith',
+  PurchaseableType.strongFlame: 'strongFlame',
+  PurchaseableType.manaProducingFlame: 'manaProducingFlame',
+  PurchaseableType.totemEnhancingFlame: 'totemEnhancingFlame',
 };

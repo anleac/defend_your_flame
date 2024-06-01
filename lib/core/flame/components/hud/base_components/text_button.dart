@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:defend_your_flame/constants/theming_constants.dart';
 import 'package:defend_your_flame/core/flame/components/hud/helpers/hud_theming_helper.dart';
 import 'package:defend_your_flame/core/flame/main_game.dart';
@@ -69,9 +71,17 @@ class TextButton extends TextComponent
   }
 
   @override
-  void onMount() {
+  FutureOr<void> onLoad() {
     if (comingSoon) {
       decorator.replaceLast(HudThemingHelper.disabledDecorator);
+    }
+
+    return super.onLoad();
+  }
+
+  @override
+  void onMount() {
+    if (comingSoon && !text.contains(ThemingConstants.comingSoonIndicator)) {
       text = '$text ${ThemingConstants.comingSoonIndicator}';
     }
 

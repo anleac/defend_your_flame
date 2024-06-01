@@ -20,7 +20,7 @@ class GameSave {
   final int currentFlameMana;
 
   final DateTime saveDate;
-  final List<PurchaseableType> purchaseOrder;
+  final Iterable<PurchaseableType> purchaseOrder;
 
   bool get isAutoSave => saveSlot == GameData.autoSaveIndex;
 
@@ -49,8 +49,13 @@ class GameSave {
   }
 
   factory GameSave.fromJson(Map<String, dynamic> json) => _$GameSaveFromJson(json);
-  factory GameSave.fromJsonString(String jsonString) => GameSave.fromJson(jsonDecode(jsonString));
+  factory GameSave.fromJsonString(String jsonString) {
+    var json = jsonDecode(jsonString);
+    return GameSave.fromJson(json);
+  }
 
   Map<String, dynamic> toJson() => _$GameSaveToJson(this);
-  String toJsonString() => jsonEncode(this);
+  String toJsonString() {
+    return jsonEncode(this);
+  }
 }

@@ -13,9 +13,9 @@ extension FlameTypeExtension on FlameType {
       case FlameType.strong:
         return 1.15;
       case FlameType.manaProducing:
-        return 1.3;
-      case FlameType.totemEnhancing:
         return 1.25;
+      case FlameType.totemEnhancing:
+        return 1.2;
     }
   }
 
