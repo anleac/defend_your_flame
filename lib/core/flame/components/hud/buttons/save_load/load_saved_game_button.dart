@@ -5,7 +5,7 @@ import 'package:defend_your_flame/core/flame/components/hud/text/save_load/game_
 import 'package:flame/components.dart';
 
 class LoadSavedGameButton extends DefaultButton with ParentIsA<GameSaveDescription> {
-  LoadSavedGameButton() : super(underlined: false);
+  LoadSavedGameButton() : super(underliningEnabled: false);
 
   @override
   FutureOr<void> onLoad() {

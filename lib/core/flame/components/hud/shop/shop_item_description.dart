@@ -5,7 +5,6 @@ import 'package:defend_your_flame/core/flame/components/hud/buttons/shop/shop_it
 import 'package:defend_your_flame/core/flame/components/hud/buttons/shop/shop_item_close_button.dart';
 import 'package:defend_your_flame/core/flame/components/hud/mixins/has_purchase_status.dart';
 import 'package:defend_your_flame/core/flame/components/hud/text/shop/item_cost_text.dart';
-import 'package:defend_your_flame/core/flame/components/hud/text/shop/item_description_title.dart';
 import 'package:defend_your_flame/core/flame/main_game.dart';
 import 'package:defend_your_flame/core/flame/managers/text/text_manager.dart';
 import 'package:defend_your_flame/core/flame/shop/purchaseable_type.dart';
@@ -34,14 +33,12 @@ class ShopItemDescription extends PositionComponent
 
   late final ItemCostText _costText = ItemCostText()..position = _itemTitle.position + _itemGap;
 
-  late final ItemDescriptionTitle _descriptionLabel = ItemDescriptionTitle()
-    ..position = _costText.position + (_itemGap * 1.5)
-    ..anchor = Anchor.topLeft;
-
   late final TextComponent _descriptionText = TextComponent(
     text: '',
     textRenderer: TextManager.basicHudRenderer,
-  )..position = _descriptionLabel.position + _itemGap;
+  )
+    ..position = _costText.position + (_itemGap * 3)
+    ..anchor = Anchor.centerLeft;
 
   late final TextComponent _purchaseCountText = TextComponent(
     text: '',
@@ -53,7 +50,7 @@ class ShopItemDescription extends PositionComponent
   late final TextComponent _quoteText = TextComponent(
     text: '',
     textRenderer: TextManager.basicHudItalicRenderer,
-  )..position = _purchaseCountText.position - (_itemGap * 3);
+  )..position = _purchaseCountText.position - (_itemGap * 2.5);
 
   late final ShopItemActionButton _itemActionButton = ShopItemActionButton()
     ..anchor = Anchor.bottomRight
@@ -71,7 +68,6 @@ class ShopItemDescription extends PositionComponent
     add(_bodyBackground);
     add(_itemTitle);
     add(_costText);
-    add(_descriptionLabel);
     add(_descriptionText);
     add(_purchaseCountText);
     add(_quoteText);

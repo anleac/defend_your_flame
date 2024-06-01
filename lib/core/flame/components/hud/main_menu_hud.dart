@@ -12,7 +12,7 @@ import 'package:flame/components.dart';
 
 class MainMenuHud extends BasicHud {
   late final TitleText _titleText = TitleText()
-    ..position = Vector2(world.worldWidth / 2, 80)
+    ..position = Vector2(world.worldWidth / 2, 100)
     ..anchor = Anchor.topCenter;
 
   late final SelectGameButton _selectGame = SelectGameButton()

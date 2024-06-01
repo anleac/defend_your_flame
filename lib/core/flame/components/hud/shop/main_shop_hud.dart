@@ -15,8 +15,6 @@ import 'package:flame/image_composition.dart';
 class MainShopHud extends BasicHud with ParentIsA<NextRoundHud> {
   static const double padding = 30;
 
-  static const double clippingBoardPadding = 6;
-
   late final DefaultHudBackground _background = DefaultHudBackground(world: world);
 
   late final ShopTitleText _shopTitleText = ShopTitleText()
@@ -35,17 +33,16 @@ class MainShopHud extends BasicHud with ParentIsA<NextRoundHud> {
 
   late final PurchaseItemBoardSelector _purchaseTabs = PurchaseItemBoardSelector()
     ..size = _background.bodyRect.size.toVector2()
+    ..position = _background.bodyRect.topLeft.toVector2()
     ..anchor = Anchor.topLeft;
 
-  late final ClipComponent _clippedPurchaseItemBoard = ClipComponent.rectangle(
-    position: _background.bodyRect.topLeft.toVector2() + Vector2.all(clippingBoardPadding),
-    size: _purchaseTabs.size - Vector2.all(clippingBoardPadding * 2),
-    children: [_purchaseTabs],
-  );
-
   late final ShopItemDescription _shopItemDescription = ShopItemDescription()
-    ..position = _background.bodyRect.centerRight.toVector2() - Vector2(padding / 2 - 5, 0)
-    ..size = Vector2(_background.bodyRect.size.width / 1.8, _background.bodyRect.size.height) - Vector2.all(padding)
+    ..position = _background.bodyRect.centerRight.toVector2() -
+        Vector2(padding / 2 - 5, 0) +
+        Vector2(0, PurchaseItemBoardSelector.tabSectionHeight / 2)
+    ..size = Vector2(_background.bodyRect.size.width / 1.8, _background.bodyRect.size.height) -
+        Vector2.all(padding) -
+        Vector2(0, PurchaseItemBoardSelector.tabSectionHeight)
     ..anchor = Anchor.centerRight;
 
   late final GoBackButton _backButton = GoBackButton(backFunction: onBackButtonPressed)
@@ -58,9 +55,8 @@ class MainShopHud extends BasicHud with ParentIsA<NextRoundHud> {
     add(_shopTitleText);
     add(_goldIndicator);
     add(_healthIndicator);
+    add(_purchaseTabs);
     add(_backButton);
-
-    add(_clippedPurchaseItemBoard);
 
     return super.onLoad();
   }
