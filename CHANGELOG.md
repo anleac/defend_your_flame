@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.22.2 - 1st June, 2024
+
+### New Features
+- N/A
+
+### Bug Fixes
+- Fix save not working with the new upgrade types
+
+### Improvements / Balances
+- Tiny scaling improvements to the flame
+
 ## 0.22.1 - 31st May, 2024
 
 ### New Features
