@@ -14,7 +14,7 @@ class FirePit extends PositionComponent
 
   double get _scaleFactor => _flameType.scale;
   double get _rockPitScaleFactor => ((_scaleFactor - 1) / 3) + 1;
-  Vector2 get _flameScale => Vector2(1.2, 2.5) * (((_scaleFactor - 1) * 1.15) + 1);
+  Vector2 get _flameScale => Vector2(1.2, 2.5) * (((_scaleFactor - 1) * 1.1) + 1);
 
   FlameType _flameType = defaultFlameType;
 
