@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.22.3 - 1st June, 2024
+
+### New Features
+- N/A
+
+### Bug Fixes
+- N/A
+
+### Improvements / Balances
+- More polishes to the shop UX
+- Removed underlining from buttons by default, only when hovered over
+
 ## 0.22.2 - 1st June, 2024
 
 ### New Features
