@@ -11,25 +11,35 @@ import 'package:flame/events.dart';
 
 class PurchaseItemBoardSelector extends PositionComponent
     with TapCallbacks, HasWorldReference<MainWorld>, HasAncestor<MainShopHud> {
-  static const double tabPadding = 25;
+  static const double tabSectionHeight = 55;
+  static const double tabPadding = 22;
+
+  static const double clippingBoardPadding = 3;
+
+  late final ClipComponent _clippedPurchaseItemBoard = ClipComponent.rectangle(
+    position: Vector2(clippingBoardPadding, tabSectionHeight),
+    size: size - Vector2.all(clippingBoardPadding * 2) - Vector2(0, tabSectionHeight),
+    children: [_boards[_currentTab]!],
+  );
 
   final Map<PurchaseableCategory, PurchaseItemBoardTab> _tabs = {};
   final Map<PurchaseableCategory, PurchaseItemBoard> _boards = {};
+
   PurchaseableCategory _currentTab = PurchaseableCategory.walls;
 
   PurchaseItemBoardSelector();
 
   @override
   FutureOr<void> onLoad() {
-    Vector2 runningTabPosition = Vector2(tabPadding, tabPadding / 2);
+    Vector2 runningTabPosition = Vector2(tabPadding, tabSectionHeight / 2);
 
     add(HorizontalDivider(padding: 5)
       ..size = Vector2(size.x, 2)
-      ..position = Vector2(0, tabPadding * 2.3));
+      ..position = Vector2(0, tabSectionHeight));
 
     for (var tabType in PurchaseableCategory.values) {
       final tab = PurchaseItemBoardTab(tab: tabType, comingSoon: tabType == PurchaseableCategory.spells)
-        ..anchor = Anchor.topLeft;
+        ..anchor = Anchor.centerLeft;
       tab.position = runningTabPosition;
 
       _tabs.putIfAbsent(tabType, () => tab);
@@ -38,14 +48,11 @@ class PurchaseItemBoardSelector extends PositionComponent
       runningTabPosition += Vector2(tab.width + tabPadding * 2, 0);
 
       var purchasables = world.shopManager.getPurchaseablesByCategory(tabType);
-      var verticalOffset = tab.height + tabPadding * 2;
-      // TODO fix this drag mechanic
-      var board = PurchaseItemBoard(purchasables, Vector2(0, verticalOffset * 1.5))
-        ..size = size - Vector2(0, verticalOffset * 2);
+      var board = PurchaseItemBoard(purchasables)..size = size - Vector2(0, tabSectionHeight);
       _boards.putIfAbsent(tabType, () => board);
     }
 
-    add(_boards[_currentTab]!);
+    add(_clippedPurchaseItemBoard);
     _tabs[_currentTab]!.setSelected(true);
 
     return super.onLoad();
@@ -58,12 +65,12 @@ class PurchaseItemBoardSelector extends PositionComponent
 
     ancestor.closeDescriptionIfNeeded();
 
-    _boards[_currentTab]!.removeFromParent();
+    _clippedPurchaseItemBoard.lastChild()?.removeFromParent();
     _tabs[_currentTab]!.setSelected(false);
 
     _currentTab = tab;
     _tabs[_currentTab]!.setSelected(true);
 
-    add(_boards[_currentTab]!);
+    _clippedPurchaseItemBoard.add(_boards[_currentTab]!);
   }
 }

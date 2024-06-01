@@ -25,7 +25,7 @@ class TextButton extends TextComponent
   final TextRenderer defaultTextRenderer;
 
   final bool comingSoon;
-  final bool underlined;
+  final bool underliningEnabled;
 
   bool _hovered = false;
   bool _canClick = true;
@@ -35,7 +35,7 @@ class TextButton extends TextComponent
     String text = '',
     Anchor anchor = Anchor.center,
     required this.defaultTextRenderer,
-    this.underlined = true,
+    this.underliningEnabled = true,
     this.comingSoon = false,
   }) : super(
           text: text,
@@ -123,7 +123,7 @@ class TextButton extends TextComponent
   void render(Canvas canvas) {
     super.render(canvas);
 
-    if ((underlined && !comingSoon && _canClick) || _isSelected) {
+    if ((underliningEnabled && !comingSoon && _canClick && isHovered) || _isSelected) {
       _drawUnderline(canvas);
     }
   }

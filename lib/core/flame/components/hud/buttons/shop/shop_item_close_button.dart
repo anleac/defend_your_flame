@@ -5,7 +5,7 @@ import 'package:defend_your_flame/core/flame/components/hud/shop/shop_item_descr
 import 'package:flame/components.dart';
 
 class ShopItemCloseButton extends DefaultButton with ParentIsA<ShopItemDescription> {
-  ShopItemCloseButton() : super(underlined: false);
+  ShopItemCloseButton() : super(underliningEnabled: false);
 
   @override
   FutureOr<void> onLoad() {

@@ -4,7 +4,6 @@ import 'package:defend_your_flame/constants/debug_constants.dart';
 import 'package:defend_your_flame/constants/misc_constants.dart';
 import 'package:defend_your_flame/constants/theming_constants.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/player_base.dart';
-import 'package:defend_your_flame/core/flame/components/masonry/walls/wall_helper.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/walls/wall_renderer.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/walls/wall_type.dart';
 import 'package:defend_your_flame/core/flame/worlds/main_world.dart';
@@ -46,12 +45,12 @@ class Wall extends PositionComponent with HasVisibility, HasWorldReference<MainW
 
   _setWallStats({bool resetWall = true}) {
     // Needed simply for rendering, not logic, but changes based on wall type.
-    size = WallHelper.getWallSize(_wallType);
-    scale = WallHelper.getScale(_wallType);
+    size = _wallType.wallSize;
+    scale = _wallType.scale;
     _wallRenderer.size = size;
 
-    _totalHealth = WallHelper.totalHealth(_wallType);
-    _defenseValue = WallHelper.defenseValue(_wallType);
+    _totalHealth = _wallType.totalHealth;
+    _defenseValue = _wallType.defenseValue;
 
     if (resetWall) {
       _health = _totalHealth;
@@ -84,7 +83,7 @@ class Wall extends PositionComponent with HasVisibility, HasWorldReference<MainW
 
     _wallType = wallType;
 
-    var newTotalHealth = WallHelper.totalHealth(_wallType);
+    var newTotalHealth = _wallType.totalHealth;
     if (_totalHealth != newTotalHealth && newTotalHealth > _totalHealth) {
       _health += newTotalHealth - _totalHealth;
     }

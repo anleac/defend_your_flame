@@ -8,7 +8,9 @@ import 'package:flame/components.dart';
 class PurchaseItemBoardTab extends DefaultButton with ParentIsA<PurchaseItemBoardSelector> {
   final PurchaseableCategory tab;
 
-  PurchaseItemBoardTab({required this.tab, super.comingSoon}) : super(underlined: false);
+  PurchaseItemBoardTab({required this.tab, super.comingSoon}) : super(underliningEnabled: false) {
+    scale = Vector2.all(0.92);
+  }
 
   @override
   FutureOr<void> onLoad() {

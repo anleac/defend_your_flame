@@ -3,7 +3,7 @@ import 'package:defend_your_flame/core/flame/managers/text/text_manager.dart';
 import 'package:flame/components.dart';
 
 class DefaultButton extends TextButton {
-  DefaultButton({super.text, super.underlined, super.comingSoon})
+  DefaultButton({super.text, super.underliningEnabled, super.comingSoon})
       : super(
           defaultTextRenderer: TextManager.smallHeaderRenderer,
           anchor: Anchor.center,

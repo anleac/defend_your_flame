@@ -15,25 +15,22 @@ import 'package:flame/events.dart';
 class PurchaseItemBoard extends PositionComponent
     with TapCallbacks, DragCallbacks, HasGameReference<MainGame>, HasWorldReference<MainWorld>, HasMouseDrag {
   static const double padding = 30;
-  static const double verticalItemPadding = PurchaseItem.rectangleHeight * 1.5;
+  static const double verticalItemPadding = PurchaseItem.rectangleHeight * 2;
   static const double horizontalItemPadding = PurchaseItem.rectangleWidth * 1.2;
 
   late final Vector2 _maximumClamp;
   late final Vector2 _minimumClamp;
 
+  final PositionComponent _dragScreen = PositionComponent();
+
   final Vector2 independentPurchaseGap = Vector2(0, verticalItemPadding);
   final Vector2 dependentPurchaseGap = Vector2(horizontalItemPadding, 0);
 
   final Iterable<Purchaseable> purchaseables;
-  final Vector2 initialPosition;
 
-  PurchaseItemBoard(this.purchaseables, this.initialPosition);
+  Vector2 _dragOffset = Vector2.zero();
 
-  @override
-  void onMount() {
-    position = initialPosition;
-    super.onMount();
-  }
+  PurchaseItemBoard(this.purchaseables);
 
   @override
   FutureOr<void> onLoad() {
@@ -72,6 +69,11 @@ class PurchaseItemBoard extends PositionComponent
 
     var lineOffset = Vector2(PurchaseItem.rectangleWidth, PurchaseItem.rectangleHeight) / 2;
 
+    double lowestY = double.infinity;
+    double highestY = double.negativeInfinity;
+    double lowestX = double.infinity;
+    double highestX = double.negativeInfinity;
+
     // Now do a BFS based on the nodes without dependencies, since it's a tree, we shouldn't in theory need to keep
     // a visited tracker because we can't have cycles.
     for (var purchaseableType in nodesWithoutDependencies) {
@@ -87,7 +89,7 @@ class PurchaseItemBoard extends PositionComponent
 
         for (int i = 0; i < chains.length; i++) {
           var chainedPosition = internalPosition + Vector2(dependentPurchaseGap.x, minYOffset + i * yOffsetPerChain);
-          add(DependencyLine(
+          _dragScreen.add(DependencyLine(
               start: internalPosition + halfHorizontal + lineOffset,
               end: chainedPosition - halfHorizontal + lineOffset,
               dependency: purchaseMap[chains[i]]!));
@@ -95,19 +97,31 @@ class PurchaseItemBoard extends PositionComponent
           queue.add((chains[i], chainedPosition));
         }
 
-        add(PurchaseItem(purchaseMap[currentType]!)..position = internalPosition);
+        _dragScreen.add(PurchaseItem(purchaseMap[currentType]!)..position = internalPosition);
+        lowestY = min(lowestY, internalPosition.y);
+        highestY = max(highestY, internalPosition.y);
+        lowestX = min(lowestX, internalPosition.x);
+        highestX = max(highestX, internalPosition.x);
       }
 
       currentPosition += independentPurchaseGap;
     }
 
-    var dragXOffScreen = max(currentPosition.x - size.x, 0).toDouble();
-    var dragYOffScreen = max(currentPosition.y - size.y, 0).toDouble();
+    double initialY = size.y / 2;
+    double yRange = highestY - lowestY;
+    if (yRange > size.y - 2 * padding) {
+      // If the range is larger than the screen, simply put the initial position with the first element at the top
+      initialY = lowestY + (padding / 2);
+    }
 
-    var dragBuffer = (Vector2.all(verticalItemPadding) - Vector2.all(padding)) / 3;
+    _dragOffset = Vector2(0, initialY) - Vector2(0, PurchaseItem.rectangleHeight);
+    _dragScreen.position = _dragOffset;
 
-    _maximumClamp = initialPosition + Vector2(dragXOffScreen, dragYOffScreen) + dragBuffer;
-    _minimumClamp = initialPosition - dragBuffer;
+    // TODO these clamps still need to be fixed
+    _minimumClamp = Vector2(-highestX + padding, -highestY + padding);
+    _maximumClamp = Vector2(size.x - lowestX - padding, size.y - lowestY - padding);
+
+    add(_dragScreen);
 
     return super.onLoad();
   }
@@ -115,8 +129,10 @@ class PurchaseItemBoard extends PositionComponent
   @override
   void onDragUpdate(DragUpdateEvent event) {
     // TODO make sure this window scale is correct
-    position += (event.canvasDelta / game.windowScale);
-    position.clamp(_minimumClamp, _maximumClamp);
+    _dragOffset += (event.canvasDelta / game.windowScale);
+    _dragOffset.clamp(_minimumClamp, _maximumClamp);
+
+    _dragScreen.position = _dragOffset;
 
     super.onDragUpdate(event);
   }
