@@ -54,7 +54,7 @@ class PlayerBase extends PositionComponent with HasWorldReference<MainWorld>, Ha
     ..anchor = Anchor.bottomLeft;
 
   late final Alchemist _alchemist = Alchemist()
-    ..position = Vector2(baseWidthWithoutWall - 5, _firePit.center.y + 5)
+    ..position = Vector2(baseWidthWithoutWall - 6, _firePit.center.y + 5)
     ..anchor = Anchor.bottomRight;
 
   PlayerBase({required double worldWidth, required double worldHeight})

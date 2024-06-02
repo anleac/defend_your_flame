@@ -3,7 +3,11 @@ import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
 import 'package:flame/components.dart';
 
 class Alchemist extends BaseNpc {
-  static const int percentageOfWallHealthToRepair = 2;
+  static const int goldToGatherEachRound = 30;
+  static const int manaToGatherEachRound = 10;
+
+  // Used when we give the gold
+  static const double differenceFactorPercentage = goldToGatherEachRound / manaToGatherEachRound;
 
   Alchemist()
       : super(
@@ -22,7 +26,7 @@ class Alchemist extends BaseNpc {
 
   @override
   void onRoundStart(int currentRound, double spawnDuration, double approximateTotalDuration) {
-    startTimer(valueToGive: percentageOfWallHealthToRepair.toDouble(), durationOver: approximateTotalDuration);
+    startTimer(valueToGive: manaToGatherEachRound.toDouble(), durationOver: approximateTotalDuration);
     super.onRoundStart(currentRound, spawnDuration, approximateTotalDuration);
   }
 
@@ -34,6 +38,7 @@ class Alchemist extends BaseNpc {
 
   @override
   void emitValue(int valueToGive) {
-    world.playerBase.wall.repairWallFor(valueToGive);
+    world.playerBase.addFlameMana(valueToGive, absoluteCenter);
+    world.playerBase.mutateGold(valueToGive * differenceFactorPercentage.toInt(), position: absoluteCenter);
   }
 }

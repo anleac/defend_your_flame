@@ -36,6 +36,7 @@ const _$PurchaseableTypeEnumMap = {
   PurchaseableType.stoneWall: 'stoneWall',
   PurchaseableType.attackTotem: 'attackTotem',
   PurchaseableType.blacksmith: 'blacksmith',
+  PurchaseableType.alchemist: 'alchemist',
   PurchaseableType.strongFlame: 'strongFlame',
   PurchaseableType.manaProducingFlame: 'manaProducingFlame',
   PurchaseableType.totemEnhancingFlame: 'totemEnhancingFlame',

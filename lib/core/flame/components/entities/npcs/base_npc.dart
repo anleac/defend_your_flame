@@ -9,7 +9,7 @@ abstract class BaseNpc extends SpriteAnimationComponent
   late final Iterable<SpriteAnimation> _animations = loadAnimations();
 
   BaseNpc({super.size}) {
-    scale = Vector2.all(1.35);
+    scale = Vector2.all(1.45);
   }
 
   Iterable<SpriteAnimation> loadAnimations();

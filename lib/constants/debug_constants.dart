@@ -13,7 +13,7 @@ class DebugConstants {
   static const bool drawBaseArea = false && Constants.debugBuild;
 
   // Setting this to true gives you max gold and sets the shop immediately avaliable.
-  static const bool testShopLogic = true && Constants.debugBuild;
+  static const bool testShopLogic = false && Constants.debugBuild;
 
   static const bool superPoweredTotems = false && Constants.debugBuild;
 
