@@ -2,17 +2,22 @@ import 'package:defend_your_flame/core/flame/components/entities/npcs/base_npc.d
 import 'package:defend_your_flame/core/flame/managers/sprite_manager.dart';
 import 'package:flame/components.dart';
 
-class Blacksmith extends BaseNpc {
-  static const int percentageOfWallHealthToRepair = 20;
+class Alchemist extends BaseNpc {
+  static const int percentageOfWallHealthToRepair = 2;
 
-  Blacksmith()
+  Alchemist()
       : super(
           size: Vector2.all(64),
-        );
+        ) {
+    flipHorizontally();
+  }
 
   @override
   Iterable<SpriteAnimation> loadAnimations() {
-    return [SpriteManager.getAnimation('npcs/blacksmith/work', frames: 10, stepTime: 0.11)];
+    return [
+      SpriteManager.getAnimation('npcs/alchemist/work', frames: 14, stepTime: 0.14),
+      SpriteManager.getAnimation('npcs/alchemist/work2', frames: 10, stepTime: 0.14)
+    ];
   }
 
   @override

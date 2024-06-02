@@ -9,6 +9,7 @@ enum PurchaseableType {
 
   // NPCs
   blacksmith,
+  alchemist,
 
   // Flames
   strongFlame,

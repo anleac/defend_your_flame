@@ -37,6 +37,12 @@ Delete all merged branches:
 - Pixelifying objects: https://pixelartify.com
 - Another pixelify tool: https://pixelied.com/features/pixel-art-generator
 
+### Suggested potential AI tools:
+- Pixel art: https://www.pixellab.ai/
+- Music: https://suno.com/create
+- Graphics: https://deepai.org and https://magicstudio.com
+- Sound effects: https://elevenlabs.io/sound-effects 
+
 ### Useful general tools for graphic manipulation / generation
 - You can use ImageMagick to flip images locally:
     - `mogrify -flop *.png` (this will be in place manipulation), otherwise you can use a new directory:
