@@ -88,6 +88,7 @@ class TextButton extends TextComponent
     super.onMount();
   }
 
+  // TODO should we change this to be onTapDown
   @override
   void onTapUp(TapUpEvent event) {
     super.onTapUp(event);

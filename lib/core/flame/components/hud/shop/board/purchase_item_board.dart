@@ -99,7 +99,7 @@ class PurchaseItemBoard extends PositionComponent
 
         _dragScreen.add(PurchaseItem(purchaseMap[currentType]!)..position = internalPosition);
         lowestY = min(lowestY, internalPosition.y);
-        highestY = max(highestY, internalPosition.y);
+        highestY = max(highestY, internalPosition.y + PurchaseItem.rectangleHeight);
         lowestX = min(lowestX, internalPosition.x);
         highestX = max(highestX, internalPosition.x);
       }
@@ -107,14 +107,8 @@ class PurchaseItemBoard extends PositionComponent
       currentPosition += independentPurchaseGap;
     }
 
-    double initialY = size.y / 2;
     double yRange = highestY - lowestY;
-    if (yRange > size.y - 2 * padding) {
-      // If the range is larger than the screen, simply put the initial position with the first element at the top
-      initialY = lowestY + (padding / 2);
-    }
-
-    _dragOffset = Vector2(0, initialY) - Vector2(0, PurchaseItem.rectangleHeight);
+    _dragOffset = Vector2(0, (size.y / 2) - (yRange / 2) - lowestY);
     _dragScreen.position = _dragOffset;
 
     // TODO these clamps still need to be fixed

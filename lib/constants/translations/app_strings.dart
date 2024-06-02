@@ -118,6 +118,10 @@ class AppStrings {
   String get blacksmithDescription => getValue('blacksmithDescription');
   String get blacksmithQuote => getValue('blacksmithQuote');
 
+  String get alchemistName => getValue('alchemistName');
+  String get alchemistDescription => getValue('alchemistDescription');
+  String get alchemistQuote => getValue('alchemistQuote');
+
   String get strongFlameName => getValue('strongFlameName');
   String get strongFlameDescription => getValue('strongFlameDescription');
   String get strongFlameQuote => getValue('strongFlameQuote');

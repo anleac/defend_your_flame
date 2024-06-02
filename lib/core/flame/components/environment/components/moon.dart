@@ -11,7 +11,7 @@ class Moon extends PositionComponent with TapCallbacks, GestureHitboxes, HasWorl
   static const double preRotationInDegrees = 12;
   final Paint _moonPaint = Paint()..color = Colors.white.withOpacity(0.4);
 
-  final double _rotationalSpeed = MathHelper.degreesToRads(1);
+  final double _rotationalSpeed = MathHelper.degreesToRads(0.6);
   final double moonRadius = 30;
 
   final Vector2 _initialPosition = Vector2(-(Constants.desiredWidth * 0.1), Constants.desiredHeight);

@@ -22,8 +22,8 @@ class PurchaseItem extends PositionComponent
         HasAncestor<MainShopHud>,
         HasWorldReference<MainWorld>,
         HasPurchaseStatus {
-  static const double rectangleHeight = 46;
-  static const double rectangleWidth = 220;
+  static const double rectangleHeight = 48;
+  static const double rectangleWidth = 235;
 
   late final BorderedBackground _borderedBackground = BorderedBackground(borderRadius: 8, borderThickness: 2.5)
     ..size = size;

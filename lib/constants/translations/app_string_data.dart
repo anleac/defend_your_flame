@@ -95,9 +95,15 @@ class AppStringData {
       ]),
       'blacksmithQuote': '\n"I can fix her."',
 
+      'alchemistName': 'Richtofen The Mad',
+      'alchemistDescription': AppStringHelper.purchasableDescription(attributes: [
+        "Generates ${AppStrings.placeholderText} gold each round",
+        "Generates ${AppStrings.placeholderText} flame mana each round",
+      ]),
+      'alchemistQuote': '"I was the nicest one. And you won\'t\neven remember."',
+
       'strongFlameName': 'Larger Pit',
       'strongFlameDescription': AppStringHelper.purchasableDescription(attributes: [
-        "Increased room to burn leads to",
         "+${AppStrings.placeholderText}% more flame mana per round",
         "+${AppStrings.placeholderText}% totem power",
       ]),
@@ -107,7 +113,7 @@ class AppStringData {
       'manaProducingFlameDescription': AppStringHelper.purchasableDescription(attributes: [
         "+${AppStrings.placeholderText}% more flame mana per round",
       ]),
-      'manaProducingFlameQuote': '"Channel the energy of Element 115."',
+      'manaProducingFlameQuote': '"Ancient magics boost your power."',
 
       'totemEnhancingFlameName': 'Totem Power',
       'totemEnhancingFlameDescription': AppStringHelper.purchasableDescription(attributes: [

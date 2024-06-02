@@ -4,6 +4,7 @@ import 'package:defend_your_flame/constants/bounding_constants.dart';
 import 'package:defend_your_flame/constants/debug_constants.dart';
 import 'package:defend_your_flame/constants/theming_constants.dart';
 import 'package:defend_your_flame/core/flame/components/entities/entity.dart';
+import 'package:defend_your_flame/core/flame/components/entities/npcs/alchemist.dart';
 import 'package:defend_your_flame/core/flame/components/entities/npcs/blacksmith.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/fire_pit.dart';
 import 'package:defend_your_flame/core/flame/components/masonry/misc/rock_circle.dart';
@@ -51,6 +52,10 @@ class PlayerBase extends PositionComponent with HasWorldReference<MainWorld>, Ha
   late final Blacksmith _blacksmith = Blacksmith()
     ..position = Vector2(Wall.wallAreaWidth - 20, _firePit.center.y + 5)
     ..anchor = Anchor.bottomLeft;
+
+  late final Alchemist _alchemist = Alchemist()
+    ..position = Vector2(baseWidthWithoutWall - 6, _firePit.center.y + 5)
+    ..anchor = Anchor.bottomRight;
 
   PlayerBase({required double worldWidth, required double worldHeight})
       : super(
@@ -125,9 +130,8 @@ class PlayerBase extends PositionComponent with HasWorldReference<MainWorld>, Ha
     return _innerBaseRect.contains(entity.center.toOffset());
   }
 
-  void purchaseBlacksmith() {
-    _addAdditionalBaseComponent(_blacksmith);
-  }
+  void purchaseBlacksmith() => _addAdditionalBaseComponent(_blacksmith);
+  void purchaseAlchemist() => _addAdditionalBaseComponent(_alchemist);
 
   _addAdditionalBaseComponent(Component component) {
     _additionalComponents.add(component);

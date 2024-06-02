@@ -3,6 +3,7 @@ import 'package:defend_your_flame/core/flame/shop/defenses/attack_totem_purchase
 import 'package:defend_your_flame/core/flame/shop/flame/mana_producing_flame.dart';
 import 'package:defend_your_flame/core/flame/shop/flame/strong_flame_purchase.dart';
 import 'package:defend_your_flame/core/flame/shop/flame/totem_enhancing_flame.dart';
+import 'package:defend_your_flame/core/flame/shop/npcs/alchemist_purchase.dart';
 import 'package:defend_your_flame/core/flame/shop/npcs/blacksmith_purchase.dart';
 import 'package:defend_your_flame/core/flame/shop/purchaseable_category.dart';
 import 'package:defend_your_flame/core/flame/shop/purchaseable_type.dart';
@@ -23,6 +24,7 @@ class ShopManager extends Component with HasWorldReference<MainWorld>, HasGameRe
 
     // NPCs
     BlacksmithPurchase(game.appStrings),
+    AlchemistPurchase(game.appStrings),
 
     // Flames
     StrongFlamePurchase(game.appStrings),
