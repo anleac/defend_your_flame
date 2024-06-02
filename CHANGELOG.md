@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.23.0 - 2nd June, 2024
+
+### New Features
+- Added in a new NPC, Richtofen the Mad
+  - Generates mana each round
+  - Generates gold each round
+  - Idea is to be some form of gold generation into later rounds
+  - Will be expanded upon in future updates
+
+### Bug Fixes
+- Small fix to positioning in the shop UI
+
+### Improvements / Balances
+- N/A
+
 ## 0.22.3 - 1st June, 2024
 
 ### New Features
